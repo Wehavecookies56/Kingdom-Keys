@@ -65,7 +65,7 @@
 	"ability.ability_water_boost.desc": "Erhöht den Schaden, der durch Wasser-basierte Attacken verursacht wird.",
 	"ability.ability_water_boost.name": "Wasser-Boost",
 
-	"ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+	"ability.ability_critical_boost.desc": "Erhöht zugefügten Schaden durch kritische Treffe um 10%.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_critical_boost.name": "Volltreffer-Boost",
 	"ability.ability_drive_boost.desc": "Erhöht die Rate, mit der sich die Drive-Leise während der MP-Aufladung füllt.",
 	"ability.ability_drive_boost.name": "Drive-Boost",
@@ -73,15 +73,22 @@
 	"ability.ability_experience_boost.name": "Erfahrungs-Boost",
 	"ability.ability_form_boost.desc": "Erhöht die verweildauer in den Formen.",
 	"ability.ability_form_boost.name": "Form-Boost",
-	"ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+	"ability.ability_item_boost.desc": "Erhöht den Effekt von im Kampf eigesetzten Items, die HP wiederherstellen um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_item_boost.name": "Item-Boost",
 
-	"ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern. (Kein Combo-Abschlussangriff möglich?)",
+	"ability.ability_berserk_charge.desc": "Erhöht die Angriffskraft um 2 während der MP-Aufladung.\nMehrfaches Anlegen erhöht den Effekt. (Kein Combo-Abschlussangriff möglich?)",
 	"ability.ability_berserk_charge.name": "Auflade-Berserker",
-	"ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nDiese Ability kann aufgestapelt werden, um noch weitere Kombo-Angriffe hinzuzufügen.",
+	"ability.ability_combo_plus.desc": "Zusätzlicher Combo-Hieb am Boden wird ausgeführt.\nMehrfaches Anlegen erhöht die Anzahl der Kombo-Angriffe.",
 	"ability.ability_combo_plus.name": "Combo +",
+	"ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
+	"ability.ability_negative_combo.name": "Combo -",
+	
+	"ability.ability_guard.desc": "Blocks and shoots back enemy attacks using a parrying action with right click.\nNot available in Epic Fight combat mode.",
+	"ability.ability_guard.name": "Blocken",
+	"ability.ability_counterguard.desc": "Counterattacks neraby enemies with Attack while performing Guard.",
+	"ability.ability_counterguard.name": "Konter",
 
-	"ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+	"ability.ability_damage_control.desc": "Sinken die LP unter 25%, steckt man nur noch halben Schaden ein.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_damage_control.name": "Schadenskontrolle",
 	"ability.ability_damage_drive.desc": "Bei erlittenem Schaden füllt sich die Drive-Leiste.\nDie Leiste füllt sich proportional zum erlittenen Schaden.",
 	"ability.ability_damage_drive.name": "Schadensbegrenzung",
@@ -90,7 +97,7 @@
 
 	"ability.ability_drive_converter.desc": "Erhöhe den Wert aller Drive-Kugeln.",
 	"ability.ability_drive_converter.name": "Drive-Konverter",
-	"ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+	"ability.ability_endless_magic.desc": "Verringert die Abklingzeit zwischen den Zaubern.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_endless_magic.name": "Endlos-Magie",
 	"ability.ability_extra_cast.desc": "Erlaubt das wirken eines letzten Zaubers bevor die MP leer gehen.",
 	"ability.ability_extra_cast.name": "Extrazauber",
@@ -100,10 +107,10 @@
 	"ability.ability_focus_converter.desc": "Erhöht den Wert aller Fokus-Kugeln.",
 	"ability.ability_focus_converter.name": "Fokus-Konverter",
 
-	"ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
+	"ability.ability_full_mp_blast.desc": "Wenn deine MP voll sind, erhöhe die Stärke der ersten magischen Fähigkeit um 50%.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_full_mp_blast.name": "Volle MP-Salve",
 
-	"ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nDiese Ability kann aufgestapelt werden, um die Chance zu erhöhen.",
+	"ability.ability_grand_magic_haste.desc": "Gibt dem Benutzer eine erhöhte Chance eine verstärkte Variante des Zaubers zu wirken.\nMehrfaches Anlegen erhöht die Chance.",
 	"ability.ability_grand_magic_haste.name": "Hochmagie-Hast",
 
 	"ability.ability_hp_gain.desc": "Stellt einige HP wieder her, wenn eine Fokussierung einschlägt.\nDiese Ability kann aufgestapelt werden, um den Effekt zu steigern.",
@@ -136,9 +143,6 @@
 	"ability.ability_mp_thrift.desc": "Senkt die MP-Kosten um 20%.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_mp_thrift.name": "MP-Sparfuchs",
 
-	"ability.ability_negative_combo.desc": "Die maximale Combo-Anzahl am Boden und in der Luft verringert sich um 1.\nMehrfaches Anlegen erhöht den Effekt.",
-	"ability.ability_negative_combo.name": "Combo -",
-
 	"ability.ability_protect.desc":"Negiert 10% Schaden aus jeglichen Quellen.",
 	"ability.ability_protect.name":"Protes",
 	"ability.ability_protectra.desc":"Negiert 20% Schaden aus jeglichen Quellen.",
@@ -148,8 +152,11 @@
 
 	"ability.ability_scan.desc": "Inspiziert den aktuellen HP-Stand des Ziels.",
 	"ability.ability_scan.name": "Analyse",
-	"ability.ability_second_chance.desc": "Man behält 1 HP, auch wenn einem fataler Schaden zugefügt wurde.",
+	"ability.ability_second_chance.desc": "Man behält 1 LP, auch wenn einem fataler Schaden zugefügt wurde.",
 	"ability.ability_second_chance.name": "Trotzkopf",
+	"ability.ability_once_more.desc": "Versichert, dass 1 LP verbleibt, wenn man Schaden von einer Kombo nimmt.",
+	"ability.ability_once_more.name": "Dickschädel",
+	
 	"ability.ability_strike_raid.desc": "Benutze beim Schleichen dein Schlüsselschwert um es zu werfen.\nVerbraucht 10MP.",
 	"ability.ability_strike_raid.name": "Schwertwurf",
 	"ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
@@ -157,24 +164,31 @@
 
 	"ability.ability_treasure_magnet.desc": "Zieht automatisch die Kugeln um einen herum an und nimmt sie auf.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_treasure_magnet.name": "Charmeur",
-	"ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP..\nMehrfaches Anlegen erhöht die Chance.",
+	"ability.ability_wizards_ruse.desc": "Regeneriere unter Umständen HP proportional zu den verbrauchten MP.\nMehrfaches Anlegen erhöht die Chance.",
 	"ability.ability_wizards_ruse.name": "Hexertrick",
 	"ability.ability_zero_exp.desc": "Deaktiviert das Sammeln von Erfahrung.",
 	"ability.ability_zero_exp.name": "Null Erfahrung",
-
-	"ability.ability_stackable.prefix": "Diese Ability kann aufgestapelt werden, um ",
-	"ability.ability_stackable.increase_effect": "den Effekt zu steigern.",
-	"ability.ability_stackable.increase_combo": "noch weitere Kombo-Angriffe hinzuzufügen.",
 	
-	"ability.ability_encounter_plus.desc": "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.",
+	"ability.ability_air_slide.desc": "Drücke den Aktionsknopf in der Luft, um einen Satz nach vorne zu machen.\nMehrfaches Anlegen erhöht den Effekt.",
+	"ability.ability_air_slide.name": "Luftgrätsche",
+
+	"ability.ability_stackable.prefix": "Mehrfaches Anlegen ", //"Diese Ability kann aufgestapelt werden, um ",
+	"ability.ability_stackable.increase_chance": "erhöht die Chance.", //"den Effekt zu steigern.",
+	"ability.ability_stackable.increase_effect": "erhöht den Effekt.", //"den Effekt zu steigern.",
+	"ability.ability_stackable.increase_combo": "erhöht die Anzahl der Kombo-Angriffe.", //"noch weitere Kombo-Angriffe hinzuzufügen.",
+	
+	"ability.ability_wall_kick.desc": "Air slide into a wall to kick off it and enter flowmotion.\nMehrfaches Anlegen erhöht die Anzahl der möglichen Abstöße.",
+	"ability.ability_wall_kick.name": "Wandsprung",
+	
+	"ability.ability_encounter_plus.desc": "Increase the amount of enemies that spawn around you.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_encounter_plus.name": "Encounter Plus",
 	"ability.ability_flowstep.desc": "Drücke [Rechte Maustaste] beim fokussieren, um einen to Windschritt zur zuletztt anvisierten Entitität zu machen.",
 	"ability.ability_flowstep.name": "Freier Schritt",
-	"ability.ability_grand_magic_extender.desc": "Extend the availability period of grand magic commands. Stack the ability to increase the effect.",
+	"ability.ability_grand_magic_extender.desc": "Extend the availability period of grand magic commands.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_grand_magic_extender.name": "Hochmagie-Verlängerer",
-	"ability.ability_superjump.desc": "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.",
+	"ability.ability_superjump.desc": "While in flowmotion, press jump to catapult into the air.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_superjump.name": "Supersprung",
-	"ability.ability_superslide.desc": "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.",
+	"ability.ability_superslide.desc": "While in flowmotion, press the action key to air dash a long distance.\nMehrfaches Anlegen erhöht den Effekt.",
 	"ability.ability_superslide.name": "Superrutsche",
 
 	//ADVANCEMENTS
@@ -192,7 +206,7 @@
 	"advancements.kingdomkeys.open_menu.desc": "Öffne das Kingdom Keys Menü",
 
 	"advancements.kingdomkeys.all_advancements": "Der König aller Herzen",	
-	"advancements.kingdomkeys.all_advancements.desc": "Earn every Kingdom Keys advancement",
+	"advancements.kingdomkeys.all_advancements.desc": "Erreiche jeden Kingdom Keys-Fortschritt",
 	"advancements.kingdomkeys.all_dev_skulls": "Hall of Creators",
 	"advancements.kingdomkeys.all_dev_skulls.desc": "Craft all of the creators' tribute skulls",
 	
@@ -245,7 +259,7 @@
 	"advancements.kingdomkeys.obtain_recipe": "Ein Mogry kann damit mehr anfangen",
 	"advancements.kingdomkeys.obtain_recipe.desc": "Erlange eine Formel",
 	"advancements.kingdomkeys.obtain_winner_stick": "meine Sommerferien sind wohl...",
-	"advancements.kingdomkeys.obtain_winner_stick.desc": "Get a winner stick",
+	"advancements.kingdomkeys.obtain_winner_stick.desc": "Erhalte einen Gewinner-Stiel",
 	
 	"advancements.kingdomkeys.play_music_disc": "Now Playing",
 	"advancements.kingdomkeys.play_music_disc.desc": "Obtain one of the mod's music discs",
@@ -347,6 +361,8 @@
 	"block.kingdomkeys.prize_blox": "Kugelblock",
 	"block.kingdomkeys.pair_blox": "Memoryblock",
 	"block.kingdomkeys.rare_prize_blox": "Raritätenblock",
+	
+	"block.kingdomkeys.infested_normal_blox": "Befallener Normaler Block",
 
 	// -other
 
@@ -370,6 +386,8 @@
 	"block.kingdomkeys.sor_core": "Ort der Trauer-Kern",
 	"block.kingdomkeys.mosaic_stained_glass": "Buntes Mosaikglas",
 	"block.kingdomkeys.station_of_awakening_core": "Ort des Erwachens-Plattformkern",
+	
+	"block.kingdomkeys.apprentice_cloth_station": "Ankleidestation",
 
 	// -castle oblivion
 
@@ -377,8 +395,8 @@
 	"block.kingdomkeys.castle_oblivion_stairs": "Treppe des Entfallens",
 	"block.kingdomkeys.castle_oblivion_slab": "Stufe des Entfallens",
 	"block.kingdomkeys.castle_oblivion_wall": "Block des Entfallens",
-	"block.kingdomkeys.castle_oblivion_wall2": "Muster des Entfallens",
-	"block.kingdomkeys.castle_oblivion_wall3": "Zierde des Entfallens",
+	"block.kingdomkeys.castle_oblivion_wall2": "Dunkler Block des Entfallens",
+	"block.kingdomkeys.castle_oblivion_wall3": "Finsterer Block des Entfallens",
 	"block.kingdomkeys.castle_oblivion_wall_chiseled": "Gemeißelter Block des Entfallens",
 
 	// -gummi
@@ -578,22 +596,22 @@
 	"block.kingdomkeys.gummi_pie_white": "Rund-G-01 (Pie Weiß)",
 	"block.kingdomkeys.gummi_pie_yellow": "Rund-G-01 (Pie Gelb)",
 
-	"block.kingdomkeys.gummi_pyramid_black": "Kanten-G-03 (Pyramide Schwarz)",
-	"block.kingdomkeys.gummi_pyramid_blue": "Kanten-G-03 (Pyramide Blau)",
-	"block.kingdomkeys.gummi_pyramid_brown": "Kanten-G-03 (Pyramide Braun)",
-	"block.kingdomkeys.gummi_pyramid_cyan": "Kanten-G-03 (Pyramide Türkis)",
-	"block.kingdomkeys.gummi_pyramid_gray": "Kanten-G-03 (Pyramide Grau)",
-	"block.kingdomkeys.gummi_pyramid_green": "Kanten-G-03 (Pyramide Grün)",
-	"block.kingdomkeys.gummi_pyramid_light_blue": "Kanten-G-03 (Pyramide Hellblau)",
-	"block.kingdomkeys.gummi_pyramid_light_gray": "Kanten-G-03 (Pyramide Hellgrau)",
-	"block.kingdomkeys.gummi_pyramid_lime": "Kanten-G-03 (Pyramide Hellgrün)",
-	"block.kingdomkeys.gummi_pyramid_magenta": "Kanten-G-03 (Pyramide Magenta)",
-	"block.kingdomkeys.gummi_pyramid_orange": "Kanten-G-03 (Pyramide Orange)",
-	"block.kingdomkeys.gummi_pyramid_pink": "Kanten-G-03 (Pyramide Rosa)",
-	"block.kingdomkeys.gummi_pyramid_purple": "Kanten-G-03 (Pyramide Violett)",
-	"block.kingdomkeys.gummi_pyramid_red": "Kanten-G-03 (Pyramide Rot)",
-	"block.kingdomkeys.gummi_pyramid_white": "Kanten-G-03 (Pyramide Weiß)",
-	"block.kingdomkeys.gummi_pyramid_yellow": "Kanten-G-03 (Pyramide Gelb)",
+	"block.kingdomkeys.gummi_pyramid_black": "Kanten-G-03 (Pyramidee Schwarz)",
+	"block.kingdomkeys.gummi_pyramid_blue": "Kanten-G-03 (Pyramidee Blau)",
+	"block.kingdomkeys.gummi_pyramid_brown": "Kanten-G-03 (Pyramidee Braun)",
+	"block.kingdomkeys.gummi_pyramid_cyan": "Kanten-G-03 (Pyramidee Türkis)",
+	"block.kingdomkeys.gummi_pyramid_gray": "Kanten-G-03 (Pyramidee Grau)",
+	"block.kingdomkeys.gummi_pyramid_green": "Kanten-G-03 (Pyramidee Grün)",
+	"block.kingdomkeys.gummi_pyramid_light_blue": "Kanten-G-03 (Pyramidee Hellblau)",
+	"block.kingdomkeys.gummi_pyramid_light_gray": "Kanten-G-03 (Pyramidee Hellgrau)",
+	"block.kingdomkeys.gummi_pyramid_lime": "Kanten-G-03 (Pyramidee Hellgrün)",
+	"block.kingdomkeys.gummi_pyramid_magenta": "Kanten-G-03 (Pyramidee Magenta)",
+	"block.kingdomkeys.gummi_pyramid_orange": "Kanten-G-03 (Pyramidee Orange)",
+	"block.kingdomkeys.gummi_pyramid_pink": "Kanten-G-03 (Pyramidee Rosa)",
+	"block.kingdomkeys.gummi_pyramid_purple": "Kanten-G-03 (Pyramidee Violett)",
+	"block.kingdomkeys.gummi_pyramid_red": "Kanten-G-03 (Pyramidee Rot)",
+	"block.kingdomkeys.gummi_pyramid_white": "Kanten-G-03 (Pyramidee Weiß)",
+	"block.kingdomkeys.gummi_pyramid_yellow": "Kanten-G-03 (Pyramidee Gelb)",
 
 	"block.kingdomkeys.gummi_round_corner_black": "Rund-G-02 (Round Corner Schwarz)",
 	"block.kingdomkeys.gummi_round_corner_blue": "Rund-G-02 (Round Corner Blau)",
@@ -629,7 +647,7 @@
 	"block.kingdomkeys.gummi_wedge_white": "Kanten-G-02 (Wedge Weiß)",
 	"block.kingdomkeys.gummi_wedge_yellow": "Kanten-G-02 (Wedge Gelb)",
 
-	// --Anti-Z
+	// --DISPEL
 	"block.kingdomkeys.dispel_gummi_cone_black": "Zylinder-Anti-Z-G-03 (Cone Schwarz)",
 	"block.kingdomkeys.dispel_gummi_cone_blue": "Zylinder-Anti-Z-G-03 (Cone Blau)",
 	"block.kingdomkeys.dispel_gummi_cone_brown": "Zylinder-Anti-Z-G-03 (Cone Braun)",
@@ -732,22 +750,22 @@
 	"block.kingdomkeys.dispel_gummi_pie_white": "Rund-Anti-Z-G-01 (Pie Weiß)",
 	"block.kingdomkeys.dispel_gummi_pie_yellow": "Rund-Anti-Z-G-01 (Pie Gelb)",
 
-	"block.kingdomkeys.dispel_gummi_pyramid_black": "Kanten-Anti-Z-G-03 (Pyramide Schwarz)",
-	"block.kingdomkeys.dispel_gummi_pyramid_blue": "Kanten-Anti-Z-G-03 (Pyramide Blau)",
-	"block.kingdomkeys.dispel_gummi_pyramid_brown": "Kanten-Anti-Z-G-03 (Pyramide Braun)",
-	"block.kingdomkeys.dispel_gummi_pyramid_cyan": "Kanten-Anti-Z-G-03 (Pyramide Türkis)",
-	"block.kingdomkeys.dispel_gummi_pyramid_gray": "Kanten-Anti-Z-G-03 (Pyramide Grau)",
-	"block.kingdomkeys.dispel_gummi_pyramid_green": "Kanten-Anti-Z-G-03 (Pyramide Grün)",
-	"block.kingdomkeys.dispel_gummi_pyramid_light_blue": "Kanten-Anti-Z-G-03 (Pyramide Hellblau)",
-	"block.kingdomkeys.dispel_gummi_pyramid_light_gray": "Kanten-Anti-Z-G-03 (Pyramide Hellgrau)",
-	"block.kingdomkeys.dispel_gummi_pyramid_lime": "Kanten-Anti-Z-G-03 (Pyramide Hellgrün)",
-	"block.kingdomkeys.dispel_gummi_pyramid_magenta": "Kanten-Anti-Z-G-03 (Pyramide Magenta)",
-	"block.kingdomkeys.dispel_gummi_pyramid_orange": "Kanten-Anti-Z-G-03 (Pyramide Orange)",
-	"block.kingdomkeys.dispel_gummi_pyramid_pink": "Kanten-Anti-Z-G-03 (Pyramide Rosa)",
-	"block.kingdomkeys.dispel_gummi_pyramid_purple": "Kanten-Anti-Z-G-03 (Pyramide Violett)",
-	"block.kingdomkeys.dispel_gummi_pyramid_red": "Kanten-Anti-Z-G-03 (Pyramide Rot)",
-	"block.kingdomkeys.dispel_gummi_pyramid_white": "Kanten-Anti-Z-G-03 (Pyramide Weiß)",
-	"block.kingdomkeys.dispel_gummi_pyramid_yellow": "Kanten-Anti-Z-G-03 (Pyramide Gelb)",
+	"block.kingdomkeys.dispel_gummi_pyramid_black": "Kanten-Anti-Z-G-03 (Pyramidee Schwarz)",
+	"block.kingdomkeys.dispel_gummi_pyramid_blue": "Kanten-Anti-Z-G-03 (Pyramidee Blau)",
+	"block.kingdomkeys.dispel_gummi_pyramid_brown": "Kanten-Anti-Z-G-03 (Pyramidee Braun)",
+	"block.kingdomkeys.dispel_gummi_pyramid_cyan": "Kanten-Anti-Z-G-03 (Pyramidee Türkis)",
+	"block.kingdomkeys.dispel_gummi_pyramid_gray": "Kanten-Anti-Z-G-03 (Pyramidee Grau)",
+	"block.kingdomkeys.dispel_gummi_pyramid_green": "Kanten-Anti-Z-G-03 (Pyramidee Grün)",
+	"block.kingdomkeys.dispel_gummi_pyramid_light_blue": "Kanten-Anti-Z-G-03 (Pyramidee Hellblau)",
+	"block.kingdomkeys.dispel_gummi_pyramid_light_gray": "Kanten-Anti-Z-G-03 (Pyramidee Hellgrau)",
+	"block.kingdomkeys.dispel_gummi_pyramid_lime": "Kanten-Anti-Z-G-03 (Pyramidee Hellgrün)",
+	"block.kingdomkeys.dispel_gummi_pyramid_magenta": "Kanten-Anti-Z-G-03 (Pyramidee Magenta)",
+	"block.kingdomkeys.dispel_gummi_pyramid_orange": "Kanten-Anti-Z-G-03 (Pyramidee Orange)",
+	"block.kingdomkeys.dispel_gummi_pyramid_pink": "Kanten-Anti-Z-G-03 (Pyramidee Rosa)",
+	"block.kingdomkeys.dispel_gummi_pyramid_purple": "Kanten-Anti-Z-G-03 (Pyramidee Violett)",
+	"block.kingdomkeys.dispel_gummi_pyramid_red": "Kanten-Anti-Z-G-03 (Pyramidee Rot)",
+	"block.kingdomkeys.dispel_gummi_pyramid_white": "Kanten-Anti-Z-G-03 (Pyramidee Weiß)",
+	"block.kingdomkeys.dispel_gummi_pyramid_yellow": "Kanten-Anti-Z-G-03 (Pyramidee Gelb)",
 
 	"block.kingdomkeys.dispel_gummi_round_corner_black": "Rund-Anti-Z-G-02 (Round Corner Schwarz)",
 	"block.kingdomkeys.dispel_gummi_round_corner_blue": "Rund-Anti-Z-G-02 (Round Corner Blau)",
@@ -782,6 +800,160 @@
 	"block.kingdomkeys.dispel_gummi_wedge_red": "Kanten-Anti-Z-G-02 (Wedge Rot)",
 	"block.kingdomkeys.dispel_gummi_wedge_white": "Kanten-Anti-Z-G-02 (Wedge Weiß)",
 	"block.kingdomkeys.dispel_gummi_wedge_yellow": "Kanten-Anti-Z-G-02 (Wedge Gelb)",
+	
+	// --shell
+	"block.kingdomkeys.shell_gummi_cone_black": "Zylinder-Shell-G-03 (Cone Schwarz)",
+	"block.kingdomkeys.shell_gummi_cone_blue": "Zylinder-Shell-G-03 (Cone Blau)",
+	"block.kingdomkeys.shell_gummi_cone_brown": "Zylinder-Shell-G-03 (Cone Braun)",
+	"block.kingdomkeys.shell_gummi_cone_cyan": "Zylinder-Shell-G-03 (Cone Türkis)",
+	"block.kingdomkeys.shell_gummi_cone_gray": "Zylinder-Shell-G-03 (Cone Grau)",
+	"block.kingdomkeys.shell_gummi_cone_green": "Zylinder-Shell-G-03 (Cone Grün)",
+	"block.kingdomkeys.shell_gummi_cone_light_blue": "Zylinder-Shell-G-03 (Cone Hellblau)",
+	"block.kingdomkeys.shell_gummi_cone_light_gray": "Zylinder-Shell-G-03 (Cone Hellgrau)",
+	"block.kingdomkeys.shell_gummi_cone_lime": "Zylinder-Shell-G-03 (Cone Hellgrün)",
+	"block.kingdomkeys.shell_gummi_cone_magenta": "Zylinder-Shell-G-03 (Cone Magenta)",
+	"block.kingdomkeys.shell_gummi_cone_orange": "Zylinder-Shell-G-03 (Cone Orange)",
+	"block.kingdomkeys.shell_gummi_cone_pink": "Zylinder-Shell-G-03 (Cone Rosa)",
+	"block.kingdomkeys.shell_gummi_cone_purple": "Zylinder-Shell-G-03 (Cone Violett)",
+	"block.kingdomkeys.shell_gummi_cone_red": "Zylinder-Shell-G-03 (Cone Rot)",
+	"block.kingdomkeys.shell_gummi_cone_white": "Zylinder-Shell-G-03 (Cone Weiß)",
+	"block.kingdomkeys.shell_gummi_cone_yellow": "Zylinder-Shell-G-03 (Cone Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_cube_black": "Kanten-Shell-G-01 (Würfel Schwarz)",
+	"block.kingdomkeys.shell_gummi_cube_blue": "Kanten-Shell-G-01 (Würfel Blau)",
+	"block.kingdomkeys.shell_gummi_cube_brown": "Kanten-Shell-G-01 (Würfel Braun)",
+	"block.kingdomkeys.shell_gummi_cube_cyan": "Kanten-Shell-G-01 (Würfel Türkis)",
+	"block.kingdomkeys.shell_gummi_cube_gray": "Kanten-Shell-G-01 (Würfel Grau)",
+	"block.kingdomkeys.shell_gummi_cube_green": "Kanten-Shell-G-01 (Würfel Grün)",
+	"block.kingdomkeys.shell_gummi_cube_light_blue": "Kanten-Shell-G-01 (Würfel Hellblau)",
+	"block.kingdomkeys.shell_gummi_cube_light_gray": "Kanten-Shell-G-01 (Würfel Hellgrau)",
+	"block.kingdomkeys.shell_gummi_cube_lime": "Kanten-Shell-G-01 (Würfel Hellgrün)",
+	"block.kingdomkeys.shell_gummi_cube_magenta": "Kanten-Shell-G-01 (Würfel Magenta)",
+	"block.kingdomkeys.shell_gummi_cube_orange": "Kanten-Shell-G-01 (Würfel Orange)",
+	"block.kingdomkeys.shell_gummi_cube_pink": "Kanten-Shell-G-01 (Würfel Rosa)",
+	"block.kingdomkeys.shell_gummi_cube_purple": "Kanten-Shell-G-01 (Würfel Violett)",
+	"block.kingdomkeys.shell_gummi_cube_red": "Kanten-Shell-G-01 (Würfel Rot)",
+	"block.kingdomkeys.shell_gummi_cube_white": "Kanten-Shell-G-01 (Würfel Weiß)",
+	"block.kingdomkeys.shell_gummi_cube_yellow": "Kanten-Shell-G-01 (Würfel Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_cylinder_black": "Zylinder-Shell-G-01 (Zylinder Schwarz)",
+	"block.kingdomkeys.shell_gummi_cylinder_blue": "Zylinder-Shell-G-01 (Zylinder Blau)",
+	"block.kingdomkeys.shell_gummi_cylinder_brown": "Zylinder-Shell-G-01 (Zylinder Braun)",
+	"block.kingdomkeys.shell_gummi_cylinder_cyan": "Zylinder-Shell-G-01 (Zylinder Türkis)",
+	"block.kingdomkeys.shell_gummi_cylinder_gray": "Zylinder-Shell-G-01 (Zylinder Grau)",
+	"block.kingdomkeys.shell_gummi_cylinder_green": "Zylinder-Shell-G-01 (Zylinder Grün)",
+	"block.kingdomkeys.shell_gummi_cylinder_light_blue": "Zylinder-Shell-G-01 (Zylinder Hellblau)",
+	"block.kingdomkeys.shell_gummi_cylinder_light_gray": "Zylinder-Shell-G-01 (Zylinder Hellgrau)",
+	"block.kingdomkeys.shell_gummi_cylinder_lime": "Zylinder-Shell-G-01 (Zylinder Hellgrün)",
+	"block.kingdomkeys.shell_gummi_cylinder_magenta": "Zylinder-Shell-G-01 (Zylinder Magenta)",
+	"block.kingdomkeys.shell_gummi_cylinder_orange": "Zylinder-Shell-G-01 (Zylinder Orange)",
+	"block.kingdomkeys.shell_gummi_cylinder_pink": "Zylinder-Shell-G-01 (Zylinder Rosa)",
+	"block.kingdomkeys.shell_gummi_cylinder_purple": "Zylinder-Shell-G-01 (Zylinder Violett)",
+	"block.kingdomkeys.shell_gummi_cylinder_red": "Zylinder-Shell-G-01 (Zylinder Rot)",
+	"block.kingdomkeys.shell_gummi_cylinder_white": "Zylinder-Shell-G-01 (Zylinder Weiß)",
+	"block.kingdomkeys.shell_gummi_cylinder_yellow": "Zylinder-Shell-G-01 (Zylinder Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_dome_black": "Zylinder-Shell-G-02 (Kuppel Schwarz)",
+	"block.kingdomkeys.shell_gummi_dome_blue": "Zylinder-Shell-G-02 (Kuppel Blau)",
+	"block.kingdomkeys.shell_gummi_dome_brown": "Zylinder-Shell-G-02 (Kuppel Braun)",
+	"block.kingdomkeys.shell_gummi_dome_cyan": "Zylinder-Shell-G-02 (Kuppel Türkis)",
+	"block.kingdomkeys.shell_gummi_dome_gray": "Zylinder-Shell-G-02 (Kuppel Grau)",
+	"block.kingdomkeys.shell_gummi_dome_green": "Zylinder-Shell-G-02 (Kuppel Grün)",
+	"block.kingdomkeys.shell_gummi_dome_light_blue": "Zylinder-Shell-G-02 (Kuppel Hellblau)",
+	"block.kingdomkeys.shell_gummi_dome_light_gray": "Zylinder-Shell-G-02 (Kuppel Hellgrau)",
+	"block.kingdomkeys.shell_gummi_dome_lime": "Zylinder-Shell-G-02 (Kuppel Hellgrün)",
+	"block.kingdomkeys.shell_gummi_dome_magenta": "Zylinder-Shell-G-02 (Kuppel Magenta)",
+	"block.kingdomkeys.shell_gummi_dome_orange": "Zylinder-Shell-G-02 (Kuppel Orange)",
+	"block.kingdomkeys.shell_gummi_dome_pink": "Zylinder-Shell-G-02 (Kuppel Rosa)",
+	"block.kingdomkeys.shell_gummi_dome_purple": "Zylinder-Shell-G-02 (Kuppel Violett)",
+	"block.kingdomkeys.shell_gummi_dome_red": "Zylinder-Shell-G-02 (Kuppel Rot)",
+	"block.kingdomkeys.shell_gummi_dome_white": "Zylinder-Shell-G-02 (Kuppel Weiß)",
+	"block.kingdomkeys.shell_gummi_dome_yellow": "Zylinder-Shell-G-02 (Kuppel Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_inner_corner_black": "Kanten-Shell-G-04 (Inner Corner Schwarz)",
+	"block.kingdomkeys.shell_gummi_inner_corner_blue": "Kanten-Shell-G-04 (Inner Corner Blau)",
+	"block.kingdomkeys.shell_gummi_inner_corner_brown": "Kanten-Shell-G-04 (Inner Corner Braun)",
+	"block.kingdomkeys.shell_gummi_inner_corner_cyan": "Kanten-Shell-G-04 (Inner Corner Türkis)",
+	"block.kingdomkeys.shell_gummi_inner_corner_gray": "Kanten-Shell-G-04 (Inner Corner Grau)",
+	"block.kingdomkeys.shell_gummi_inner_corner_green": "Kanten-Shell-G-04 (Inner Corner Grün)",
+	"block.kingdomkeys.shell_gummi_inner_corner_light_blue": "Kanten-Shell-G-04 (Inner Corner Hellblau)",
+	"block.kingdomkeys.shell_gummi_inner_corner_light_gray": "Kanten-Shell-G-04 (Inner Corner Hellgrau)",
+	"block.kingdomkeys.shell_gummi_inner_corner_lime": "Kanten-Shell-G-04 (Inner Corner Hellgrün)",
+	"block.kingdomkeys.shell_gummi_inner_corner_magenta": "Kanten-Shell-G-04 (Inner Corner Magenta)",
+	"block.kingdomkeys.shell_gummi_inner_corner_orange": "Kanten-Shell-G-04 (Inner Corner Orange)",
+	"block.kingdomkeys.shell_gummi_inner_corner_pink": "Kanten-Shell-G-04 (Inner Corner Rosa)",
+	"block.kingdomkeys.shell_gummi_inner_corner_purple": "Kanten-Shell-G-04 (Inner Corner Violett)",
+	"block.kingdomkeys.shell_gummi_inner_corner_red": "Kanten-Shell-G-04 (Inner Corner Rot)",
+	"block.kingdomkeys.shell_gummi_inner_corner_white": "Kanten-Shell-G-04 (Inner Corner Weiß)",
+	"block.kingdomkeys.shell_gummi_inner_corner_yellow": "Kanten-Shell-G-04 (Inner Corner Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_pie_black": "Rund-Shell-G-01 (Pie Schwarz)",
+	"block.kingdomkeys.shell_gummi_pie_blue": "Rund-Shell-G-01 (Pie Blau)",
+	"block.kingdomkeys.shell_gummi_pie_brown": "Rund-Shell-G-01 (Pie Braun)",
+	"block.kingdomkeys.shell_gummi_pie_cyan": "Rund-Shell-G-01 (Pie Türkis)",
+	"block.kingdomkeys.shell_gummi_pie_gray": "Rund-Shell-G-01 (Pie Grau)",
+	"block.kingdomkeys.shell_gummi_pie_green": "Rund-Shell-G-01 (Pie Grün)",
+	"block.kingdomkeys.shell_gummi_pie_light_blue": "Rund-Shell-G-01 (Pie Hellblau)",
+	"block.kingdomkeys.shell_gummi_pie_light_gray": "Rund-Shell-G-01 (Pie Hellgrau)",
+	"block.kingdomkeys.shell_gummi_pie_lime": "Rund-Shell-G-01 (Pie Hellgrün)",
+	"block.kingdomkeys.shell_gummi_pie_magenta": "Rund-Shell-G-01 (Pie Magenta)",
+	"block.kingdomkeys.shell_gummi_pie_orange": "Rund-Shell-G-01 (Pie Orange)",
+	"block.kingdomkeys.shell_gummi_pie_pink": "Rund-Shell-G-01 (Pie Rosa)",
+	"block.kingdomkeys.shell_gummi_pie_purple": "Rund-Shell-G-01 (Pie Violett)",
+	"block.kingdomkeys.shell_gummi_pie_red": "Rund-Shell-G-01 (Pie Rot)",
+	"block.kingdomkeys.shell_gummi_pie_white": "Rund-Shell-G-01 (Pie Weiß)",
+	"block.kingdomkeys.shell_gummi_pie_yellow": "Rund-Shell-G-01 (Pie Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_pyramid_black": "Kanten-Shell-G-03 (Pyramide Schwarz)",
+	"block.kingdomkeys.shell_gummi_pyramid_blue": "Kanten-Shell-G-03 (Pyramide Blau)",
+	"block.kingdomkeys.shell_gummi_pyramid_brown": "Kanten-Shell-G-03 (Pyramide Braun)",
+	"block.kingdomkeys.shell_gummi_pyramid_cyan": "Kanten-Shell-G-03 (Pyramide Türkis)",
+	"block.kingdomkeys.shell_gummi_pyramid_gray": "Kanten-Shell-G-03 (Pyramide Grau)",
+	"block.kingdomkeys.shell_gummi_pyramid_green": "Kanten-Shell-G-03 (Pyramide Grün)",
+	"block.kingdomkeys.shell_gummi_pyramid_light_blue": "Kanten-Shell-G-03 (Pyramide Hellblau)",
+	"block.kingdomkeys.shell_gummi_pyramid_light_gray": "Kanten-Shell-G-03 (Pyramide Hellgrau)",
+	"block.kingdomkeys.shell_gummi_pyramid_lime": "Kanten-Shell-G-03 (Pyramide Hellgrün)",
+	"block.kingdomkeys.shell_gummi_pyramid_magenta": "Kanten-Shell-G-03 (Pyramide Magenta)",
+	"block.kingdomkeys.shell_gummi_pyramid_orange": "Kanten-Shell-G-03 (Pyramide Orange)",
+	"block.kingdomkeys.shell_gummi_pyramid_pink": "Kanten-Shell-G-03 (Pyramide Rosa)",
+	"block.kingdomkeys.shell_gummi_pyramid_purple": "Kanten-Shell-G-03 (Pyramide Violett)",
+	"block.kingdomkeys.shell_gummi_pyramid_red": "Kanten-Shell-G-03 (Pyramide Rot)",
+	"block.kingdomkeys.shell_gummi_pyramid_white": "Kanten-Shell-G-03 (Pyramide Weiß)",
+	"block.kingdomkeys.shell_gummi_pyramid_yellow": "Kanten-Shell-G-03 (Pyramide Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_round_corner_black": "Rund-Shell-G-02 (Round Corner Schwarz)",
+	"block.kingdomkeys.shell_gummi_round_corner_blue": "Rund-Shell-G-02 (Round Corner Blau)",
+	"block.kingdomkeys.shell_gummi_round_corner_brown": "Rund-Shell-G-02 (Round Corner Braun)",
+	"block.kingdomkeys.shell_gummi_round_corner_cyan": "Rund-Shell-G-02 (Round Corner Türkis)",
+	"block.kingdomkeys.shell_gummi_round_corner_gray": "Rund-Shell-G-02 (Round Corner Grau)",
+	"block.kingdomkeys.shell_gummi_round_corner_green": "Rund-Shell-G-02 (Round Corner Grün)",
+	"block.kingdomkeys.shell_gummi_round_corner_light_blue": "Rund-Shell-G-02 (Round Corner Hellblau)",
+	"block.kingdomkeys.shell_gummi_round_corner_light_gray": "Rund-Shell-G-02 (Round Corner Hellgrau)",
+	"block.kingdomkeys.shell_gummi_round_corner_lime": "Rund-Shell-G-02 (Round Corner Hellgrün)",
+	"block.kingdomkeys.shell_gummi_round_corner_magenta": "Rund-Shell-G-02 (Round Corner Magenta)",
+	"block.kingdomkeys.shell_gummi_round_corner_orange": "Rund-Shell-G-02 (Round Corner Orange)",
+	"block.kingdomkeys.shell_gummi_round_corner_pink": "Rund-Shell-G-02 (Round Corner Rosa)",
+	"block.kingdomkeys.shell_gummi_round_corner_purple": "Rund-Shell-G-02 (Round Corner Violett)",
+	"block.kingdomkeys.shell_gummi_round_corner_red": "Rund-Shell-G-02 (Round Corner Rot)",
+	"block.kingdomkeys.shell_gummi_round_corner_white": "Rund-Shell-G-02 (Round Corner Weiß)",
+	"block.kingdomkeys.shell_gummi_round_corner_yellow": "Rund-Shell-G-02 (Round Corner Gelb)",
+	
+	"block.kingdomkeys.shell_gummi_wedge_black": "Kanten-Shell-G-02 (Wedge Schwarz)",
+	"block.kingdomkeys.shell_gummi_wedge_blue": "Kanten-Shell-G-02 (Wedge Blau)",
+	"block.kingdomkeys.shell_gummi_wedge_brown": "Kanten-Shell-G-02 (Wedge Braun)",
+	"block.kingdomkeys.shell_gummi_wedge_cyan": "Kanten-Shell-G-02 (Wedge Türkis)",
+	"block.kingdomkeys.shell_gummi_wedge_gray": "Kanten-Shell-G-02 (Wedge Grau)",
+	"block.kingdomkeys.shell_gummi_wedge_green": "Kanten-Shell-G-02 (Wedge Grün)",
+	"block.kingdomkeys.shell_gummi_wedge_light_blue": "Kanten-Shell-G-02 (Wedge Hellblau)",
+	"block.kingdomkeys.shell_gummi_wedge_light_gray": "Kanten-Shell-G-02 (Wedge Hellgrau)",
+	"block.kingdomkeys.shell_gummi_wedge_lime": "Kanten-Shell-G-02 (Wedge Hellgrün)",
+	"block.kingdomkeys.shell_gummi_wedge_magenta": "Kanten-Shell-G-02 (Wedge Magenta)",
+	"block.kingdomkeys.shell_gummi_wedge_orange": "Kanten-Shell-G-02 (Wedge Orange)",
+	"block.kingdomkeys.shell_gummi_wedge_pink": "Kanten-Shell-G-02 (Wedge Rosa)",
+	"block.kingdomkeys.shell_gummi_wedge_purple": "Kanten-Shell-G-02 (Wedge Violett)",
+	"block.kingdomkeys.shell_gummi_wedge_red": "Kanten-Shell-G-02 (Wedge Rot)",
+	"block.kingdomkeys.shell_gummi_wedge_white": "Kanten-Shell-G-02 (Wedge Weiß)",
+	"block.kingdomkeys.shell_gummi_wedge_yellow": "Kanten-Shell-G-02 (Wedge Gelb)",
 
 	// -flowmotion
 	"block.kingdomkeys.flowmotion_rail_black": "Freier Fluss-Schiene (Schwarz)",
@@ -831,6 +1003,8 @@
 	"co.intro.3": "So lautet die Devise hier im Schloss des Entfallens.",
 	"co.intro.title": "Schloss des Entfallens",
 	"co.room_size": "RAUM GRößE",
+	
+	
 
 	//CONTAINER
 
@@ -1113,6 +1287,10 @@
 
 	// GUI
 
+	"gui.level.dynamic": "Deine Stufe",
+	"gui.duel.level": "ST. %s",
+	"gui.training.reward": "%s Erf, %s Lux",
+	
 	"gui.cardpacks.title": "Kartenpackung",
 
 	"gui.commandmenu.attack": "Angriff",
@@ -1128,43 +1306,72 @@
 	"gui.commandmenu.portal": "Portal",
 	"gui.commandmenu.portal.title": "PORTALE",
 	"gui.commandmenu.revert": "Zurück",
+	"gui.commandmenu.target": "GRUPPE",
+	
+	"gui.itemget.dismiss": "<Drücke eine beliebige Taste zum verstecken>",
+	"gui.itemget.obtained": "ERHALTEN",
 
-	"gui.consumables_bag.complain": "Du darfst nur einen einzigen consumables-Beutel im Inventar haben",
+	"gui.consumables_bag.complain": "Du darfst nur einen einzigen Verbrauchsgegenstände-Beutel im Inventar haben",
 	"gui.keychains_bag.complain": "Du darfst nur einen einzigen Anhängerbeutel im Inventar haben",
 	"gui.cards_bag.complain": "Du darfst nur einen einzigen Kartenbeutel im Inventar haben",
+	"gui.shotlocks_bag.complain": "Du darfst nur einen einzigen Fokussierungen-Beutel im Inventar haben",
+	"gui.spells_bag.complain": "Du darfst nur einen einzigen Zauber-Element-Beutel im Inventar haben",
 
 	"gui.crownproof.allunlocked": "Du besitzt bereits jede Krone",
 	"gui.crownproof.desc": "Use to unlock your next crown",
 	"gui.crownproof.desc2": "Choose which crown to wear in the menu configuration",
 	"gui.crownproof.unlocked": "Du hast die %s-Krone freigeschalten",
 
+	"gui.foreteller.duel": "Kämpfen",
+	"gui.foreteller.redeem": "Einlösen",
+	"gui.foreteller.train": "Trainieren",
+
 	"gui.driveformorb.tooltip": "Verbessert die %s",
 	"gui.driveformorb.upgrade": "%s hat %s Exp erhalten",
 
 	"gui.magicspell.maxed": "%s ist bereits das Maximum",
 	"gui.magicspell.unlock": "Schaltet %s frei",
+	
+	"gui.magicspell.equip": "Rüste es im Menü aus, um es benutzen zu können",
+	"gui.magicspell.exp": "Erfahrung: %s/%s",
+	"gui.magicspell.exp_short": "Erf: %s/%s",
+	"gui.magicspell.lvl_short": "ST. %s",
 
 	"gui.statboost.increased": "%s wurde Erhöht, es beträgt nun %s",
 	"gui.statboost.tooltip": "Erhöht %s um 1",
-
+	
+	"gui.melding": "Fusionieren",
+	"gui.melding.desc": "Kombiniere verschieden Zauber miteinander, um neue zu erschaffen.",
+	"gui.melding.meld": "Fusion",
+	"gui.melding.meldables": "Filter",
+	"gui.melding.item_acquired": "Item Erhalten!",
+	"gui.melding.rare_item_acquired": "Seltenes Item Erhalten!",
+  
 	"gui.menu.accept": "Akzeptieren",
 	"gui.menu.back": "Zurück",
 	"gui.menu.back.desc": "Zurück zum voherigen Menü gehen.",
+	"gui.menu.cancel": "Abbruch",
 
 	"gui.menu.config": "Konfiguration",
+	"gui.menu.config.armor": "Rüstung",
+	"gui.menu.config.armor.glint": "Rüstungsschimmern",
+	"gui.menu.config.armor.glint.disabled": "Schimmern deaktiviert",
+	"gui.menu.config.armor.glint.enabled": "Schimmern aktiviert",
+	
 	"gui.menu.config.armor.blue": "Rüstung Blau",
-	"gui.menu.config.armor.glint": "Rüstung Schimmern",
 	"gui.menu.config.armor.green": "Rüstung Grün",
 	"gui.menu.config.armor.red": "Rüstung Rot",
 
 	"gui.menu.config.bg": "Hintergrund Umschalten",
+	"gui.menu.config.classic_colors": "Klassische Farben",
 	"gui.menu.config.command_menu": "Kommando-Menü",
+	"gui.menu.config.custom_font": "Spielgetreue-Schriftart",
 	"gui.menu.config.dp": "Drive-Balken",
 	"gui.menu.config.focus": "Fokus-Balken",
 	"gui.menu.config.header_title": "Überschrift",
 	"gui.menu.config.hp": "HP-Balken",
 	"gui.menu.config.hp_alarm": "HP-Alarm Lautstärke",
-	"gui.menu.config.hp_per_bar": "HP Pro Balken",
+	"gui.menu.config.hp_per_bar": "HP pro Balken",
 	"gui.menu.config.hp_scale": "HP-Balken Größe",
 	"gui.menu.config.icon_rotation": "Anvisiersymbol-Rotationsgeschwindigkeit",
 	"gui.menu.config.icon_scale": "Anvisiersymbol-Größe",
@@ -1173,11 +1380,16 @@
 	"gui.menu.config.impexp.import": "Importieren",
 	"gui.menu.config.lock_on_hp": "Anvisieren",
 	"gui.menu.config.mp": "MP-Balken",
+	"gui.menu.config.notif": "Benachrichtigung",
+
+	"gui.menu.config.reset_defaults": "Zurücksetzen zum Standard",
+	"gui.menu.config.reset_rp": "Zurücksetzen zum Ressourcen Packet",
 	"gui.menu.config.notif_color": "Mitteilung",
 	"gui.menu.config.party": "Gruppe",
 	"gui.menu.config.player_skin": "Spieler Skin",
 	"gui.menu.config.selected_x_pos": "Ausgewählter X-Versatz",
 	"gui.menu.config.show_hearts": "Herzen über der Schnellleiste anzeigen",
+	"gui.menu.config.snap_chat": "Chat über dem Kommandomenu",
 	"gui.menu.config.sub_x_offset": "Untermenü X-Versatz",
 	"gui.menu.config.text_x_offset": "Text X-Versatz",
 	"gui.menu.config.x_pos": "X-Position",
@@ -1185,9 +1397,27 @@
 	"gui.menu.config.y_dist": "Y-Abstand",
 	"gui.menu.config.y_pos": "Y-Position",
 	"gui.menu.config.y_scale": "Y-Größe",
+	
+	
+	"gui.menu.config.hud": "HUD Anpassen",
+	"gui.menu.config.hud.help0": "Halte %s gedrückt, um die Hilfe anzuzeigen",
+	"gui.menu.config.hud.help1": "First of all select the anchor point by clicking the element and SPACE",
+	"gui.menu.config.hud.help2": "[LINKSKLICK] and drag an element to move it",
+	"gui.menu.config.hud.help3": "Use [PFEILTASTEN] to move it in bigger gaps",
+	"gui.menu.config.hud.help4": "Hold [STRG] + [PFEILTASTEN] to move it in tiny gaps",
+	"gui.menu.config.hud.help5": "Use [MAUSRAD] to scale it up",
+	"gui.menu.config.hud.help6": "Hold X + [MAUSRAD] to scale it horizontally",
+	"gui.menu.config.hud.help7": "Hold Y + [MAUSRAD] to scale it vertically",
+	"gui.menu.config.hud.help8": "Use [UMSCHALT] + SCROLL WHEEL to rotate it",
+	"gui.menu.config.hud.help9": "Press LEFT ALT to show or hide outlines",
+	"gui.menu.config.hud.help10": "[RECHTSKLICK] on a selected item to reset it to Resourcepack defaults",
+	"gui.menu.config.hud.help11": "[UMSCHALT] + [RECHTSKLICK] on a selected item to reset it to base defaults",
+	"gui.menu.config.hud.help12": "Drücke [V] um die Sichtbarkeit eines Elements zu ändern",
+	"gui.menu.config.hud.help13": "[LINKSKLICK] without dragging to pick the next element under the cursor",
+	"gui.menu.config.hud.help14": "Ausgewählte Elementdaten:",
 
 	"gui.menu.customize": "Einstellungen",
-	"gui.menu.customize.magic": "Magie",
+	"gui.menu.customize.magic": "Magie Sichtbarkeit",
 	"gui.menu.customize.magic.hidden": "Versteckt",
 	"gui.menu.customize.magic.active": "Aktive Kommandos",
 	"gui.menu.customize.shortcut": "Kurzbefehl",
@@ -1200,12 +1430,14 @@
 	"gui.menu.items.equipment.armor": "Rüstung",
 	"gui.menu.items.equipment.desc": "Rüste deine Waffe und andere Ausrüstung hier aus.",
 	"gui.menu.items.equipment.items": "Items",
+	"gui.menu.items.equipment.magic": "Magie",
 	"gui.menu.items.equipment.pauldron": "Schulter", //Schulterschutz
 	"gui.menu.items.equipment.shotlock": "Fokus", //Fokussierung
 	"gui.menu.items.equipment.weapon": "Waffe",
 	"gui.menu.items.equipment.weapon.keyblades": "Schlüsselschwerter",
 	"gui.menu.items.stock": "Lager",
 	"gui.menu.items.stock.desc": "Überprüfe dein Inventar.",
+	"gui.menu.items.stock.take": "Mitnehmen",
 
 	"gui.menu.journal": "Tagebuch",
 
@@ -1218,7 +1450,7 @@
 	"gui.menu.main.button.items": "Items",
 	"gui.menu.main.button.items.desc": "Zugang zu deiner Ausrüstung (Waffen, Potions...) und dein Inventar.",
 	"gui.menu.main.button.journal": "Tagebuch",
-	"gui.menu.main.button.journal.desc": "Tagebuch Beschreibung",
+	"gui.menu.main.button.journal.desc": "[WIP] Tagebuch Beschreibung",
 	"gui.menu.main.button.party": "Gruppe",
 	"gui.menu.main.button.party.desc": "Erstelle und verwalte deine Gruppe.",
 	"gui.menu.main.button.status": "Status",
@@ -1227,6 +1459,7 @@
 	"gui.menu.main.button.style.desc": "Wähle deinen Kampfstil mit Epic Fight",
 
 	"gui.menu.main.hearts": "Herzen",
+	"gui.menu.main.lux": "Lux",
 	"gui.menu.main.munny": "Taler",
 	"gui.menu.main.synthesis_tier": "Schmiede-Stufe",
 	"gui.menu.main.time": "Uhrzeit (Welt)",
@@ -1246,47 +1479,93 @@
 	"gui.menu.party.join.desc": "Trete einer bereits erstellten Gruppe bei.",
 	"gui.menu.party.kick": "Rauswerfen",
 	"gui.menu.party.leave": "Austreten",
+	"gui.menu.party.promote": "Befördern",
 	"gui.menu.party.settings": "Einstellungen",
 
 	//stats
 	"gui.menu.status": "Status",
 	"gui.menu.status.abilities": "Abilitys",
 	"gui.menu.status.ability": "Ability",
-	"gui.menu.status.ap": "AP",
-	"gui.menu.status.blizzardres": "Eis-Resistenz",
-	"gui.menu.status.blizzardresshort": "Eis Res.",
-	"gui.menu.status.darkres": "Dunkel-Resistenz",
-	"gui.menu.status.darkresshort": "Dunkel Res.",
+	"gui.menu.status.level": "Level",
+	"gui.menu.status.totalexp": "Erfahrung",
+	"gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
+	
+	"gui.menu.status.hp": "HP",
+	"gui.menu.status.mp": "MP",
+	"gui.menu.status.strength": "Angriff", //Angriffskraft
 	"gui.menu.status.defense": "Abwehr", //Abwehrkraft
+	"gui.menu.status.magic": "Magie", //Magiekraft
+	"gui.menu.status.ap": "AP",
+	
 	"gui.menu.status.drivegauge": "Drive-Leiste",
-	"gui.menu.status.fireres": "Feuer-Resistenz",
-	"gui.menu.status.fireresshort": "Feuer Res.",
 	"gui.menu.status.formgauge": "Form-Leiste",
 	"gui.menu.status.formlevel": "Form-Level",
-	"gui.menu.status.hp": "HP",
-	"gui.menu.status.level": "Level",
-	"gui.menu.status.lightres": "Licht-Resistenz",
-	"gui.menu.status.lightresshort": "Licht Res.",
-	"gui.menu.status.magic": "Magie", //Magiekraft
-	"gui.menu.status.mp": "MP",
-	"gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
-	"gui.menu.status.strength": "Angriff", //Angriffskraft
+	"gui.menu.status.choice": "Entscheidung",
+	
+	// -resistences
+	"gui.menu.status.fireres": "Feuer-Resistenz",
+	"gui.menu.status.fireresshort": "Feuer Res.",
+	"gui.menu.status.blizzardres": "Eis-Resistenz",
+	"gui.menu.status.blizzardresshort": "Eis Res.",
 	"gui.menu.status.thunderres": "Blitz-Resistenz",
 	"gui.menu.status.thunderresshort": "Blitz-Res.",
-	"gui.menu.status.totalexp": "Erfahrung",
+	"gui.menu.status.airres": "Wind-Resistenz",
+	"gui.menu.status.airresshort": "Wind-Res.",
+	"gui.menu.status.waterres": "Wasser-Resistenz",
+	"gui.menu.status.waterresshort": "Wasser-Res.",
+	"gui.menu.status.darkres": "Dunkel-Resistenz",
+	"gui.menu.status.darkresshort": "Dunkel Res.",	
+	"gui.menu.status.lightres": "Licht-Resistenz",
+	"gui.menu.status.lightresshort": "Licht Res.",
+	
+	// STRUGGLE
+	"gui.menu.struggle.cancel_ready": "Nicht Bereit",
+	"gui.menu.struggle.corners_pos": "Ecken (x,y,z)",
+	"gui.menu.struggle.create_button": "Create match",
+	"gui.menu.struggle.create_button.desc": "Set up a new Struggle match on this board.",
+	"gui.menu.struggle.create_title": "Start Struggle",
+	"gui.menu.struggle.damage_mult": "Kugelmulitplikator (%)",
+	"gui.menu.struggle.delete_button": "Delete match",
+	"gui.menu.struggle.delete_button.desc": "Cancel and remove this match entirely [Owner only].",
+	"gui.menu.struggle.duel": "Duell",
+	"gui.menu.struggle.ffa": "Frei-Für-Alle",
+	"gui.menu.struggle.join_button": "Match beitreten",
+	"gui.menu.struggle.join_button.desc": "Join the Struggle match currently set up here.",
+	"gui.menu.struggle.join_title": "Struggle beitreten",
+	"gui.menu.struggle.leave_button": "Leave match",
+	"gui.menu.struggle.leave_button.desc": "Leave the match without ending it for everyone else.",
+	"gui.menu.struggle.menu_title": "Struggle",
+	"gui.menu.struggle.mode": "Modus",
+	"gui.menu.struggle.name": "Struggle Name",
+	"gui.menu.struggle.name_and_size": "Struggle name and size",
+	"gui.menu.struggle.ready": "Bereit",
+	"gui.menu.struggle.ready.desc": "Mark yourself as ready - the match starts once everyone is.",
+	"gui.menu.struggle.reason_not_configured": "The owner has not set the arena corners in Settings yet.",
+	"gui.menu.struggle.reason_waiting": "Waiting for at least one more player to join.",
+	"gui.menu.struggle.round_time": "Rundenzeit (Sekunden)",
+	"gui.menu.struggle.settings_button": "Struggle-Einstellungen",
+	"gui.menu.struggle.settings_button.desc": "Configure the arena corners, mode, and other match settings [Owner only].",
+	"gui.menu.struggle.settings_title": "Struggle-Einstellungen",
+	"gui.menu.struggle.spectator_pos": "Zuschauer (x,y,z)",
+	"gui.menu.struggle.starting_score": "Starting orbs",
+	"gui.menu.struggle.tournament": "Turnier",
 
+	// EFM STYLES
 	"gui.menu.style": "Kampfstil",
-	"gui.menu.style.aqua": "Aqua",
-	"gui.menu.style.daysroxasdual": "Roxas (358/2 Days)",
+	"gui.menu.style.single": "Einzel",
 	"gui.menu.style.dual": "Doppel",
-	"gui.menu.style.kh2roxasdual": "Roxas (KH2)",
+	
+	"gui.menu.style.sora": "Sora",
 	"gui.menu.style.riku": "Riku",
 	"gui.menu.style.roxas": "Roxas",
-	"gui.menu.style.single": "Einzel",
-	"gui.menu.style.sora": "Sora",
-	"gui.menu.style.terra": "Terra",
 	"gui.menu.style.ventus": "Ventus",
-
+	"gui.menu.style.terra": "Terra",
+	"gui.menu.style.aqua": "Aqua",
+	
+	"gui.menu.style.daysroxasdual": "Roxas (358/2 Days)",
+	"gui.menu.style.kh2roxasdual": "Roxas (KH2)",
+	
+	// ORG
 	"gui.org.cancel": "Abbrechen",
 	"gui.org.confirm": "Bestätigen",
 	"gui.org.line1": "Durch das Anlegen der dunklen Robe, bist du nun ein Mitglied der Organisation XIII.",
@@ -1303,14 +1582,22 @@
 	"gui.proofofheart.notinorg": "Du bist nicht in der Organisation XIII",
 	"gui.proofofheart.unequip": "Lege zuerst deine Organisation XIII Rüstung ab",
 
+	// SAVE POINT
 	"gui.save.create.global": "Für alle freigeben",
 	"gui.save.create.global.desc": "Ermöglicht den Zugriff auf diesen Speicherpunkt für alle Spieler",
 
 	"gui.save.create.title": "Neuer Speicherpunkt",
 	"gui.save.create.prompt": "Gib diesem Speicherpunkt einen Namen",
 	"gui.save.create.accept": "Einspeichern",
+	"gui.save.create.global": "Global sichtbar machen",
+	"gui.save.create.global.desc": "Makes this save point accessible to all players",
+  
+	
 	"gui.save.main.here": "Du bist hier",
+	"gui.save.main.rename": "Umbenennen",
+	"gui.save.main.retake": "Neues Foto",
 	"gui.save.main.sort": "Filter:",
+	
 	"gui.save.sort.recent": "Neuste",
 	"gui.save.sort.name": "Name",
 	"gui.save.sort.dimension": "Dimension",
@@ -1324,9 +1611,21 @@
 	"gui.shop": "Laden",
 	"gui.shop.cost": "Kosten",
 	"gui.shop.tier": "Stufe:",
+	"gui.shop.buy": "Kaufen",
+	"gui.shop.sell": "Verkaufen",
 	"gui.shop.page": "Seite:",
 	"gui.shop.no_empty_slot": "Inventar voll",
 	"gui.shop.main.title": "Laden",
+	
+	
+	"gui.shotlockitem.equip": "Rüste es im Menü aus, um es zu benutzen",
+	"gui.shotlockitem.max_locks": "Max. Fokus.: %s",
+	"gui.shotlock.minigame.hits": "%s Treffer",
+	"gui.shotlock.minigame.perfect": "PERFEKT!",
+	"gui.shotlock.minigame.good": "GUT",
+	"gui.shotlock.minigame.bad": "SCHLECHT",
+	"gui.shotlock.minigame.miss": "DANEBEN",
+	"gui.shotlock.minigame.mash": "DRÜCKEN!",
 
 	"gui.summonarmor.notenoughspace": "Du hast nicht ausreichend Platz in deinem Inventar",
 
@@ -1342,6 +1641,8 @@
 	"gui.synthesis.synthesise": "Item-Schmiede",
 	"gui.synthesis.synthesise.title": "Schmiede",
 	"gui.synthesis.synthesise.create": "Erschaffen",
+	"gui.synthesis.synthesise.track": "Verfolgen",
+	"gui.synthesis.synthesise.untrack": "Entfolgen",
 
 	"gui.synthesisbag.munny": "Taler",
 	"gui.synthesisbag.notenoughmunny": "Nicht genug Taler",
@@ -1364,10 +1665,17 @@
 	"item.kingdomkeys.dream_staff": "Alchera-Stab",
 	"item.kingdomkeys.dream_sword": "Alchera-Schwert",
 
+	"item.kingdomkeys.cards_bag": "Kartenbeutel",
+	"item.kingdomkeys.consumables_bag": "Verbrauchsgegenstände-Beutel",
+	"item.kingdomkeys.keychains_bag": "Anhängerbeutel",
+	"item.kingdomkeys.magics_bag": "Zauber-Element-Beutel",
+	"item.kingdomkeys.shotlocks_bag": "Fokussierungen-Beutel",
 	"item.kingdomkeys.synthesis_bag": "Schmiedebeutel",
 
 	"item.kingdomkeys.wayfinder": "Wegfinder",
 	"item.kingdomkeys.winner_stick": "Gewinner-Stiel",
+	
+	"item.kingdomkeys.struggle_poster": "Struggle-Poster",
 
 
 	// -SPAWN EGGS
@@ -1712,27 +2020,127 @@
 	"item.kingdomkeys.magicboost": "Magiesphäre",
 	"item.kingdomkeys.powerboost": "Kraftbolzen",
 
+	"item.kingdomkeys.proof_of_connection": "Zeugnis der Verbindung",
+	"item.kingdomkeys.proof_of_nonexistence": "Zeugnis der Nicht-Existenz",
+	"item.kingdomkeys.proof_of_peace": "Zeugnis der Zufriedenheit",
 	"item.kingdomkeys.proof_of_heart": "Zeugnis des Herzens",
 
 
 	// --MAGIC AND FORMS
 
 	"item.kingdomkeys.spellaero": "Aero-Element",
+	"item.kingdomkeys.spellaerora": "Aerora-Element",
+	"item.kingdomkeys.spellaeroga": "Aeroga-Element",
+	
+	"item.kingdomkeys.spellaeroshield": "Aeroschild-Element",
+	"item.kingdomkeys.spellaerorashield": "Aeroraschild-Element",
+	"item.kingdomkeys.spellaerogashield": "Aerogaschild-Element",
+	
+	
 	"item.kingdomkeys.spellblizzard": "Eis-Element",
-	"item.kingdomkeys.spellcure": "Vita-Element",
+	"item.kingdomkeys.spellblizzara": "Eisra-Element",
+	"item.kingdomkeys.spellblizzaga": "Eisga-Element",
+	
+	"item.kingdomkeys.spelltripleblizzaga": "Tripel-Eisga-Element",
+	"item.kingdomkeys.spelldeepfreeze": "Frost-Element",
+	"item.kingdomkeys.spellglacier": "Gletscherwirbel-Element",
+	"item.kingdomkeys.spellicebarrage": "Eisbombardement-Element",
+	
+	
 	"item.kingdomkeys.spellfire": "Feuer-Element",
-	"item.kingdomkeys.spellgravity": "Gravitas-Element",
-	"item.kingdomkeys.spellmagnet": "Magnet-Element",
-	"item.kingdomkeys.spellreflect": "Reflek-Element",
-	"item.kingdomkeys.spellstop": "Stop-Element",
+	"item.kingdomkeys.spellfira": "Feura-Element",
+	"item.kingdomkeys.spellfiraga": "Feuga-Element",
+	
+	"item.kingdomkeys.spellcrawlingfiraga": "Zeitlupen-Feuga-Element",
+	"item.kingdomkeys.spellfissionfiraga": "Feuga-Explosion-Element",
+	"item.kingdomkeys.spellfiragaburst": "Feugasalve-Element",
+	"item.kingdomkeys.spelltriplefiraga": "Tripel-Feuga-Element",
+	"item.kingdomkeys.spelldarkfiraga": "Sinistra-Feuga-Element",
+	
+	
 	"item.kingdomkeys.spellthunder": "Blitz-Element",
+	"item.kingdomkeys.spellthundara": "Blitzra-Element",
+	"item.kingdomkeys.spellthundaga": "Blitzga-Element",
+	
+	"item.kingdomkeys.spellthundagashot": "Blitzga-Schuss-Element",
+	"item.kingdomkeys.spelltripleplasma": "Dreierplasma-Element",
+	
+	
+	"item.kingdomkeys.spellcure": "Vita-Element",
+	"item.kingdomkeys.spellcura": "Cura-Element",
+	"item.kingdomkeys.spellcuraga": "Curaga-Element",
+	
+	
 	"item.kingdomkeys.spellwater": "Wasser-Element",
+	"item.kingdomkeys.spellwatera": "Wassera-Element",
+	"item.kingdomkeys.spellwaterga": "Wassega-Element",
+	
+	
+	"item.kingdomkeys.spellballoon": "Balloon-Element",
+	"item.kingdomkeys.spellballoonga": "Balloonga-Element",
+	"item.kingdomkeys.spellballoonra": "Balloonra-Element",
+	
+	
+	"item.kingdomkeys.spellgravity": "Gravitas-Element",
+	"item.kingdomkeys.spellgravira": "Gravira-Element",
+	"item.kingdomkeys.spellgraviga": "Graviga-Element",
+	
+	"item.kingdomkeys.spellzerogravity": "Antigrav-Element",
+	"item.kingdomkeys.spellzerogravira": "Antigravra-Element",
+	"item.kingdomkeys.spellzerograviga": "Antigravga-Element",
+	
+	
+	"item.kingdomkeys.spellmagnet": "Magnet-Element",
+	"item.kingdomkeys.spellmagnera": "Magnera-Element",
+	"item.kingdomkeys.spellmagnega": "Magnega-Element",
+	
+	
+	"item.kingdomkeys.spellreflect": "Reflek-Element",
+	"item.kingdomkeys.spellreflera": "Reflera-Element",
+	"item.kingdomkeys.spellreflega": "Reflega-Element",
+	
+	
+	"item.kingdomkeys.spellstop": "Stopp-Element",
+	"item.kingdomkeys.spellstopra": "Stoppra-Element",
+	"item.kingdomkeys.spellstopga": "Stoppga-Element",
+	
+	
+	"item.kingdomkeys.spellmineshield": "Minenfeld-Element",
+	"item.kingdomkeys.spellminesquare": "Minentrapez-Element",
+	"item.kingdomkeys.spellseekermine": "Zielsuchmine-Element",
+	
+	
+	"item.kingdomkeys.spellspark": "Funke-Element",
+	"item.kingdomkeys.spellsparkra": "Funkra-Element",
+	"item.kingdomkeys.spellsparkga": "Funkga-Element",
+	
+	
+	"item.kingdomkeys.spellfaith": "Sanctus-Element",
+	
+	
+	// ---status spells
+	"item.kingdomkeys.spellbind": "Fessel-Element",
+	"item.kingdomkeys.spellconfuse": "Verwirren-Element",	
+	"item.kingdomkeys.spellblackout": "Blackout-Element",
+	"item.kingdomkeys.spellpoison": "Gift-Element",
+	"item.kingdomkeys.spellignite": "Entflammen-Element",
+	"item.kingdomkeys.spellslow": "Gemach-Element",
+	"item.kingdomkeys.spellmini": "Wicht-Element",
+	"item.kingdomkeys.spellesuna": "Medica-Element",
+	"item.kingdomkeys.spellwarp": "Elimini-Element",
+	
 
+	// ---drives
 	"item.kingdomkeys.levelupdrivefinal": "Über-Form-Kugel",
+	"item.kingdomkeys.levelupdrivefinal.desc": "Eine Kugel, in der die Über-Form innewohnt.\nEine Form, welche die wahre Kraft des Schlüsselschwertes freisetzt.",
 	"item.kingdomkeys.levelupdrivelimit": "Limit-Form-Kugel",
+	"item.kingdomkeys.levelupdrivelimit.desc": "Eine Kugel, in der die Limit-Form innewohnt.\nEine Form, welche sich auf Limit-Angriffe spezialisiert.",
 	"item.kingdomkeys.levelupdrivemaster": "Meister-Form-Kugel",
+	"item.kingdomkeys.levelupdrivemaster.desc": "Eine Kugel, in der die Meister-Form innewohnt.\nEine Form, die mit dem Schlüsselschwert und Magie umgeht.",
 	"item.kingdomkeys.levelupdrivevalor": "Helden-Form-Kugel",
+	"item.kingdomkeys.levelupdrivevalor.desc": "Eine Kugel, in der die Helden-Form innewohnt.\nnEine Form, welche sich auf physische Angriffe spezialisiert.",
 	"item.kingdomkeys.levelupdrivewisdom": "Weisen-Form-Kugel",
+	"item.kingdomkeys.levelupdrivewisdom.desc": "Eine Kugel, in der die Weisen-Form innewohnt.\nnEine Form, welche sich auf Magie-Angriffe spezialisiert.",
 
 
 	// -WEAPONS
@@ -2008,13 +2416,17 @@
 	"item.kingdomkeys.unbound": "Entfessler",
 	"item.kingdomkeys.unbound_chain": "Entfessler-Anhänger",
 	"item.kingdomkeys.unbound.desc": "Das perfekte Schlüsselschwert. Es hat hohe Werte und erleichtert ds Landen von kritischen Treffern und besonders das Auslösen von Realitätswandel.",
+	
 	"item.kingdomkeys.young_xehanorts_keyblade": "Junger Xehanort's Schlüsselschwert",
 	"item.kingdomkeys.young_xehanorts_keyblade_chain": "Junger Xehanort's Schlüsselschwert-Anhänger",
 	"item.kingdomkeys.young_xehanorts_keyblade.desc": "Das Schlüsselschwert, getragen vom Jungen Xehanort, es ermöglicht das Zeitreisen.",
+	"item.kingdomkeys.kingdom_key_n": "Albtraum-Königsanhänger",
+	"item.kingdomkeys.kingdom_key_n.desc": "Ein Schlüsselschwert, geboren aus der negativen Energie eines Herzens.",
+	"item.kingdomkeys.kingdom_key_n_chain": "Albtraum-Königsanhänger-Anhänger",
 
 	// ---KH3
 
-	"item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch
+	"item.kingdomkeys.advent_red": "Scharlachrote Reunion", //switch (cloud)
 	"item.kingdomkeys.advent_red_chain": "Scharlachrote Reunion-Anhänger",
 	"item.kingdomkeys.advent_red.desc": "Ein Schlüsselschwert voll mystischer Energie.",
 	"item.kingdomkeys.dawn_till_dusk": "Abendgrauen", //7-eleven
@@ -2032,6 +2444,9 @@
 	"item.kingdomkeys.phantom_green": "Phantomgrün", //XBOX
 	"item.kingdomkeys.phantom_green_chain": "Phantomgrün-Anhänger",
 	"item.kingdomkeys.phantom_green.desc": "Ein Schlüsselschwert voll mystischer Kraft.",
+	"item.kingdomkeys.long_night": "Lange Nacht", //switch 2 (no-cloud)
+	"item.kingdomkeys.long_night.desc": "Ein Schlüsselschwer voll mystischer Kraft.\nErhöht die maximale Luft-Kombos um 1.",
+	"item.kingdomkeys.long_night_chain": "Lange Nacht-Anhänger",
 
 	"item.kingdomkeys.braveheart": "Braveheart", //riku
 	"item.kingdomkeys.braveheart_chain": "Braveheart-Anhänger",
@@ -2476,7 +2891,6 @@
 	"item.kingdomkeys.abaddon_plasma": "Plasma der Unschuld", //duel
 	"item.kingdomkeys.abaddon_plasma_chain": "Plasma der Unschuld-Anhänger",
 	"item.kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
-	//"kingdomkeys.abaddon_plasma.desc": "Deine Waffe ermöglicht schnellere, unglaublich lange Boden-Kombos.",
 	"item.kingdomkeys.abyssal_tide": "Vernichtende Flut",
 	"item.kingdomkeys.abyssal_tide_chain": "Vernichtende Flut-Anhänger",
 	"item.kingdomkeys.abyssal_tide.desc": "Eine gute Waffe für den Luftkampf. Gut gegen fliegende Gegner.",
@@ -2652,35 +3066,82 @@
 	"item.kingdomkeys.random_card_pack.desc": "Eine Packung mit 5 Raumkarten jeglicher Farbe, öffne es um sie aufzudecken.",
 
 	"item.mapcard.prefix": "(%1$s) %2$s",
+	
+	"item.kingdomkeys.roulette_bonus": "Roulette-Bonus",
+	"item.kingdomkeys.roulette_bonus.desc": "Gewährt eine zufällige Raumkarte, entschieden durch ein Roulette.",
+	
+	// key cards - YELLOW
+	"item.kingdomkeys.key_of_beginnings": "Schlüssel des Anfangs",
+	"item.kingdomkeys.key_of_beginnings.desc": "Ein Raum, in dem die Geschichte fortgeführt wird.",
+	"item.kingdomkeys.key_of_guidance": "Schlüssel der Fügung",
+	"item.kingdomkeys.key_of_guidance.desc": "Ein Raum, in dem die Geschichte fortgeführt wird.",
+	"item.kingdomkeys.key_to_rewards": "Schlüssel der Belohnung",
+	"item.kingdomkeys.key_to_rewards.desc": "Ein ganz besonderer Schatz wartet in diesem Raum.",
+	"item.kingdomkeys.key_to_truth": "Schlüssel des Seins",
+	"item.kingdomkeys.key_to_truth.desc": "Ein Raum, in dem die Geschichte fortgeführt wird.",
 
-	//bounty
+	//bounty - BLUE
 	"item.kingdomkeys.calm_bounty": "Friedlicher Schatz",
+	"item.kingdomkeys.calm_bounty.desc": "In diesem Raum verbirgt sich ein Schatz.",
 	"item.kingdomkeys.false_bounty": "Falscher Schatz",
+	"item.kingdomkeys.false_bounty.desc": "In diesem Raum befinden sich mehrere Schatzkisten, jedoch ist nur eine echt. In den restlichen warten Herzlose.",
 	"item.kingdomkeys.guarded_trove": "Bewachter Schatz",
+	"item.kingdomkeys.guarded_trove.desc": "In diesem Raum wird ein Schatz von einem Herzlosen bewacht.",
+	
 	"item.kingdomkeys.mingling_worlds": "Kreuzung der Räume",
+	"item.kingdomkeys.mingling_worlds.desc": "In diesem Raum kann alles passieren.",
+	
 	"item.kingdomkeys.moments_reprieve": "Verschnaufpause",
+	"item.kingdomkeys.moments_reprieve.desc": "Ein Raum, in dem man den Fortschritt speichern kann. Keine Kämpfe!",
 	"item.kingdomkeys.moogle_room": "Mogry-Raum",
+	"item.kingdomkeys.moogle_room.desc": "In diesem Raum können Karten im Morgy-Laden erstanden und verkauft werden.",
+	
 	"item.kingdomkeys.prosperous_repository": "Wohlhabendes Lager",
-	"item.kingdomkeys.reposeful_grove": "Friedlicher Hain",
+	"item.kingdomkeys.prosperous_repository.desc": "Ein Raum, der Erze entählt.",
 	"item.kingdomkeys.treacherous_repository": "Hinterlistiges Lager",
+	"item.kingdomkeys.treacherous_repository.desc": "Ein Raum, in dem Erze von Herzlosen bewacht werden.",
+	
+	"item.kingdomkeys.reposeful_grove": "Friedlicher Hain",
+	"item.kingdomkeys.reposeful_grove.desc": "Ein Raum, in dem friedliche Mobs erscheinen.",
 
-	//enemy
+	//enemy - RED
 	"item.kingdomkeys.almighty_darkness": "Allmächtige Dunkelheit",
+	"item.kingdomkeys.almighty_darkness.desc": "Ein Raum, in dem die Gegner besonders gute Karten besitzen. Dafür verlieren sie des öfteren Feindeskarten.",
 	"item.kingdomkeys.bottomless_darkness": "Bodenlose Dunkelheit",
+	"item.kingdomkeys.bottomless_darkness.desc": "Ein pechschwarzer Raum, in dem viele Herzlose erscheinen.",
 	"item.kingdomkeys.feeble_darkness": "Schwache Dunkelheit",
+	"item.kingdomkeys.feeble_darkness.desc": "Ein Raum, in dem die Gegner besonders schlechte Karten besitzen.",
 	"item.kingdomkeys.looming_darkness": "Gnadenlose Dunkelheit",
+	"item.kingdomkeys.looming_darkness.desc": "Ein Raum, in dem die Gegner pausenlos angreifen. Dafür verlieren sie des öfteren Feindeskarten.",
 	"item.kingdomkeys.sleeping_darkness": "Dösende Dunkelheit",
+	"item.kingdomkeys.sleeping_darkness.desc": "Ein Raum, in dem die Herzlosen schläfrig und leicht zu überfallen sind. ",
 	"item.kingdomkeys.teeming_darkness": "Drängende Dunkelheit",
+	"item.kingdomkeys.teeming_darkness.desc": "Ein Raum indem viele Herzlose erscheinen. Die Gegner verlieren hier des öfteren Feindeskarten.",
 	"item.kingdomkeys.tranquil_darkness": "Harmlose Dunkelheit",
+	"item.kingdomkeys.tranquil_darkness.desc": "Ein Raum, in dem nur wenig Herzlose erscheinen. ",
+	
+	"item.kingdomkeys.white_room": "Weißer Raum",
+	"item.kingdomkeys.white_room.desc": "Ein Raum, in dem nur Puffungis erscheinen. Was wohl passiert, wenn du ihnen einen Gefallen tust?",
+	"item.kingdomkeys.black_room": "Schwarzer Raum",
+	"item.kingdomkeys.black_room.desc": "Ein Raum, in dem nur Giftfungis erscheinen. Was wohl passiert, wenn du sie besiegst?",
+	
+	"item.kingdomkeys.roulette_room": "Roulette-Raum",
+	"item.kingdomkeys.roulette_room.desc": "Ein Raum, in dem einem oft die Roulette-Boni zum Sieg verhelfen. ",
 
-	//status
+	//status - GREEN
 	"item.kingdomkeys.alchemic_waking": "Stunde des Chemikers",
+	"item.kingdomkeys.alchemic_waking.desc": "Ein Raum, in dem Items an Wirkung gewinnen.",
 	"item.kingdomkeys.martial_waking": "Stunde des Kämpfers",
+	"item.kingdomkeys.martial_waking.desc": "Ein Raum, in dem Angriffe an Wirkung gewinnen.",
 	"item.kingdomkeys.sorcerous_waking": "Stunde des Magiers",
+	"item.kingdomkeys.sorcerous_waking.desc": "Ein Raum, in dem Magie an Wirkung gewinnt.",
+	
 	"item.kingdomkeys.stagnant_space": "Region der Stagnation",
+	"item.kingdomkeys.stagnant_space.desc": "Ein Raum, in dem die Herzlosen recht träge reagieren.",
 	"item.kingdomkeys.weightless_space": "Region der Schwerelosigkeit",
+	"item.kingdomkeys.weightless_space.desc": "Ein Raum, in dem die Schwerkraft sich leichter anfühlt.",
 
-	//biome / dimension
+	//biome / dimension - LIGHT BLUE
 
 	"item.kingdomkeys.empty_card": "Leere Karte",
 
@@ -2788,6 +3249,8 @@
 
 	"jei.category.kingdomkeys.keyblade_summon": "Schlüsselschwert Rufen",
 	"jei.category.kingdomkeys.keyblade_summon.info": "Gehe auf den Anhänger\num mehr zu erfahren.",
+	"jei.category.kingdomkeys.melding": "Itemfusion",
+	"jei.category.kingdomkeys.savepoints": "Speicherpunkt-Upgrades",
 	"jei.category.kingdomkeys.synthesis": "Item-Schmiede",
 	"jei.category.kingdomkeys.synthesis.locked": "Formel nicht freigeschaltet",
 	"jei.category.kingdomkeys.synthesis.unlocked": "Formel freigeschaltet",
@@ -2819,6 +3282,7 @@
 	"key.kingdomkeys.back": "Kommando Zurück",
 	"key.kingdomkeys.enter": "Kommando Bestätigen",
 	"key.kingdomkeys.lockon": "Anvisieren",
+	"key.kingdomkeys.lockonswap": "Anvisiertes Ziel ändern",
 	"key.kingdomkeys.openmenu": "Menü öffnen",
 	"key.kingdomkeys.reactioncommand": "Reaktionskommando",
 	"key.kingdomkeys.scrollactivator": "Kommando Mauskontrolle-Taste",
@@ -2951,27 +3415,28 @@
 	"room.sleeping_darkness": "Dösende Dunkelheit",
 	"room.teeming_darkness": "Drängende Dunkelheit",
 	"room.tranquil_darkness": "Harmlose Dunkelheit",
+	
+	"room.white_room": "Weißer Raum",
+	"room.black_room": "Schwarzer Raum",
 
 	//-status
 	"room.alchemic_waking": "Stunde des Chemikers",
 	"room.martial_waking": "Stunde des Kämpfers",
 	"room.sorcerous_waking": "Stunde des Magiers",
 	"room.stagnant_space": "Region der Stagnation",
-	"room.weightless_space": "Region der Schwerelosigkeit (?)",
+	"room.weightless_space": "Region der Schwerelosigkeit",
 
 	//-special
 	"room.entrance_hall": "Eingangs Halle Ebene %s",
 
 	"room.room_of_beginnings": "Raum des Anfangs",
-	"room.room_of_guidance": "Raum der Guidance",
+	"room.room_of_guidance": "Raum der Fügung",
 	"room.room_of_rewards": "Raum der Belohnung",
-	"room.room_of_truth": "Raum der Wahrheit",
+	"room.room_of_truth": "Raum des Seins",
 
 	"room.roulette_room": "Roulette-Raum",
 
 	"room.unknown_room": "Unbekannter Raum",
-	"room.white_room": "Weißer Raum",
-	"room.black_room": "Schwarzer Raum",
 
 	"room.conquerors_respite": "Conqueror's Respite",
 
@@ -3018,46 +3483,61 @@
 
 	// STATION OF AWAKENING
 
-	"soa.cancel": "Nein.",
-	"soa.choice.confirm": "Ist das die Macht, die du suchst?",
+	
+	"soa.menu.1": "Bevor du das Menü öffnest.",
+	"soa.menu.2": "Musst du eine Entscheidung treffen.",
+	"soa.menu.ok": "Ok.",
+	"soa.menu.cancel": "Abbruch.",
+	
+	"soa.title": "Ort des Erwachens",
+	"soa.subtitle": "Ort des Erwachens",
+	
 	"soa.choice.intro.1": "In dir ruht die Macht.",
 	"soa.choice.intro.2": "Gib ihr eine Form...",
 	"soa.choice.intro.3": "Und sie wird dir Kraft geben.",
 	"soa.choice.intro.4": "Wähle gut.",
-	"soa.confirm.1": "Du wählst die Macht des",
-	"soa.confirm.3": "Du verzichtest auf die Macht",
-	"soa.confirm.5": "Ist es das, was du wünscht?",
-	"soa.confirm.cancel": "Doch nicht.",
+	
+	"soa.ok": "Ja.",
+	"soa.cancel": "Nein.",
+
+	
 	"soa.confirm.guardian": "des Wächters.",
 	"soa.confirm.mystic": "des Magiers.",
 	"soa.confirm.warrior": "des Kriegers.",
+	
+	"soa.confirm.cancel": "Doch nicht.",
+	
 	"soa.guardian.1": "Die Macht des Wächters.",
 	"soa.guardian.2": "Güte und Hilfsbereitschaft.",
-	"soa.guardian.3": "Ein Schild um alles abzuwehren.",
-	"soa.menu.1": "Bevor du das Menü öffnest.",
-	"soa.menu.2": "Musst du eine Entscheidung treffen.",
-	"soa.menu.cancel": "Abbruch.",
-	"soa.menu.ok": "Ok.",
+	"soa.guardian.3": "Ein Schild um alles abzuwehren.",	
+	
 	"soa.mystic.1": "Die Macht des Magiers",
 	"soa.mystic.2": "Innere Stärke.",
 	"soa.mystic.3": "Ein Stab der Wunder bewirken kann.",
-	"soa.ok": "Ja.",
-	"soa.reset.intro.1": "Wähle mit bedacht.",
-	"soa.reset.intro.2": "What form will your power take?",
-	"soa.sacrifice.confirm": "Verzichtest du auf diese Macht?",
-	"soa.sacrifice.intro.1": "Dein Weg ist entschieden.",
-	"soa.sacrifice.intro.2": "Doch auf was verzichtest du dafür?",
-	"soa.subtitle": "Ort des Erwachens",
-	"soa.title": "Ort des Erwachens",
+	
 	"soa.warrior.1": "Die Macht des Kriegers.",
 	"soa.warrior.2": "Unbeugsamer Mut.",
 	"soa.warrior.3": "Ein Schwert mit großer Zerstörungskraft.",
+	
+	"soa.choice.confirm": "Ist das die Macht, die du suchst?",
+	
+	"soa.confirm.1": "Du wählst die Macht des",
+	"soa.confirm.3": "Du verzichtest auf die Macht",
+	"soa.confirm.5": "Ist es das, was du wünscht?",
 
-	"soa.union.chosen.1": "Your union is decided.",
-	"soa.union.chosen.2": "The road ahead is open now.",
-	"soa.union.confirm": "Will you stand with them?",
+	"soa.sacrifice.confirm": "Verzichtest du auf diese Macht?",
+	"soa.sacrifice.intro.1": "Dein Weg ist entschieden.",
+	"soa.sacrifice.intro.2": "Doch auf was verzichtest du dafür?",
+
+	"soa.reset.intro.1": "Wähle mit bedacht.",
+	"soa.reset.intro.2": "What form will your power take?",
+
+	
 	"soa.union.intro.1": "Five bearers stand before you.",
 	"soa.union.intro.2": "One of them will instruct you.",
+	"soa.union.confirm": "Will you stand with them?",
+	"soa.union.chosen.1": "Your union is decided.",
+	"soa.union.chosen.2": "The road ahead is open now.",
 
 
 	"heartless.intro.1": "Diese Welt ist nun verbunden",
@@ -3077,6 +3557,323 @@
 	"patchouli.kingdomkeys.journal.desc": "Naminé danken.",
 	"patchouli.kingdomkeys.journal.hello": "Willkommen, Schlüsselschwertträger zur $(thing)Kingdom Keys$() Mod.$(p)In diesem Buch wirst du alles Nötige finden um anzufangen, sowie einige hilfreiche Tipps.",
 	"patchouli.kingdomkeys.journal.name": "Jiminys Tagebuch",
+	
+	
+	// KK CROWN
+
+	"kingdomkeys.crown.addon": "Add-on",
+	"kingdomkeys.crown.bronze": "Bronze",
+	"kingdomkeys.crown.builder": "Bauarbeiter",
+	"kingdomkeys.crown.contributor": "Mitwirkender",
+	"kingdomkeys.crown.gold": "Gold",
+	"kingdomkeys.crown.green": "Grün",
+	"kingdomkeys.crown.none": "Keins",
+	"kingdomkeys.crown.red": "Rot",
+	"kingdomkeys.crown.silver": "Silber",
+	
+	// KK COMMANDS
+	"kingdomkeys.command.ability.given": "\"%s\"-Ability für %s gegeben",
+	"kingdomkeys.command.ability.given_permanent_self": "You have been given the ability '%s' permanently",
+	"kingdomkeys.command.ability.given_self": "You have been given the ability '%s'",
+	"kingdomkeys.command.ability.removed": "Removed ability '%s' from %s",
+	"kingdomkeys.command.ability.removed_self": "Your ability '%s' has been taken away",
+	"kingdomkeys.command.ability.taken_all": "Removed all abilities from %s",
+	"kingdomkeys.command.ability.taken_all_self": "Your abilities have been taken away",
+	"kingdomkeys.command.ability.unknown": "Ability '%s' does not exist",
+	
+	"kingdomkeys.command.check.checking": "Checking data from player %s",
+	"kingdomkeys.command.check.data_null": "PlayerData seems null for player %s",
+	"kingdomkeys.command.check.player_not_found": "Player not found %s",
+	
+	"kingdomkeys.command.choice.invalid": "Wert von ENTSCHEIDUNG oder VERZICHT ist ungültig",
+	"kingdomkeys.command.choice.reset_self": "Your Station of Awakening choice has been reset",
+	"kingdomkeys.command.choice.same": "ENTSCHEIDUNG und VERZICHT dürfen nicht die selben sein",
+	
+	"kingdomkeys.command.convert.no_data": "No old data was found to convert",
+	"kingdomkeys.command.convert.success": "Successfully converted data",
+	"kingdomkeys.command.convert.warning": "WARNUNG! Dieser Befehl überschreibt die KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it",
+	
+	"kingdomkeys.command.dimension.teleported": "Teleported %s to dimension %s",
+	"kingdomkeys.command.dimension.unknown": "Dimension \"%s\" existiert nicht",
+	
+	"kingdomkeys.command.dp.add": "Added %s dp to %s",
+	"kingdomkeys.command.dp.add_self": "Your dp has been increased by %s",
+	"kingdomkeys.command.dp.remove": "Taken %s dp from %s",
+	"kingdomkeys.command.dp.remove_self": "Your dp has been decreased by %s",
+	"kingdomkeys.command.dp.set": "Set %s dp to %s",
+	"kingdomkeys.command.dp.set_self": "Your dp has been set to %s",
+	
+	"kingdomkeys.command.drive.set": "Set %s for %s to level %s",
+	"kingdomkeys.command.drive.set_self": "Your %s level is now %s",
+	"kingdomkeys.command.drive.unknown": "Form '%s' does not exist",
+	
+	"kingdomkeys.command.exp.add": "Given %s experience to %s",
+	"kingdomkeys.command.exp.add_self": "Your experience has been increased by %s",
+	"kingdomkeys.command.exp.set": "Set %s experience to %s",
+	"kingdomkeys.command.exp.set_self": "Your experience is now %s",
+	"kingdomkeys.command.exp.set_self_abilities": "Your experience is now %s, all your missing abilities have been added to you",
+	
+	"kingdomkeys.command.focus.add": "Added %s focus to %s",
+	"kingdomkeys.command.focus.add_self": "Your focus has been increased by %s",
+	"kingdomkeys.command.focus.remove": "Taken %s focus from %s",
+	"kingdomkeys.command.focus.remove_self": "Your focus has been decreased by %s",
+	"kingdomkeys.command.focus.set": "Set %s focus to %s",
+	"kingdomkeys.command.focus.set_self": "Your focus has been set to %s",
+	
+	"kingdomkeys.command.hearts.add": "Added %s hearts to %s",
+	"kingdomkeys.command.hearts.add_self": "Your hearts have been increased by %s",
+	"kingdomkeys.command.hearts.remove": "%s Herzen von %s genommen",
+	"kingdomkeys.command.hearts.remove_self": "Your hearts have been decreased by %s",
+	"kingdomkeys.command.hearts.set": "Set %s hearts to %s",
+	"kingdomkeys.command.hearts.set_self": "Your hearts have been set to %s",
+	
+	"kingdomkeys.command.level.set": "%ss Stufe auf %s gesetzt",
+	"kingdomkeys.command.level.set_self": "Deine Stufe beträgt nun %s",
+	
+	"kingdomkeys.command.lux.add": "Added %s Lux to %s",
+	"kingdomkeys.command.lux.add_self": "Your Lux has been increased by %s",
+	"kingdomkeys.command.lux.remove": "Taken %s Lux from %s",
+	"kingdomkeys.command.lux.remove_self": "Your Lux has been decreased by %s",
+	"kingdomkeys.command.lux.set": "Set %s Lux to %s",
+	"kingdomkeys.command.lux.set_self": "Your Lux has been set to %s",
+	
+	"kingdomkeys.command.material.given": "Given x%s '%s' to %s",
+	"kingdomkeys.command.material.given_all": "Given all materials to %s",
+	"kingdomkeys.command.material.given_all_self": "You have been given all the materials",
+	"kingdomkeys.command.material.given_self": "You have been given x%s '%s'",
+	"kingdomkeys.command.material.removed": "Removed material '%s' from %s",
+	"kingdomkeys.command.material.removed_self": "x%s '%s' have been taken away from you",
+	"kingdomkeys.command.material.set": "Set x%s '%s' to %s",
+	"kingdomkeys.command.material.set_all": "Set all materials for %s to %s",
+	"kingdomkeys.command.material.set_all_self": "You have been set all the materials to %s",
+	"kingdomkeys.command.material.set_self": "Die Anzahl deiner \"%s\"-Materialien wurden auf %s gesetzt",
+	"kingdomkeys.command.material.taken_all": "Alle Materialien von %s genommen",
+	"kingdomkeys.command.material.taken_all_self": "Alle deine Materialien wurden weggenommen",
+	"kingdomkeys.command.material.unknown": "Material \"%s\" ist unbekannt oder existiert nicht",
+	
+	"kingdomkeys.command.munny.add": "%s Taler zu %s hinzugefügt",
+	"kingdomkeys.command.munny.add_self": "Your munny has been increased by %s",
+	"kingdomkeys.command.munny.remove": "Taken %s munny from %s",
+	"kingdomkeys.command.munny.remove_self": "Your munny has been decreased by %s",
+	"kingdomkeys.command.munny.set": "%ss Taler wurden auf %s gesetzt",
+	"kingdomkeys.command.munny.set_self": "Your munny has been set to %s",
+	
+	"kingdomkeys.command.no_choice": "%s muss noch eine Entscheidung treffen",
+	
+	"kingdomkeys.command.pay.not_enough": "Du besitzt nicht genügend Taler (%s) um %s zu bezahlen",
+	"kingdomkeys.command.pay.paid": "You paid %s munny to %s",
+	"kingdomkeys.command.pay.received": "You got %s munny from %s",
+	
+	"kingdomkeys.command.player_only": "Befehl muss von einem Spieler ausgeführt werde.",
+	
+	"kingdomkeys.command.recipe.given": "Added '%s' recipe to %s",
+	"kingdomkeys.command.recipe.given_all": "Added all recipes to %s",
+	"kingdomkeys.command.recipe.given_all_item": "Added all item recipes to %s",
+	"kingdomkeys.command.recipe.given_all_item_self": "You have been given all the item recipes",
+	"kingdomkeys.command.recipe.given_all_keyblade": "Added all keyblade recipes to %s",
+	"kingdomkeys.command.recipe.given_all_keyblade_self": "You have been given all the keyblade recipes",
+	"kingdomkeys.command.recipe.given_all_self": "You have been given all the recipes",
+	"kingdomkeys.command.recipe.given_self": "You have been given '%s' recipe",
+	"kingdomkeys.command.recipe.removed": "Removed recipe '%s' from %s",
+	"kingdomkeys.command.recipe.removed_self": "Your recipe '%s' has been taken away",
+	"kingdomkeys.command.recipe.taken_all": "Removed all recipes from %s",
+	"kingdomkeys.command.recipe.taken_all_item": "Removed all item recipes from %s",
+	"kingdomkeys.command.recipe.taken_all_item_self": "Your item recipes have been taken away",
+	"kingdomkeys.command.recipe.taken_all_keyblade": "Removed all keyblade recipes from %s",
+	"kingdomkeys.command.recipe.taken_all_keyblade_self": "Your keyblade recipes have been taken away",
+	"kingdomkeys.command.recipe.taken_all_self": "Your recipes have been taken away",
+	"kingdomkeys.command.recipe.unknown": "Formel \"%s\" existiert nicht",
+	
+	"kingdomkeys.command.story.no_room": "Nowhere around %s for the master to stand",
+	"kingdomkeys.command.story.no_union": "%s has no union for a master to come from",
+	"kingdomkeys.command.story.reset": "Forgot the master's visit to %s",
+	"kingdomkeys.command.story.visit": "The master has come for %s",
+	
+	"kingdomkeys.command.synthlevel.set": "Set %s's synthesis level to %s",
+	"kingdomkeys.command.synthlevel.set_self": "Your synthesis level is now %s",
+	
+	"kingdomkeys.command.union.already": "Du bist bereits Mitglied von %s",
+	"kingdomkeys.command.union.org": "Those who serve the Organization belong to no union",
+	"kingdomkeys.command.union.org_other": "%s serves the Organization and can belong to no union",
+	"kingdomkeys.command.union.set": "Du bist %s beigetreten",
+	"kingdomkeys.command.union.set_other": "%s ist nun Mitglied von %s",
+	
+	// KK CONFIGS
+	"kingdomkeys.config.allow_blocks_in_hangar_area": "Allow blocks in hangar area",
+	"kingdomkeys.config.allow_boosts": "Stat boosts",
+	"kingdomkeys.config.allow_party_ko": "Party KO system",
+	
+	"kingdomkeys.config.auto_third_person_ship": "Auto 3rd person ship",
+	"kingdomkeys.config.bomb_explode_with_fire": "Bomb Heartless explode on fire",
+	"kingdomkeys.config.boss_despawn_if_no_target": "Boss despawn if no target",
+	
+	"kingdomkeys.config.cm_classic_colors": "Use classic Command Menu colors",
+	"kingdomkeys.config.cm_end_l_width": "Command Menu left end segment width",
+	"kingdomkeys.config.cm_end_r_width": "Command Menu right end segment width",
+	"kingdomkeys.config.cm_header_end_l_width": "Command Menu header left end width",
+	"kingdomkeys.config.cm_header_end_r_width": "Command Menu header right end width",
+	"kingdomkeys.config.cm_header_text_visibility": "Show Command Menu header text",
+	"kingdomkeys.config.cm_hidden_magic": "Magic hidden in the Command Menu",
+	"kingdomkeys.config.cm_reaction_end_l_width": "Reaction command left end width",
+	"kingdomkeys.config.cm_reaction_end_r_width": "Reaction command right end width",
+	"kingdomkeys.config.cm_selected_x_offset": "Command Menu selected X offset",
+	"kingdomkeys.config.cm_sub_x_offset": "Command Menu submenu X offset (%)",
+	"kingdomkeys.config.cm_text_x_offset": "Command Menu text X offset",
+	
+	"kingdomkeys.config.crit_mult": "Critical hit multiplier",
+	"kingdomkeys.config.custom_font": "Toggle the custom font",
+	"kingdomkeys.config.dragon_level": "Allow the Enderdragon to level up",
+	
+	"kingdomkeys.config.drive_drop_probability": "Drive Drops Probability",
+	"kingdomkeys.config.drive_form_xp_multiplier": "Drive Form XP Multiplier",
+	"kingdomkeys.config.drive_heal": "Drive form heal",
+	"kingdomkeys.config.drive_points_multiplier": "Drive Points Multiplier",
+	"kingdomkeys.config.focus_drop_probability": "Focus Drops Probability",
+	"kingdomkeys.config.focus_points_multiplier": "Focus Points Multiplier",
+	"kingdomkeys.config.get_exp_from_shop": "Get synthesis exp. from shop",
+	
+	"kingdomkeys.config.gummi_blocks_drop_percent": "Gummi blocks dropped",
+	"kingdomkeys.config.gummi_fuel_system": "Gummi fuel system",
+	"kingdomkeys.config.gummi_hangar_auto_build": "Hangar builds blueprints",
+	"kingdomkeys.config.gummi_hangar_build_cost": "Energy per placed block",
+	"kingdomkeys.config.gummi_hangar_build_delay": "Ticks between placements",
+	
+	"kingdomkeys.config.heart_multiplier": "Herzmultiplikator",
+	"kingdomkeys.config.heartless_spawning_mode": "Heartless spawning mode",
+	"kingdomkeys.config.hostile_mobs_level": "Hostile mobs level up (nicht-KK-Gegner)",
+	"kingdomkeys.config.hp_alarm": "Low HP alarm volume",
+	"kingdomkeys.config.hp_drop_probability": "LP-Kugel Warscheinlichkeit",
+	"kingdomkeys.config.hp_hearts": "Show hearts in Health Bar",
+	"kingdomkeys.config.keyblade_open_doors": "Schlüsselschwerter öffnen Eisentüren",
+	
+	"kingdomkeys.config.lock_on_hp_per_bar": "Lock-On HP per bar",
+	"kingdomkeys.config.lock_on_icon_rotation": "Lock-On icon rotation speed",
+	"kingdomkeys.config.lock_on_icon_scale": "Lock-On icon scale (%)",
+	
+	"kingdomkeys.config.mob_level_name": "Mob-Stufe im Namen",
+	"kingdomkeys.config.mob_level_stats": "Mob-Stufenwerte skalieren",
+	"kingdomkeys.config.mob_spawn": "Mob type spawn rate",
+	"kingdomkeys.config.mp_drop_probability": "MP-Kugel Warscheinlichkeit",
+	"kingdomkeys.config.munny_drop_probability": "Taler-Kugel Warscheinlichkeit",
+	"kingdomkeys.config.need_keyblade_for_heartless": "Need Keyblade to hurt KKMobs",
+	
+	"kingdomkeys.config.org_enabled": "Organization XIII system",
+	
+	"kingdomkeys.config.party_members_limit": "Party members limit",
+	"kingdomkeys.config.party_range_limit": "Maximale Gruppenreichweite",
+	"kingdomkeys.config.party_xp_share": "Erfahrungsteilen in einer Gruppe",
+	"kingdomkeys.config.party_y_offset": "Party HUD Y offset",
+	"kingdomkeys.config.player_mob_leveling_up": "Enemies level up",
+	"kingdomkeys.config.player_spawn_heartless": "Spawn player Heartless and Nobody",
+	"kingdomkeys.config.player_spawn_heartless_Data": "Player Heartless and Nobody stats",
+	
+	"kingdomkeys.config.projector_has_shop": "Moogle Projector has shop",
+	"kingdomkeys.config.recipe_drop_chance": "Recipe drop chance",
+	"kingdomkeys.config.require_synth_tier": "Require Synthesis tier",
+	"kingdomkeys.config.respawn_rod": "Force respawn in RoD",
+	"kingdomkeys.config.rod_heartless_level_scale": "RoD heartless level scale",
+	"kingdomkeys.config.rod_heartless_max_level": "RoD heartless max level",
+	"kingdomkeys.config.seasonal_events": "Enable Seasonal Events",
+	"kingdomkeys.config.shotlock_max_dist": "Shotlock max distance",
+	"kingdomkeys.config.shotlock_mult": "Shotlock Damage Multiplier",
+	"kingdomkeys.config.shoulder_surfing_decoupled": "Shoulder Surfing Mod: Use decoupled camera when not locked on",
+	"kingdomkeys.config.show_gui_toggle": "Toggle HUD visibility",
+	"kingdomkeys.config.starting_recipes": "Starter recipes",
+	"kingdomkeys.config.stats_multiplier": "Statuswertemultiplikator",
+	"kingdomkeys.config.summon_together": "Summon weapon and armor together",
+	"kingdomkeys.config.wayfinder_party": "Restrict Wayfinder to party",
+	"kingdomkeys.config.xp_multiplier": "Erfahrungsmultiplikator",
+
+	"kingdomkeys.data.version_adjusted": "Adjusted your data value from %s to version %s, all your abilities have been corrected",
+	
+	// DIALOGUE
+	
+	// -apprentice
+	"kingdomkeys.dialogue.apprentice.answer.leave": "See you around.",
+	"kingdomkeys.dialogue.apprentice.answer.spar": "Wanna spar?",
+	
+	"kingdomkeys.dialogue.apprentice.greeting.1": "Careful with that thing, you nearly took my arm off.",
+	"kingdomkeys.dialogue.apprentice.greeting.2": "They say the Foretellers watch every one of us. Do you believe that?",
+	"kingdomkeys.dialogue.apprentice.greeting.3": "I have been out here since dawn and I have collected barely any Lux.",
+	"kingdomkeys.dialogue.apprentice.greeting.4": "My union keeps telling me to train. My legs keep telling me otherwise.",
+	"kingdomkeys.dialogue.apprentice.greeting.5": "You are the one everybody talks about, are you not?",
+	"kingdomkeys.dialogue.apprentice.greeting.6": "The clock tower is the best spot in town. Do not tell anyone I said so.",
+	"kingdomkeys.dialogue.apprentice.greeting.7": "One day I will carry a strong keyblade like the masters do. One day.",
+	"kingdomkeys.dialogue.apprentice.greeting.8": "Heartless in the outskirts again. Somebody should do something about that.",
+	"kingdomkeys.dialogue.apprentice.greeting.9": "Do you ever second guess the union you picked? I sometimes do...",
+	"kingdomkeys.dialogue.apprentice.greeting.10": "I traded three days of Lux for this tunic. Worth it, I think.",
+	"kingdomkeys.dialogue.apprentice.greeting.11": "My friend swears she saw a Heartless the size of a house. I do not believe her.",
+	"kingdomkeys.dialogue.apprentice.greeting.12": "The masters never sleep. Have you noticed? I have never once seen one sit down.",
+	"kingdomkeys.dialogue.apprentice.greeting.13": "If you find a good spot for Lux, keep it to yourself. That is my advice.",
+	"kingdomkeys.dialogue.apprentice.greeting.14": "Somebody left a keyblade lying in the fountain yesterday. Nobody has claimed it.",
+	"kingdomkeys.dialogue.apprentice.greeting.15": "I am not afraid of the dark. I simply prefer the daytime, that is all.",
+	"kingdomkeys.dialogue.apprentice.greeting.16": "They keep telling us the light is running out. It looks fine to me.",
+	"kingdomkeys.dialogue.apprentice.greeting.17": "Between you and me, I still cannot summon mine on the first try.",
+	"kingdomkeys.dialogue.apprentice.greeting.18": "Careful past the outer walls. That is where the ones that scratch are.",
+	"kingdomkeys.dialogue.apprentice.greeting.19": "I hear the other unions are ahead of us this week. Again.",
+	"kingdomkeys.dialogue.apprentice.greeting.20": "Do you think it ever ends? The Lux gathering I mean.",
+	"kingdomkeys.dialogue.apprentice.greeting.21": "My hands ache. Nobody warned me a keyblade would be this heavy.",
+	"kingdomkeys.dialogue.apprentice.greeting.22": "Some of us are only here because our families sent us. Not me. I chose this.",
+	"kingdomkeys.dialogue.apprentice.greeting.23": "If you see my brother, tell him I am still waiting on that Lux he owes me.",
+	"kingdomkeys.dialogue.apprentice.greeting.24": "Good hunting out there. Try to come back in one piece.",
+	
+	
+	// -foreteller
+	"kingdomkeys.dialogue.first_meeting.answer.come": "Wohin führst du mich?",
+	"kingdomkeys.dialogue.first_meeting.answer.leave": "Ich muss darüber nachdenken.",
+	"kingdomkeys.dialogue.first_meeting.answer.open": "Öffne es.",
+	"kingdomkeys.dialogue.first_meeting.answer.who": "Wer bist du?",
+	"kingdomkeys.dialogue.first_meeting.answer.why": "Wieso ich?",
+	
+	"kingdomkeys.dialogue.first_meeting.greeting.1": "So it was you. I felt a new keyblade wake, and the world it belongs to open along with it.",
+	"kingdomkeys.dialogue.first_meeting.greeting.2": "I have traveled from a far place following that feeling. Give me a moment of your morning.",
+	
+	"kingdomkeys.dialogue.first_meeting.offer.1": "Then let me teach you. Not here, where every shadow is listening, but where unions keep order.",
+	"kingdomkeys.dialogue.first_meeting.offer.2": "I will open the way from where we stand, and leave it active. Come and go as you need to, bring what you must, this is not an afternoon's work.",
+	"kingdomkeys.dialogue.first_meeting.offer.3": "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gummi Ship like everybody else.",
+	
+	"kingdomkeys.dialogue.first_meeting.who.1": "I am {speaker}, one of five union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.",
+	"kingdomkeys.dialogue.first_meeting.who.2": "Ours is {union}. We'll be the voice you will hear when there is something you need to know.",
+	"kingdomkeys.dialogue.first_meeting.why.1": "Ein Schlüsselschwert ist kein Werkzeug. Es ist eine Tür, und Türen kann man von beiden Seiten öffnen. The darkness surely has noticed you the same way as I have.",
+	"kingdomkeys.dialogue.first_meeting.why.2": "Untaught, it will find you long before you are ready for it. I would rather prefer you being ready for it.",
+
+	"kingdomkeys.dialogue.foreteller.answer.ask": "Es gibt ein da ein paar Sachen, die ich noch nicht verstehe.",
+	"kingdomkeys.dialogue.foreteller.answer.back": "Let me think about it...",
+	"kingdomkeys.dialogue.foreteller.answer.graduate": "That one was harder...",
+	"kingdomkeys.dialogue.foreteller.answer.home": "Ich möchte zurück gehen.",
+	"kingdomkeys.dialogue.foreteller.answer.leave": "Nichts. Entschuldigung für die Störung.",
+	"kingdomkeys.dialogue.foreteller.answer.notyet": "Noch nicht.",
+	"kingdomkeys.dialogue.foreteller.answer.ready": "Tu es.",
+	"kingdomkeys.dialogue.foreteller.answer.send": "I will be back!",
+	"kingdomkeys.dialogue.foreteller.answer.shop": "I have Lux to spend.",
+	"kingdomkeys.dialogue.foreteller.answer.spar": "I want to face you.",
+	"kingdomkeys.dialogue.foreteller.answer.train": "Ich möchte trainieren!",
+	
+	"kingdomkeys.dialogue.foreteller.answer.theory.keyblade": "Was ist ein \"Schlüsselschwert\"?",
+	"kingdomkeys.dialogue.foreteller.answer.theory.lux": "And what is Lux for?",
+
+	"kingdomkeys.dialogue.foreteller.darkness.1": "Since you are going to face the darkness, you had better know how it fights.",
+	"kingdomkeys.dialogue.foreteller.darkness.2": "So I will imbue the orbs with a little of it. Better you face it here than out there.",
+	
+	"kingdomkeys.dialogue.foreteller.duels": "Against me? Choose the amount of effort you want me to put in.",
+	
+	"kingdomkeys.dialogue.foreteller.graduation.1": "That is the last of what I can teach you right now. The rest is out there, and you will find it on your own.",
+	"kingdomkeys.dialogue.foreteller.graduation.2": "I am closing the way I opened. Not to punish you, a door left hanging in the world is a door something else can find.",
+	"kingdomkeys.dialogue.foreteller.graduation.3": "Build yourself a Gummi Ship. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.",
+	"kingdomkeys.dialogue.foreteller.graduation.4": "Keep gathering Lux out there. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.",
+	
+	"kingdomkeys.dialogue.foreteller.greeting": "Hallo, was brauchst du?",
+	"kingdomkeys.dialogue.foreteller.home": "Du gehst schon? Go and get what you need and come back, dein Training ist jedoch noch nicht vorbei.",
+	"kingdomkeys.dialogue.foreteller.lessons": "Orbs, is it? Say how hard you want it.",
+	
+	"kingdomkeys.dialogue.foreteller.theory": "Ask, then. Better you learn it from me than from something in the dark.",
+	"kingdomkeys.dialogue.foreteller.theory_keyblade.1": "A weapon is a thing you pick up. A keyblade is a thing that picks you: it answers to the heart holding it, and to no other.",
+	"kingdomkeys.dialogue.foreteller.theory_keyblade.2": "That is why it opens what is locked and closes what should be. A door, a chest, the way between two worlds... they are all locks to it.",
+	"kingdomkeys.dialogue.foreteller.theory_keyblade.3": "And it is why the darkness wants the ones who carry them. Take the wielder and you have taken the key.",
+	"kingdomkeys.dialogue.foreteller.theory_lux.1": "Lux is the physical manifestation of the light. Every heart gives some off; a joyful heart shines more.",
+	"kingdomkeys.dialogue.foreteller.theory_lux.2": "When you strike down a Heartless you are not destroying light, you are letting go what it swallowed. The goal is to defeat the darkness that attempts to corrupt the worlds.",
+	"kingdomkeys.dialogue.foreteller.theory_lux.3": "Your union counts what you bring in, but so do the other four, take it as a friendly competition.",
+
 
 
 	// WARNINGS
