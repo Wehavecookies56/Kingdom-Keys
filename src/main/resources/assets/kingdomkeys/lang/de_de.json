@@ -3321,10 +3321,26 @@
 	// LIMITS
 
 	"limit.arrow_rain.name": "Pfeilregen",
+	"limit.berserk_claymore.name": "Berserker Claymore",
+	"limit.card_ring.name": "Kartenwand",
+	"limit.falling_spear.name": "Senkender Speer",
 	"limit.fast_thunder_trail.name": "Schneller Donnerpfad",
-	"limit.laser_circle.name": "Laser-Kreis",
-	"limit.laser_dome.name": "Laser-Kuppel",
+	"limit.flame_ring.name": "Flammenring",
+	"limit.flame_wall.name": "Feuerwand",
+	"limit.ice_pillars.name": "Frostige Säulen",
+	"limit.illusory_meteor.name": "Illusions-Meteorit",
+	"limit.lance_storm.name": "Lanzensturm",
+	"limit.laser_circle.name": "Laserkreis",
+	"limit.laser_dome.name": "Laserkuppel",
+	"limit.light_barrage.name": "Lichterhagel",
+	"limit.petal_void.name": "Blüten Leere",
+	"limit.powerup.name": "Stärkung",
+	"limit.rocky_pillars.name": "Steinige Säulen",
+	"limit.scythe_dash.name": "Sensensprint",
 	"limit.slow_thunder_trail.name": "Langsamer Donnerpfad",
+	"limit.water_trail.name": "Wasserpfad",
+	"limit.water_wall.name": "Wasserwall",
+
 
 	// SPELL NAMES
 
@@ -3529,6 +3545,9 @@
 	"reactioncommand.rc_auto_master.name": "Auto-Meister",
 	"reactioncommand.rc_auto_valor.name": "Auto-Held",
 	"reactioncommand.rc_auto_wisdom.name": "Auto-Weise",
+	"reactioncommand.kingdomkeys.rc_land.name": "Landen",
+	"reactioncommand.kingdomkeys.rc_launch.name": "Abheben",
+	"reactioncommand.kingdomkeys.rc_reversal.name": "Stellungsspiel",
 	"reactioncommand.save_rc.name": "Speichern",
 
 	//CO ROOMS
@@ -3668,11 +3687,12 @@
 	"soa.sacrifice.intro.2": "Doch auf was verzichtest du dafür?",
 
 	"soa.reset.intro.1": "Wähle mit bedacht.",
-	"soa.reset.intro.2": "What form will your power take?",
+	"soa.reset.intro.2": "Welche Gestalt wird deine Macht haben??",
 
-
+	"soa.chat.union.choice": "The five unions were founded after you left the Station of Awakening, so you belong to none of them. Until you join one, no Foreteller will speak to you and no Lux will come to you.",
+	"soa.chat.union.pick": "Choose the one you will stand with: ",
 	"soa.union.intro.1": "Five bearers stand before you.",
-	"soa.union.intro.2": "One of them will instruct you.",
+	"soa.union.intro.2": "Einer von ihnen wird dich lehren.",
 	"soa.union.confirm": "Will you stand with them?",
 	"soa.union.chosen.1": "Your union is decided.",
 	"soa.union.chosen.2": "The road ahead is open now.",
@@ -3716,6 +3736,64 @@
 	"kingdomkeys.poster.retuned": "Kompass leitet nun auf das Struggle-Brett!",
 	"kingdomkeys.poster.save_hint": "[Schleichen] + [Rechtsklick] auf einem Struggle-Brett um dessen Ort zu speichern!",
 	"kingdomkeys.poster.saved": "Struggle-Brett-Ort gespeichter!",
+
+	// KK SAVE POINT
+	"kingdomkeys.save_point.cannot_upgrade": "Dieser Gegenstand kann nicht zum Aufwerten benutzt werden",
+	"kingdomkeys.save_point.data_not_loaded": "Speicherpunkt-Daten nicht geladen",
+	"kingdomkeys.save_point.old_savepoint": "[FEHLER] Dies ist warscheinlich ein alter Speicherpunkt, baue ihn ab, und plaziere ihn neu, um es zu beheben",
+
+	// KK STRUGGLE
+	"kingdomkeys.struggle.chat.winner": "[Struggle] Der Gewinner von %1$ss %2$s, ist %3$s!",
+	"kingdomkeys.struggle.draw": "Unentschieden!",
+	"kingdomkeys.struggle.ffa.starting": "Free for all starting...",
+	"kingdomkeys.struggle.go": "LOSE!",
+	"kingdomkeys.struggle.lose": "Verloren!",
+	"kingdomkeys.struggle.no_weapon": "You need your Struggle weapon in your hotbar!",
+	"kingdomkeys.struggle.starting": "Struggle starting...",
+	"kingdomkeys.struggle.tie.overtime": "Gleichstand! Bis der erste fällt!",
+	"kingdomkeys.struggle.tournament.bye": "You got a bye this round!",
+	"kingdomkeys.struggle.tournament.champion": "Turnier-Champion:",
+	"kingdomkeys.struggle.tournament.next_match": "Next tournament match starting...",
+	"kingdomkeys.struggle.tournament.round_winner": "Rundengewinner:",
+	"kingdomkeys.struggle.win": "Gewonnen!",
+
+	// KK TELEPORT
+	"kingdomkeys.teleport.returned_to": "You have been returned back to %s",
+	"kingdomkeys.teleport.teleported_to": "Du wurdest nach %s teleportiert",
+
+	// KK TRAINING
+	"kingdomkeys.training.left": "Training vorbei",
+	"kingdomkeys.training.lost": "Genug",
+	"kingdomkeys.training.won": "Gut gemacht",
+	"kingdomkeys.training.won.sub": "Das reicht für heute",
+
+	// KK UPDATE
+	"kingdomkeys.update.available": "Kingdom Keys %s ist verfügbar (du hast %s)",
+	"kingdomkeys.update.development": "Kingdom Keys %s - Entwicklerversion",
+	"kingdomkeys.update.links.body": "Version %s ist verfügbar. Von wo möchtest du es runterladen?",
+	"kingdomkeys.update.links.curseforge": "CurseForge",
+	"kingdomkeys.update.links.modrinth": "Modrinth",
+	"kingdomkeys.update.links.title": "Kingdom Keys",
+
+	// KK Worldmap
+	"kingdomkeys.worldmap.locked": "Der Weg zu dieser Welt hat sich dir noch nicht geöffnet",
+	"kingdomkeys.worldmap.no_building": "Du kannst in dieser Welt nicht bauen",
+
+	// KK UNION
+	"kingdomkeys.union.none": "Kein Bündnis",
+	"kingdomkeys.union.none.desc": "No bearer has claimed you.",
+
+	"kingdomkeys.union.anguis": "Anguis",
+	"kingdomkeys.union.anguis.desc": "The wisdom that waits and watches.",
+	"kingdomkeys.union.leopardos": "Leopardos",
+	"kingdomkeys.union.leopardos.desc": "The cunning that walks its own path.",
+	"kingdomkeys.union.unicornis": "Unicornis",
+	"kingdomkeys.union.unicornis.desc": "The leadership that guides with balance.",
+	"kingdomkeys.union.ursus": "Ursus",
+	"kingdomkeys.union.ursus.desc": "The strength that stands for others.",
+	"kingdomkeys.union.vulpes": "Vulpes",
+	"kingdomkeys.union.vulpes.desc": "The empathy that protects what matters.",
+
 
 	// KK COMMANDS
 	"kingdomkeys.command.ability.given": "\"%s\"-Ability für %s gegeben",
@@ -3833,7 +3911,7 @@
 	"kingdomkeys.command.story.no_room": "Nowhere around %s for the master to stand",
 	"kingdomkeys.command.story.no_union": "%s has no union for a master to come from",
 	"kingdomkeys.command.story.reset": "Forgot the master's visit to %s",
-	"kingdomkeys.command.story.visit": "The master has come for %s",
+	"kingdomkeys.command.story.visit": "Der Meister ist für %s angereist",
 
 	"kingdomkeys.command.synthlevel.set": "Set %s's synthesis level to %s",
 	"kingdomkeys.command.synthlevel.set_self": "Your synthesis level is now %s",
