@@ -1630,7 +1630,12 @@ public class Strings {
 			COIntro1 = "co.intro.1", //In this place, to find is to lose
 			COIntro2 = "co.intro.2", //and to lose is to find.
 			COIntro3 = "co.intro.3", //That is the way in Castle Oblivion
-			COIntroTitle = "co.intro.title";
+			COIntroTitle = "co.intro.title",
+			COEncounter_Wave = "co.encounter.wave",
+			COEncounter_FinalWave = "co.encounter.final_wave",
+			COEncounter_End = "co.encounter.end";
+
+
 
 	//Map Cards
 	public static String
@@ -1789,4 +1794,6 @@ public class Strings {
 		Message_KK = Message + "." + KingdomKeys.MODID,
 		Message_Wayfinder = Message + ".wayfinder",
 		Message_Recipe = Message + ".recipe";
+
+
 }

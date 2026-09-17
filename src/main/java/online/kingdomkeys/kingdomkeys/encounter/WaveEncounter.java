@@ -36,6 +36,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static online.kingdomkeys.kingdomkeys.lib.Strings.COEncounter_Wave;
+
 public class WaveEncounter implements Encounter {
 
     /** What a wave does when the encounter does not say otherwise. */
@@ -213,7 +215,7 @@ public class WaveEncounter implements Encounter {
                     }
                     context.getParticipants(level).forEach(player -> {
                         List<Utils.Title> message = List.of(
-                                new Utils.Title("co.encounter.wave", ""+(state.currentWave + 1))
+                                new Utils.Title(Utils.translateToLocal(COEncounter_Wave) + " " + (state.currentWave + 1), "")
                         );
                         PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
                         currentWave.onStart(context, player);

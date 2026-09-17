@@ -2653,8 +2653,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
 
-        add("co.encounter.wave", "Wave");
-        add("co.encounter.end", "Finished encounter");
+        add(COEncounter_Wave, "Wave");
+        add(COEncounter_End, "Finished encounter");
 
         add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
         add("kingdomkeys.worldmap.locked", "The way to this world has not opened to you yet");
