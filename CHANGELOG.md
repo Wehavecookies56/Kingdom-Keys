@@ -8,7 +8,7 @@
 * Daybreak Town, full of keyblade wielders who you can spar with.
   * They will fight the heartless that spawn there, which will be weak since it's a light-related world.
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
-* Union apprentice armors, 3 designs which can be dyed in the new Clothing Table.
+* Union apprentice armors, 4 designs which can be dyed in the new Clothing Table.
   * The armor can be obtained by completing an initial training with your master and redeeming Lux to your union master.
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.

@@ -181,6 +181,15 @@ public class ApprenticeClothStationMenu extends AbstractContainerMenu {
 		} else {
 			slot.setChanged();
 		}
+
+		if (stack.getCount() == result.getCount()) {
+			return ItemStack.EMPTY;
+		}
+
+		if (index == MENU_OUTPUT) {
+			slot.onTake(player, stack);
+		}
+
 		return result;
 	}
 }
