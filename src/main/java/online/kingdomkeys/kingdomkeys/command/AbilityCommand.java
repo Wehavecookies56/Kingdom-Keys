@@ -20,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,13 +81,13 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 			PlayerData playerData = PlayerData.get(player);
 			if (permanent) {
 				playerData.addPAbility(a.getRegistryName());
-				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_permanent_self", Utils.translateToLocal(a.getTranslationKey())));
+				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_permanent_self", Component.translatable(a.getTranslationKey())));
 			} else {
 				playerData.addAbility(a.getRegistryName(), true);
-				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_self", Utils.translateToLocal(a.getTranslationKey())));
+				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_self", Component.translatable(a.getTranslationKey())));
 			}
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.given", Utils.translateToLocal(a.getTranslationKey()), player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.given", Component.translatable(a.getTranslationKey()), player.getDisplayName()), true);
 			}
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
@@ -97,18 +96,23 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 
 	private static int removeAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context);
-		String ability = StringArgumentType.getString(context, "ability");
+		String abilityName = StringArgumentType.getString(context, "ability");
+
+		Ability a = ModAbilities.registry.get(KingdomKeys.rl(abilityName));
+		if (a == null) {
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.ability.unknown", abilityName));
+			return 0;
+		}
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePAbility(KingdomKeys.rl(ability));
-			playerData.removeAbility(KingdomKeys.rl(ability));
+			playerData.removePAbility(a.getRegistryName());
+			playerData.removeAbility(a.getRegistryName());
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.removed", Utils.translateToLocal(ability), player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.removed", Component.translatable(a.getTranslationKey()), player.getDisplayName()), true);
 			}
-			Ability a = ModAbilities.registry.get(KingdomKeys.rl(ability));
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.removed_self", Utils.translateToLocal(a.getTranslationKey())));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.removed_self", Component.translatable(a.getTranslationKey())));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

@@ -59,7 +59,7 @@ public class DriveFormOrbItem extends Item {
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
 					playerData.setNewKeychain(formName, ItemStack.EMPTY);
-					player.displayClientMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), true);
+					player.displayClientMessage(Component.translatable("message.form_unlocked", Component.translatable(form.getTranslationKey())), true);
 					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 						player.getMainHandItem().shrink(1);
 					} else if(!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {

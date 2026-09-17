@@ -242,15 +242,13 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	 */
 	private void upgradeStat(Player player, ItemStack stack, SavepointTileEntity savepoint, SavePointData data, SavePointData.SavePointStat stat) {
 		if (!data.restores(stat)) {
-			String translated = Utils.translateToLocal(getTranslationKey(stat));
-			String capitalized = Character.toUpperCase(translated.charAt(0)) + translated.substring(1);
-			player.displayClientMessage(Component.translatable("savepoint.unavailable", capitalized), true);
+			player.displayClientMessage(Component.translatable("savepoint.unavailable", Component.translatable(getTranslationKey(stat))), true);
 			return;
 		}
 
 		int current = getSavepointValue(savepoint, stat);
 		if (current <= Utils.SAVEPOINT_MIN) {
-			player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal(getTranslationKey(stat))), true);
+			player.displayClientMessage(Component.translatable("savepoint.maxed", Component.translatable(getTranslationKey(stat))), true);
 			return;
 		}
 
@@ -258,7 +256,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		int newValue = Math.max(current - Utils.SAVEPOINT_STEP, Utils.SAVEPOINT_MIN);
 
 		setSavepointValue(savepoint, stat, newValue);
-		player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal(getTranslationKey(stat)), Utils.getSavepointPercent(newValue)), true);
+		player.displayClientMessage(Component.translatable("savepoint.upgrade", Component.translatable(getTranslationKey(stat)), Utils.getSavepointPercent(newValue)), true);
 	}
 
 	/**

@@ -760,6 +760,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
         addItem(ModItems.struggle_poster, "Struggle Poster");
+
         add(Poster + ".saved", "Struggle board location saved!");
         add(Poster + ".no_target", "This poster doesn't point to any board.");
         add(Poster + ".retuned", "Compass re-tuned to the Struggle board!");
@@ -778,7 +779,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Savepoint + ".maxed","Savepoint %s speed is already maxed");
         add(Savepoint + ".upgrade_type","Savepoint upgraded to %s");
         add(Savepoint + ".max_upgrade","Max upgrade reached");
-        add(Savepoint + ".unavailable","%s is not available on this savepoint");
+        add(Savepoint + ".unavailable","This savepoint does not offer %s");
         add(Savepoint_Tooltip + ".dimension", "Dimension");
         add(Savepoint_Tooltip + ".owner", "Owner");
         add(Savepoint_Stat + ".hp", "HP");

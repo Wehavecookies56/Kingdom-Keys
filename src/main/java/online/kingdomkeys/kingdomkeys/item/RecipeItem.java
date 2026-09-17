@@ -99,14 +99,13 @@ public class RecipeItem extends Item implements IItemCategory {
 			if (RecipeRegistry.getInstance().containsKey(recipe)) {
 				ItemStack outputStack = new ItemStack(RecipeRegistry.getInstance().getValue(recipe).getResult());
 				if (!RecipeRegistry.getInstance().containsKey(recipe)) { // If recipe is not valid
-					String message = "ERROR: Recipe for " + Utils.translateToLocal(recipe.toString()) + " was not learnt because it is not a valid recipe, Report this to a dev";
-					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + message));
+					player.sendSystemMessage(Component.literal("ERROR: Recipe for " + recipe + " was not learnt because it is not a valid recipe, report this to a dev").withStyle(ChatFormatting.RED));
 				} else if (playerData.hasKnownRecipe(recipe)) { // If recipe already known
-					player.sendSystemMessage(Component.translatable("message.recipe.already_learnt",ChatFormatting.YELLOW+Utils.translateToLocal(outputStack.getDescriptionId())));
+					player.sendSystemMessage(Component.translatable("message.recipe.already_learnt", outputStack.getHoverName().copy().withStyle(ChatFormatting.YELLOW)));
 				} else { // If recipe is not known, learn it
 					playerData.addKnownRecipe(recipe);
 					consume = true;
-					player.sendSystemMessage(Component.translatable("message.recipe.learnt", ChatFormatting.GREEN+Utils.translateToLocal(outputStack.getDescriptionId())));
+					player.sendSystemMessage(Component.translatable("message.recipe.learnt", outputStack.getHoverName().copy().withStyle(ChatFormatting.GREEN)));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}

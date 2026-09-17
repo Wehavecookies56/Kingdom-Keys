@@ -12,10 +12,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 import online.kingdomkeys.kingdomkeys.menu.ApprenticeClothStationMenu;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSApprenticeClothDesign;
 
 import java.util.LinkedHashMap;
@@ -82,7 +82,7 @@ public class ApprenticeClothStationScreen extends AbstractContainerScreen<Appren
 	}
 
 	private void selectDesign(int design) {
-		PacketDistributor.sendToServer(new CSApprenticeClothDesign(menu.TE.getBlockPos(), design));
+		PacketHandler.sendToServer(new CSApprenticeClothDesign(menu.TE.getBlockPos(), design));
 		menu.setSelectedDesign(design);
 		refreshDesignButtons();
 	}

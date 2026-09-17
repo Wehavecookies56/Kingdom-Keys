@@ -17,7 +17,7 @@ public class UnionApprenticeArmorItem extends BaseArmorItem {
 	public static final int DEFAULT_PRIMARY_COLOR = 0xFFFFFF;
 	public static final int DEFAULT_SECONDARY_COLOR = 0xFFFFFF;
 	public static final int MIN_DESIGN = 1;
-	public static final int MAX_DESIGN = 2;
+	public static final int MAX_DESIGN = 4;
 
 	public UnionApprenticeArmorItem(Holder<ArmorMaterial> material, ArmorItem.Type slot) {
 		super(material, slot, "apprentices/apprentice_" + MIN_DESIGN + "/");
