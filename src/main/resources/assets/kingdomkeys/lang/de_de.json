@@ -294,11 +294,11 @@
 
 	//BLOCKS
 
-	// -NOT FULLY IMPLEMENTED
-
 	"block.kingdomkeys.card_door": "Kartentür",
 	"block.kingdomkeys.data_portal": "Daten-Portal",
 	"block.kingdomkeys.structure_wall": "Strukturwand",
+
+	"block.kingdomkeys.struggle_board": "Struggle-Brett",
 
 
 	// -ORES
@@ -1688,6 +1688,11 @@
 	"item.kingdomkeys.winner_stick": "Gewinner-Stiel",
 
 	"item.kingdomkeys.struggle_poster": "Struggle-Poster",
+
+	"item.kingdomkeys.gummi_meteor_fragment": "Gumisplitter",
+	"item.kingdomkeys.gummi_ship_blueprint": "Gumi-Bauplan",
+	"item.kingdomkeys.gummi_ship_blueprint_creative": "Gumi-Bauplan (Kreativ)",
+	"item.kingdomkeys.gummiphone": "Gummiphone",
 
 
 	// -SPAWN EGGS
