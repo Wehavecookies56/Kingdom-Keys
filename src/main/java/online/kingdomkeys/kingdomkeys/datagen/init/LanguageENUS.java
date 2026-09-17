@@ -777,7 +777,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("savepoint.maxed","Savepoint %s speed is already maxed");
         add("savepoint.upgrade_type","Savepoint upgraded to %s");
         add("savepoint.max_upgrade","Max upgrade reached");
-        add("savepoint.unavailable","%s is not available on this savepoint");
+        add("savepoint.unavailable","This savepoint does not offer %s");
         add("savepoint.tooltip.dimension","Dimension");
         add("savepoint.tooltip.owner","Owner");
         add("savepoint.stat.hp","HP");

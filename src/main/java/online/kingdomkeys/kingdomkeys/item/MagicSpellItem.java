@@ -20,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab,
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Magic magicInstance = ModMagic.registry.get(magic);
-		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
+		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Component.translatable(magicInstance.getTranslationKey())), true);
 		//addExp(player.getMainHandItem(),1000);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}

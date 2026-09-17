@@ -22,14 +22,13 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class DriveLevelCommand extends BaseCommand{
-//kk_ <give/take/set> <amount> [player]
+//kk <give/take/set> <amount> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_DRIVE_FORMS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation location : ModDriveForms.registry.keySet()) {
@@ -89,8 +88,8 @@ public class DriveLevelCommand extends BaseCommand{
 			ExpCommand.fix(playerData, player); //Mainly here to remove given abilities in case form is going to be lower
 			
 			DriveForm formInstance = ModDriveForms.registry.get(form);
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.drive.set", Utils.translateToLocal(formInstance.getTranslationKey()), player.getDisplayName().getString(), level), true);
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.drive.set_self", Utils.translateToLocal(formInstance.getTranslationKey()), level));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.drive.set", Component.translatable(formInstance.getTranslationKey()), player.getDisplayName(), level), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.drive.set_self", Component.translatable(formInstance.getTranslationKey()), level));
 		}
 		return 1;
 	}

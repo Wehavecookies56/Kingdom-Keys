@@ -3232,7 +3232,7 @@
   "savepoint.stat.mp": "MP",
   "savepoint.tooltip.dimension": "Dimension",
   "savepoint.tooltip.owner": "Owner",
-  "savepoint.unavailable": "%s is not available on this savepoint",
+  "savepoint.unavailable": "This savepoint does not offer %s",
   "savepoint.upgrade": "Savepoint %s speed is now at %s%%",
   "savepoint.upgrade_type": "Savepoint upgraded to %s",
   "shotlock.absolute_zero.name": "Absolute Zero",

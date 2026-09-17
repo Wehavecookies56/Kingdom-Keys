@@ -1043,7 +1043,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("savepoint.maxed", "Velocidad de %s está al máximo");
         add("savepoint.upgrade", "La velocidad de %s está al %s%%");
         add("savepoint.upgrade_type", "Punto de guardado mejorado a %s");
-        add("savepoint.unavailable","%s no está disponible en este punto de guardado");
+        add("savepoint.unavailable","Este punto de guardado no ofrece %s");
         add("savepoint.tooltip.dimension","Dimensión");
         add("savepoint.tooltip.owner","Dueño");
         add("savepoint.stat.hp","VT");

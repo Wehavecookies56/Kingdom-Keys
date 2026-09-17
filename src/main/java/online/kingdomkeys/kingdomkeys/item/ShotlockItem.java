@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab, I
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Shotlock shotlockInstance = ModShotlocks.registry.get(shotlock);
-		player.displayClientMessage(Component.translatable("gui.shotlockitem.equip", Utils.translateToLocal(shotlockInstance.getTranslationKey())), true);
+		player.displayClientMessage(Component.translatable("gui.shotlockitem.equip", Component.translatable(shotlockInstance.getTranslationKey())), true);
 		//this.addExp(player.getMainHandItem(),1000);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}

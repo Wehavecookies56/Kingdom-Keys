@@ -23,7 +23,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,9 +76,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.given", amount, Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.given", amount, material.getDescription(), player.getDisplayName()), true);
 
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.given_self", amount, Utils.translateToLocal(materialName.toString())));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.given_self", amount, material.getDescription()));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -95,9 +94,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			PlayerData playerData = PlayerData.get(player);
 			playerData.removeMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.removed", Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.removed", material.getDescription(), player.getDisplayName()), true);
 
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.removed_self", amount, Utils.translateToLocal(materialName.toString())));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.removed_self", amount, material.getDescription()));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -146,9 +145,9 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			PlayerData playerData = PlayerData.get(player);
 			playerData.setMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.set", amount, Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.set", amount, material.getDescription(), player.getDisplayName()), true);
 
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.set_self", Utils.translateToLocal(materialName.toString()), amount));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.set_self", material.getDescription(), amount));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

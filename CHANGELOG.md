@@ -4,11 +4,11 @@
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Your foreteller will visit you once at dawn you synthesise your first keyblade (next keyblade you synthesise in old worlds).
-  * It will take you to Daybreak Town to do some introductory training and then you'll return to where you were.
+  * It will take you to Daybreak Town to do some introductory training, and then you'll return to where you were.
 * Daybreak Town, full of keyblade wielders who you can spar with.
   * They will fight the heartless that spawn there, which will be weak since it's a light-related world.
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
-* Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
+* Union apprentice armors, 3 designs which can be dyed in the new Clothing Table.
   * The armor can be obtained by completing an initial training with your master and redeeming Lux to your union master.
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
@@ -70,4 +70,6 @@
 * Rare Large Body model crash.
 * Moogle projector block having red tint.
 * Blox bug texture being full black.
+* Some chat / hotbar messages on server were not properly translated to your local language:
+  * Learning recipes, unlocking forms, magic and shotlock equipment directions, savepoint messages, some commands... 
 * Small translation issues (Thanks to Held_der_Zeit).

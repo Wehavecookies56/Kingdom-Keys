@@ -3173,7 +3173,7 @@
   "savepoint.stat.mp": "PM",
   "savepoint.tooltip.dimension": "Dimensión",
   "savepoint.tooltip.owner": "Dueño",
-  "savepoint.unavailable": "%s no está disponible en este punto de guardado",
+  "savepoint.unavailable": "Este punto de guardado no ofrece %s",
   "savepoint.upgrade": "La velocidad de %s está al %s%%",
   "savepoint.upgrade_type": "Punto de guardado mejorado a %s",
   "shotlock.absolute_zero.name": "Cero Absoluto",

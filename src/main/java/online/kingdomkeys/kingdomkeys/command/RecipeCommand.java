@@ -18,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,29 +88,38 @@ public class RecipeCommand extends BaseCommand { // kk_recipe <give/take> <recip
 			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.recipe.unknown", recipe));
 			return 0;
 		}
+		Component made = nameOf(recipe);
+
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given", Utils.translateToLocal(recipe), player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given", made, player.getDisplayName()), true);
 			}
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_self", Utils.translateToLocal(recipe)));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_self", made));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
+	}
+
+	private static Component nameOf(String recipe) {
+		Recipe found = RecipeRegistry.getInstance().getValue(KingdomKeys.rl(recipe));
+		return found == null || found.getResult() == null ? Component.literal(recipe) : found.getResult().getDescription();
 	}
 
 	private static int removeRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
+		Component made = nameOf(recipe);
+
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.removeKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.removed", Utils.translateToLocal(recipe), player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.removed", made, player.getDisplayName()), true);
 			}
-			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.removed_self", Utils.translateToLocal(recipe)));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.removed_self", made));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
