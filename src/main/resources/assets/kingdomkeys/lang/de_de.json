@@ -1084,23 +1084,23 @@
 	"container.gummi_ship.up": "Oben",
 
 	// DEATH
-	"death.attack.air": "%1$s was blown away by %2$s",
-	"death.attack.air.item": "%1$s was blown away by %2$s using %3$s",
-	"death.attack.darkness": "%2$s lead %1$s into everlasting darkness",
-	"death.attack.darkness.item": "%2$s lead %1$s into everlasting darkness using %3$s",
-	"death.attack.fire": "%1$s felt the heat from %2$s",
+	"death.attack.air": "%1$s wurde weggeweht von %2$s",
+	"death.attack.air.item": "%1$s wurde weggeweht von %2$s mit %3$s",
+	"death.attack.darkness": "%2$s hat %1$s in die ewige Dunkelheit geführt",
+	"death.attack.darkness.item": "%2$s hat mit %3$s %1$s in die ewige Dunkelheit geführt",
+	"death.attack.fire": "%1$s felt the heat from %2$s", // hades reference
 	"death.attack.fire.item": "%1$s felt the heat from %2$s using %3$s",
-	"death.attack.ice": "%1$s erfor durch %2$s",
+	"death.attack.ice": "%1$s erfror durch %2$s",
 	"death.attack.ice.item": "%1$s wurde durch %2$ss %3$s eingefroren",
-	"death.attack.light": "%2$s taught %1$s that Kingdom Hearts is light",
-	"death.attack.light.item": "%2$s taught %1$s that Kingdom Hearts is light using %3$s",
-	"death.attack.lightning": "%2$s struck down %1$s, shocking!",
-	"death.attack.lightning.item": "%2$s struck down %1$s using %3$s, shocking!",
-	"death.attack.offhand": "%1$s was slain by %2$s",
-	"death.attack.offhand.item": "%1$s was slain by %2$s using %3$s",
-	"death.attack.stop": "%2$s stopped the life of %1$s",
-	"death.attack.stop.item": "%2$s stopped the life of %1$s using %3$s",
-	"death.attack.water": "%1$s tried to dance with water from %2$s",
+	"death.attack.light": "%2$s brachte %1$s bei, dass Kingdom Hearts Licht ist",
+	"death.attack.light.item": "%2$s hat mithilfe von %3$s %1$s beigebracht, dass Kingdom Hearts Licht ist",
+	"death.attack.lightning": "%2$s donnerte auf %1$s ein",
+	"death.attack.lightning.item": "%2$s hat mit %3$s %1$s weg gedonnert",
+	"death.attack.offhand": "%1$s wurde niedergestreckt von %2$s",
+	"death.attack.offhand.item": "%1$s wurde niedergestreckt von %2$s mit %3$s",
+	"death.attack.stop": "%2$s hat die Lebenszeit von %1$s angehalten",
+	"death.attack.stop.item": "%2$s hat mit %3$s die Lebenszeit von %1$s angehalten",
+	"death.attack.water": "%1$s tried to dance with water from %2$s", // demyx - Wasser marsch!
 	"death.attack.water.item": "%1$s tried to dance with water from %2$s using %3$s",
 
 	//DISC
