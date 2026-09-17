@@ -3321,41 +3321,160 @@
 
 	// SPELL NAMES
 
-	"magic.kingdomkeys.magic_aero0.name": "Aero",
-	"magic.kingdomkeys.magic_aero1.name": "Aerora",
-	"magic.kingdomkeys.magic_aero2.name": "Aeroga",
-	"magic.kingdomkeys.magic_blizzard0.name": "Eis",
-	"magic.kingdomkeys.magic_blizzard1.name": "Eisra",
-	"magic.kingdomkeys.magic_blizzard2.name": "Eisga",
-	"magic.kingdomkeys.magic_blizzard3.name": "Eiska",
-	"magic.kingdomkeys.magic_cure0.name": "Vita",
-	"magic.kingdomkeys.magic_cure1.name": "Vitra",
-	"magic.kingdomkeys.magic_cure2.name": "Vigra",
-	"magic.kingdomkeys.magic_cure3.name": "Vitkra",
-	"magic.kingdomkeys.magic_fire0.name": "Feuer",
-	"magic.kingdomkeys.magic_fire1.name": "Feura",
-	"magic.kingdomkeys.magic_fire2.name": "Feuga",
-	"magic.kingdomkeys.magic_fire3.name": "Feuka",
-	"magic.kingdomkeys.magic_gravity0.name": "Gravitas",
-	"magic.kingdomkeys.magic_gravity1.name": "Gravira",
-	"magic.kingdomkeys.magic_gravity2.name": "Graviga",
-	"magic.kingdomkeys.magic_magnet0.name": "Magnet",
-	"magic.kingdomkeys.magic_magnet1.name": "Magnera",
-	"magic.kingdomkeys.magic_magnet2.name": "Magnega",
-	"magic.kingdomkeys.magic_reflect0.name": "Reflek",
-	"magic.kingdomkeys.magic_reflect1.name": "Reflera",
-	"magic.kingdomkeys.magic_reflect2.name": "Reflega",
-	"magic.kingdomkeys.magic_stop0.name": "Stopp",
-	"magic.kingdomkeys.magic_stop1.name": "Stoppra",
-	"magic.kingdomkeys.magic_stop2.name": "Stoppga",
-	"magic.kingdomkeys.magic_thunder0.name": "Blitz",
-	"magic.kingdomkeys.magic_thunder1.name": "Blitzra",
-	"magic.kingdomkeys.magic_thunder2.name": "Blitzga",
-	"magic.kingdomkeys.magic_thunder3.name": "Blitzka",
-	"magic.kingdomkeys.magic_water0.name": "Wasser",
-	"magic.kingdomkeys.magic_water1.name": "Wassra",
-	"magic.kingdomkeys.magic_water2.name": "Wassga",
-	"magic.kingdomkeys.magic_water3.name": "Wasska",
+	"magic.kingdomkeys.magic_aero0.name": "Aero", //legacy
+	"magic.kingdomkeys.magic_aero1.name": "Aerora", //legacy
+	"magic.kingdomkeys.magic_aero2.name": "Aeroga", //legacy
+
+	"magic.kingdomkeys.magic_aero.name": "Aero",
+	"magic.kingdomkeys.magic_aerora.name": "Aerora",
+	"magic.kingdomkeys.magic_aeroga.name": "Aeroga",
+
+	"magic.kingdomkeys.magic_aero_shield.name": "Aeroschild",
+	"magic.kingdomkeys.magic_aerora_shield.name": "Aeroraschild",
+	"magic.kingdomkeys.magic_aeroga_shield.name": "Aerogaschild",
+
+
+	"magic.kingdomkeys.magic_blizzard0.name": "Eis", //legacy
+	"magic.kingdomkeys.magic_blizzard1.name": "Eisra", //legacy
+	"magic.kingdomkeys.magic_blizzard2.name": "Eisga", //legacy
+	"magic.kingdomkeys.magic_blizzard3.name": "Eiska", //legacy
+
+	"magic.kingdomkeys.magic_blizzard.name": "Eis",
+	"magic.kingdomkeys.magic_blizzara.name": "Eisra",
+	"magic.kingdomkeys.magic_blizzaga.name": "Eisga",
+	"magic.kingdomkeys.magic_blizzaza.name": "Eiska",
+
+	"magic.kingdomkeys.magic_tripleblizzaga.name": "Tripel-Eisga",
+	"magic.kingdomkeys.magic_deepfreeze.name": "Frost",
+	"magic.kingdomkeys.magic_glacier.name": "Gletscherwirbel",
+	"magic.kingdomkeys.magic_icebarrage.name": "Eisbombardement",
+
+
+	"magic.kingdomkeys.magic_fire0.name": "Feuer", //legacy
+	"magic.kingdomkeys.magic_fire1.name": "Feura", //legacy
+	"magic.kingdomkeys.magic_fire2.name": "Feuga", //legacy
+	"magic.kingdomkeys.magic_fire3.name": "Feuka", //legacy
+
+	"magic.kingdomkeys.magic_fire.name": "Feuer",
+	"magic.kingdomkeys.magic_fira.name": "Feura",
+	"magic.kingdomkeys.magic_firaga.name": "Feuga",
+	"magic.kingdomkeys.magic_firaza.name": "Feuka",
+
+	"magic.kingdomkeys.magic_crawlingfiraga.name": "Zeitlupen-Feuga",
+	"magic.kingdomkeys.magic_fissionfiraga.name": "Feuga-Explosion",
+	"magic.kingdomkeys.magic_firagaburst.name": "Feugasalve",
+	"magic.kingdomkeys.magic_triplefiraga.name": "Tripel-Feuga",
+	"magic.kingdomkeys.magic_darkfiraga.name": "Sinistra-Feuga",
+
+	
+	"magic.kingdomkeys.magic_thunder0.name": "Blitz", //legacy
+	"magic.kingdomkeys.magic_thunder1.name": "Blitzra", //legacy
+	"magic.kingdomkeys.magic_thunder2.name": "Blitzga", //legacy
+	"magic.kingdomkeys.magic_thunder3.name": "Blitzka", //legacy
+
+	"magic.kingdomkeys.magic_thunder.name": "Blitz",
+	"magic.kingdomkeys.magic_thundara.name": "Blitzra",
+	"magic.kingdomkeys.magic_thundaga.name": "Blitzga",
+	"magic.kingdomkeys.magic_thundaza.name": "Blitzka",
+	
+	"magic.kingdomkeys.magic_thundagashot.name": "Blitzga-Schuss",
+	"magic.kingdomkeys.magic_tripleplasma.name": "Dreierplasma",
+
+
+	"magic.kingdomkeys.magic_cure0.name": "Vita", //legacy
+	"magic.kingdomkeys.magic_cure1.name": "Vitra", //legacy
+	"magic.kingdomkeys.magic_cure2.name": "Vigra", //legacy
+	"magic.kingdomkeys.magic_cure3.name": "Vitkra", //legacy
+	
+	"magic.kingdomkeys.magic_cure.name": "Vita",
+	"magic.kingdomkeys.magic_cura.name": "Vitra",
+	"magic.kingdomkeys.magic_curaga.name": "Vigra",
+	"magic.kingdomkeys.magic_curaza.name": "Vitkra",
+
+	
+	"magic.kingdomkeys.magic_water0.name": "Wasser", //legacy
+	"magic.kingdomkeys.magic_water1.name": "Wassra", //legacy
+	"magic.kingdomkeys.magic_water2.name": "Wassga", //legacy
+	"magic.kingdomkeys.magic_water3.name": "Wasska", //legacy
+
+	"magic.kingdomkeys.magic_water.name": "Wasser",
+	"magic.kingdomkeys.magic_watera.name": "Wassra",
+	"magic.kingdomkeys.magic_waterga.name": "Wassga",
+	"magic.kingdomkeys.magic_waterza.name": "Wasska",
+
+
+	"magic.kingdomkeys.magic_balloon.name": "Ballon",
+	"magic.kingdomkeys.magic_balloonra.name": "Ballonra",
+	"magic.kingdomkeys.magic_balloonga.name": "Ballonga",
+
+
+	"magic.kingdomkeys.magic_gravity0.name": "Gravitas", //legacy
+	"magic.kingdomkeys.magic_gravity1.name": "Gravira", //legacy
+	"magic.kingdomkeys.magic_gravity2.name": "Graviga", //legacy
+
+	"magic.kingdomkeys.magic_gravity.name": "Gravitas",
+	"magic.kingdomkeys.magic_gravira.name": "Gravira",
+	"magic.kingdomkeys.magic_graviga.name": "Graviga",
+
+	
+	"magic.kingdomkeys.magic_zerogravity.name": "Antigrav",
+	"magic.kingdomkeys.magic_zerogravira.name": "Antigravra",
+	"magic.kingdomkeys.magic_zerograviga.name": "Antigravga",
+
+
+	"magic.kingdomkeys.magic_magnet0.name": "Magnet", //legacy
+	"magic.kingdomkeys.magic_magnet1.name": "Magnera", //legacy
+	"magic.kingdomkeys.magic_magnet2.name": "Magnega", //legacy
+
+	"magic.kingdomkeys.magic_magnet.name": "Magnet",
+	"magic.kingdomkeys.magic_magnera.name": "Magnera",
+	"magic.kingdomkeys.magic_magnega.name": "Magnega",
+
+
+	"magic.kingdomkeys.magic_reflect0.name": "Reflek", //legacy
+	"magic.kingdomkeys.magic_reflect1.name": "Reflera", //legacy
+	"magic.kingdomkeys.magic_reflect2.name": "Reflega", //legacy
+
+	"magic.kingdomkeys.magic_reflect.name": "Reflek",
+	"magic.kingdomkeys.magic_reflera.name": "Reflera",
+	"magic.kingdomkeys.magic_reflega.name": "Reflega",
+
+
+	"magic.kingdomkeys.magic_stop0.name": "Stopp", //legacy
+	"magic.kingdomkeys.magic_stop1.name": "Stoppra", //legacy
+	"magic.kingdomkeys.magic_stop2.name": "Stoppga", //legacy
+
+	"magic.kingdomkeys.magic_stop.name": "Stopp",
+	"magic.kingdomkeys.magic_stopra.name": "Stoppra",
+	"magic.kingdomkeys.magic_stopga.name": "Stoppga",
+
+	
+	"magic.kingdomkeys.magic_mine_shield.name": "Minenfeld",
+	"magic.kingdomkeys.magic_mine_square.name": "Minentrapez",
+	"magic.kingdomkeys.magic_seeker_mine.name": "Zielsuchmine",
+
+
+	"magic.kingdomkeys.magic_spark.name": "Funke",
+	"magic.kingdomkeys.magic_sparkra.name": "Funkra",
+	"magic.kingdomkeys.magic_sparkga.name": "Funkga",
+
+	
+	"magic.kingdomkeys.magic_faith.name": "Sanctus",
+
+	// status spells
+
+	"magic.kingdomkeys.magic_bind.name": "Fessel",
+	"magic.kingdomkeys.magic_confuse.name": "Verwirren",
+	"magic.kingdomkeys.magic_blackout.name": "Blackout",
+	"magic.kingdomkeys.magic_posion.name": "Gift",
+	"magic.kingdomkeys.magic_ignite.name": "Entflammen",
+	"magic.kingdomkeys.magic_slow.name": "Gemach",
+	"magic.kingdomkeys.magic_mini.name": "Wicht",
+	"magic.kingdomkeys.magic_esuna.name": "Medica",
+	"magic.kingdomkeys.magic_warp.name": "Elimini",
+
+
+	//message
 
 	"message.chest.can_be_locked": "Kann mit einem Schlüsselschwert verschlossen werden",
 	"message.chest.keyblade_set": "Dein Schlüsselschwert wurde zum aufschließen dieser Truhe festgelegt",
