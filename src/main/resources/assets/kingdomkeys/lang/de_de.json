@@ -403,8 +403,8 @@
 	// -gummi
 
 	// -- misc
-	"block.kingdomkeys.gummi_hangar": "Gumi Hangar",
-	"block.kingdomkeys.gummi_meteor": "Gumi Meteorit",
+	"block.kingdomkeys.gummi_hangar": "Gumi-Hangar",
+	"block.kingdomkeys.gummi_meteor": "Gumi-Meteorit",
 
 	"block.kingdomkeys.gummi_core": "Kern-G",
 	"block.kingdomkeys.gummi_thruster": "Thruster-G",
@@ -1036,7 +1036,7 @@
 	"container.gummi_hangar.load_file": "Datei Laden",
 
 	"container.gummi_hangar.file_loaded": "%s in die Blaupause geladen",
-	"container.gummi_hangar.file_saved": "Gespeichert unter: \"kingdomkeys-Gummi_ships/%s.nbt\"",
+	"container.gummi_hangar.file_saved": "Gespeichert unter: \"kingdomkeys/gummi_ships/%s.nbt\"",
 	"container.gummi_hangar.file_unwritable": "Couldn't write the file, see the log",
 
 
@@ -1050,7 +1050,7 @@
 	"container.gummi_hangar.moveshiplower": "Schiff tiefer bewegen",
 	"container.gummi_hangar.moveshipright": "Schiff nach rechts bewegen",
 
-	"container.gummi_hangar.no_saved_ships": "Noch nichts in \"kingdomkeys-Gummi_ships\" gespeichert",
+	"container.gummi_hangar.no_saved_ships": "Noch nichts in \"kingdomkeys/gummi_ships\" gespeichert",
 
 	"container.gummi_hangar.noblueprintexp": "Du musst einen Bauplan plazieren, um ihn zu exportieren",
 	"container.gummi_hangar.noblueprintimp": "Du musst einen Bauplan plazieren, um ihn zu importieren",
@@ -1063,7 +1063,7 @@
 
 
 
-	/-Gumi-Jet
+	//Gumi-Jet
 	"container.gummi_ship.3d_flight": "3D-Flug",
 	"container.gummi_ship.armor": "Rüstung",
 	"container.gummi_ship.backwards": "Rückwärts",
@@ -3146,11 +3146,11 @@
 
 	"item.kingdomkeys.empty_card": "Leere Karte",
 
-	"item.kingdomkeys.plains_card": "Ebene-Karte", /-Grüne Ebene -> green plains
+	"item.kingdomkeys.plains_card": "Ebene-Karte", //Grüne Ebene -> green plains
 	"item.kingdomkeys.forest_card": "Wald-Karte", //Dichter Dickicht -> tense thicket
 	"item.kingdomkeys.jungle_card": "Dschungel-Karte", //Dichter Urwald
 	"item.kingdomkeys.desert_card": "Wüste-Karte", //Sandige Hitzen -> sandy heat
-	"item.kingdomkeys.snowy_card": "Schnee-Karte", /-Gefrorene Gletscher
+	"item.kingdomkeys.snowy_card": "Schnee-Karte", //Gefrorene Gletscher
 	"item.kingdomkeys.swamp_card": "Sumpf-Karte", //Matschiger Sumpf
 
 	"item.kingdomkeys.ocean_card": "Ozean-Karte", //Blaue Tiefen -> blue depths
@@ -3160,7 +3160,7 @@
 
 	"item.kingdomkeys.cave_card": "Höhle-Karte", //Verwinkelte Höhlen
 
-	"item.kingdomkeys.the_nether_card": "Der Nether-Karte", /-Goldene Schweine:: -> golden pigs ALT: Schweine Hitzen -> pig heat/warmth
+	"item.kingdomkeys.the_nether_card": "Der Nether-Karte", //Goldene Schweine:: -> golden pigs ALT: Schweine Hitzen -> pig heat/warmth
 	"item.kingdomkeys.the_end_card": "Das Ende-Karte", //Endliche Inseln Ebene:: pun - ENDlich = finite -> ending islands
 
 	"item.kingdomkeys.castle_oblivion_card": "Schloss des Entfallens-Karte", //Karte des Entfallens
