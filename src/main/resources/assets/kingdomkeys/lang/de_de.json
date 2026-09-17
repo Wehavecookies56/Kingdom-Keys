@@ -3595,7 +3595,7 @@
 
 	"room.unknown_room": "Unbekannter Raum",
 
-	"room.conquerors_respite": "Conqueror's Respite",
+	"room.conquerors_respite": "Pause des Eroberers",
 
 	//SAVE POINT
 	"savepoint.drive": "Drive-Wiederherstellung",
@@ -3616,7 +3616,7 @@
 
 	"savepoint.tooltip.dimension": "Dimension",
 	"savepoint.tooltip.owner": "Besitzer",
-	"savepoint.unavailable": "%s ist von diesem Speicherpunkt aus nicht verfügbar",
+	"savepoint.unavailable": "Dieser Speicherpunkt bietet kein %s",
 
 	"shotlock.circular_shotlock.name": "Ragnarök",
 
