@@ -1649,6 +1649,9 @@
 	"gui.synthesisbag.notenoughmunny": "Nicht genug Taler",
 	"gui.synthesisbag.upgrade": "Vergrößern",
 
+	"gui.kingdomkeys.apprentice.primary": "Primär",
+	"gui.kingdomkeys.apprentice.secondary": "Sekundär",
+
 	// ITEMS
 
 	// -MISC
