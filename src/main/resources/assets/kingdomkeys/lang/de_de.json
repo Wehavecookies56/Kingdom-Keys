@@ -239,7 +239,7 @@
 	"advancements.kingdomkeys.get_stick": "Das ist ein Stock",
 	"advancements.kingdomkeys.get_stick.desc": "Stelle einen Holzstock her",
 	"advancements.kingdomkeys.get_struggle_weapon": "Aller Anfang ist Struggle!",
-	"advancements.kingdomkeys.get_struggle_weapon.desc": "Stelle einen Struggle-Schläger her",
+	"advancements.kingdomkeys.get_struggle_weapon.desc": "Stelle einen Struggleschläger her",
 	
 	"advancements.kingdomkeys.obtain_drive": "Das ist noch nicht mal meine wahre Form",
 	"advancements.kingdomkeys.obtain_drive.desc": "Erhalte deine erste Drive Form",
@@ -1040,8 +1040,8 @@
 	"container.gummi_hangar.file_unwritable": "Couldn't write the file, see the log",
 
 
-	"container.gummi_hangar.gummifound": "There's already a Gummi Ship in the building area",
-	"container.gummi_hangar.gummitoobig": "There's a Gummi Ship too big for the hangar in the building area",
+	"container.gummi_hangar.gummifound": "There's already a Gumi-Jet in the building area",
+	"container.gummi_hangar.gummitoobig": "There's a Gumi-Jet too big for the hangar in the building area",
 
 	"container.gummi_hangar.moveshipbw": "Schiff backwards bewegen",
 	"container.gummi_hangar.moveshipfw": "Schiff vorwärts bewegen",
@@ -1052,18 +1052,18 @@
 
 	"container.gummi_hangar.no_saved_ships": "Noch nichts in \"kingdomkeys/gummi_ships\" gespeichert",
 
-	"container.gummi_hangar.noblueprintexp": "You need to place a blueprint to export it",
-	"container.gummi_hangar.noblueprintimp": "You need to place a blueprint to import it",
+	"container.gummi_hangar.noblueprintexp": "Du musst einen Bauplan plazieren, um ihn zu exportieren",
+	"container.gummi_hangar.noblueprintimp": "Du musst einen Bauplan plazieren, um ihn zu importieren",
 	"container.gummi_hangar.noblueprintload": "There's no blueprint to load onto",
-	"container.gummi_hangar.noblueprintname": "You need to specify the blueprint name",
+	"container.gummi_hangar.noblueprintname": "Du musst den Namen des Bauplans angeben",
 	"container.gummi_hangar.noblueprintsave": "There's no blueprint to save",
 
-	"container.gummi_hangar.noname": "Du musst dein Gumi-Schiff benennen",
+	"container.gummi_hangar.noname": "Du musst dein Gumi-Jet benennen",
 	"container.gummi_hangar.nothing_to_save": "Put a blueprint with a ship on it in the slot first",
 
 
 
-	//GUMMI SHIP
+	//Gumi-Jet
 	"container.gummi_ship.3d_flight": "3D-Flug",
 	"container.gummi_ship.armor": "Rüstung",
 	"container.gummi_ship.backwards": "Rückwärts",
@@ -1522,33 +1522,33 @@
 	// STRUGGLE
 	"gui.menu.struggle.cancel_ready": "Nicht Bereit",
 	"gui.menu.struggle.corners_pos": "Ecken (x,y,z)",
-	"gui.menu.struggle.create_button": "Create match",
-	"gui.menu.struggle.create_button.desc": "Set up a new Struggle match on this board.",
-	"gui.menu.struggle.create_title": "Start Struggle",
+	"gui.menu.struggle.create_button": "Wettkampf erstellen",
+	"gui.menu.struggle.create_button.desc": "Stelle einen neuen Struggle-Wettkampf auf dieses Brett aus.",
+	"gui.menu.struggle.create_title": "Struggle starten",
 	"gui.menu.struggle.damage_mult": "Kugelmulitplikator (%)",
-	"gui.menu.struggle.delete_button": "Delete match",
-	"gui.menu.struggle.delete_button.desc": "Cancel and remove this match entirely [Owner only].",
+	"gui.menu.struggle.delete_button": "Wettkampf eentfernen",
+	"gui.menu.struggle.delete_button.desc": "Cancel and remove this match entirely [Nur Besitzer].",
 	"gui.menu.struggle.duel": "Duell",
 	"gui.menu.struggle.ffa": "Frei-Für-Alle",
-	"gui.menu.struggle.join_button": "Match beitreten",
-	"gui.menu.struggle.join_button.desc": "Join the Struggle match currently set up here.",
+	"gui.menu.struggle.join_button": "Wettkampf beitreten",
+	"gui.menu.struggle.join_button.desc": "Trete dem Struggle-Wettkampf bei, der gerade hier ausgestellt wurde.",
 	"gui.menu.struggle.join_title": "Struggle beitreten",
-	"gui.menu.struggle.leave_button": "Leave match",
-	"gui.menu.struggle.leave_button.desc": "Leave the match without ending it for everyone else.",
+	"gui.menu.struggle.leave_button": "Wettkampf verlassen",
+	"gui.menu.struggle.leave_button.desc": "Verlasse den Wettkampf, ohne dass es für alle anderen beendet wird.",
 	"gui.menu.struggle.menu_title": "Struggle",
 	"gui.menu.struggle.mode": "Modus",
-	"gui.menu.struggle.name": "Struggle Name",
-	"gui.menu.struggle.name_and_size": "Struggle name and size",
+	"gui.menu.struggle.name": "Struggle-Name",
+	"gui.menu.struggle.name_and_size": "Struggle-Name und Größe",
 	"gui.menu.struggle.ready": "Bereit",
-	"gui.menu.struggle.ready.desc": "Mark yourself as ready - the match starts once everyone is.",
+	"gui.menu.struggle.ready.desc": "Mark yourself as ready - Der Wettkampf beginnt, sobald jeder bereit ist.",
 	"gui.menu.struggle.reason_not_configured": "The owner has not set the arena corners in Settings yet.",
 	"gui.menu.struggle.reason_waiting": "Waiting for at least one more player to join.",
 	"gui.menu.struggle.round_time": "Rundenzeit (Sekunden)",
 	"gui.menu.struggle.settings_button": "Struggle-Einstellungen",
-	"gui.menu.struggle.settings_button.desc": "Configure the arena corners, mode, and other match settings [Owner only].",
+	"gui.menu.struggle.settings_button.desc": "Configure the arena corners, mode, and other match settings [Nur Besitzer].",
 	"gui.menu.struggle.settings_title": "Struggle-Einstellungen",
 	"gui.menu.struggle.spectator_pos": "Zuschauer (x,y,z)",
-	"gui.menu.struggle.starting_score": "Starting orbs",
+	"gui.menu.struggle.starting_score": "Anfangskugeln",
 	"gui.menu.struggle.tournament": "Turnier",
 
 	// EFM STYLES
@@ -2068,8 +2068,8 @@
 	
 	
 	"item.kingdomkeys.spellcure": "Vita-Element",
-	"item.kingdomkeys.spellcura": "Cura-Element",
-	"item.kingdomkeys.spellcuraga": "Curaga-Element",
+	"item.kingdomkeys.spellcura": "Vitra-Element",
+	"item.kingdomkeys.spellcuraga": "Vitga-Element",
 	
 	
 	"item.kingdomkeys.spellwater": "Wasser-Element",
@@ -2077,9 +2077,9 @@
 	"item.kingdomkeys.spellwaterga": "Wassega-Element",
 	
 	
-	"item.kingdomkeys.spellballoon": "Balloon-Element",
-	"item.kingdomkeys.spellballoonga": "Balloonga-Element",
-	"item.kingdomkeys.spellballoonra": "Balloonra-Element",
+	"item.kingdomkeys.spellballoon": "Ballon-Element",
+	"item.kingdomkeys.spellballoonra": "Ballonra-Element",
+	"item.kingdomkeys.spellballoonga": "Ballonga-Element",
 	
 	
 	"item.kingdomkeys.spellgravity": "Gravitas-Element",
@@ -3790,16 +3790,16 @@
 	// DIALOGUE
 	
 	// -apprentice
-	"kingdomkeys.dialogue.apprentice.answer.leave": "See you around.",
+	"kingdomkeys.dialogue.apprentice.answer.leave": "Wir sehen uns.",
 	"kingdomkeys.dialogue.apprentice.answer.spar": "Wanna spar?",
 	
-	"kingdomkeys.dialogue.apprentice.greeting.1": "Careful with that thing, you nearly took my arm off.",
-	"kingdomkeys.dialogue.apprentice.greeting.2": "They say the Foretellers watch every one of us. Do you believe that?",
-	"kingdomkeys.dialogue.apprentice.greeting.3": "I have been out here since dawn and I have collected barely any Lux.",
-	"kingdomkeys.dialogue.apprentice.greeting.4": "My union keeps telling me to train. My legs keep telling me otherwise.",
-	"kingdomkeys.dialogue.apprentice.greeting.5": "You are the one everybody talks about, are you not?",
+	"kingdomkeys.dialogue.apprentice.greeting.1": "Vorsichtig damit, du hast beinahe meinen Arm erwischt.",
+	"kingdomkeys.dialogue.apprentice.greeting.2": "Es heißt, die Propheten wachen über jeden einzelnen von uns. Glaubst du das?",
+	"kingdomkeys.dialogue.apprentice.greeting.3": "Ich bin hier schon seit heute Morgen und habe kaum Lux gesammelt.",
+	"kingdomkeys.dialogue.apprentice.greeting.4": "My union keeps telling me to train. Meine Beine sagen mir jedoch etwas anderes.",
+	"kingdomkeys.dialogue.apprentice.greeting.5": "Du bist derjenige, über den jeder spricht, oder etwa nicht?",
 	"kingdomkeys.dialogue.apprentice.greeting.6": "The clock tower is the best spot in town. Do not tell anyone I said so.",
-	"kingdomkeys.dialogue.apprentice.greeting.7": "One day I will carry a strong keyblade like the masters do. One day.",
+	"kingdomkeys.dialogue.apprentice.greeting.7": "One day I will carry a strong keyblade like the masters do. Eines Tages.",
 	"kingdomkeys.dialogue.apprentice.greeting.8": "Heartless in the outskirts again. Somebody should do something about that.",
 	"kingdomkeys.dialogue.apprentice.greeting.9": "Do you ever second guess the union you picked? I sometimes do...",
 	"kingdomkeys.dialogue.apprentice.greeting.10": "I traded three days of Lux for this tunic. Worth it, I think.",
@@ -3808,70 +3808,72 @@
 	"kingdomkeys.dialogue.apprentice.greeting.13": "If you find a good spot for Lux, keep it to yourself. That is my advice.",
 	"kingdomkeys.dialogue.apprentice.greeting.14": "Somebody left a keyblade lying in the fountain yesterday. Nobody has claimed it.",
 	"kingdomkeys.dialogue.apprentice.greeting.15": "I am not afraid of the dark. I simply prefer the daytime, that is all.",
-	"kingdomkeys.dialogue.apprentice.greeting.16": "They keep telling us the light is running out. It looks fine to me.",
+	"kingdomkeys.dialogue.apprentice.greeting.16": "Die sagen uns andauernd, dass das Licht zur neige geht. Ich sehe keinen Unterschied.",
 	"kingdomkeys.dialogue.apprentice.greeting.17": "Between you and me, I still cannot summon mine on the first try.",
 	"kingdomkeys.dialogue.apprentice.greeting.18": "Careful past the outer walls. That is where the ones that scratch are.",
-	"kingdomkeys.dialogue.apprentice.greeting.19": "I hear the other unions are ahead of us this week. Again.",
+	"kingdomkeys.dialogue.apprentice.greeting.19": "I hear the other unions are ahead of us this week. Schon wieder.",
 	"kingdomkeys.dialogue.apprentice.greeting.20": "Do you think it ever ends? The Lux gathering I mean.",
-	"kingdomkeys.dialogue.apprentice.greeting.21": "My hands ache. Nobody warned me a keyblade would be this heavy.",
+	"kingdomkeys.dialogue.apprentice.greeting.21": "Meine Hände tun weh. Niemand hat mir gesagt, dass ein Schlüsselschwert so schwer sein würde.",
 	"kingdomkeys.dialogue.apprentice.greeting.22": "Some of us are only here because our families sent us. Not me. I chose this.",
-	"kingdomkeys.dialogue.apprentice.greeting.23": "If you see my brother, tell him I am still waiting on that Lux he owes me.",
+	"kingdomkeys.dialogue.apprentice.greeting.23": "Wenn du meinen Bruder siehst, sage ihm, dass ich noch immer auf das Lux warte, dass er mir schuldet.",
 	"kingdomkeys.dialogue.apprentice.greeting.24": "Good hunting out there. Try to come back in one piece.",
 	
 	
 	// -foreteller
-	"kingdomkeys.dialogue.first_meeting.answer.come": "Wohin führst du mich?",
+	"kingdomkeys.dialogue.first_meeting.answer.come": "Wohin führen Sie mich?",
 	"kingdomkeys.dialogue.first_meeting.answer.leave": "Ich muss darüber nachdenken.",
 	"kingdomkeys.dialogue.first_meeting.answer.open": "Öffne es.",
-	"kingdomkeys.dialogue.first_meeting.answer.who": "Wer bist du?",
+	"kingdomkeys.dialogue.first_meeting.answer.who": "Wer sind Sie?",
 	"kingdomkeys.dialogue.first_meeting.answer.why": "Wieso ich?",
 	
-	"kingdomkeys.dialogue.first_meeting.greeting.1": "So it was you. I felt a new keyblade wake, and the world it belongs to open along with it.",
-	"kingdomkeys.dialogue.first_meeting.greeting.2": "I have traveled from a far place following that feeling. Give me a moment of your morning.",
+	"kingdomkeys.dialogue.first_meeting.greeting.1": "Ihr wart es also. I felt a new keyblade wake, and the world it belongs to open along with it.",
+	"kingdomkeys.dialogue.first_meeting.greeting.2": "I have traveled from a far place following that feeling. Gebt mir einen Moment eures Morgens.",
 	
 	"kingdomkeys.dialogue.first_meeting.offer.1": "Then let me teach you. Not here, where every shadow is listening, but where unions keep order.",
 	"kingdomkeys.dialogue.first_meeting.offer.2": "I will open the way from where we stand, and leave it active. Come and go as you need to, bring what you must, this is not an afternoon's work.",
-	"kingdomkeys.dialogue.first_meeting.offer.3": "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gummi Ship like everybody else.",
+	"kingdomkeys.dialogue.first_meeting.offer.3": "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gumi-Jet like everybody else.",
 	
-	"kingdomkeys.dialogue.first_meeting.who.1": "I am {speaker}, one of five union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.",
+	"kingdomkeys.dialogue.first_meeting.who.1": "Ich bin {speaker}, einer der fünf union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.",
 	"kingdomkeys.dialogue.first_meeting.who.2": "Ours is {union}. We'll be the voice you will hear when there is something you need to know.",
-	"kingdomkeys.dialogue.first_meeting.why.1": "Ein Schlüsselschwert ist kein Werkzeug. Es ist eine Tür, und Türen kann man von beiden Seiten öffnen. The darkness surely has noticed you the same way as I have.",
-	"kingdomkeys.dialogue.first_meeting.why.2": "Untaught, it will find you long before you are ready for it. I would rather prefer you being ready for it.",
+	"kingdomkeys.dialogue.first_meeting.why.1": "Ein Schlüsselschwert ist kein Werkzeug. Es ist eine Tür, und Türen kann man von beiden Seiten öffnen. Die Dunkelheit hat dich bemerkt, genauso wie ich dich bemerkt habe.",
+	"kingdomkeys.dialogue.first_meeting.why.2": "Unbelehrt, wird es Euch finden, lange bevor ihr bereit seid. Mir ist es lieber, dass Ihr dafür bereit seid.",
 
 	"kingdomkeys.dialogue.foreteller.answer.ask": "Es gibt ein da ein paar Sachen, die ich noch nicht verstehe.",
-	"kingdomkeys.dialogue.foreteller.answer.back": "Let me think about it...",
+	"kingdomkeys.dialogue.foreteller.answer.back": "Ich möchte es noch überdenken...",
 	"kingdomkeys.dialogue.foreteller.answer.graduate": "That one was harder...",
 	"kingdomkeys.dialogue.foreteller.answer.home": "Ich möchte zurück gehen.",
 	"kingdomkeys.dialogue.foreteller.answer.leave": "Nichts. Entschuldigung für die Störung.",
 	"kingdomkeys.dialogue.foreteller.answer.notyet": "Noch nicht.",
 	"kingdomkeys.dialogue.foreteller.answer.ready": "Tu es.",
-	"kingdomkeys.dialogue.foreteller.answer.send": "I will be back!",
-	"kingdomkeys.dialogue.foreteller.answer.shop": "I have Lux to spend.",
-	"kingdomkeys.dialogue.foreteller.answer.spar": "I want to face you.",
+	"kingdomkeys.dialogue.foreteller.answer.send": "Ich komme wieder!",
+	"kingdomkeys.dialogue.foreteller.answer.shop": "Ich möchte Lux ausgeben.",
+	"kingdomkeys.dialogue.foreteller.answer.spar": "Ich möchte gegen Euch antreten.",
 	"kingdomkeys.dialogue.foreteller.answer.train": "Ich möchte trainieren!",
 	
 	"kingdomkeys.dialogue.foreteller.answer.theory.keyblade": "Was ist ein \"Schlüsselschwert\"?",
-	"kingdomkeys.dialogue.foreteller.answer.theory.lux": "And what is Lux for?",
+	"kingdomkeys.dialogue.foreteller.answer.theory.lux": "Und wofür ist \"Lux\" gut?",
 
 	"kingdomkeys.dialogue.foreteller.darkness.1": "Since you are going to face the darkness, you had better know how it fights.",
 	"kingdomkeys.dialogue.foreteller.darkness.2": "So I will imbue the orbs with a little of it. Better you face it here than out there.",
 	
-	"kingdomkeys.dialogue.foreteller.duels": "Against me? Choose the amount of effort you want me to put in.",
+	"kingdomkeys.dialogue.foreteller.duels": "Gegen meine Wenigkeit? Choose the amount of effort you want me to put in.",
 	
 	"kingdomkeys.dialogue.foreteller.graduation.1": "That is the last of what I can teach you right now. The rest is out there, and you will find it on your own.",
 	"kingdomkeys.dialogue.foreteller.graduation.2": "I am closing the way I opened. Not to punish you, a door left hanging in the world is a door something else can find.",
-	"kingdomkeys.dialogue.foreteller.graduation.3": "Build yourself a Gummi Ship. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.",
-	"kingdomkeys.dialogue.foreteller.graduation.4": "Keep gathering Lux out there. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.",
+	"kingdomkeys.dialogue.foreteller.graduation.3": "Baut euch selbst einen Gumi-Jet. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.",
+	"kingdomkeys.dialogue.foreteller.graduation.4": "Sammelt fleißig Lux dort draußen. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.",
 	
 	"kingdomkeys.dialogue.foreteller.greeting": "Hallo, was brauchst du?",
-	"kingdomkeys.dialogue.foreteller.home": "Du gehst schon? Go and get what you need and come back, dein Training ist jedoch noch nicht vorbei.",
-	"kingdomkeys.dialogue.foreteller.lessons": "Orbs, is it? Say how hard you want it.",
+	"kingdomkeys.dialogue.foreteller.home": "Du gehst schon? So gehe und erledige was noch getan werde muss, und komme wieder. Dein Training ist jedoch noch nicht vorbei.",
+	"kingdomkeys.dialogue.foreteller.lessons": "Gegen Kugeln, nicht wahr? Sage mir wie schwer es sein darf.",
 	
-	"kingdomkeys.dialogue.foreteller.theory": "Ask, then. Better you learn it from me than from something in the dark.",
-	"kingdomkeys.dialogue.foreteller.theory_keyblade.1": "A weapon is a thing you pick up. A keyblade is a thing that picks you: it answers to the heart holding it, and to no other.",
+	"kingdomkeys.dialogue.foreteller.theory": "So frage; es ist besser von mir zu lernen, als in der Dunkelheit zu tappen.",
+	
+	"kingdomkeys.dialogue.foreteller.theory_keyblade.1": "Eine Waffe ist etwas, dass du auswählst. Ein Schlüsselschwert ist etwas, dass dich auswählt: Es antwortet dem Herzen des Trägers, und niemand anderes.",
 	"kingdomkeys.dialogue.foreteller.theory_keyblade.2": "That is why it opens what is locked and closes what should be. A door, a chest, the way between two worlds... they are all locks to it.",
 	"kingdomkeys.dialogue.foreteller.theory_keyblade.3": "And it is why the darkness wants the ones who carry them. Take the wielder and you have taken the key.",
-	"kingdomkeys.dialogue.foreteller.theory_lux.1": "Lux is the physical manifestation of the light. Every heart gives some off; a joyful heart shines more.",
+	
+	"kingdomkeys.dialogue.foreteller.theory_lux.1": "Lux ist die physische Form des Lichts. Jedes Herz gibt etwas davon ab; ein glückliches Herz wird heller scheinen.",
 	"kingdomkeys.dialogue.foreteller.theory_lux.2": "When you strike down a Heartless you are not destroying light, you are letting go what it swallowed. The goal is to defeat the darkness that attempts to corrupt the worlds.",
 	"kingdomkeys.dialogue.foreteller.theory_lux.3": "Your union counts what you bring in, but so do the other four, take it as a friendly competition.",
 
@@ -3879,20 +3881,25 @@
 
 	// WARNINGS
 
-	"warning.ap": "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.",
+	"warning.ap": "That change would leave you %s AP short for the abilities you have equipped. Wähle zuerst einige ab.",
+	
 	"warning.gummi.banned_blocks": "Struktur enthällt gebannte Blöcke: ",
 	"warning.gummi.blueprint_too_big": "Der Bauplan ist zu groß für diesen Hangar",
-	"warning.gummi.file_too_big": "Das Gumi-Schiff ist zu groß, um es zum Server zu schicken",
-	"warning.gummi.file_unreadable": "That file couldn't be read as a Gummi Ship",
+	"warning.gummi.file_too_big": "Das Gumi-Jet ist zu groß, um es zum Server zu schicken",
+	"warning.gummi.file_unreadable": "That file couldn't be read as a Gummi-Jet",
 	"warning.gummi.no_core": "Die Struktur enthält keinen Kern",
-	"warning.gummi.plate_occupied": "There is already a gummi ship on the build plate, move it out of the way first.",
-	"warning.gummi.ship_too_big": "Dieses Gumi-Schiff ist zu groß",
+	"warning.gummi.plate_occupied": "There is already a Gumi-Jet on the build plate, move it out of the way first.",
+	"warning.gummi.ship_too_big": "Dieses Gumi-Jet ist zu groß",
 	"warning.gummi.single_core": "Die Struktur muss einen einzigen Kern enthalten. Enthält momentan: ",
+	
 	"warning.information": "INFORMATION",
+	
 	"warning.party.disband": "Die Gruppe '%s' wird für alle Mitglieder aufgelöst. Diese Aktion kann nicht rückgängig gemacht werden.",
 	"warning.party.kick": "%s wird von der Gruppe entfernt.",
 	"warning.party.leave": "Du verlässt die Gruppe '%s'.",
+	
 	"warning.sell": "Du bist kurz davor x%s %s zu verkaufen. Bist du dir sicher?",
+	
 	"warning.ship.overwrite": "\"%s\" existiert bereits und wird ersetzt. Bist du dir sicher?",
 	"warning.stock.full": "Dein Inventar ist voll",
 	"warning.struggle.out_of_range": "Die Arena muss innerhalb von %s Blöcken vom Brett sein",
