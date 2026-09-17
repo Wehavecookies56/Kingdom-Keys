@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+
 public class Strings {
     // Records
     public static final String
@@ -712,8 +714,20 @@ public class Strings {
 
 			//Item get
 			Gui_ItemGet_Obtained = "gui.itemget.obtained",
-			Gui_ItemGet_Dismiss = "gui.itemget.dismiss";
+			Gui_ItemGet_Dismiss = "gui.itemget.dismiss",
 
+			//Org
+			Gui_Org = "gui.org",
+
+			//Shotlock + Minigame
+			Gui_Shotlock = "gui.shotlock",
+			Gui_Shotlock_Minigame = Gui_Shotlock + ".minigame";
+
+
+	//Containers
+	public static final String
+		Container_GummiShip = "container.gummi_ship",
+		Container_GummiHangar = "container.gummi_hangar";
 
 	//Items
 
@@ -1692,6 +1706,7 @@ public class Strings {
 			SwampMemory = "swamp_memory",
 			BadlandsMemory = "badlands_memory";
 
+	//Warning
 	public static String
 			WarningInformation = "warning.information",
 			WarningAP = "warning.ap",
@@ -1710,4 +1725,68 @@ public class Strings {
 			WarningFileUnreadable = "warning.gummi.file_unreadable",
 			WarningStruggleRange = "warning.struggle.out_of_range",
 			WarningStockFull = "warning.stock.full";
+
+	//Gummi Stuff
+	public static String
+		Gummi = KingdomKeys.MODID + ".gummi",
+		Gummi_Block = Gummi + ".block",
+		Gummi_Blueprint = Gummi + ".blueprint",
+		Gummi_Hangar = Gummi + ".hangar",
+		Gummi_Phone = Gummi + ".phone";
+
+	//Dialogue
+	public static String
+		Dialogue = KingdomKeys.MODID + ".dialogue",
+		Dialogue_FirstMeeting = Dialogue + ".first_meeting",
+		Dialogue_FirstMeeting_Answer = Dialogue_FirstMeeting + ".answer",
+		Dialogue_Foreteller = Dialogue + ".foreteller",
+		Dialogue_Foreteller_Answer = Dialogue_Foreteller + ".answer",
+		Dialogue_Apprentice = Dialogue + ".apprentice",
+		Dialogue_Apprentice_Greeting = Dialogue_Apprentice + ".greeting",
+		Dialogue_Apprentice_Answer = Dialogue_Apprentice + ".answer";
+
+	//Misc
+	public static String
+		Information = KingdomKeys.MODID + ".information",
+		Poster = KingdomKeys.MODID + ".poster",
+		Struggle = KingdomKeys.MODID + ".struggle",
+		StruggleTournament = Struggle + ".tournament";
+
+	//Savepoint
+	public static String
+		Savepoint = "savepoint",
+		Savepoint_Tooltip = Savepoint + ".tooltip",
+		Savepoint_Stat = Savepoint + ".stat";
+
+	//Commands
+	public static String
+		Command = KingdomKeys.MODID + ".command",
+		Command_Ability = Command + ".ability",
+		Command_Check = Command + ".check",
+		Command_Choice = Command + ".choice",
+		Command_Convert = Command + ".convert",
+		Command_Dimension = Command + ".dimension",
+		Command_Dp = Command + ".dp",
+		Command_Drive = Command + ".drive",
+		Command_Synthlevel = Command + ".synthlevel",
+		Command_Union = Command + ".union",
+		Command_Exp = Command + ".exp",
+		Command_Focus = Command + ".focus",
+		Command_Hearts = Command + ".hearts",
+		Command_Level = Command + ".level",
+		Command_Material = Command + ".material",
+		Command_Lux = Command + ".lux",
+		Command_Story = Command + ".story",
+		Command_Munny = Command + ".munny",
+		Command_Pay = Command + ".pay",
+		Command_Recipe = Command + ".recipe";
+
+	//Messages
+	public static String
+		Message = "message",
+		Message_MagnetBlox = Message + ".magnet_blox",
+		Message_Chest = Message + ".chest",
+		Message_KK = Message + "." + KingdomKeys.MODID,
+		Message_Wayfinder = Message + ".wayfinder",
+		Message_Recipe = Message + ".recipe";
 }

@@ -196,7 +196,7 @@
 	"advancements.kingdomkeys.press_m_hint": "Drücke [M] um anzufangen",
 	"advancements.kingdomkeys.press_m_hint.desc": "Es ist an der Zeit, eine Entscheidung zu treffen",
 
-	"advancements.kingdomkeys.visit_moogle": "Ein Mogry kann weiterhelfen",
+	"advancements.kingdomkeys.visit_moogle": "Ein Mogry kann helfen",
 	"advancements.kingdomkeys.visit_moogle.desc": "Besuche einen Mogry",
 
 	// actual
@@ -375,6 +375,7 @@
 
 	"block.kingdomkeys.gummi_editor": "Gumi-Editor",
 	"block.kingdomkeys.magical_chest": "Magische Truhe",
+	"block.kingdomkeys.treasure_chest": "Magische Schatztruhe",
 	"block.kingdomkeys.moogle_projector": "Mogry-Projektor",
 	"block.kingdomkeys.org_portal": "Organisations-Portal",
 	"block.kingdomkeys.pedestal": "Podest",
@@ -1230,7 +1231,7 @@
 	"entity.kingdomkeys.entity_org_portal": "Organisations-Portal",
 
 	"entity.kingdomkeys.dark_training_orb": "Verdunkelte Lichtkugel",
-	"entity.kingdomkeys.light_training_orb": "Lichktugel",
+	"entity.kingdomkeys.light_training_orb": "Lichtkugel",
 
 	"entity.kingdomkeys.gummi_piece": "Gumisplitter",
 	"entity.kingdomkeys.magic_target": "Magie-Ziel",
