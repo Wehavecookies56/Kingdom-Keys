@@ -1039,7 +1039,7 @@
 
 	"container.gummi_hangar.autobuild": "Automatisches Bauen",
 	"container.gummi_hangar.autobuild.disabled": "In den Server-Configs deaktiviert",
-	"container.gummi_hangar.autobuild.nochest": "Kein Container neben dem Hangar gefunden",
+	"container.gummi_hangar.autobuild.nochest": "Kein Inventar neben dem Hangar gefunden",
 	"container.gummi_hangar.autobuild.tooltip": "Places the blueprint block by block, spending stored energy and taking the pieces from any container next to the hangar",
 
 	"container.gummi_hangar.import": "Importieren",
@@ -1047,30 +1047,30 @@
 	"container.gummi_hangar.save_file": "Datei Speichern",
 	"container.gummi_hangar.load_file": "Datei Laden",
 
-	"container.gummi_hangar.file_loaded": "%s in die Blaupause geladen",
+	"container.gummi_hangar.file_loaded": "%s in den Bauplan geladen",
 	"container.gummi_hangar.file_saved": "Gespeichert unter: \"kingdomkeys/gummi_ships/%s.nbt\"",
-	"container.gummi_hangar.file_unwritable": "Couldn't write the file, see the log",
+	"container.gummi_hangar.file_unwritable": "Datei konnte nicht geschreiben werden, siehe Log",
 
 
-	"container.gummi_hangar.gummifound": "There's already a Gumi-Jet in the building area",
-	"container.gummi_hangar.gummitoobig": "There's a Gumi-Jet too big for the hangar in the building area",
+	"container.gummi_hangar.gummifound": "Da ist bereits ein Gumi-Jet auf der Bauplatte",
+	"container.gummi_hangar.gummitoobig": "Der Gumi-Jet ist zu groß für die Bauplatte des Hangars",
 
-	"container.gummi_hangar.moveshipbw": "Schiff backwards bewegen",
-	"container.gummi_hangar.moveshipfw": "Schiff vorwärts bewegen",
-	"container.gummi_hangar.moveshiphigher": "Schiff höher bewegen",
-	"container.gummi_hangar.moveshipleft": "Schiff nach links bewegen",
-	"container.gummi_hangar.moveshiplower": "Schiff tiefer bewegen",
-	"container.gummi_hangar.moveshipright": "Schiff nach rechts bewegen",
+	"container.gummi_hangar.moveshipbw": "Jet nach hinten",
+	"container.gummi_hangar.moveshipfw": "Jet nach vorne",
+	"container.gummi_hangar.moveshiphigher": "Jet höher",
+	"container.gummi_hangar.moveshipleft": "Jet nach links",
+	"container.gummi_hangar.moveshiplower": "Jet tiefer",
+	"container.gummi_hangar.moveshipright": "Jet nach rechts",
 
 	"container.gummi_hangar.no_saved_ships": "Noch nichts in \"kingdomkeys/gummi_ships\" gespeichert",
 
 	"container.gummi_hangar.noblueprintexp": "Du musst einen Bauplan plazieren, um ihn zu exportieren",
 	"container.gummi_hangar.noblueprintimp": "Du musst einen Bauplan plazieren, um ihn zu importieren",
-	"container.gummi_hangar.noblueprintload": "There's no blueprint to load onto",
+	"container.gummi_hangar.noblueprintload": "Es gibt keinen Bauplan zum draufladen",
 	"container.gummi_hangar.noblueprintname": "Du musst den Namen des Bauplans angeben",
-	"container.gummi_hangar.noblueprintsave": "There's no blueprint to save",
+	"container.gummi_hangar.noblueprintsave": "Es gibt keinen Bauplan zum speichern",
 
-	"container.gummi_hangar.noname": "Du musst dein Gumi-Jet benennen",
+	"container.gummi_hangar.noname": "Du musst deinen Gumi-Jet benennen",
 	"container.gummi_hangar.nothing_to_save": "Put a blueprint with a ship on it in the slot first",
 
 
@@ -1246,7 +1246,7 @@
 	"form.form_valor.name": "Helden-Form",
 	"form.form_wisdom.name": "Weisen-Form",
 
-	// Gears (not added) - for panel system
+	// Gears (not added) - for panel system (remind maybe?)
 	/*
 	//numbers should not be included in the name perhaps? maybe added in via code instead?
 	//"gear.no_gear.name": "Keine Mod",
@@ -1300,8 +1300,8 @@
 
 	// GUI
 
-	"gui.level.dynamic": "Deine Stufe",
-	"gui.duel.level": "ST. %s",
+	"gui.level.dynamic": "Dein Level",
+	"gui.duel.level": "Lv. %s",
 	"gui.training.reward": "%s Erf, %s Lux",
 
 	"gui.cardpacks.title": "Kartenpackung",
@@ -3289,7 +3289,7 @@
 	"jei.info.kingdomkeys.pair_blox": "(!WIP!)\nMit Rechtsklick kann die Memory-Stufe geändert werden. Schlägt man einen an einer Seite wird er einige Blöcke in die Richtung bewegt. (Dabei wird dieser von Schwerkraft beeinflusst.) Werden zwei zusammengeführt mit Unterschiedlichen Memory-Stufen, so fügen sie sich zusammen. (Zusammengeführte Memoryblöcke können nicht zusammengeführt werden.)",
 	"jei.info.kingdomkeys.proof_of_heart": "Erhalten durch das besiegen des Enderdrachen. Benutze es um die Organisation zu verlassen.",
 	"jei.info.kingdomkeys.recipes": "Wird selten von feindlichen Mobs fallen gelassen und kann in Truhen von Mogry-Häusern in Dörfern gefunden werden. Benutze es um Formeln für die Item-Schmiede bei Mogrys freizuschalten.",
-	"jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Stufe 4 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
+	"jei.info.kingdomkeys.spell_orb": "Benutzen um den besagten Zauber freizuschalten. Einmal freigeschaltet kann der Zauber mithilfe des Kommando-Menüs gesprochen werden, solange deine MP ausreichen.\nBis Level 4 wirst du keine MP haben. Kann beim Zerstören von einem Kugelblock fallen gelassen werden.",
 	"jei.info.kingdomkeys.valor_orb": "Benutzen um die Helden-Form freizuschalten. Die Helden-Form hat einen zweiten Schlüsselschwert-Platz. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
 	"jei.info.kingdomkeys.wisdom_orb": "Benutzen um die Weisen-Form freizuschalten. Das Aktivieren benötigt 3 volle Drive-Leisten.\nKann beim Zerstören von einem Raritätenblock fallen gelassen werden.",
 
@@ -3851,8 +3851,8 @@
 	"kingdomkeys.command.hearts.set": "Set %s hearts to %s",
 	"kingdomkeys.command.hearts.set_self": "Your hearts have been set to %s",
 
-	"kingdomkeys.command.level.set": "%ss Stufe auf %s gesetzt",
-	"kingdomkeys.command.level.set_self": "Deine Stufe beträgt nun %s",
+	"kingdomkeys.command.level.set": "%ss Level auf %s gesetzt",
+	"kingdomkeys.command.level.set_self": "Dein Level beträgt nun %s",
 
 	"kingdomkeys.command.lux.add": "Added %s Lux to %s",
 	"kingdomkeys.command.lux.add_self": "Your Lux has been increased by %s",
@@ -3974,8 +3974,8 @@
 	"kingdomkeys.config.lock_on_icon_rotation": "Lock-On icon rotation speed",
 	"kingdomkeys.config.lock_on_icon_scale": "Lock-On icon scale (%)",
 
-	"kingdomkeys.config.mob_level_name": "Mob-Stufe im Namen",
-	"kingdomkeys.config.mob_level_stats": "Mob-Stufenwerte skalieren",
+	"kingdomkeys.config.mob_level_name": "Mob-Level im Namen",
+	"kingdomkeys.config.mob_level_stats": "Mob-Level-Werte skalieren",
 	"kingdomkeys.config.mob_spawn": "Mob type spawn rate",
 	"kingdomkeys.config.mp_drop_probability": "MP-Kugel Warscheinlichkeit",
 	"kingdomkeys.config.munny_drop_probability": "Taler-Kugel Warscheinlichkeit",
