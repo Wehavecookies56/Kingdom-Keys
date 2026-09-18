@@ -2822,6 +2822,7 @@
   "kingdomkeys.config.shotlock_mult": "Shotlock Damage Multiplier",
   "kingdomkeys.config.shoulder_surfing_decoupled": "Shoulder Surfing Mod: Use decoupled camera when not locked on",
   "kingdomkeys.config.show_gui_toggle": "Toggle HUD visibility",
+  "kingdomkeys.config.starter_keyblades": "Starter keyblades",
   "kingdomkeys.config.starting_recipes": "Starter recipes",
   "kingdomkeys.config.stats_multiplier": "Stats multiplier",
   "kingdomkeys.config.summon_together": "Summon weapon and armor together",

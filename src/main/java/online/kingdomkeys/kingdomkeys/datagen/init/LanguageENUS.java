@@ -110,6 +110,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusDropProbability, "Focus Drops Probability");
         addConfigKey(ModConfigs.getCommonConfig().shotlockMult, "Shotlock Damage Multiplier");
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Starter recipes");
+        addConfigKey(ModConfigs.getCommonConfig().starterKeyblades, "Starter keyblades");
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");

@@ -1717,6 +1717,19 @@ public class Utils {
 		return Math.min(Math.max(value, min), max);
 	}
 
+	/** Pseudo-random keyblade attatched to the player */
+	public static final ResourceLocation RANDOM_STARTER = KingdomKeys.rl("random_starter");
+
+	/** Formula for the random keyblade based on the player's UUID */
+	public static ResourceLocation starterFor(UUID player, List<ResourceLocation> candidates) {
+		if (player == null || candidates == null || candidates.isEmpty()) {
+			return null;
+		}
+
+		long num = player.getMostSignificantBits() ^ player.getLeastSignificantBits();
+		return candidates.get(Math.floorMod(num, candidates.size()));
+	}
+
 	/**
 	 * Method for generating random integer between the 2 parameters, The order of
 	 * min and max do not matter.

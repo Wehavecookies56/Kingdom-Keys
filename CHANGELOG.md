@@ -39,6 +39,7 @@
 * Translations for all the Spanish variants (Argentina, Chile, Ecuador, México, Uruguay and Venezuela).
 
 ## Changed:
+* Default Kingdom Key recipe is now replaced by a starting keyblade linked to each player's UUID.
 * Abilities are now data driven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.

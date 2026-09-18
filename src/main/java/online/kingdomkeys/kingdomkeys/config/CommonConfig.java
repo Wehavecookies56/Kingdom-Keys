@@ -6,6 +6,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class CommonConfig {
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
+    public ModConfigSpec.ConfigValue<List<? extends String>> starterKeyblades;
 
     public ModConfigSpec.BooleanValue generateCOEntrance;
     public ModConfigSpec.IntValue coEntranceChunkX, coEntranceChunkZ;
@@ -211,10 +213,10 @@ public class CommonConfig {
 
         builder.push("synthesis");
         startingRecipes = builder
-                .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
+                .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created. " + Utils.RANDOM_STARTER + " is not a recipe: it stands for one of the starterKeyblades below, dealt from the player's own UUID. Name a keyblade here instead to go back to giving everybody the same one")
                 .translation(KingdomKeys.MODID + ".config.starting_recipes")
                 .defineList("startingRecipes", List.of(
-                        KingdomKeys.MODID + ":" + Strings.kingdomKey,
+                        Utils.RANDOM_STARTER.toString(),
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilShard,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilStone,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilGem,
@@ -235,6 +237,24 @@ public class CommonConfig {
                         KingdomKeys.MODID + ":" + Strings.magicBoost,
                         KingdomKeys.MODID + ":" + Strings.defenseBoost,
                         KingdomKeys.MODID + ":" + Strings.apBoost
+                ), o -> {
+                    if (o instanceof String s) {
+                        return ResourceLocation.tryParse(s) != null;
+                    }
+                    return false;
+                });
+
+        starterKeyblades = builder
+                .comment("Which keyblades " + Utils.RANDOM_STARTER + " can stand for in startingRecipes. Each player is dealt one of these from their own UUID: the same player always gets the same one, and different players get different ones. Leave startingRecipes naming a keyblade outright to give everybody the same as before")
+                .translation(KingdomKeys.MODID + ".config.starter_keyblades")
+                .defineList("starterKeyblades", List.of(
+                        KingdomKeys.MODID + ":" + Strings.kingdomKey,
+                        KingdomKeys.MODID + ":" + Strings.kingdomKeyD,
+                        KingdomKeys.MODID + ":" + Strings.wayToTheDawn,
+                        KingdomKeys.MODID + ":" + Strings.earthshaker,
+                        KingdomKeys.MODID + ":" + Strings.rainfell,
+                        KingdomKeys.MODID + ":" + Strings.waywardWind,
+                        KingdomKeys.MODID + ":" + Strings.starlight
                 ), o -> {
                     if (o instanceof String s) {
                         return ResourceLocation.tryParse(s) != null;

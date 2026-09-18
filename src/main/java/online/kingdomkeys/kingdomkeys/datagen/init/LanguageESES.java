@@ -110,6 +110,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusDropProbability, "Probabilidad de soltar puntos de tino");
         addConfigKey(ModConfigs.getCommonConfig().shotlockMult, "Multiplicador de daño del Tiro Certero");
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Recetas iniciales");
+        addConfigKey(ModConfigs.getCommonConfig().starterKeyblades, "Llaves espada iniciales");
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");

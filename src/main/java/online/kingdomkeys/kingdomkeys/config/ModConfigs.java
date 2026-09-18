@@ -356,6 +356,7 @@ public class ModConfigs {
     public static List<String> playerSpawnHeartlessData;
 
     public static List<ResourceLocation> startingRecipes;
+    public static List<ResourceLocation> starterKeyblades;
 
     public static void bakeCommon() {
         heartlessSpawningMode = COMMON.heartlessSpawningMode.get();
@@ -393,6 +394,7 @@ public class ModConfigs {
     	needKeybladeForHeartless = COMMON.needKeybladeForHeartless.get();
 
         startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::parse).toList();
+        starterKeyblades = ((List<String>) COMMON.starterKeyblades.get()).stream().map(ResourceLocation::parse).toList();
 
         allowBlocksInHangarArea = COMMON.allowBlocksInHangarArea.get();
         gummiBlocksDropPercent = COMMON.gummiBlocksDropPercent.get();

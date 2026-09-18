@@ -396,10 +396,15 @@ public class EntityEvents {
 				}
 
 				ModConfigs.startingRecipes.forEach(resourceLocation -> {
-					if (RecipeRegistry.getInstance().containsKey(resourceLocation)) {
-						playerData.addKnownRecipe(resourceLocation);
+					// Replaces the "assigned keyblade" token for the real recipe
+					ResourceLocation recipe = resourceLocation.equals(Utils.RANDOM_STARTER) ? Utils.starterFor(player.getUUID(), ModConfigs.starterKeyblades) : resourceLocation;
+
+					if (recipe == null) {
+						KingdomKeys.LOGGER.error("startingRecipes asks for {} but starterKeyblades is empty, so {} starts with no keyblade", Utils.RANDOM_STARTER, player.getGameProfile().getName());
+					} else if (RecipeRegistry.getInstance().containsKey(recipe)) {
+						playerData.addKnownRecipe(recipe);
 					} else {
-						KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", resourceLocation);
+						KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", recipe);
 					}
 				});
 
