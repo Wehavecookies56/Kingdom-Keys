@@ -183,87 +183,87 @@ public class LanguageENUS extends KKLanguageProvider {
         //Containers
         add("container.magical_chest", "Magical Chest");
         add("container.pedestal", "Pedestal");
-        add("container.gummi_hangar", "Gummi Hangar");
+        add(Container_GummiHangar, "Gummi Hangar");
 
 
-        add("container.gummi_hangar.gummifound","There's already a Gummi Ship in the building area");
-        add("container.gummi_hangar.gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
-        add("container.gummi_hangar.noname","You need to name your Gummi Ship");
-        add("container.gummi_hangar.save_file", "Save file");
-        add("container.gummi_hangar.load_file", "Load file");
-        add("container.gummi_hangar.file_saved", "Saved to kingdomkeys/gummi_ships/%s.nbt");
-        add("container.gummi_hangar.file_loaded", "Loaded %s into the blueprint");
-        add("container.gummi_hangar.no_saved_ships", "Nothing saved yet in kingdomkeys/gummi_ships");
-        add("container.gummi_hangar.noblueprintsave", "There's no blueprint to save");
-        add("container.gummi_hangar.noblueprintload", "There's no blueprint to load onto");
-        add("container.gummi_hangar.file_unwritable", "Couldn't write the file, see the log");
-        add("container.gummi_hangar.nothing_to_save", "Put a blueprint with a ship on it in the slot first");
-        add("container.gummi_hangar.moveshipfw","Move ship forward");
-        add("container.gummi_hangar.moveshipbw","Move ship backwards");
-        add("container.gummi_hangar.moveshipleft","Move ship to the left");
-        add("container.gummi_hangar.moveshipright","Move ship to the right");
-        add("container.gummi_hangar.moveshiphigher","Move ship higher");
-        add("container.gummi_hangar.moveshiplower","Move ship lower");
+        add(Container_GummiHangar + ".gummifound","There's already a Gummi Ship in the building area");
+        add(Container_GummiHangar + ".gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
+        add(Container_GummiHangar + ".noname","You need to name your Gummi Ship");
+        add(Container_GummiHangar + ".save_file", "Save file");
+        add(Container_GummiHangar + ".load_file", "Load file");
+        add(Container_GummiHangar + ".file_saved", "Saved to kingdomkeys/gummi_ships/%s.nbt");
+        add(Container_GummiHangar + ".file_loaded", "Loaded %s into the blueprint");
+        add(Container_GummiHangar + ".no_saved_ships", "Nothing saved yet in kingdomkeys/gummi_ships");
+        add(Container_GummiHangar + ".noblueprintsave", "There's no blueprint to save");
+        add(Container_GummiHangar + ".noblueprintload", "There's no blueprint to load onto");
+        add(Container_GummiHangar + ".file_unwritable", "Couldn't write the file, see the log");
+        add(Container_GummiHangar + ".nothing_to_save", "Put a blueprint with a ship on it in the slot first");
+        add(Container_GummiHangar + ".moveshipfw","Move ship forward");
+        add(Container_GummiHangar + ".moveshipbw","Move ship backwards");
+        add(Container_GummiHangar + ".moveshipleft","Move ship to the left");
+        add(Container_GummiHangar + ".moveshipright","Move ship to the right");
+        add(Container_GummiHangar + ".moveshiphigher","Move ship higher");
+        add(Container_GummiHangar + ".moveshiplower","Move ship lower");
 
-        add("container.gummi_hangar.noblueprintimp","You need to place a blueprint to import it");
-        add("container.gummi_hangar.noblueprintname","You need to specify the blueprint name");
-        add("container.gummi_hangar.noblueprintexp","You need to place a blueprint to export it");
+        add(Container_GummiHangar + ".noblueprintimp","You need to place a blueprint to import it");
+        add(Container_GummiHangar + ".noblueprintname","You need to specify the blueprint name");
+        add(Container_GummiHangar + ".noblueprintexp","You need to place a blueprint to export it");
 
-        add("container.gummi_hangar.build","Build");
-        add("container.gummi_hangar.autobuild","Auto build");
-        add("container.gummi_hangar.autobuild.tooltip","Places the blueprint block by block, spending stored energy and taking the pieces from any container next to the hangar");
-        add("container.gummi_hangar.autobuild.disabled","Disabled in the server config");
-        add("container.gummi_hangar.autobuild.nochest","No container next to the hangar");
-        add("container.gummi_hangar.edit","Edit");
-        add("container.gummi_hangar.import","Import");
-        add("container.gummi_hangar.export","Export");
+        add(Container_GummiHangar + ".build","Build");
+        add(Container_GummiHangar + ".autobuild","Auto build");
+        add(Container_GummiHangar + ".autobuild.tooltip","Places the blueprint block by block, spending stored energy and taking the pieces from any container next to the hangar");
+        add(Container_GummiHangar + ".autobuild.disabled","Disabled in the server config");
+        add(Container_GummiHangar + ".autobuild.nochest","No container next to the hangar");
+        add(Container_GummiHangar + ".edit","Edit");
+        add(Container_GummiHangar + ".import","Import");
+        add(Container_GummiHangar + ".export","Export");
 
-        add("container.gummi_hangar.power","Engine power");
-        add("container.gummi_hangar.firepower","Firepower");
-        add("container.gummi_hangar.weight","Weight");
-        add("container.gummi_hangar.armor","Armor");
-        add("container.gummi_hangar.effectivespeed","Eff. Speed");
-        add("container.gummi_hangar.seats","Seats");
-        add("container.gummi_hangar.mobility","Mobility");
+        add(Container_GummiHangar + ".power","Engine power");
+        add(Container_GummiHangar + ".firepower","Firepower");
+        add(Container_GummiHangar + ".weight","Weight");
+        add(Container_GummiHangar + ".armor","Armor");
+        add(Container_GummiHangar + ".effectivespeed","Eff. Speed");
+        add(Container_GummiHangar + ".seats","Seats");
+        add(Container_GummiHangar + ".mobility","Mobility");
 
         // Gummi - ships, phone, hangar and blueprints
-        add("kingdomkeys.gummi.block.shape_size_2x1x2", "Shape size: 2x1x2");
-        add("kingdomkeys.gummi.block.shape_size_2x2x2", "Shape size: 2x2x2");
-        add("kingdomkeys.gummi.block.place_corner", "Place in the bottom-left corner of the area for correct orientation");
-        add("kingdomkeys.gummi.blueprint.blank", "(blank)");
-        add("kingdomkeys.gummi.hangar.cant_place", "You can't place the Gummi Hangar here");
-        add("kingdomkeys.gummi.hangar.stored_fuel", "Stored fuel: ");
-        add("kingdomkeys.gummi.phone.call_ship", "Call Gummi Ship: ");
-        add("kingdomkeys.gummi.phone.health", "Health: ");
-        add("kingdomkeys.gummi.phone.fuel", "Fuel: ");
-        add("kingdomkeys.gummi.phone.no_ship", "No Gummi Ship stored");
-        add("kingdomkeys.gummi.phone.store_hint", "Sneak + left click on your Gummi Ship to store it");
-        add("kingdomkeys.gummi.phone.already_stored", "There's already a gummi ship stored in your gummi phone");
-        add("kingdomkeys.gummi.phone.stored", "Stored gummi ship in your gummi phone");
+        add(Gummi_Block + ".shape_size_2x1x2", "Shape size: 2x1x2");
+        add(Gummi_Block + ".shape_size_2x2x2", "Shape size: 2x2x2");
+        add(Gummi_Block + ".place_corner", "Place in the bottom-left corner of the area for correct orientation");
+        add(Gummi_Blueprint + ".blank", "(blank)");
+        add(Gummi_Hangar + ".cant_place", "You can't place the Gummi Hangar here");
+        add(Gummi_Hangar + ".stored_fuel", "Stored fuel: ");
+        add(Gummi_Phone + ".call_ship", "Call Gummi Ship: ");
+        add(Gummi_Phone + ".health", "Health: ");
+        add(Gummi_Phone + ".fuel", "Fuel: ");
+        add(Gummi_Phone + ".no_ship", "No Gummi Ship stored");
+        add(Gummi_Phone + ".store_hint", "Sneak + left click on your Gummi Ship to store it");
+        add(Gummi_Phone + ".already_stored", "There's already a gummi ship stored in your gummi phone");
+        add(Gummi_Phone + ".stored", "Stored gummi ship in your gummi phone");
 
 
         //Gummi Ship HUD
-        add("container.gummi_ship.movement", "Movement");
-        add("container.gummi_ship.forward", "Forward");
-        add("container.gummi_ship.backwards", "Backwards");
-        add("container.gummi_ship.left", "Left");
-        add("container.gummi_ship.right", "Right");
-        add("container.gummi_ship.up", "Up");
-        add("container.gummi_ship.down", "Down");
-        add("container.gummi_ship.boost", "Boost");
-        add("container.gummi_ship.3d_flight", "3D flight");
+        add(Container_GummiShip + ".movement", "Movement");
+        add(Container_GummiShip + ".forward", "Forward");
+        add(Container_GummiShip + ".backwards", "Backwards");
+        add(Container_GummiShip + ".left", "Left");
+        add(Container_GummiShip + ".right", "Right");
+        add(Container_GummiShip + ".up", "Up");
+        add(Container_GummiShip + ".down", "Down");
+        add(Container_GummiShip + ".boost", "Boost");
+        add(Container_GummiShip + ".3d_flight", "3D flight");
 
-        add("container.gummi_ship.coords", "Coords");
-        add("container.gummi_ship.facing", "Facing");
+        add(Container_GummiShip + ".coords", "Coords");
+        add(Container_GummiShip + ".facing", "Facing");
 
-        add("container.gummi_ship.fuel", "Fuel");
-        add("container.gummi_ship.speed", "Speed");
-        add("container.gummi_ship.eng_power", "Engine power");
-        add("container.gummi_ship.armor", "Armor");
-        add("container.gummi_ship.numofweapons", "Num. of weapons");
+        add(Container_GummiShip + ".fuel", "Fuel");
+        add(Container_GummiShip + ".speed", "Speed");
+        add(Container_GummiShip + ".eng_power", "Engine power");
+        add(Container_GummiShip + ".armor", "Armor");
+        add(Container_GummiShip + ".numofweapons", "Num. of weapons");
 
-        add("container.gummi_ship.ready", "Ready");
-        add("container.gummi_ship.not_ready", "Not ready");
+        add(Container_GummiShip + ".ready", "Ready");
+        add(Container_GummiShip + ".not_ready", "Not ready");
 
         // Organization portals
         add("kingdomkeys.org_portal.now_yours", "This is now your portal");
@@ -317,89 +317,89 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.encounter.hard", "Hard");
         add("kingdomkeys.encounter.dynamic", "Dynamic");
 
-        add("kingdomkeys.dialogue.first_meeting.greeting.1", "So it was you. I felt a new keyblade wake, and the world it belongs to open along with it.");
-        add("kingdomkeys.dialogue.first_meeting.greeting.2", "I have traveled from a far place following that feeling. Give me a moment of your morning.");
-        add("kingdomkeys.dialogue.first_meeting.who.1", "I am {speaker}, one of five union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.");
-        add("kingdomkeys.dialogue.first_meeting.who.2", "Ours is {union}. We'll be the voice you will hear when there is something you need to know.");
-        add("kingdomkeys.dialogue.first_meeting.why.1", "A keyblade is not a tool. It is a door, and doors open both ways. The darkness surely has noticed you the same way as I have.");
-        add("kingdomkeys.dialogue.first_meeting.why.2", "Untaught, it will find you long before you are ready for it. I would rather prefer you being ready for it.");
-        add("kingdomkeys.dialogue.first_meeting.answer.who", "Who are you?");
-        add("kingdomkeys.dialogue.first_meeting.answer.why", "Why me?");
-        add("kingdomkeys.dialogue.first_meeting.offer.1", "Then let me teach you. Not here, where every shadow is listening, but where unions keep order.");
-        add("kingdomkeys.dialogue.first_meeting.offer.2", "I will open the way from where we stand, and leave it active. Come and go as you need to, bring what you must, this is not an afternoon's work.");
-        add("kingdomkeys.dialogue.first_meeting.offer.3", "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gummi Ship like everybody else.");
-        add("kingdomkeys.dialogue.first_meeting.answer.come", "Where are you taking me?");
-        add("kingdomkeys.dialogue.first_meeting.answer.open", "Open it.");
-        add("kingdomkeys.dialogue.first_meeting.answer.leave", "I need to think about this.");
+        add(Dialogue_FirstMeeting + ".greeting.1", "So it was you. I felt a new keyblade wake, and the world" + " " + "it belongs to open along with it.");
+        add(Dialogue_FirstMeeting + ".greeting.2", "I have traveled from a far place following that feeling. Give me a moment of your morning.");
+        add(Dialogue_FirstMeeting + ".who.1", "I am {speaker}, one of five union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.");
+        add(Dialogue_FirstMeeting + ".who.2", "Ours is {union}. We'll be the voice you will hear when there is something you need to know.");
+        add(Dialogue_FirstMeeting + ".why.1", "A keyblade is not a tool. It is a door, and doors open both ways. The darkness surely has noticed you the same way as I have.");
+        add(Dialogue_FirstMeeting + ".why.2", "Untaught, it will find you long before you are ready for it. I would rather prefer you being ready for it.");
+        add(Dialogue_FirstMeeting_Answer + ".who", "Who are you?");
+        add(Dialogue_FirstMeeting_Answer + ".why", "Why me?");
+        add(Dialogue_FirstMeeting + ".offer.1", "Then let me teach you. Not here, where every shadow is listening, but where unions keep order.");
+        add(Dialogue_FirstMeeting + ".offer.2", "I will open the way from where we stand, and leave it active. Come and go as you need to, bring what you must, this is not an afternoon's work.");
+        add(Dialogue_FirstMeeting + ".offer.3", "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gummi Ship like everybody else.");
+        add(Dialogue_FirstMeeting_Answer + ".come", "Where are you taking me?");
+        add(Dialogue_FirstMeeting_Answer + ".open", "Open it.");
+        add(Dialogue_FirstMeeting_Answer + ".leave", "I need to think about this.");
 
-        add("kingdomkeys.dialogue.foreteller.greeting", "Hello, what do you want?");
-        add("kingdomkeys.dialogue.foreteller.lessons", "Orbs, is it? Say how hard you want it.");
-        add("kingdomkeys.dialogue.foreteller.duels", "Against me? Choose the amount of effort you want me to put in.");
-        add("kingdomkeys.dialogue.foreteller.answer.train", "I want to train!");
-        add("kingdomkeys.dialogue.foreteller.answer.spar", "I want to face you.");
-        add("kingdomkeys.dialogue.foreteller.answer.shop", "I have Lux to spend.");
-        add("kingdomkeys.dialogue.foreteller.answer.leave", "Nothing. Sorry to bother you.");
-        add("kingdomkeys.dialogue.foreteller.darkness.1", "Since you are going to face the darkness, you had better know how it fights.");
-        add("kingdomkeys.dialogue.foreteller.darkness.2", "So I will imbue the orbs with a little of it. Better you face it here than out there.");
-        add("kingdomkeys.dialogue.foreteller.answer.ready", "Do it.");
-        add("kingdomkeys.dialogue.foreteller.answer.notyet", "Not yet.");
-        add("kingdomkeys.dialogue.foreteller.answer.back", "Let me think about it...");
-        add("kingdomkeys.dialogue.foreteller.home", "You're leaving already? Go and get what you need and come back, your training is not done yet.");
-        add("kingdomkeys.dialogue.foreteller.answer.home", "I want to go back.");
-        add("kingdomkeys.dialogue.foreteller.answer.send", "I will be back!");
-        add("kingdomkeys.dialogue.foreteller.graduation.1", "That is the last of what I can teach you right now. The rest is out there, and you will find it on your own.");
-        add("kingdomkeys.dialogue.foreteller.graduation.2", "I am closing the way I opened. Not to punish you, a door left hanging in the world is a door something else can find.");
-        add("kingdomkeys.dialogue.foreteller.graduation.3", "Build yourself a Gummi Ship. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.");
-        add("kingdomkeys.dialogue.foreteller.graduation.4", "Keep gathering Lux out there. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.");
-        add("kingdomkeys.dialogue.foreteller.answer.graduate", "That one was harder...");
+        add(Dialogue_Foreteller + ".greeting", "Hello, what do you want?");
+        add(Dialogue_Foreteller + ".lessons", "Orbs, is it? Say how hard you want it.");
+        add(Dialogue_Foreteller + ".duels", "Against me? Choose the amount of effort you want me to put in.");
+        add(Dialogue_Foreteller_Answer + ".train", "I want to train!");
+        add(Dialogue_Foreteller_Answer + ".spar", "I want to face you.");
+        add(Dialogue_Foreteller_Answer + ".shop", "I have Lux to spend.");
+        add(Dialogue_Foreteller_Answer + ".leave", "Nothing. Sorry to bother you.");
+        add(Dialogue_Foreteller + ".darkness.1", "Since you are going to face the darkness, you had better know how it fights.");
+        add(Dialogue_Foreteller + ".darkness.2", "So I will imbue the orbs with a little of it. Better you face it here than out there.");
+        add(Dialogue_Foreteller_Answer + ".ready", "Do it.");
+        add(Dialogue_Foreteller_Answer + ".notyet", "Not yet.");
+        add(Dialogue_Foreteller_Answer + ".back", "Let me think about it...");
+        add(Dialogue_Foreteller + ".home", "You're leaving already? Go and get what you need and come back, your training is not done yet.");
+        add(Dialogue_Foreteller_Answer + ".home", "I want to go back.");
+        add(Dialogue_Foreteller_Answer + ".send", "I will be back!");
+        add(Dialogue_Foreteller + ".graduation.1", "That is the last of what I can teach you right now. The rest is out there, and you will find it on your own.");
+        add(Dialogue_Foreteller + ".graduation.2", "I am closing the way I opened. Not to punish you, a door left hanging in the world is a door something else can find.");
+        add(Dialogue_Foreteller + ".graduation.3", "Build yourself a Gummi Ship. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.");
+        add(Dialogue_Foreteller + ".graduation.4", "Keep gathering Lux out there. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.");
+        add(Dialogue_Foreteller_Answer + ".graduate", "That one was harder...");
 
-        add("kingdomkeys.dialogue.foreteller.theory", "Ask, then. Better you learn it from me than from something in the dark.");
-        add("kingdomkeys.dialogue.foreteller.answer.ask", "There are things I do not understand.");
-        add("kingdomkeys.dialogue.foreteller.answer.theory.keyblade", "What is a keyblade?");
-        add("kingdomkeys.dialogue.foreteller.answer.theory.lux", "And what is Lux for?");
+        add(Dialogue_Foreteller + ".theory", "Ask, then. Better you learn it from me than from something in the dark.");
+        add(Dialogue_Foreteller_Answer + ".ask", "There are things I do not understand.");
+        add(Dialogue_Foreteller_Answer + ".theory.keyblade", "What is a keyblade?");
+        add(Dialogue_Foreteller_Answer + ".theory.lux", "And what is Lux for?");
 
-        add("kingdomkeys.dialogue.foreteller.theory_keyblade.1", "A weapon is a thing you pick up. A keyblade is a thing that picks you: it answers to the heart holding it, and to no other.");
-        add("kingdomkeys.dialogue.foreteller.theory_keyblade.2", "That is why it opens what is locked and closes what should be. A door, a chest, the way between two worlds... they are all locks to it.");
-        add("kingdomkeys.dialogue.foreteller.theory_keyblade.3", "And it is why the darkness wants the ones who carry them. Take the wielder and you have taken the key.");
+        add(Dialogue_Foreteller + ".theory_keyblade.1", "A weapon is a thing you pick up. A keyblade is a thing that picks you: it answers to the heart holding it, and to no other.");
+        add(Dialogue_Foreteller + ".theory_keyblade.2", "That is why it opens what is locked and closes what should be. A door, a chest, the way between two worlds... they are all locks to it.");
+        add(Dialogue_Foreteller + ".theory_keyblade.3", "And it is why the darkness wants the ones who carry them. Take the wielder and you have taken the key.");
 
-        add("kingdomkeys.dialogue.foreteller.theory_lux.1", "Lux is the physical manifestation of the light. Every heart gives some off; a joyful heart shines more.");
-        add("kingdomkeys.dialogue.foreteller.theory_lux.2", "When you strike down a Heartless you are not destroying light, you are letting go what it swallowed. The goal is to defeat the darkness that attempts to corrupt the worlds.");
-        add("kingdomkeys.dialogue.foreteller.theory_lux.3", "Your union counts what you bring in, but so do the other four, take it as a friendly competition.");
+        add(Dialogue_Foreteller + ".theory_lux.1", "Lux is the physical manifestation of the light. Every heart gives some off; a joyful heart shines more.");
+        add(Dialogue_Foreteller + ".theory_lux.2", "When you strike down a Heartless you are not destroying light, you are letting go what it swallowed. The goal is to defeat the darkness that attempts to corrupt the worlds.");
+        add(Dialogue_Foreteller + ".theory_lux.3", "Your union counts what you bring in, but so do the other four, take it as a friendly competition.");
 
 
         add(Gui_Level_Dynamic, "Your level");
         add(Gui_Training_Reward, "%s EXP, %s Lux");
-        add("kingdomkeys.information.title", "INFORMATION");
-        add("kingdomkeys.information.training", "Defeat all the orbs");
-        add("kingdomkeys.information.duel", "Defeat your master");
-        add("kingdomkeys.information.spar", "Win the spar");
+        add(Information + ".title", "INFORMATION");
+        add(Information + ".training", "Defeat all the orbs");
+        add(Information + ".duel", "Defeat your master");
+        add(Information + ".spar", "Win the spar");
 
-        add("kingdomkeys.dialogue.apprentice.greeting.1", "Careful with that thing, you nearly took my arm off.");
-        add("kingdomkeys.dialogue.apprentice.greeting.2", "They say the Foretellers watch every one of us. Do you believe that?");
-        add("kingdomkeys.dialogue.apprentice.greeting.3", "I have been out here since dawn and I have collected barely any Lux.");
-        add("kingdomkeys.dialogue.apprentice.greeting.4", "My union keeps telling me to train. My legs keep telling me otherwise.");
-        add("kingdomkeys.dialogue.apprentice.greeting.5", "You are the one everybody talks about, are you not?");
-        add("kingdomkeys.dialogue.apprentice.greeting.6", "The clock tower is the best spot in town. Do not tell anyone I said so.");
-        add("kingdomkeys.dialogue.apprentice.greeting.7", "One day I will carry a strong keyblade like the masters do. One day.");
-        add("kingdomkeys.dialogue.apprentice.greeting.8", "Heartless in the outskirts again. Somebody should do something about that.");
-        add("kingdomkeys.dialogue.apprentice.greeting.9", "Do you ever second guess the union you picked? I sometimes do...");
-        add("kingdomkeys.dialogue.apprentice.greeting.10", "I traded three days of Lux for this tunic. Worth it, I think.");
-        add("kingdomkeys.dialogue.apprentice.greeting.11", "My friend swears she saw a Heartless the size of a house. I do not believe her.");
-        add("kingdomkeys.dialogue.apprentice.greeting.12", "The masters never sleep. Have you noticed? I have never once seen one sit down.");
-        add("kingdomkeys.dialogue.apprentice.greeting.13", "If you find a good spot for Lux, keep it to yourself. That is my advice.");
-        add("kingdomkeys.dialogue.apprentice.greeting.14", "Somebody left a keyblade lying in the fountain yesterday. Nobody has claimed it.");
-        add("kingdomkeys.dialogue.apprentice.greeting.15", "I am not afraid of the dark. I simply prefer the daytime, that is all.");
-        add("kingdomkeys.dialogue.apprentice.greeting.16", "They keep telling us the light is running out. It looks fine to me.");
-        add("kingdomkeys.dialogue.apprentice.greeting.17", "Between you and me, I still cannot summon mine on the first try.");
-        add("kingdomkeys.dialogue.apprentice.greeting.18", "Careful past the outer walls. That is where the ones that scratch are.");
-        add("kingdomkeys.dialogue.apprentice.greeting.19", "I hear the other unions are ahead of us this week. Again.");
-        add("kingdomkeys.dialogue.apprentice.greeting.20", "Do you think it ever ends? The Lux gathering I mean.");
-        add("kingdomkeys.dialogue.apprentice.greeting.21", "My hands ache. Nobody warned me a keyblade would be this heavy.");
-        add("kingdomkeys.dialogue.apprentice.greeting.22", "Some of us are only here because our families sent us. Not me. I chose this.");
-        add("kingdomkeys.dialogue.apprentice.greeting.23", "If you see my brother, tell him I am still waiting on that Lux he owes me.");
-        add("kingdomkeys.dialogue.apprentice.greeting.24", "Good hunting out there. Try to come back in one piece.");
-        add("kingdomkeys.dialogue.apprentice.answer.spar", "Wanna spar?");
-        add("kingdomkeys.dialogue.apprentice.answer.leave", "See you around.");
+        add(Dialogue_Apprentice_Greeting + ".1", "Careful with that thing, you nearly took my arm off.");
+        add(Dialogue_Apprentice_Greeting + ".2", "They say the Foretellers watch every one of us. Do you believe that?");
+        add(Dialogue_Apprentice_Greeting + ".3", "I have been out here since dawn and I have collected barely any Lux.");
+        add(Dialogue_Apprentice_Greeting + ".4", "My union keeps telling me to train. My legs keep telling me otherwise.");
+        add(Dialogue_Apprentice_Greeting + ".5", "You are the one everybody talks about, are you not?");
+        add(Dialogue_Apprentice_Greeting + ".6", "The clock tower is the best spot in town. Do not tell anyone I said so.");
+        add(Dialogue_Apprentice_Greeting + ".7", "One day I will carry a strong keyblade like the masters do. One day.");
+        add(Dialogue_Apprentice_Greeting + ".8", "Heartless in the outskirts again. Somebody should do something about that.");
+        add(Dialogue_Apprentice_Greeting + ".9", "Do you ever second guess the union you picked? I sometimes do...");
+        add(Dialogue_Apprentice_Greeting + ".10", "I traded three days of Lux for this tunic. Worth it, I think.");
+        add(Dialogue_Apprentice_Greeting + ".11", "My friend swears she saw a Heartless the size of a house. I do not believe her.");
+        add(Dialogue_Apprentice_Greeting + ".12", "The masters never sleep. Have you noticed? I have never once seen one sit down.");
+        add(Dialogue_Apprentice_Greeting + ".13", "If you find a good spot for Lux, keep it to yourself. That is my advice.");
+        add(Dialogue_Apprentice_Greeting + ".14", "Somebody left a keyblade lying in the fountain yesterday. Nobody has claimed it.");
+        add(Dialogue_Apprentice_Greeting + ".15", "I am not afraid of the dark. I simply prefer the daytime, that is all.");
+        add(Dialogue_Apprentice_Greeting + ".16", "They keep telling us the light is running out. It looks fine to me.");
+        add(Dialogue_Apprentice_Greeting + ".17", "Between you and me, I still cannot summon mine on the first try.");
+        add(Dialogue_Apprentice_Greeting + ".18", "Careful past the outer walls. That is where the ones that scratch are.");
+        add(Dialogue_Apprentice_Greeting + ".19", "I hear the other unions are ahead of us this week. Again.");
+        add(Dialogue_Apprentice_Greeting + ".20", "Do you think it ever ends? The Lux gathering I mean.");
+        add(Dialogue_Apprentice_Greeting + ".21", "My hands ache. Nobody warned me a keyblade would be this heavy.");
+        add(Dialogue_Apprentice_Greeting + ".22", "Some of us are only here because our families sent us. Not me. I chose this.");
+        add(Dialogue_Apprentice_Greeting + ".23", "If you see my brother, tell him I am still waiting on that Lux he owes me.");
+        add(Dialogue_Apprentice_Greeting + ".24", "Good hunting out there. Try to come back in one piece.");
+        add(Dialogue_Apprentice_Answer + ".spar", "Wanna spar?");
+        add(Dialogue_Apprentice_Answer + ".leave", "See you around.");
         add(Training_Won, "Well done");
         add(Training_Won_Sub, "That is enough for today");
         add(Training_Lost, "Enough");
@@ -615,12 +615,12 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("kingdomkeys.chests.moogle_house","Moogle House");
 
-        add("gui.shotlock.minigame.mash","MASH!");
-        add("gui.shotlock.minigame.hits","%s hits");
-        add("gui.shotlock.minigame.perfect","PERFECT!");
-        add("gui.shotlock.minigame.good","GOOD");
-        add("gui.shotlock.minigame.bad","BAD");
-        add("gui.shotlock.minigame.miss","MISS");
+        add(Gui_Shotlock_Minigame + ".mash","MASH!");
+        add(Gui_Shotlock_Minigame + ".hits","%s hits");
+        add(Gui_Shotlock_Minigame + ".perfect","PERFECT!");
+        add(Gui_Shotlock_Minigame + ".good","GOOD");
+        add(Gui_Shotlock_Minigame + ".bad","BAD");
+        add(Gui_Shotlock_Minigame + ".miss","MISS");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
         add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
@@ -640,15 +640,15 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.proofofheart.unequip", "First unequip your Organization XIII armor");
 
         //Organization XIII
-        add("gui.org.line1", "By donning the Dark Robe you are now a member of Organization XIII.");
-        add("gui.org.line2", "Choose a member of Organization XIII you align with.");
-        add("gui.org.line3", "Your choice will determine the weapon you start with.");
-        add("gui.org.line4", "You wish to align with %1$s?");
-        add("gui.org.line5", "It will cost to change this after you have made your choice.");
-        add("gui.org.ok", "Ok");
-        add("gui.org.select", "Select");
-        add("gui.org.cancel", "Cancel");
-        add("gui.org.confirm", "Confirm");
+        add(Gui_Org + ".line1", "By donning the Dark Robe you are now a member of Organization XIII.");
+        add(Gui_Org + ".line2", "Choose a member of Organization XIII you align with.");
+        add(Gui_Org + ".line3", "Your choice will determine the weapon you start with.");
+        add(Gui_Org + ".line4", "You wish to align with %1$s?");
+        add(Gui_Org + ".line5", "It will cost to change this after you have made your choice.");
+        add(Gui_Org + ".ok", "Ok");
+        add(Gui_Org + ".select", "Select");
+        add(Gui_Org + ".cancel", "Cancel");
+        add(Gui_Org + ".confirm", "Confirm");
 
         //Save Point
         add(Gui_Save_Creation_Title, "Name Save Point");
@@ -750,6 +750,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.struggleBoard, "Struggle Board");
         addBlock(ModBlocks.station_of_awakening_core, "Station of Awakening Platform Core");
         addBlock(ModBlocks.magicalChest, "Magical Chest");
+        addBlock(ModBlocks.treasureChest, "Treasure Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
         addBlock(ModBlocks.savepoint, "Save Point");
         add("block." + MODID + ".linked_savepoint", "Linked Save Point");
@@ -760,32 +761,33 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
         addItem(ModItems.struggle_poster, "Struggle Poster");
-        add("kingdomkeys.poster.saved", "Struggle board location saved!");
-        add("kingdomkeys.poster.no_target", "This poster doesn't point to any board.");
-        add("kingdomkeys.poster.retuned", "Compass re-tuned to the Struggle board!");
-        add("kingdomkeys.poster.dimension", "Dimension: ");
-        add("kingdomkeys.poster.coords", "Coords: ");
-        add("kingdomkeys.poster.save_hint", "Sneak + right click on a Struggle board to save it's location!");
-        add("kingdomkeys.poster.use_compass","Right click it with a compass in hand to tune it!");
+
+        add(Poster + ".saved", "Struggle board location saved!");
+        add(Poster + ".no_target", "This poster doesn't point to any board.");
+        add(Poster + ".retuned", "Compass re-tuned to the Struggle board!");
+        add(Poster + ".dimension", "Dimension: ");
+        add(Poster + ".coords", "Coords: ");
+        add(Poster + ".save_hint", "Sneak + right click on a Struggle board to save it's location!");
+        add(Poster + ".use_compass","Right click it with a compass in hand to tune it!");
 
 
-        add("savepoint.healing","healing");
-        add("savepoint.magic","magic restoration");
-        add("savepoint.feed","feeding");
-        add("savepoint.focus","focus restoration");
-        add("savepoint.drive","drive restoration");
-        add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
-        add("savepoint.maxed","Savepoint %s speed is already maxed");
-        add("savepoint.upgrade_type","Savepoint upgraded to %s");
-        add("savepoint.max_upgrade","Max upgrade reached");
-        add("savepoint.unavailable","This savepoint does not offer %s");
-        add("savepoint.tooltip.dimension","Dimension");
-        add("savepoint.tooltip.owner","Owner");
-        add("savepoint.stat.hp","HP");
-        add("savepoint.stat.mp","MP");
-        add("savepoint.stat.hunger","Food");
-        add("savepoint.stat.focus","Focus");
-        add("savepoint.stat.drive","Drive");
+        add(Savepoint + ".healing","healing");
+        add(Savepoint + ".magic","magic restoration");
+        add(Savepoint + ".feed","feeding");
+        add(Savepoint + ".focus","focus restoration");
+        add(Savepoint + ".drive","drive restoration");
+        add(Savepoint + ".upgrade","Savepoint %s speed is now at %s%%");
+        add(Savepoint + ".maxed","Savepoint %s speed is already maxed");
+        add(Savepoint + ".upgrade_type","Savepoint upgraded to %s");
+        add(Savepoint + ".max_upgrade","Max upgrade reached");
+        add(Savepoint + ".unavailable","This savepoint does not offer %s");
+        add(Savepoint_Tooltip + ".dimension", "Dimension");
+        add(Savepoint_Tooltip + ".owner", "Owner");
+        add(Savepoint_Stat + ".hp", "HP");
+        add(Savepoint_Stat + ".mp", "MP");
+        add(Savepoint_Stat + ".hunger", "Food");
+        add(Savepoint_Stat + ".focus", "Focus");
+        add(Savepoint_Stat + ".drive", "Drive");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
@@ -869,7 +871,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.", "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");
-        addGrowthAbility(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will dodge roll. ", "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
+        addGrowthAbility(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will perform a dodge roll.", "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.", "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
         addGrowthAbility(ModAbilities.GLIDE,"In the air, hold the jump key to glide.", "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
         addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
@@ -2529,36 +2531,36 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**Others**/
         //Messages
-        add("message.magnet_blox.attract", "Attract Mode");
-        add("message.magnet_blox.repel", "Repel Mode");
-        add("message.magnet_blox.range", "Range is now: %s");
-        add("message.form_unlocked", "Unlocked %s form");
-        add("message.chest.lock", "Use a keyblade to lock this chest");
-        add("message.chest.can_be_locked", "Can be locked with a keyblade");
-        add("message.chest.locked", "This chest is locked");
-        add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
-        add("message.chest.unlocked", "Chest has been unlocked");
-        add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
-        add("message.wayfinder.player_not_found", "Player %s not found");
-        add("message.wayfinder.your_wayfinder","This is your Wayfinder, hand it over to someone else");
-        add("message.wayfinder.in_your_party","in your party");
-        add("message.wayfinder.not_in_party","You are not in a party");
-        add("message.wayfinder.player_not_in_party","Player %s is not in your party");
-        add("message.wayfinder.player_not_online","Player %s is not online");
-        add("message.wayfinder.owner","Owner: %s");
-        add("message.wayfinder.cooldown","Cooldown: %s%%");
-        add("message.wayfinder.calling_for_help","%s is calling you, use their wayfinder!");
-        add("message.wayfinder.asking_other_for_help","Calling %s to come here");
-        add("message.wayfinder.player_has_no_wayfinder","%s does not have your wayfinder on them right now");
-        add("message.wayfinder.tooltip1", "Right click to teleport");
-        add("message.wayfinder.tooltip2", "Shift + right click to call");
-        add("message.unlocked","Unlocked %s");
-        add("message.magic_upgrade","%s has been upgraded to %s");
-        add("message.magic_max_level","%s is already at the max level");
-        add("message.recipe.no_more_to_learn","No more recipes to learn");
-        add("message.recipe.cant_learn_yet","You can't learn that recipe yet");
-        add("message.recipe.already_learnt", "Recipe for %s already learnt");
-        add("message.recipe.learnt", "Learnt recipe for %s");
+        add(Message_MagnetBlox + ".attract", "Attract Mode");
+        add(Message_MagnetBlox + ".repel", "Repel Mode");
+        add(Message_MagnetBlox + ".range", "Range is now: %s");
+        add(Message + ".form_unlocked", "Unlocked %s form");
+        add(Message_Chest + ".lock", "Use a keyblade to lock this chest");
+        add(Message_Chest + ".can_be_locked", "Can be locked with a keyblade");
+        add(Message_Chest + ".locked", "This chest is locked");
+        add(Message_Chest + ".keyblade_set", "Your keyblade has been set to unlock this chest");
+        add(Message_Chest + ".unlocked", "Chest has been unlocked");
+        add(Message_KK + ".gui_toggle", "GUI display set to: %s");
+        add(Message_Wayfinder + ".player_not_found", "Player %s not found");
+        add(Message_Wayfinder + ".your_wayfinder","This is your Wayfinder, hand it over to someone else");
+        add(Message_Wayfinder + ".in_your_party","in your party");
+        add(Message_Wayfinder + ".not_in_party","You are not in a party");
+        add(Message_Wayfinder + ".player_not_in_party","Player %s is not in your party");
+        add(Message_Wayfinder + ".player_not_online","Player %s is not online");
+        add(Message_Wayfinder + ".owner","Owner: %s");
+        add(Message_Wayfinder + ".cooldown","Cooldown: %s%%");
+        add(Message_Wayfinder + ".calling_for_help","%s is calling you, use their wayfinder!");
+        add(Message_Wayfinder + ".asking_other_for_help","Calling %s to come here");
+        add(Message_Wayfinder + ".player_has_no_wayfinder","%s does not have your wayfinder on them right now");
+        add(Message_Wayfinder + ".tooltip1", "Right click to teleport");
+        add(Message_Wayfinder + ".tooltip2", "Shift + right click to call");
+        add(Message + ".unlocked","Unlocked %s");
+        add(Message + ".magic_upgrade","%s has been upgraded to %s");
+        add(Message + ".magic_max_level","%s is already at the max level");
+        add(Message_Recipe + ".no_more_to_learn","No more recipes to learn");
+        add(Message_Recipe + ".cant_learn_yet","You can't learn that recipe yet");
+        add(Message_Recipe + ".already_learnt", "Recipe for %s already learnt");
+        add(Message_Recipe + ".learnt", "Learnt recipe for %s");
 
         //Station of Awakening
         add("soa.menu.1", "Before you can open the menu.");
@@ -2653,25 +2655,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
 
-        add("co.encounter.wave", "Wave");
-        add("co.encounter.end", "Finished encounter");
+        add(COEncounter_Wave, "Wave");
+        add(COEncounter_End, "Finished encounter");
 
         add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
         add("kingdomkeys.worldmap.locked", "The way to this world has not opened to you yet");
 
-        add("kingdomkeys.struggle.starting", "Struggle starting...");
-        add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
-        add("kingdomkeys.struggle.ffa.starting", "Free for all starting...");
-        add("kingdomkeys.struggle.go", "GO!");
-        add("kingdomkeys.struggle.win", "You win!");
-        add("kingdomkeys.struggle.lose", "You lose!");
-        add("kingdomkeys.struggle.chat.winner", "[Struggle] Winner of %1$s's %2$s is %3$s!");
-        add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
-        add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
-        add("kingdomkeys.struggle.tournament.round_winner", "Round winner:");
-        add("kingdomkeys.struggle.no_weapon", "You need your Struggle weapon in your hotbar!");
-        add("kingdomkeys.struggle.tie.overtime", "Tied! Sudden death!");
-        add("kingdomkeys.struggle.draw", "Draw!");
+        add(Struggle + ".starting", "Struggle starting...");
+        add(StruggleTournament + ".next_match", "Next tournament match starting...");
+        add(Struggle + ".ffa.starting", "Free for all starting...");
+        add(Struggle + ".go", "GO!");
+        add(Struggle + ".win", "You win!");
+        add(Struggle + ".lose", "You lose!");
+        add(Struggle + ".chat.winner", "[Struggle] Winner of %1$s's %2$s is %3$s!");
+        add(StruggleTournament + ".bye", "You got a bye this round!");
+        add(StruggleTournament + ".champion", "Tournament Champion:");
+        add(StruggleTournament + ".round_winner", "Round winner:");
+        add(Struggle + ".no_weapon", "You need your Struggle weapon in your hotbar!");
+        add(Struggle + ".tie.overtime", "Tied! Sudden death!");
+        add(Struggle + ".draw", "Draw!");
 
         add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
         add(Strings.Gui_Menu_Struggle_Create_Title, "Start Struggle");
@@ -2801,145 +2803,149 @@ public class LanguageENUS extends KKLanguageProvider {
         addRoom("room_of_truth", "Room of Truth");
         // Commands
         // general
-        add("kingdomkeys.command.no_choice", "%s has to make a choice first");
-        add("kingdomkeys.command.player_only", "Command must be run by a player");
+        add(Command + ".no_choice", "%s has to make a choice first");
+        add(Command + ".player_only", "Command must be run by a player");
 
         // ability
-        add("kingdomkeys.command.ability.given", "Added '%s' ability to %s");
-        add("kingdomkeys.command.ability.given_permanent_self", "You have been given the ability '%s' permanently");
-        add("kingdomkeys.command.ability.given_self", "You have been given the ability '%s'");
-        add("kingdomkeys.command.ability.removed", "Removed ability '%s' from %s");
-        add("kingdomkeys.command.ability.removed_self", "Your ability '%s' has been taken away");
-        add("kingdomkeys.command.ability.taken_all", "Removed all abilities from %s");
-        add("kingdomkeys.command.ability.taken_all_self", "Your abilities have been taken away");
-        add("kingdomkeys.command.ability.unknown", "Ability '%s' does not exist");
+        add(Command_Ability + ".given", "Added '%s' ability to %s");
+        add(Command_Ability + ".given_permanent_self", "You have been given the ability '%s' permanently");
+        add(Command_Ability + ".given_self", "You have been given the ability '%s'");
+        add(Command_Ability + ".removed", "Removed ability '%s' from %s");
+        add(Command_Ability + ".removed_self", "Your ability '%s' has been taken away");
+        add(Command_Ability + ".taken_all", "Removed all abilities from %s");
+        add(Command_Ability + ".taken_all_self", "Your abilities have been taken away");
+        add(Command_Ability + ".unknown", "Ability '%s' does not exist");
 
         // check
-        add("kingdomkeys.command.check.checking", "Checking data from player %s");
-        add("kingdomkeys.command.check.data_null", "PlayerData seems null for player %s");
-        add("kingdomkeys.command.check.player_not_found", "Player not found %s");
+        add(Command_Check + ".checking", "Checking data from player %s");
+        add(Command_Check + ".data_null", "PlayerData seems null for player %s");
+        add(Command_Check + ".player_not_found", "Player not found %s");
 
         // choice
-        add("kingdomkeys.command.choice.invalid", "CHOSEN or SACRIFICED value is invalid");
-        add("kingdomkeys.command.choice.reset_self", "Your Station of Awakening choice has been reset");
-        add("kingdomkeys.command.choice.same", "CHOSEN and SACRIFICED must not be the same");
+        add(Command_Choice + ".invalid", "CHOSEN or SACRIFICED value is invalid");
+        add(Command_Choice + ".reset_self", "Your Station of Awakening choice has been reset");
+        add(Command_Choice + ".same", "CHOSEN and SACRIFICED must not be the same");
 
         // convert
-        add("kingdomkeys.command.convert.no_data", "No old data was found to convert");
-        add("kingdomkeys.command.convert.success", "Successfully converted data");
-        add("kingdomkeys.command.convert.warning", "WARNING This command overwrites the KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it");
+        add(Command_Convert + ".no_data", "No old data was found to convert");
+        add(Command_Convert + ".success", "Successfully converted data");
+        add(Command_Convert + ".warning", "WARNING This command overwrites the KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it");
 
         // dimension
-        add("kingdomkeys.command.dimension.teleported", "Teleported %s to dimension %s");
-        add("kingdomkeys.command.dimension.unknown", "Dimension '%s' does not exist");
+        add(Command_Dimension + ".teleported", "Teleported %s to dimension %s");
+        add(Command_Dimension + ".unknown", "Dimension '%s' does not exist");
 
         // dp
-        add("kingdomkeys.command.dp.add", "Added %s dp to %s");
-        add("kingdomkeys.command.dp.add_self", "Your dp has been increased by %s");
-        add("kingdomkeys.command.dp.remove", "Taken %s dp from %s");
-        add("kingdomkeys.command.dp.remove_self", "Your dp has been decreased by %s");
-        add("kingdomkeys.command.dp.set", "Set %s dp to %s");
-        add("kingdomkeys.command.dp.set_self", "Your dp has been set to %s");
+        add(Command_Dp + ".add", "Added %s dp to %s");
+        add(Command_Dp + ".add_self", "Your dp has been increased by %s");
+        add(Command_Dp + ".remove", "Taken %s dp from %s");
+        add(Command_Dp + ".remove_self", "Your dp has been decreased by %s");
+        add(Command_Dp + ".set", "Set %s dp to %s");
+        add(Command_Dp + ".set_self", "Your dp has been set to %s");
 
         // drive
-        add("kingdomkeys.command.drive.set", "Set %s for %s to level %s");
-        add("kingdomkeys.command.drive.set_self", "Your %s level is now %s");
-        add("kingdomkeys.command.synthlevel.set", "Set %s's synthesis level to %s");
-        add("kingdomkeys.command.synthlevel.set_self", "Your synthesis level is now %s");
-        add("kingdomkeys.command.drive.unknown", "Form '%s' does not exist");
+        add(Command_Drive + ".set", "Set %s for %s to level %s");
+        add(Command_Drive + ".set_self", "Your %s level is now %s");
+        add(Command_Drive + ".unknown", "Form '%s' does not exist");
+
+        // synth level
+        add(Command_Synthlevel + ".set", "Set %s's synthesis level to %s");
+        add(Command_Synthlevel + ".set_self", "Your synthesis level is now %s");
 
         // union
-        add("kingdomkeys.command.union.set", "You have joined %s");
-        add("kingdomkeys.command.union.already", "You already belong to %s");
-        add("kingdomkeys.command.union.org", "Those who serve the Organization belong to no union");
-        add("kingdomkeys.command.union.set_other", "%s now belongs to %s");
-        add("kingdomkeys.command.union.org_other", "%s serves the Organization and can belong to no union");
+        add(Command_Union + ".set", "You have joined %s");
+        add(Command_Union + ".already", "You already belong to %s");
+        add(Command_Union + ".org", "Those who serve the Organization belong to no union");
+        add(Command_Union + ".set_other", "%s now belongs to %s");
+        add(Command_Union + ".org_other", "%s serves the Organization and can belong to no union");
 
         // exp
-        add("kingdomkeys.command.exp.add", "Given %s experience to %s");
-        add("kingdomkeys.command.exp.add_self", "Your experience has been increased by %s");
-        add("kingdomkeys.command.exp.set", "Set %s experience to %s");
-        add("kingdomkeys.command.exp.set_self", "Your experience is now %s");
-        add("kingdomkeys.command.exp.set_self_abilities", "Your experience is now %s, all your missing abilities have been added to you");
+        add(Command_Exp + ".add", "Given %s experience to %s");
+        add(Command_Exp + ".add_self", "Your experience has been increased by %s");
+        add(Command_Exp + ".set", "Set %s experience to %s");
+        add(Command_Exp + ".set_self", "Your experience is now %s");
+        add(Command_Exp + ".set_self_abilities", "Your experience is now %s, all your missing abilities have been added to you");
 
         // focus
-        add("kingdomkeys.command.focus.add", "Added %s focus to %s");
-        add("kingdomkeys.command.focus.add_self", "Your focus has been increased by %s");
-        add("kingdomkeys.command.focus.remove", "Taken %s focus from %s");
-        add("kingdomkeys.command.focus.remove_self", "Your focus has been decreased by %s");
-        add("kingdomkeys.command.focus.set", "Set %s focus to %s");
-        add("kingdomkeys.command.focus.set_self", "Your focus has been set to %s");
+        add(Command_Focus + ".add", "Added %s focus to %s");
+        add(Command_Focus + ".add_self", "Your focus has been increased by %s");
+        add(Command_Focus + ".remove", "Taken %s focus from %s");
+        add(Command_Focus + ".remove_self", "Your focus has been decreased by %s");
+        add(Command_Focus + ".set", "Set %s focus to %s");
+        add(Command_Focus + ".set_self", "Your focus has been set to %s");
 
         // hearts
-        add("kingdomkeys.command.hearts.add", "Added %s hearts to %s");
-        add("kingdomkeys.command.hearts.add_self", "Your hearts have been increased by %s");
-        add("kingdomkeys.command.hearts.remove", "Taken %s hearts from %s");
-        add("kingdomkeys.command.hearts.remove_self", "Your hearts have been decreased by %s");
-        add("kingdomkeys.command.hearts.set", "Set %s hearts to %s");
-        add("kingdomkeys.command.hearts.set_self", "Your hearts have been set to %s");
+        add(Command_Hearts + ".add", "Added %s hearts to %s");
+        add(Command_Hearts + ".add_self", "Your hearts have been increased by %s");
+        add(Command_Hearts + ".remove", "Taken %s hearts from %s");
+        add(Command_Hearts + ".remove_self", "Your hearts have been decreased by %s");
+        add(Command_Hearts + ".set", "Set %s hearts to %s");
+        add(Command_Hearts + ".set_self", "Your hearts have been set to %s");
 
         // level
-        add("kingdomkeys.command.level.set", "Set %s level to %s");
-        add("kingdomkeys.command.level.set_self", "Your level is now %s");
+        add(Command_Level + ".set", "Set %s level to %s");
+        add(Command_Level + ".set_self", "Your level is now %s");
 
         // material
-        add("kingdomkeys.command.material.given", "Given x%s '%s' to %s");
-        add("kingdomkeys.command.material.given_all", "Given all materials to %s");
-        add("kingdomkeys.command.material.given_all_self", "You have been given all the materials");
-        add("kingdomkeys.command.material.given_self", "You have been given x%s '%s'");
-        add("kingdomkeys.command.material.removed", "Removed material '%s' from %s");
-        add("kingdomkeys.command.material.removed_self", "x%s '%s' have been taken away from you");
-        add("kingdomkeys.command.material.set", "Set x%s '%s' to %s");
-        add("kingdomkeys.command.material.set_all", "Set all materials for %s to %s");
-        add("kingdomkeys.command.material.set_all_self", "You have been set all the materials to %s");
-        add("kingdomkeys.command.material.set_self", "Your '%s' have been set to x%s");
-        add("kingdomkeys.command.material.taken_all", "Taken all materials from %s");
-        add("kingdomkeys.command.material.taken_all_self", "Your materials have been taken away");
-        add("kingdomkeys.command.material.unknown", "Material '%s' does not exist");
+        add(Command_Material + ".given", "Given x%s '%s' to %s");
+        add(Command_Material + ".given_all", "Given all materials to %s");
+        add(Command_Material + ".given_all_self", "You have been given all the materials");
+        add(Command_Material + ".given_self", "You have been given x%s '%s'");
+        add(Command_Material + ".removed", "Removed material '%s' from %s");
+        add(Command_Material + ".removed_self", "x%s '%s' have been taken away from you");
+        add(Command_Material + ".set", "Set x%s '%s' to %s");
+        add(Command_Material + ".set_all", "Set all materials for %s to %s");
+        add(Command_Material + ".set_all_self", "You have been set all the materials to %s");
+        add(Command_Material + ".set_self", "Your '%s' have been set to x%s");
+        add(Command_Material + ".taken_all", "Taken all materials from %s");
+        add(Command_Material + ".taken_all_self", "Your materials have been taken away");
+        add(Command_Material + ".unknown", "Material '%s' does not exist");
 
         // lux
-        add("kingdomkeys.command.lux.add", "Added %s Lux to %s");
-        add("kingdomkeys.command.lux.add_self", "Your Lux has been increased by %s");
-        add("kingdomkeys.command.lux.remove", "Taken %s Lux from %s");
-        add("kingdomkeys.command.lux.remove_self", "Your Lux has been decreased by %s");
-        add("kingdomkeys.command.story.visit", "The master has come for %s");
-        add("kingdomkeys.command.story.reset", "Forgot the master's visit to %s");
-        add("kingdomkeys.command.story.no_union", "%s has no union for a master to come from");
-        add("kingdomkeys.command.story.no_room", "Nowhere around %s for the master to stand");
-        add("kingdomkeys.command.lux.set", "Set %s Lux to %s");
-        add("kingdomkeys.command.lux.set_self", "Your Lux has been set to %s");
+        add(Command_Lux + ".add", "Added %s Lux to %s");
+        add(Command_Lux + ".add_self", "Your Lux has been increased by %s");
+        add(Command_Lux + ".remove", "Taken %s Lux from %s");
+        add(Command_Lux + ".remove_self", "Your Lux has been decreased by %s");
+        add(Command_Lux + ".set", "Set %s Lux to %s");
+        add(Command_Lux + ".set_self", "Your Lux has been set to %s");
+
+        // story
+        add(Command_Story + ".visit", "The master has come for %s");
+        add(Command_Story + ".reset", "Forgot the master's visit to %s");
+        add(Command_Story + ".no_union", "%s has no union for a master to come from");
+        add(Command_Story + ".no_room", "Nowhere around %s for the master to stand");
 
         // munny
-        add("kingdomkeys.command.munny.add", "Added %s munny to %s");
-        add("kingdomkeys.command.munny.add_self", "Your munny has been increased by %s");
-        add("kingdomkeys.command.munny.remove", "Taken %s munny from %s");
-        add("kingdomkeys.command.munny.remove_self", "Your munny has been decreased by %s");
-        add("kingdomkeys.command.munny.set", "Set %s munny to %s");
-        add("kingdomkeys.command.munny.set_self", "Your munny has been set to %s");
+        add(Command_Munny + ".add", "Added %s munny to %s");
+        add(Command_Munny + ".add_self", "Your munny has been increased by %s");
+        add(Command_Munny + ".remove", "Taken %s munny from %s");
+        add(Command_Munny + ".remove_self", "Your munny has been decreased by %s");
+        add(Command_Munny + ".set", "Set %s munny to %s");
+        add(Command_Munny + ".set_self", "Your munny has been set to %s");
 
         // pay
-        add("kingdomkeys.command.pay.not_enough", "You don't have enough munny (%s) to pay %s");
-        add("kingdomkeys.command.pay.paid", "You paid %s munny to %s");
-        add("kingdomkeys.command.pay.received", "You got %s munny from %s");
+        add(Command_Pay + ".not_enough", "You don't have enough munny (%s) to pay %s");
+        add(Command_Pay + ".paid", "You paid %s munny to %s");
+        add(Command_Pay + ".received", "You got %s munny from %s");
 
         // recipe
-        add("kingdomkeys.command.recipe.given", "Added '%s' recipe to %s");
-        add("kingdomkeys.command.recipe.given_all", "Added all recipes to %s");
-        add("kingdomkeys.command.recipe.given_all_item", "Added all item recipes to %s");
-        add("kingdomkeys.command.recipe.given_all_item_self", "You have been given all the item recipes");
-        add("kingdomkeys.command.recipe.given_all_keyblade", "Added all keyblade recipes to %s");
-        add("kingdomkeys.command.recipe.given_all_keyblade_self", "You have been given all the keyblade recipes");
-        add("kingdomkeys.command.recipe.given_all_self", "You have been given all the recipes");
-        add("kingdomkeys.command.recipe.given_self", "You have been given '%s' recipe");
-        add("kingdomkeys.command.recipe.removed", "Removed recipe '%s' from %s");
-        add("kingdomkeys.command.recipe.removed_self", "Your recipe '%s' has been taken away");
-        add("kingdomkeys.command.recipe.taken_all", "Removed all recipes from %s");
-        add("kingdomkeys.command.recipe.taken_all_item", "Removed all item recipes from %s");
-        add("kingdomkeys.command.recipe.taken_all_item_self", "Your item recipes have been taken away");
-        add("kingdomkeys.command.recipe.taken_all_keyblade", "Removed all keyblade recipes from %s");
-        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Your keyblade recipes have been taken away");
-        add("kingdomkeys.command.recipe.taken_all_self", "Your recipes have been taken away");
-        add("kingdomkeys.command.recipe.unknown", "Recipe '%s' does not exist");
+        add(Command_Recipe + ".given", "Added '%s' recipe to %s");
+        add(Command_Recipe + ".given_all", "Added all recipes to %s");
+        add(Command_Recipe + ".given_all_item", "Added all item recipes to %s");
+        add(Command_Recipe + ".given_all_item_self", "You have been given all the item recipes");
+        add(Command_Recipe + ".given_all_keyblade", "Added all keyblade recipes to %s");
+        add(Command_Recipe + ".given_all_keyblade_self", "You have been given all the keyblade recipes");
+        add(Command_Recipe + ".given_all_self", "You have been given all the recipes");
+        add(Command_Recipe + ".given_self", "You have been given '%s' recipe");
+        add(Command_Recipe + ".removed", "Removed recipe '%s' from %s");
+        add(Command_Recipe + ".removed_self", "Your recipe '%s' has been taken away");
+        add(Command_Recipe + ".taken_all", "Removed all recipes from %s");
+        add(Command_Recipe + ".taken_all_item", "Removed all item recipes from %s");
+        add(Command_Recipe + ".taken_all_item_self", "Your item recipes have been taken away");
+        add(Command_Recipe + ".taken_all_keyblade", "Removed all keyblade recipes from %s");
+        add(Command_Recipe + ".taken_all_keyblade_self", "Your keyblade recipes have been taken away");
+        add(Command_Recipe + ".taken_all_self", "Your recipes have been taken away");
+        add(Command_Recipe + ".unknown", "Recipe '%s' does not exist");
 
         // Teleporting
         add("kingdomkeys.teleport.returned_to", "You have been returned back to %s");
@@ -2949,10 +2955,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.party.invitation", "You got an invitation to the party '%s'");
 
         // Gummi - ships, phone, hangar and blueprints
-        add("kingdomkeys.gummi.hangar.area_value", "Area: %s");
-        add("kingdomkeys.gummi.hangar.area.off", "Off");
-        add("kingdomkeys.gummi.hangar.area.odd", "Odd");
-        add("kingdomkeys.gummi.hangar.area.even", "Even");
+        add(Gummi_Hangar + ".area_value", "Area: %s");
+        add(Gummi_Hangar + ".area.off", "Off");
+        add(Gummi_Hangar + ".area.odd", "Odd");
+        add(Gummi_Hangar + ".area.even", "Even");
 
         // Keyblades
         add("kingdomkeys.keyblade.data_missing.desc1", "If you see this then either the keyblade json is missing or failed to load");

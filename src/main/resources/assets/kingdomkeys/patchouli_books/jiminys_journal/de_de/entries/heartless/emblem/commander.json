@@ -1,0 +1,18 @@
+{
+	"name": "Kommandant",
+	"icon": "kingdomkeys:commander_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 8,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(heartless)Herzloser$(), ähnlich zum $(l:kingdomkeys:heartless/emblem/soldier)Klapperoldat$(). Es ist $(thing)resistent gegenüber Magie$() und greift an mit wild umher wirbelnden Tritten. $(thing)$(o)Blocke um sie aufzuhalten$().$(p)$(lissa)$(l)$(o)[Erster Auftritt: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:commander",
+			"scale": 0.8,
+            "offset": 0.3
+		}
+	]
+}

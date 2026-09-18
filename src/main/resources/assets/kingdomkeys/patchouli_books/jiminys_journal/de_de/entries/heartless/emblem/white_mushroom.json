@@ -1,0 +1,17 @@
+{
+	"name": "Puffungi",
+	"icon": "kingdomkeys:white_mushroom_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 15,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein friedseliger $(heartless)Herzloser$(). Diese freundlichen und seltenen Kreaturen werden dich belohnen, wenn du 3 Zaubsersprüche auf einen korrekt anwendest. $(thing)$(o)Gib gut Acht auf ihre Bewegungen. Versagst du ach nur einmal, verschwindet dieser.$().$(p)$(lissa)$(l)$(o)[Erster Auftritt: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:white_mushroom",
+			"scale": 0.8
+		}
+	]
+}

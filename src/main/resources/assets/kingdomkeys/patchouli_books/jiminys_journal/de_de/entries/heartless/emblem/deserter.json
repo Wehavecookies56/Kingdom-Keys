@@ -1,0 +1,17 @@
+{
+	"name": "Deserteur",
+	"icon": "kingdomkeys:deserter_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ein $(heartless)Herzloser$(), ähnlich zum $(l:kingdomkeys:heartless/emblem/soldier)Klapperoldat$(). Sie vermeiden Direktangriffe, werden jedoch aggressiv, wenn sie in die Ecke gedrängt werden oder einen von ihnen besiegt wurde. $(thing)$(o)Blocke um sie aufzuhalten, oder greife an mit Eis-Magie$().$(p)$(lissa)$(l)$(o)[Erster Auftritt: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:deserter",
+			"scale": 0.6
+		}
+	]
+}

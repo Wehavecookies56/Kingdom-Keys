@@ -1,0 +1,17 @@
+{
+	"name": "Giftfungi",
+	"icon": "kingdomkeys:black_fungus_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 16,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Dieser $(heartless)Herzloser$() ist feindselig, anders im Gegensatz zu $(l:kingdomkeys:heartless/emblem/white_mushroom)deren hellen Verwandten$(). $(thing)$(o)Aber vorsicht, sie greifen mit giftigem Gas an!$().$(p)$(lissa)$(l)$(o)[Erster Auftritt: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:black_fungus",
+			"scale": 0.8
+		}
+	]
+}

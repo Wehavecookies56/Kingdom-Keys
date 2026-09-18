@@ -1,0 +1,17 @@
+{
+	"name": "Block-Bug",
+	"icon": "kingdomkeys:blox_bug_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 17,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Dieser digitale $(heartless)Herzlose$() tarnt sich selbst als ein Bug-Block. $(thing)$(o)Es stürmt auf ihre Beute an, oder greift an mit hohen Sprüngen. Sei bereit die Angriffe rechtzeitig zu blocken!$().$(p)$(lissa)$(l)$(o)[Erster Auftritt: Kingdom Hearts Re:Coded]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:blox_bug",
+			"scale": 0.3
+		}
+	]
+}
