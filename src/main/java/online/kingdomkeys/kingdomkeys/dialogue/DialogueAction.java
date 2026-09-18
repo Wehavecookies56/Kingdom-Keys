@@ -15,9 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.entity.LightPortalEntity;
-import online.kingdomkeys.kingdomkeys.world.dimension.daybreak_town.DaybreakTownDimension;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
+import online.kingdomkeys.kingdomkeys.entity.LightPortalEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
@@ -25,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.daybreak_town.DaybreakTownDimension;
 
 import java.util.List;
 import java.util.Optional;

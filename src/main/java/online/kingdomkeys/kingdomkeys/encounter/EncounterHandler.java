@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.encounter;
 
 import net.minecraft.server.level.ServerLevel;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 public interface EncounterHandler<T extends Encounter, S extends Encounter.State> {
 

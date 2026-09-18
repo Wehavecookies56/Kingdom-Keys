@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Map;
 
 public class SynthesisTrackerGui extends OverlayBase {

@@ -16,7 +16,6 @@ import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 public class SpawnMobModifier implements RoomModifier {
 
