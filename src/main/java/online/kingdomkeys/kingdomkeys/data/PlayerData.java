@@ -33,8 +33,9 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKFightingStyles;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKStyleRegistry;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingData;
@@ -270,8 +271,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		storage.putInt("synth_level", synthLevel);
 		storage.putInt("synth_exp", synthExp);
-		storage.putString("single_style", singleStyle.toString());
-		storage.putString("dual_style", dualStyle.toString());
+		storage.putString("single_style", singleStyle == null ? "" : singleStyle.toString());
+		storage.putString("dual_style", dualStyle == null ? "" : dualStyle.toString());
 
 		storage.putInt("armor_color", armorColor);
 		storage.putBoolean("armor_glint", armorGlint);
@@ -559,12 +560,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setSynthLevel(nbt.getInt("synth_level"));
 		this.setSynthExperience(nbt.getInt("synth_exp"));
-		String s = nbt.getString("single_style");
-		if(!s.isEmpty())
-			this.setSingleStyle(SingleChoices.valueOf(s));
-		s=nbt.getString("dual_style");
-		if(!s.isEmpty())
-			this.setDualStyle(DualChoices.valueOf(s));
+		this.setSingleStyle(KKStyleRegistry.read(nbt.getString("single_style"), HandStyle.SINGLE));
+		this.setDualStyle(KKStyleRegistry.read(nbt.getString("dual_style"), HandStyle.DUAL));
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
@@ -747,8 +744,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
 
-	private SingleChoices singleStyle = SingleChoices.SORA;
-	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
+	private ResourceLocation singleStyle = KKFightingStyles.SORA;
+	private ResourceLocation dualStyle = KKFightingStyles.KH2_ROXAS_DUAL;
 
 	private boolean respawnROD = false;
 	/** Whether this player has ever opened a Moogle's shop. Only drives the "find a Moogle" hint. */
@@ -2851,19 +2848,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	//region EFM styles
 
-	public SingleChoices getSingleStyle() {
+	public ResourceLocation getSingleStyle() {
 		return singleStyle;
 	}
 
-	public void setSingleStyle(SingleChoices singleStyle) {
+	public void setSingleStyle(ResourceLocation singleStyle) {
 		this.singleStyle = singleStyle;
 	}
 
-	public DualChoices getDualStyle() {
+	public ResourceLocation getDualStyle() {
 		return dualStyle;
 	}
 
-	public void setDualStyle(DualChoices dualStyle) {
+	public void setDualStyle(ResourceLocation dualStyle) {
 		this.dualStyle = dualStyle;
 	}
 

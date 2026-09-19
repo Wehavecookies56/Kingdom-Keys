@@ -43,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -197,9 +198,9 @@ public class InputHandler {
             if(KingdomKeys.efmLoaded) {
                 if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE) {
                     if (!playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
-                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
+                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.summonFor(playerData.getSingleStyle(), HandStyle.SINGLE)));
                     } else {
-                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
+                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.summonFor(playerData.getDualStyle(), HandStyle.DUAL)));
                     }
                 } else if(Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE) {
                     PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));

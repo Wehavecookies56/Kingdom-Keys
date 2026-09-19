@@ -1,14 +1,17 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKFightingStyle;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKFightingStyles;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKStyleRegistry;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
@@ -35,30 +38,23 @@ public class KKProviderConditionals  {
         return data != null && data.isFormActive(form) && armed(player);
     }
 
-    // Single wield style (with no form up and nothing in the off-hand)
-    private static boolean inSingleStyle(LivingEntityPatch<?> livingEntityPatch, SingleChoices choice) {
+    public static boolean styleActive(LivingEntityPatch<?> livingEntityPatch, ResourceLocation id) {
         Player player = playerOf(livingEntityPatch);
+        KKFightingStyle style = KKStyleRegistry.get(id);
 
-        if (player == null) {
+        if (player == null || style == null) {
             return false;
         }
 
         PlayerData data = PlayerData.get(player);
 
-        return data != null && data.getSingleStyle() == choice && !(player.getOffhandItem().getItem() instanceof KeybladeItem) && data.noFormActive();
-    }
-
-    // Dual wield, needs offhand holding a keyblade
-    private static boolean inDualStyle(LivingEntityPatch<?> livingEntityPatch, DualChoices choice) {
-        Player player = playerOf(livingEntityPatch);
-
-        if (player == null) {
+        if (data == null || !data.noFormActive() || !KKStyleRegistry.isChosen(player, id)) {
             return false;
         }
 
-        PlayerData data = PlayerData.get(player);
-
-        return data != null && data.getDualStyle() == choice && player.getOffhandItem().getItem() instanceof KeybladeItem && data.noFormActive();
+        // Dual wield needs a keyblade in the off-hand, single wield needs the off-hand free
+        boolean offhandKeyblade = player.getOffhandItem().getItem() instanceof KeybladeItem;
+        return offhandKeyblade == (style.getHand() == HandStyle.DUAL);
     }
 
     private static boolean armed(Player player) {
@@ -99,35 +95,35 @@ public class KKProviderConditionals  {
 
     public static final DeferredConditional SORA_STYLE = CONDITIONALS.registerConditional("sora_style", () ->
             ProviderConditional.createCustom(KKStyles.SORA,
-            livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.SORA), true)
+            livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.SORA), true)
     );
 
     public static final DeferredConditional RIKU_STYLE = CONDITIONALS.registerConditional("riku_style", () ->
             ProviderConditional.createCustom(KKStyles.RIKU,
-            livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.RIKU), true)
+            livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.RIKU), true)
     );
 
     public static final DeferredConditional ROXAS_STYLE = CONDITIONALS.registerConditional("roxas_style", () ->
-            ProviderConditional.createCustom(KKStyles.ROXAS, livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.ROXAS), true)
+            ProviderConditional.createCustom(KKStyles.ROXAS, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.ROXAS), true)
     );
 
     public static final DeferredConditional AQUA_STYLE = CONDITIONALS.registerConditional("aqua_style", () ->
-            ProviderConditional.createCustom(KKStyles.AQUA, livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.AQUA), true)
+            ProviderConditional.createCustom(KKStyles.AQUA, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.AQUA), true)
     );
 
     public static final DeferredConditional TERRA_STYLE = CONDITIONALS.registerConditional("terra_style", () ->
-            ProviderConditional.createCustom(KKStyles.TERRA, livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.TERRA), true)
+            ProviderConditional.createCustom(KKStyles.TERRA, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.TERRA), true)
     );
 
     public static final DeferredConditional VENTUS_STYLE = CONDITIONALS.registerConditional("ventus_style", () ->
-            ProviderConditional.createCustom(KKStyles.VENTUS, livingEntityPatch -> inSingleStyle(livingEntityPatch, SingleChoices.VENTUS), true)
+            ProviderConditional.createCustom(KKStyles.VENTUS, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.VENTUS), true)
     );
 
     public static final DeferredConditional KH2_ROXAS_DUAL_STYLE = CONDITIONALS.registerConditional("kh2_roxas_dual_style", () ->
-            ProviderConditional.createCustom(KKStyles.KH2_ROXAS_DUAL, livingEntityPatch -> inDualStyle(livingEntityPatch, DualChoices.KH2_ROXAS_DUAL), true)
+            ProviderConditional.createCustom(KKStyles.KH2_ROXAS_DUAL, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.KH2_ROXAS_DUAL), true)
     );
 
     public static final DeferredConditional DAYS_ROXAS_DUAL_STYLE = CONDITIONALS.registerConditional("days_roxas_dual_style", () ->
-            ProviderConditional.createCustom(KKStyles.DAYS_ROXAS_DUAL, livingEntityPatch -> inDualStyle(livingEntityPatch, DualChoices.DAYS_ROXAS_DUAL), true)
+            ProviderConditional.createCustom(KKStyles.DAYS_ROXAS_DUAL, livingEntityPatch -> styleActive(livingEntityPatch, KKFightingStyles.DAYS_ROXAS_DUAL), true)
     );
 }

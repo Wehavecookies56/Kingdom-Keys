@@ -1,12 +1,13 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.style.KKFightingStyles;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
@@ -54,8 +55,14 @@ public class KKAnimations {
             WISDOM_FINISHER;
 
     public static Map<OrgMember, AnimationManager.AnimationAccessor<?>> orgMap = new HashMap<>();
-    public static Map<SingleChoices, AnimationManager.AnimationAccessor<?>> singleKeybladeMap = new HashMap<>();
-    public static Map<DualChoices, AnimationManager.AnimationAccessor<?>> dualKeybladeMap = new HashMap<>();
+
+    public static Map<ResourceLocation, AnimationManager.AnimationAccessor<?>> singleKeybladeMap = new HashMap<>();
+    public static Map<ResourceLocation, AnimationManager.AnimationAccessor<?>> dualKeybladeMap = new HashMap<>();
+
+    public static AnimationManager.AnimationAccessor<?> summonFor(ResourceLocation style, HandStyle hand) {
+        AnimationManager.AnimationAccessor<?> animation = (hand == HandStyle.DUAL ? dualKeybladeMap : singleKeybladeMap).get(style);
+        return animation == null ? SORA_SUMMON : animation;
+    }
 
     private KKAnimations() {
 
@@ -80,16 +87,16 @@ public class KKAnimations {
         orgMap.put(OrgMember.VEXEN, KKAnimations.VEXEN_SUMMON);
         orgMap.put(OrgMember.MARLUXIA, KKAnimations.MARLUXIA_SUMMON);
 
-        singleKeybladeMap.put(SingleChoices.SORA, KKAnimations.SORA_SUMMON);
-        singleKeybladeMap.put(SingleChoices.AQUA, KKAnimations.SORA_SUMMON);
-        singleKeybladeMap.put(SingleChoices.ROXAS, KKAnimations.SORA_SUMMON);
-        singleKeybladeMap.put(SingleChoices.RIKU, KKAnimations.SORA_SUMMON);
-        singleKeybladeMap.put(SingleChoices.TERRA, KKAnimations.SORA_SUMMON);
-        singleKeybladeMap.put(SingleChoices.VENTUS, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.SORA, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.AQUA, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.ROXAS, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.RIKU, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.TERRA, KKAnimations.SORA_SUMMON);
+        singleKeybladeMap.put(KKFightingStyles.VENTUS, KKAnimations.SORA_SUMMON);
 
 
-        dualKeybladeMap.put(DualChoices.KH2_ROXAS_DUAL, KKAnimations.SORA_SUMMON);
-        dualKeybladeMap.put(DualChoices.DAYS_ROXAS_DUAL, KKAnimations.SORA_SUMMON);
+        dualKeybladeMap.put(KKFightingStyles.KH2_ROXAS_DUAL, KKAnimations.SORA_SUMMON);
+        dualKeybladeMap.put(KKFightingStyles.DAYS_ROXAS_DUAL, KKAnimations.SORA_SUMMON);
 
     }
 
