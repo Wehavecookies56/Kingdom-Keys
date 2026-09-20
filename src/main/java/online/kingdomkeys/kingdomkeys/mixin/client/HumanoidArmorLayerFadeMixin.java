@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +24,7 @@ public class HumanoidArmorLayerFadeMixin {
 
 	@Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At("HEAD"))
 	private void kingdomKeys$readAlpha(PoseStack pose, MultiBufferSource buffer, int light, LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
-		this.kingdomKeys$alpha = entity instanceof BaseKHEntity boss && boss.isDyingWithRays() ? boss.deathAlpha(partialTick) : 1F;
+		this.kingdomKeys$alpha = entity instanceof RaysOnDefeat beaten && beaten.isDyingWithRays() ? beaten.deathAlpha(partialTick) : 1F;
 	}
 
 	@Redirect(

@@ -31,14 +31,17 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ApprenticeCombatGoal;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.DuelGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 
-public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
+public class ApprenticeEntity extends PathfinderMob implements Dueller {
 
 	private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.BYTE);
+
+	private static final EntityDataAccessor<Boolean> SPARRING = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private static final ResourceLocation DIALOGUE = KingdomKeys.rl("apprentice");
 
@@ -47,12 +50,8 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 	private static final int WANDER_RADIUS = 24;
 	private static final double WATCH_RANGE = 32.0D;
 
-	private static final double SPAR_WATCH_RANGE = 32.0D;
-	private static final int SPAR_CHECK_INTERVAL = 20;
-
 	private BlockPos home;
 
-	private boolean sparring;
 	private int outfit;
 
 	private int trim;
@@ -78,6 +77,7 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 		super.defineSynchedData(builder);
 		builder.define(LEVEL, MIN_LEVEL);
 		builder.define(UNION, Union.NONE.get());
+		builder.define(SPARRING, false);
 	}
 
 	public int getApprenticeLevel() {
@@ -193,13 +193,62 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 	}
 
 	public boolean isSparring() {
-		return sparring;
+		return entityData.get(SPARRING);
 	}
 
-	public void standAside() {
-		sparring = true;
-		setInvisible(true);
-		strip();
+	private void setSparring(boolean sparring) {
+		entityData.set(SPARRING, sparring);
+	}
+
+	private final KeybladeSummon summon = new KeybladeSummon(this);
+	private final Duel duel = new Duel(this);
+
+	private static final ResourceLocation DUEL_BOOST = KingdomKeys.rl("duel_boost");
+
+	@Override
+	public Duel duel() {
+		return duel;
+	}
+
+	@Override
+	public int getDuelLevel() {
+		return getApprenticeLevel();
+	}
+
+	@Override
+	public void beginDuel(Player pupil, int duelLevel) {
+		if (pupil == null || level().isClientSide) {
+			return;
+		}
+
+		bowOut();
+
+		setSparring(true);
+
+		setDuelist(pupil);
+		setTarget(pupil);
+
+		Dueller.lendWorth(this, duelLevel, DUEL_BOOST);
+		setHealth(getMaxHealth());
+
+		clearRestriction();
+	}
+
+	@Override
+	public void bowOut() {
+		setSparring(false);
+		duel.clear();
+
+		Dueller.takeBack(this, DUEL_BOOST);
+		setNoAi(false);
+		setInvulnerable(false);
+		setTarget(null);
+
+		setHealth(getMaxHealth());
+
+		if (home != null) {
+			restrictTo(home, WANDER_RADIUS);
+		}
 	}
 
 	private void strip() {
@@ -209,8 +258,6 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 			setItemSlot(slot, ItemStack.EMPTY);
 		}
 	}
-
-	private final KeybladeSummon summon = new KeybladeSummon(this);
 
 	@Override
 	public KeybladeSummon keybladeSummon() {
@@ -265,13 +312,14 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(0, new FloatGoal(this));
-		goalSelector.addGoal(1, new ApprenticeCombatGoal(this));
+		goalSelector.addGoal(1, new DuelGoal<>(this));
+		goalSelector.addGoal(2, new ApprenticeCombatGoal(this));
 
-		goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.6D));
-		goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+		goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
-		targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, target -> !sparring && isDarkness(target)));
+		targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, target -> !isSparring() && isDarkness(target)));
 	}
 
 	public static boolean isDarkness(LivingEntity target) {
@@ -308,6 +356,14 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 		}
 
 		summon.tick();
+		duel.tick();
+
+		if (isSparring()) {
+			if (isDuelling() && getTarget() != getDuelist()) {
+				setTarget(getDuelist());
+			}
+			return;
+		}
 
 		// Off the leash while there is something to run down, back on it once there is not
 		boolean fighting = getTarget() != null && getTarget().isAlive();
@@ -319,27 +375,6 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 		if (!fighting && tickCount % MEND_INTERVAL == 0 && getHealth() < getMaxHealth()) {
 			heal(1.0F);
 		}
-
-		if (tickCount % SPAR_CHECK_INTERVAL != 0) {
-			return;
-		}
-
-		// Out of sight while their sparring copy is on the floor, the way the masters do it
-		boolean copyOut = !level().getEntitiesOfClass(ApprenticeDuelEntity.class, getBoundingBox().inflate(SPAR_WATCH_RANGE), copy -> copy.isAlive() && copy.isCopyOf(this)).isEmpty();
-
-		if (copyOut == sparring) {
-			return;
-		}
-
-		sparring = copyOut;
-		setInvisible(sparring);
-
-		// An invisible mob still shows what it wears and holds, so it all has to actually come off
-		if (sparring) {
-			strip();
-		} else {
-			dress();
-		}
 	}
 
 	@Override
@@ -348,7 +383,7 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 			return InteractionResult.SUCCESS;
 		}
 
-		if (sparring || !(player instanceof ServerPlayer serverPlayer)) {
+		if (isSparring() || !(player instanceof ServerPlayer serverPlayer)) {
 			return InteractionResult.FAIL;
 		}
 
@@ -363,13 +398,13 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 	}
 
 	private boolean vulnerableTo(DamageSource source) {
-		if (sparring) {
-			return false;
-		}
-
 		// So /kill and these still work on them
 		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return true;
+		}
+
+		if (isSparring()) {
+			return !isPreparing() && !isSettled() && source.getEntity() instanceof Player pupil && isDuelist(pupil);
 		}
 
 		return source.getEntity() instanceof LivingEntity attacker && isDarkness(attacker);
@@ -467,8 +502,10 @@ public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 
 		setCustomName(null);
 
-		// A world saved mid-spar would reload them hidden and stripped, so they come back as themselves; if their copy is somehow still out there the next check hides them again
-		sparring = false;
+		setSparring(false);
+		duel.clear();
+		setNoAi(false);
+		setInvulnerable(false);
 		setInvisible(false);
 		dress();
 	}

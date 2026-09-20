@@ -55,11 +55,11 @@ public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
     }
 
     private static Holder<EntityType<?>> master() {
-        return ModEntities.TYPE_MASTER_DUEL.getDelegate();
+        return ModEntities.TYPE_FORETELLER.getDelegate();
     }
 
     private static Holder<EntityType<?>> apprentice() {
-        return ModEntities.TYPE_APPRENTICE_DUEL.getDelegate();
+        return ModEntities.TYPE_APPRENTICE.getDelegate();
     }
 
     @Override

@@ -2473,10 +2473,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
-        addEntityType(ModEntities.TYPE_MASTER_DUEL, "Master");
         addEntityType(ModEntities.TYPE_APPRENTICE, "Apprentice");
-        addEntityType(ModEntities.TYPE_APPRENTICE_DUEL, "Apprentice");
-        add("kingdomkeys.entity.master_duel", "Master %s");
         add("kingdomkeys.foreteller.ira", "Ira");
         add("kingdomkeys.foreteller.gula", "Gula");
         add("kingdomkeys.foreteller.ava", "Ava");

@@ -176,6 +176,11 @@ public class DaybreakTownDimension {
                 continue;
             }
 
+            AABB afield = AABB.ofSize(pos, NEAR_PLAYER * 2, NEAR_PLAYER * 2, NEAR_PLAYER * 2);
+            if (!level.getEntitiesOfClass(ForetellerEntity.class, afield, f -> f.getUnion() == union && f.isSparring()).isEmpty()) {
+                continue;
+            }
+
             ForetellerEntity foreteller = ModEntities.TYPE_FORETELLER.get().create(level);
             if (foreteller == null)
                 continue;

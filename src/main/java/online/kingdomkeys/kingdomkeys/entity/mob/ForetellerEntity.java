@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
@@ -7,7 +8,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,8 +23,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.DuelGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -30,17 +37,21 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenUnionScreen;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 
-public class ForetellerEntity extends PathfinderMob {
+public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDefeat {
     private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BYTE);
+
+    private static final EntityDataAccessor<Boolean> SPARRING = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DUEL_LEVEL = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.INT);
+
+    private static final EntityDataAccessor<Integer> DEATH_SEQUENCE = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.INT);
+
+    private static final int RETURNS_AT = RaysOnDefeat.DEATH_SEQUENCE_TICKS / 2;
 
     private static final ResourceLocation DIALOGUE = KingdomKeys.rl("foreteller");
 
-    private static final double DUEL_WATCH_RANGE = 32.0D;
-    private static final int DUEL_CHECK_INTERVAL = 20;
-
     private static final String FORETELLER_KEY = "kingdomkeys.foreteller.";
 
-    private boolean sparring;
+    private static final ResourceLocation DUEL_BOOST = KingdomKeys.rl("duel_boost");
 
     private ResourceLocation dialogue = DIALOGUE;
 
@@ -54,6 +65,131 @@ public class ForetellerEntity extends PathfinderMob {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(UNION, Union.NONE.get());
+        builder.define(SPARRING, false);
+        builder.define(DUEL_LEVEL, Dueller.LOWEST);
+        builder.define(DEATH_SEQUENCE, 0);
+    }
+
+    private final Duel duel = new Duel(this);
+    private final KeybladeSummon summon = new KeybladeSummon(this);
+
+    @Override
+    public Duel duel() {
+        return duel;
+    }
+
+    @Override
+    public KeybladeSummon keybladeSummon() {
+        return summon;
+    }
+
+    @Override
+    public ItemStack keybladeToCall() {
+        Item keyblade = keybladeFor(getUnion());
+        return keyblade == null ? ItemStack.EMPTY : new ItemStack(keyblade);
+    }
+
+    @Override
+    public int callingRank() {
+        return KeybladeSummon.MASTERED;
+    }
+
+    @Override
+    public int getDuelLevel() {
+        return entityData.get(DUEL_LEVEL);
+    }
+
+    public boolean isSparring() {
+        return entityData.get(SPARRING);
+    }
+
+    @Override
+    public void beginDuel(Player pupil, int duelLevel) {
+        if (pupil == null || level().isClientSide) {
+            return;
+        }
+
+        bowOut();
+
+        entityData.set(SPARRING, true);
+        entityData.set(DUEL_LEVEL, Mth.clamp(duelLevel, Dueller.LOWEST, Dueller.HIGHEST));
+
+        setDuelist(pupil);
+        setTarget(pupil);
+
+        Dueller.lendWorth(this, getDuelLevel(), DUEL_BOOST);
+        setHealth(getMaxHealth());
+
+        syncLevel();
+    }
+
+    @Override
+    public boolean fallsWhenBeaten() {
+        return false;
+    }
+
+    @Override
+    public void onBeaten() {
+        entityData.set(DEATH_SEQUENCE, 1);
+        level().playSound(null, blockPosition(), ModSounds.bossKill.get(), SoundSource.HOSTILE, 1F, 1F);
+    }
+
+    @Override
+    public int getDeathSequence() {
+        return entityData.get(DEATH_SEQUENCE);
+    }
+
+    @Override
+    public float deathAlpha(float partialTick) {
+        return 1F;
+    }
+
+    private void tickLight() {
+        int at = getDeathSequence();
+
+        if (at <= 0) {
+            return;
+        }
+
+        if (level() instanceof ServerLevel server) {
+            float progress = (float) at / RaysOnDefeat.DEATH_SEQUENCE_TICKS;
+            double height = getBbHeight();
+            double width = getBbWidth() * 0.5D;
+
+            server.sendParticles(ParticleTypes.END_ROD, getX(), getY() + height * 0.5D, getZ(), 2 + Math.round(progress * 8), width, height * 0.4D, width, 0.02D);
+        }
+
+        if (at >= RETURNS_AT) {
+            discard();
+            return;
+        }
+
+        entityData.set(DEATH_SEQUENCE, at + 1);
+    }
+
+    @Override
+    public void bowOut() {
+        entityData.set(SPARRING, false);
+        entityData.set(DEATH_SEQUENCE, 0);
+        duel.clear();
+        summon.cancel();
+
+        Dueller.takeBack(this, DUEL_BOOST);
+        setNoAi(false);
+        setInvulnerable(true);
+        setTarget(null);
+        setHealth(getMaxHealth());
+
+        wearUnionRobes();
+    }
+
+    private void syncLevel() {
+        GlobalData data = GlobalData.get(this);
+
+        if (data != null) {
+            data.setLevel(getDuelLevel());
+            PacketHandler.syncToAllAround(this, data);
+        }
     }
 
     public Union getUnion() {
@@ -123,15 +259,17 @@ public class ForetellerEntity extends PathfinderMob {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, Player.class, 12.0F));
-        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(0, new DuelGoal<>(this));
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 12.0F));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.0D)
-                .add(Attributes.FOLLOW_RANGE, 0.0D);
+                .add(Attributes.ATTACK_DAMAGE, 0.0D)
+                .add(Attributes.FOLLOW_RANGE, 40.0D);
     }
 
     @Override
@@ -141,32 +279,25 @@ public class ForetellerEntity extends PathfinderMob {
     }
 
     @Override
+    public void aiStep() {
+        updateSwingTime();
+        super.aiStep();
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
-        if (level().isClientSide || tickCount % DUEL_CHECK_INTERVAL != 0)
+        if (level().isClientSide || !isSparring()) {
             return;
-
-        boolean copyOut = !level().getEntitiesOfClass(MasterDuelEntity.class, getBoundingBox().inflate(DUEL_WATCH_RANGE), copy -> copy.isAlive() && copy.getUnion() == getUnion()).isEmpty();
-
-        if (copyOut == sparring)
-            return;
-
-        if (copyOut) {
-            standAside();
-        } else {
-            sparring = false;
-            setInvisible(false);
-            wearUnionRobes();
         }
-    }
 
-    public void standAside() {
-        sparring = true;
-        setInvisible(true);
+        summon.tick();
+        duel.tick();
+        tickLight();
 
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
-            setItemSlot(slot, ItemStack.EMPTY);
+        if (isDuelling() && getTarget() != getDuelist()) {
+            setTarget(getDuelist());
         }
     }
 
@@ -177,7 +308,7 @@ public class ForetellerEntity extends PathfinderMob {
         if (!(player instanceof ServerPlayer serverPlayer))
             return InteractionResult.FAIL;
 
-        if (sparring)
+        if (isSparring())
             return InteractionResult.FAIL;
 
         PlayerData playerData = PlayerData.get(player);
@@ -199,23 +330,34 @@ public class ForetellerEntity extends PathfinderMob {
         return InteractionResult.SUCCESS;
     }
 
+    private boolean vulnerableTo(DamageSource source) {
+        return isSparring() && !isPreparing() && !isSettled() && source.getEntity() instanceof Player pupil && isDuelist(pupil);
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        return false;
+        if (!vulnerableTo(source)) {
+            return false;
+        }
+
+        return super.hurt(source, amount);
     }
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return true;
+        return !vulnerableTo(source);
     }
 
     @Override
     public boolean canBeHitByProjectile() {
-        return false;
+        return isSparring();
     }
 
     @Override
     public void knockback(double strength, double x, double z) {
+        if (isSparring()) {
+            super.knockback(strength, x, z);
+        }
     }
 
     @Override
@@ -264,7 +406,10 @@ public class ForetellerEntity extends PathfinderMob {
         setUnion(Union.fromByte(tag.getByte("union")));
         setDialogue(tag.contains("dialogue") ? ResourceLocation.tryParse(tag.getString("dialogue")) : null);
 
-        sparring = false;
+        entityData.set(SPARRING, false);
+        duel.clear();
+        setNoAi(false);
+        setInvulnerable(true);
         setInvisible(false);
         wearUnionRobes();
     }

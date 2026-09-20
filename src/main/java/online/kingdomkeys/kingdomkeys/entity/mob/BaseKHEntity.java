@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import org.jetbrains.annotations.Nullable;
 
-public class BaseKHEntity extends Monster implements IKHMob {
+public class BaseKHEntity extends Monster implements IKHMob, RaysOnDefeat {
 
 	public static final String FINAL_MIX_VARIANT = "fm";
 	public double animFrame; //Here so it's not shared between multiple entities
@@ -42,9 +42,6 @@ public class BaseKHEntity extends Monster implements IKHMob {
 	/** How far into its death a boss is, counted up rather than down so the renderer can grow the glow from it */
 	public static final EntityDataAccessor<Integer> DEATH_SEQUENCE = SynchedEntityData.defineId(BaseKHEntity.class, EntityDataSerializers.INT);
 
-	/** Ticks the body stands there dissolving before it is finally taken away */
-	public static final int DEATH_SEQUENCE_TICKS = 100;
-
 	public boolean isBoss() {
 		return getKHMobType() == MobType.BOSS;
 	}
@@ -54,17 +51,15 @@ public class BaseKHEntity extends Monster implements IKHMob {
 		return null;
 	}
 
+	@Override
 	public int getDeathSequence() {
 		return getEntityData().get(DEATH_SEQUENCE);
-	}
-
-	public boolean isDyingWithRays() {
-		return getDeathSequence() > 0;
 	}
 
 	// How far in the sequence the body has completely vanished, lower number means faster vanishing
 	public static final float BODY_GONE_BY = 0.5F;
 
+	@Override
 	public float deathAlpha(float partialTick) {
 		float completion = Math.min((getDeathSequence() + partialTick) / DEATH_SEQUENCE_TICKS, 1F);
 		return Math.max(1F - completion / BODY_GONE_BY, 0F);

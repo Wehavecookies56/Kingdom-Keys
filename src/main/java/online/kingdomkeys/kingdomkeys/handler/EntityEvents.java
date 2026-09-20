@@ -1067,9 +1067,16 @@ public class EntityEvents {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void sparCannotKill(LivingDamageEvent.Pre event) {
-		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
-			event.setNewDamage(TrainingHandler.trainingBlow(hurt, event.getSource(), event.getNewDamage()));
+		if (event.getEntity().level().isClientSide) {
+			return;
 		}
+
+		if (event.getEntity() instanceof Player hurt) {
+			event.setNewDamage(TrainingHandler.trainingBlow(hurt, event.getSource(), event.getNewDamage()));
+			return;
+		}
+
+		event.setNewDamage(Dueller.yieldingBlow(event.getEntity(), event.getNewDamage()));
 	}
 
 	@SubscribeEvent

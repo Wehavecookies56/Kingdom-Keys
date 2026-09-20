@@ -233,7 +233,8 @@ public class InputHandler {
             return false;
         }
 
-        return !(entity instanceof ForetellerEntity) && !(entity instanceof ApprenticeEntity);
+        return !(entity instanceof ForetellerEntity master && !master.isSparring())
+                && !(entity instanceof ApprenticeEntity apprentice && !apprentice.isSparring());
     }
 
     public void lockOn() {

@@ -2507,7 +2507,11 @@ public class Utils {
 			return false;
 		}
 
-		if (target instanceof ForetellerEntity || target instanceof ApprenticeEntity) {
+		if (target instanceof ForetellerEntity master && !master.isSparring()) {
+			return false;
+		}
+
+		if (target instanceof ApprenticeEntity apprentice && !apprentice.isSparring()) {
 			return false;
 		}
 

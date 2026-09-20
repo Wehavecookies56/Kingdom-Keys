@@ -82,7 +82,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
@@ -131,15 +131,15 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onRenderBossDeath(RenderLivingEvent.Pre<?, ?> event) {
-		if (!(event.getEntity() instanceof BaseKHEntity boss) || !boss.isDyingWithRays()) {
+		if (!(event.getEntity() instanceof RaysOnDefeat beaten) || !beaten.isDyingWithRays()) {
 			return;
 		}
 
-		float completion = Math.min((boss.getDeathSequence() + event.getPartialTick()) / BaseKHEntity.DEATH_SEQUENCE_TICKS, 1F);
+		float completion = Math.min((beaten.getDeathSequence() + event.getPartialTick()) / RaysOnDefeat.DEATH_SEQUENCE_TICKS, 1F);
 
 		BossDeathRays.render(event.getPoseStack(), event.getMultiBufferSource(), completion);
 
-		if (boss.deathAlpha(event.getPartialTick()) <= 0F) {
+		if (beaten.deathAlpha(event.getPartialTick()) <= 0F) {
 			event.setCanceled(true);
 		}
 	}

@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,10 +18,8 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterInstance;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
-import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeDuelEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.Dueller;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowInformation;
@@ -53,6 +52,8 @@ public class TrainingHandler {
 
         private final List<LivingEntity> spawned = new ArrayList<>();
 
+        private LivingEntity adopted;
+
         Arena(LivingEntity master, Player pupil, int radius, int points, int level) {
             this.master = master;
             this.pupil = pupil.getUUID();
@@ -73,13 +74,33 @@ public class TrainingHandler {
                     return;
                 }
 
-                if (entity instanceof MasterDuelEntity duel) {
-                    duel.loseDuel();
-                } else {
+                // An adopted opponent was already living here before the lesson and will be after
+                // it, so they are stood down rather than cleared away
+                if (entity != adopted) {
                     entity.discard();
+                } else if (entity instanceof Dueller dueller && !dueller.isSettled()) {
+                    dueller.loseDuel();
                 }
             });
             spawned.clear();
+        }
+
+        @Override
+        public LivingEntity adopt(EntityType<?> entityType) {
+            if (adopted != null || master.getType() != entityType) {
+                return null;
+            }
+
+            adopted = master;
+            return master;
+        }
+
+        boolean holds(LivingEntity entity) {
+            return spawned.contains(entity);
+        }
+
+        boolean lostItsOpponent() {
+            return adopted instanceof Dueller dueller && !dueller.isDuelling() && !dueller.isSettled();
         }
 
         @Override
@@ -169,22 +190,9 @@ public class TrainingHandler {
 
         @Override
         public void onSpawn(LivingEntity entity) {
-            if (entity instanceof MasterDuelEntity copy) {
-                if (this.master instanceof ForetellerEntity foreteller) {
-                    copy.setUnion(foreteller.getUnion());
-                }
-
-                if (copy instanceof ApprenticeDuelEntity apprenticeCopy && this.master instanceof ApprenticeEntity apprentice) {
-                    apprenticeCopy.setOwner(apprentice);
-                    apprenticeCopy.setUnion(apprentice.getUnion());
-                }
-
-                copy.setDuelLevel(getBaseLevel());
-
-                Player player = this.master.level().getPlayerByUUID(pupil);
-                if (player != null) {
-                    copy.setDuelist(player);
-                }
+            // Nothing to dress or place: an adopted opponent is already themselves and already here
+            if (entity == adopted && entity instanceof Dueller dueller) {
+                dueller.beginDuel(this.master.level().getPlayerByUUID(pupil), getBaseLevel());
             }
 
             spawned.add(entity);
@@ -228,17 +236,14 @@ public class TrainingHandler {
         instance.start(arena, pupil.serverLevel());
 
         // An arena with no radius means the fight happens on the spot, so whatever the wave spawned
-        // takes over the place of the one who set it instead of appearing next to them
+        // takes over the place of the one who set it instead of appearing next to them. An opponent
+        // the wave adopted is already standing in that place, being the one who set it
         if (encounter.getArenaRadius() == 0) {
-            arena.spawned.forEach(arena::stepInto);
-
-            // And they stand aside now rather than on their next check, a second later, which with
-            // the copy in the same spot would be a second of the two of them inside each other
-            if (master instanceof ApprenticeEntity apprentice) {
-                apprentice.standAside();
-            } else if (master instanceof ForetellerEntity foreteller) {
-                foreteller.standAside();
-            }
+            arena.spawned.forEach(spawned -> {
+                if (spawned != arena.adopted) {
+                    arena.stepInto(spawned);
+                }
+            });
         }
 
         return true;
@@ -265,10 +270,24 @@ public class TrainingHandler {
             return;
         }
 
+        if (!lesson.instance().isComplete() && lesson.arena().lostItsOpponent()) {
+            abandon(pupil, Strings.Training_Left);
+            return;
+        }
+
         lesson.instance().tick(lesson.arena(), level);
 
         if (lesson.instance().isComplete()) {
             finish(pupil, lesson);
+        }
+    }
+
+    public static void beaten(LivingEntity opponent) {
+        for (Lesson lesson : LESSONS.values()) {
+            if (lesson.arena().holds(opponent)) {
+                lesson.instance().setComplete();
+                return;
+            }
         }
     }
 

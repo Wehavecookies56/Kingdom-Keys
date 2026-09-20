@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.LivingEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,7 +31,7 @@ public class LivingEntityRendererFadeMixin {
 
 	@Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
 	private void kingdomKeys$readAlpha(LivingEntity entity, float yaw, float partialTick, PoseStack pose, MultiBufferSource buffer, int light, CallbackInfo ci) {
-		this.kingdomKeys$alpha = entity instanceof BaseKHEntity boss && boss.isDyingWithRays() ? boss.deathAlpha(partialTick) : 1F;
+		this.kingdomKeys$alpha = entity instanceof RaysOnDefeat beaten && beaten.isDyingWithRays() ? beaten.deathAlpha(partialTick) : 1F;
 	}
 
 	// Sends it down vanilla's own translucent branch, which picks the blending render type for the right texture

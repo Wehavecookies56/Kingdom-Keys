@@ -6,17 +6,18 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.phys.Vec3;
-import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.Dueller;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 
 import java.util.EnumSet;
 
-public class MasterDuelGoal extends Goal {
+public class DuelGoal<T extends PathfinderMob & Dueller> extends Goal {
 	private static final int IDLE = 0, COMBO = 1, LUNGE = 2, CAST = 3;
 
 	private static final double MELEE_REACH = 3.2D;
@@ -45,7 +46,7 @@ public class MasterDuelGoal extends Goal {
 	private static final double FLEE_SPEED = 1.25D;
 	private static final int FLEE_RADIUS = 10, FLEE_HEIGHT = 4;
 
-	private final MasterDuelEntity master;
+	private final T fighter;
 
 	private int state = IDLE;
 	private int stateTicks;
@@ -54,15 +55,15 @@ public class MasterDuelGoal extends Goal {
 	private boolean lungeConnected;
 	private int repath;
 
-	public MasterDuelGoal(MasterDuelEntity master) {
-		this.master = master;
+	public DuelGoal(T fighter) {
+		this.fighter = fighter;
 		setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
 	@Override
 	public boolean canUse() {
-		LivingEntity target = master.getTarget();
-		return !master.isSettled() && target != null && target.isAlive() && !master.isDeadOrDying();
+		LivingEntity target = fighter.getTarget();
+		return fighter.isDuelling() && target != null && target.isAlive() && !fighter.isDeadOrDying();
 	}
 
 	@Override
@@ -81,26 +82,26 @@ public class MasterDuelGoal extends Goal {
 		stateTicks = 0;
 		recovery = 0;
 
-		master.callKeyblade();
+		fighter.callKeyblade();
 	}
 
 	@Override
 	public void stop() {
 		state = IDLE;
-		master.getNavigation().stop();
+		fighter.getNavigation().stop();
 	}
 
 	@Override
 	public void tick() {
-		LivingEntity target = master.getTarget();
+		LivingEntity target = fighter.getTarget();
 		if (target == null) {
 			return;
 		}
 
-		master.getLookControl().setLookAt(target, 30F, 30F);
+		fighter.getLookControl().setLookAt(target, 30F, 30F);
 
-		if (!master.hasKeyblade()) {
-			if (master.holdsGroundUnarmed()) {
+		if (!fighter.hasKeyblade()) {
+			if (fighter.holdsGroundUnarmed()) {
 				punch(target);
 			} else {
 				backAway(target);
@@ -126,7 +127,7 @@ public class MasterDuelGoal extends Goal {
 			return;
 		}
 
-		double distance = master.distanceTo(target);
+		double distance = fighter.distanceTo(target);
 
 		if (distance <= MELEE_REACH) {
 			enter(COMBO);
@@ -139,13 +140,13 @@ public class MasterDuelGoal extends Goal {
 			return;
 		}
 
-		if (distance >= LUNGE_FROM && distance <= LUNGE_TO && master.hasLineOfSight(target)) {
+		if (distance >= LUNGE_FROM && distance <= LUNGE_TO && fighter.hasLineOfSight(target)) {
 			enter(LUNGE);
 			lungeConnected = false;
-			master.getNavigation().stop();
-			Vec3 at = target.position().subtract(master.position()).normalize();
-			master.setDeltaMovement(at.x * LUNGE_SPEED, LUNGE_LIFT, at.z * LUNGE_SPEED);
-			master.hasImpulse = true;
+			fighter.getNavigation().stop();
+			Vec3 at = target.position().subtract(fighter.position()).normalize();
+			fighter.setDeltaMovement(at.x * LUNGE_SPEED, LUNGE_LIFT, at.z * LUNGE_SPEED);
+			fighter.hasImpulse = true;
 		}
 	}
 
@@ -153,7 +154,7 @@ public class MasterDuelGoal extends Goal {
 		int interval = swingInterval();
 
 		// Walks the target down between blows rather than rooting himself to the spot
-		if (master.distanceTo(target) > MELEE_REACH * 0.8D) {
+		if (fighter.distanceTo(target) > MELEE_REACH * 0.8D) {
 			chase(target, 1.1D);
 		}
 
@@ -161,9 +162,9 @@ public class MasterDuelGoal extends Goal {
 			return;
 		}
 
-		master.swing(InteractionHand.MAIN_HAND);
-		if (master.distanceTo(target) <= MELEE_REACH) {
-			master.doHurtTarget(target);
+		fighter.swing(InteractionHand.MAIN_HAND);
+		if (fighter.distanceTo(target) <= MELEE_REACH) {
+			fighter.doHurtTarget(target);
 		}
 
 		if (--hitsLeft <= 0) {
@@ -172,9 +173,9 @@ public class MasterDuelGoal extends Goal {
 	}
 
 	private void tickLunge(LivingEntity target) {
-		if (!lungeConnected && master.distanceTo(target) <= MELEE_REACH) {
-			master.swing(InteractionHand.MAIN_HAND);
-			master.doHurtTarget(target);
+		if (!lungeConnected && fighter.distanceTo(target) <= MELEE_REACH) {
+			fighter.swing(InteractionHand.MAIN_HAND);
+			fighter.doHurtTarget(target);
 			lungeConnected = true;
 
 			// Landing a lunge flows straight into a combo, which is where the pressure comes from
@@ -189,11 +190,11 @@ public class MasterDuelGoal extends Goal {
 	}
 
 	private void tickCast(LivingEntity target) {
-		master.getNavigation().stop();
+		fighter.getNavigation().stop();
 
 		if (stateTicks < CAST_TELEGRAPH) {
-			if (master.level() instanceof ServerLevel level) {
-				level.sendParticles(ParticleTypes.END_ROD, master.getX(), master.getY() + master.getBbHeight() * 0.8D, master.getZ(), 3, 0.25D, 0.25D, 0.25D, 0.01D);
+			if (fighter.level() instanceof ServerLevel level) {
+				level.sendParticles(ParticleTypes.END_ROD, fighter.getX(), fighter.getY() + fighter.getBbHeight() * 0.8D, fighter.getZ(), 3, 0.25D, 0.25D, 0.25D, 0.01D);
 			}
 			return;
 		}
@@ -204,20 +205,20 @@ public class MasterDuelGoal extends Goal {
 
 	private void throwSpell(LivingEntity target) {
 		// He aims by facing, so the look has to be on the target before the spell leaves him
-		master.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
-		master.setYBodyRot(master.getYRot());
-		master.setYHeadRot(master.getYRot());
+		fighter.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
+		fighter.setYBodyRot(fighter.getYRot());
+		fighter.setYHeadRot(fighter.getYRot());
 
-		spellFor(master.getDuelLevel(), master.getRandom().nextBoolean()).get().castFromMob(master, target);
+		spellFor(fighter.getDuelLevel(), fighter.getRandom().nextBoolean()).get().castFromMob(fighter, target);
 	}
 
 	/** Use stronger magic spells */
 	private KKSupplier<Magic> spellFor(int level, boolean fire) {
-		if (level >= MasterDuelEntity.THIRD_GRADE_FROM) {
+		if (level >= Dueller.THIRD_GRADE_FROM) {
 			return fire ? ModMagic.FIRAGA : ModMagic.THUNDAGA;
 		}
 
-		if (level >= MasterDuelEntity.SECOND_GRADE_FROM) {
+		if (level >= Dueller.SECOND_GRADE_FROM) {
 			return fire ? ModMagic.FIRA : ModMagic.THUNDARA;
 		}
 
@@ -229,7 +230,7 @@ public class MasterDuelGoal extends Goal {
 			return;
 		}
 		repath = REPATH_INTERVAL;
-		master.getNavigation().moveTo(target, speed);
+		fighter.getNavigation().moveTo(target, speed);
 	}
 
 	private void punch(LivingEntity target) {
@@ -240,12 +241,12 @@ public class MasterDuelGoal extends Goal {
 			return;
 		}
 
-		if (master.distanceTo(target) > FIST_REACH || !master.getSensing().hasLineOfSight(target)) {
+		if (fighter.distanceTo(target) > FIST_REACH || !fighter.getSensing().hasLineOfSight(target)) {
 			return;
 		}
 
-		master.swing(InteractionHand.MAIN_HAND);
-		master.doHurtTarget(target);
+		fighter.swing(InteractionHand.MAIN_HAND);
+		fighter.doHurtTarget(target);
 		recovery = FIST_INTERVAL;
 	}
 
@@ -256,9 +257,9 @@ public class MasterDuelGoal extends Goal {
 
 		repath = REPATH_INTERVAL;
 
-		Vec3 away = DefaultRandomPos.getPosAway(master, FLEE_RADIUS, FLEE_HEIGHT, target.position());
+		Vec3 away = DefaultRandomPos.getPosAway(fighter, FLEE_RADIUS, FLEE_HEIGHT, target.position());
 		if (away != null) {
-			master.getNavigation().moveTo(away.x, away.y, away.z, FLEE_SPEED);
+			fighter.getNavigation().moveTo(away.x, away.y, away.z, FLEE_SPEED);
 		}
 	}
 
@@ -273,19 +274,19 @@ public class MasterDuelGoal extends Goal {
 	}
 
 	private boolean canCast() {
-		return master.getDuelLevel() >= MasterDuelEntity.MAGIC_FROM;
+		return fighter.getDuelLevel() >= Dueller.MAGIC_FROM;
 	}
 
 	private int comboHits() {
-		return Math.min(COMBO_HITS_MAX, COMBO_HITS_BASE + master.getDuelLevel() / COMBO_HITS_PER_LEVEL);
+		return Math.min(COMBO_HITS_MAX, COMBO_HITS_BASE + fighter.getDuelLevel() / COMBO_HITS_PER_LEVEL);
 	}
 
 	private int swingInterval() {
-		return Math.max(SWING_INTERVAL_MIN, SWING_INTERVAL_BASE - master.getDuelLevel() / SWING_INTERVAL_PER_LEVEL);
+		return Math.max(SWING_INTERVAL_MIN, SWING_INTERVAL_BASE - fighter.getDuelLevel() / SWING_INTERVAL_PER_LEVEL);
 	}
 
 	private int recovery() {
-		int base = Math.max(RECOVERY_MIN, RECOVERY_BASE - master.getDuelLevel() / RECOVERY_PER_LEVEL);
-		return base + Mth.nextInt(master.getRandom(), 0, Math.max(1, base / 4));
+		int base = Math.max(RECOVERY_MIN, RECOVERY_BASE - fighter.getDuelLevel() / RECOVERY_PER_LEVEL);
+		return base + Mth.nextInt(fighter.getRandom(), 0, Math.max(1, base / 4));
 	}
 }

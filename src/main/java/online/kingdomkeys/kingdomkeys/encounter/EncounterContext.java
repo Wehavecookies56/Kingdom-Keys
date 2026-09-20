@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.encounter;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -35,4 +36,8 @@ public interface EncounterContext {
     }
 
     void onSpawn(LivingEntity entity);
+
+    default LivingEntity adopt(EntityType<?> entityType) {
+        return null;
+    }
 }

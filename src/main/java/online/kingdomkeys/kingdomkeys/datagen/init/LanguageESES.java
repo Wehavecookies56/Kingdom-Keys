@@ -2510,10 +2510,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");
-        addEntityType(ModEntities.TYPE_MASTER_DUEL, "Maestro");
         addEntityType(ModEntities.TYPE_APPRENTICE, "Aprendiz");
-        addEntityType(ModEntities.TYPE_APPRENTICE_DUEL, "Aprendiz");
-        add("kingdomkeys.entity.master_duel", "Maestro %s");
         add("kingdomkeys.foreteller.ira", "Ira");
         add("kingdomkeys.foreteller.gula", "Gula");
         add("kingdomkeys.foreteller.ava", "Ava");

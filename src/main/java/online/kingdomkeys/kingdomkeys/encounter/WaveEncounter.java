@@ -172,7 +172,8 @@ public class WaveEncounter implements Encounter {
         }
 
         public void place(EntityType<?> entityType, Wave wave, State state, EncounterContext context, ServerLevel level) {
-            LivingEntity spawned = (LivingEntity) entityType.create(level);
+            LivingEntity adopted = context.adopt(entityType);
+            LivingEntity spawned = adopted != null ? adopted : (LivingEntity) entityType.create(level);
             BlockPos spawnPoint = getSpawnPoint();
 
             if (spawned == null) {
@@ -184,18 +185,25 @@ public class WaveEncounter implements Encounter {
             context.getRoom().ifPresent(room -> {
                 room.addEntityToCache(spawned);
             });
-            GlobalData globalData = GlobalData.get(spawned);
-            globalData.setCastleOblivionMarker(true);
-            globalData.setLevel(context.getSpawnLevel());
+
+            if (adopted == null) {
+                GlobalData globalData = GlobalData.get(spawned);
+                globalData.setCastleOblivionMarker(true);
+                globalData.setLevel(context.getSpawnLevel());
+            }
+
             context.onSpawn(spawned);
             wave.onSpawn(context, spawned);
-            spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
-            level.addFreshEntityWithPassengers(spawned);
 
-            SoundEvent arrival = spawned instanceof BaseKHEntity kh && kh.arrivalSound() != null ? kh.arrivalSound() : ModSounds.portal.get();
-            level.playSound(null, spawnPoint, arrival, SoundSource.HOSTILE, 2, 1);
-            if (spawned instanceof Mob spawnedMob) {
-                EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
+            if (adopted == null) {
+                spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+                level.addFreshEntityWithPassengers(spawned);
+
+                SoundEvent arrival = spawned instanceof BaseKHEntity kh && kh.arrivalSound() != null ? kh.arrivalSound() : ModSounds.portal.get();
+                level.playSound(null, spawnPoint, arrival, SoundSource.HOSTILE, 2, 1);
+                if (spawned instanceof Mob spawnedMob) {
+                    EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
+                }
             }
             KingdomKeys.LOGGER.debug("Spawned {}", spawned);
             CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
