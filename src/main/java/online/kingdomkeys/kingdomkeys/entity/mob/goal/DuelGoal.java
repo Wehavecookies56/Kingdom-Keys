@@ -82,7 +82,7 @@ public class DuelGoal<T extends PathfinderMob & Dueller> extends Goal {
 		stateTicks = 0;
 		recovery = 0;
 
-		fighter.callKeyblade();
+		fighter.startCallingKeyblade();
 	}
 
 	@Override

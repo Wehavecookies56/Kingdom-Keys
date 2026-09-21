@@ -64,8 +64,7 @@ public class ApprenticeCombatGoal extends Goal {
 		hitsLeft = COMBO_HITS;
 		repath = 0;
 		apprentice.setAggressive(true);
-
-		apprentice.callKeyblade();
+		apprentice.startCallingKeyblade();
 	}
 
 	@Override

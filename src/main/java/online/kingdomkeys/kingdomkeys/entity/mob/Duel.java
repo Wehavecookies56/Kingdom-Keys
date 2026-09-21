@@ -205,10 +205,13 @@ public class Duel {
         this.duelist = pupil == null ? null : pupil.getUUID();
         this.readyIn = pupil == null ? 0 : Dueller.READY_TICKS;
 
-        if (readyIn > 0) {
-            fighter.setNoAi(true);
-            fighter.setInvulnerable(true);
+        if (readyIn <= 0) {
+            return;
         }
+
+        fighter.setNoAi(true);
+        fighter.setInvulnerable(true);
+        dueller.startCallingKeyblade();
     }
 
     public boolean isDuelist(Player pupil) {

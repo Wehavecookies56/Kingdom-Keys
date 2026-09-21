@@ -21,7 +21,7 @@ public interface KeybladeWielder {
 		return KeybladeSummon.standsItsGround(callingRank());
 	}
 
-	default void callKeyblade() {
+	default void startCallingKeyblade() {
 		keybladeSummon().begin();
 	}
 
