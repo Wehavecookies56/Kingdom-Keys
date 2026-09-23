@@ -25,6 +25,8 @@ public class ClientConfig {
 
     public ModConfigSpec.BooleanValue summonTogether;
 
+    public ModConfigSpec.BooleanValue bakeDisplayedModels, bakeHeldModels;
+
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
 	public ModConfigSpec.ConfigValue<List<? extends Integer>> hiddenMagic;
@@ -254,6 +256,18 @@ public class ClientConfig {
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
 	                .defineInRange("partyYOffset", 70, -1000, 1000);
+	        builder.pop();
+
+	        builder.push("performance");
+	        bakeDisplayedModels = builder
+	                .comment("Draw large item models on pedestals and in item frames from a buffer kept on the GPU, instead of rebuilding every vertex every frame. Turn off if a displayed keyblade looks wrong")
+	                .translation(KingdomKeys.MODID + ".config.bake_displayed_models")
+	                .define("bakeDisplayedModels", true);
+
+	        bakeHeldModels = builder
+	                .comment("The same for large item models held in hand or lying on the ground")
+	                .translation(KingdomKeys.MODID + ".config.bake_held_models")
+	                .define("bakeHeldModels", false);
 	        builder.pop();
     }
 

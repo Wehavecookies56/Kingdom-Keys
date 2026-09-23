@@ -27,9 +27,11 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	private static final class CachedModel {
 		final Item item;
 		final BakedModel model;
-		CachedModel(Item item, BakedModel model) {
+		final ItemStack shown;
+		CachedModel(Item item, BakedModel model, ItemStack shown) {
 			this.item = item;
 			this.model = model;
+			this.shown = shown;
 		}
 	}
 	private final Map<PedestalTileEntity, CachedModel> modelCache = new WeakHashMap<>();
@@ -43,8 +45,9 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 		if (!tileEntityIn.isStationOfAwakeningMarker()) {
 			IItemHandler itemHandler = tileEntityIn.inventory.get();
 			if (itemHandler != null) {
-				if (!itemHandler.getStackInSlot(0).isEmpty()) {
-					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, itemHandler.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) itemHandler.getStackInSlot(0).getItem()).getKeyblade()) : itemHandler.getStackInSlot(0), combinedLightIn);
+				ItemStack held = itemHandler.getStackInSlot(0);
+				if (!held.isEmpty()) {
+					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, held, combinedLightIn);
 				}
 			}
 		} else {
@@ -75,21 +78,26 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 				matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
 				matrixStack.translate(0, -0.6F, 0);
 			}
-			BakedModel model = getOrResolveModel(tileEntity, toRender);
-			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
+			CachedModel cached = getOrResolveModel(tileEntity, toRender);
+			ItemStack shown = toRender.getItem() instanceof KeychainItem ? cached.shown : toRender;
+			renderItem.render(shown, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, cached.model);
 		}
 		matrixStack.popPose();
 	}
 
-	private BakedModel getOrResolveModel(PedestalTileEntity tileEntity, ItemStack toRender) {
+	private CachedModel getOrResolveModel(PedestalTileEntity tileEntity, ItemStack toRender) {
 		Item item = toRender.getItem();
 		CachedModel cached = modelCache.get(tileEntity);
 		if (cached != null && cached.item == item) {
-			return cached.model;
+			return cached;
 		}
-		BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
-		modelCache.put(tileEntity, new CachedModel(item, model));
-		return model;
+
+		// A keychain on display shows the keyblade it belongs to
+		ItemStack shown = item instanceof KeychainItem keychain ? new ItemStack(keychain.getKeyblade()) : toRender;
+		BakedModel model = renderItem.getModel(shown, tileEntity.getLevel(), null, 1);
+		cached = new CachedModel(item, model, shown);
+		modelCache.put(tileEntity, cached);
+		return cached;
 	}
 
 	@Override

@@ -65,6 +65,8 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Muestra la fuente personalizada");
+        addConfigKey(ModConfigs.getClientConfig().bakeDisplayedModels, "Guardar en la GPU los modelos grandes expuestos");
+        addConfigKey(ModConfigs.getClientConfig().bakeHeldModels, "Guardar en la GPU los modelos grandes en la mano");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Colores del Menú de Comandos clasicos");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Menú de Comandos offset X seleccionado");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Menú de Comandos submenú X offset (%)");

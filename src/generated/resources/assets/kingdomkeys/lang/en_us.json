@@ -2757,6 +2757,8 @@
   "kingdomkeys.config.allow_boosts": "Stat boosts",
   "kingdomkeys.config.allow_party_ko": "Party KO system",
   "kingdomkeys.config.auto_third_person_ship": "Auto 3rd person ship",
+  "kingdomkeys.config.bake_displayed_models": "Cache large displayed item models on the GPU",
+  "kingdomkeys.config.bake_held_models": "Cache large held item models on the GPU",
   "kingdomkeys.config.bomb_explode_with_fire": "Bomb Heartless explode on fire",
   "kingdomkeys.config.boss_despawn_if_no_target": "Boss despawn if no target",
   "kingdomkeys.config.cm_classic_colors": "Use classic Command Menu colors",

@@ -36,6 +36,9 @@ public abstract class ItemDropEntity extends Entity {
 	/** Ticks between merge sweeps. */
 	private static final int MERGE_INTERVAL = 5;
 
+	private int lerpSteps;
+	private double lerpX, lerpY, lerpZ;
+
 	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
 		this.setPos(x, y, z);
@@ -65,6 +68,14 @@ public abstract class ItemDropEntity extends Entity {
 		}
 
 		super.tick();
+
+		// The server moves drops and sends where they are every tick; guessing the motion here as
+		// well only disagrees with it (the magnet depends on abilities the client can't see) and
+		// every correction shows up as a jump
+		if (this.level().isClientSide) {
+			glideToServer();
+			return;
+		}
 
 		if (this.delayBeforeCanPickup > 0) {
 			--this.delayBeforeCanPickup;
@@ -150,6 +161,36 @@ public abstract class ItemDropEntity extends Entity {
 		if (this.onGround()) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, -0.9D, 1.0D));
 		}
+	}
+
+	private void glideToServer() {
+		if (lerpSteps > 0) {
+			lerpPositionAndRotationStep(lerpSteps, lerpX, lerpY, lerpZ, getYRot(), getXRot());
+			--lerpSteps;
+		}
+	}
+
+	@Override
+	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpSteps = steps;
+	}
+
+	@Override
+	public double lerpTargetX() {
+		return lerpSteps > 0 ? lerpX : getX();
+	}
+
+	@Override
+	public double lerpTargetY() {
+		return lerpSteps > 0 ? lerpY : getY();
+	}
+
+	@Override
+	public double lerpTargetZ() {
+		return lerpSteps > 0 ? lerpZ : getZ();
 	}
 
 	private void mergeNearby() {

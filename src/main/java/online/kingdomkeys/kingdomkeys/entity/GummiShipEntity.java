@@ -168,7 +168,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 							stack.set(ModComponents.GUMMI_FUEL, getFuel());
 
 							player.displayClientMessage(Component.translatable("kingdomkeys.gummi.phone.stored"), true);
-							((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
+							((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), getRealSize().getX() * getRealSize().getY() * getRealSize().getZ(), 0, 0, 0, 0.2);
 							this.kill();
 						}
 						return false;
@@ -254,7 +254,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	public void destroy(Item[] dropItems) {
 		this.kill();
 		if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
-			Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
+			Vec3i gummiSize = getRealSize();
 			int scatterRadius = Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ());
 			for(Item dropItem : dropItems) {
 				ItemStack itemstack = new ItemStack(dropItem);
@@ -477,7 +477,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				if (targetStrafe == 0) {
 					currentStrafeSpeed += strafeDelta * brake;
 					if (Math.abs(currentStrafeSpeed) < 0.001F) currentStrafeSpeed = 0;
-				} else {
+				} else {7
 					if (strafeDelta > 0) {
 						currentStrafeSpeed += strafeDelta * ascendAcceleration;
 						if (currentStrafeSpeed > targetStrafe) currentStrafeSpeed = targetStrafe;
@@ -511,9 +511,23 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 
+	/** Returns and caches the real size */
+	private GummiStructure sizedFrom;
+	private Vec3i realSize;
+
+	public Vec3i getRealSize() {
+		if (realSize == null || structure != sizedFrom) {
+			sizedFrom = structure;
+			realSize = structure == null ? Vec3i.ZERO : Utils.getRealGummiStructureSize(structure);
+		}
+
+		return realSize;
+	}
+
 	@Override
 	public EntityDimensions getDimensions(Pose pose) {
-		return EntityDimensions.scalable(Math.max(Utils.getRealGummiStructureSize(structure).getX(), Utils.getRealGummiStructureSize(structure).getZ()), Utils.getRealGummiStructureSize(structure).getY());
+		Vec3i size = getRealSize();
+		return EntityDimensions.scalable(Math.max(size.getX(), size.getZ()), size.getY());
 	}
 
 	@Override

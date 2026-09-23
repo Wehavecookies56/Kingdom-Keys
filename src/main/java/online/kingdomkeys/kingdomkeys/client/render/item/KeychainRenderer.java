@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.render.LargeItemModels;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
@@ -165,10 +167,14 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		Vector3f hinge = split.hinge;
 
 		// The blade keeps the render type the item would have had anyway
-		VertexConsumer bladeConsumer = ItemRenderer.getFoilBufferDirect(buffer, ItemBlockRenderTypes.getRenderType(stack, true), true, stack.hasFoil());
-		itemRenderer.renderModelLists(blade, stack, packedLight, packedOverlay, poseStack, bladeConsumer);
+		RenderType type = ItemBlockRenderTypes.getRenderType(stack, true);
 
-		VertexConsumer keychainConsumer = ItemRenderer.getFoilBufferDirect(buffer, ItemBlockRenderTypes.getRenderType(stack, true), true, stack.hasFoil());
+		// Each half is tried against the GPU cache first: the blades are the heavy part of these models,
+		// and a split keyblade never reaches the ordinary item path that would otherwise cache it
+		if (!LargeItemModels.drawRaw(blade, stack, type, displayContext, poseStack, packedLight, packedOverlay)) {
+			VertexConsumer bladeConsumer = ItemRenderer.getFoilBufferDirect(buffer, type, true, stack.hasFoil());
+			itemRenderer.renderModelLists(blade, stack, packedLight, packedOverlay, poseStack, bladeConsumer);
+		}
 
 		poseStack.pushPose();
 		{
@@ -177,7 +183,10 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 			poseStack.mulPose(hangRotation(displayContext, poseStack, minecraft));
 			poseStack.translate(-hinge.x(), -hinge.y(), -hinge.z());
 
-			itemRenderer.renderModelLists(keychain, stack, packedLight, packedOverlay, poseStack, keychainConsumer);
+			if (!LargeItemModels.drawRaw(keychain, stack, type, displayContext, poseStack, packedLight, packedOverlay)) {
+				VertexConsumer keychainConsumer = ItemRenderer.getFoilBufferDirect(buffer, type, true, stack.hasFoil());
+				itemRenderer.renderModelLists(keychain, stack, packedLight, packedOverlay, poseStack, keychainConsumer);
+			}
 		}
 		poseStack.popPose();
 	}

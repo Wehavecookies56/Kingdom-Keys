@@ -42,6 +42,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
+import java.util.List;
+
 public class CastleOblivionHandler {
 
     //Ticking rooms that players are in, empty rooms should be inactive
@@ -53,10 +55,11 @@ public class CastleOblivionHandler {
                     interiorData.getFloors().forEach(floor -> {
                         floor.getRooms().forEach(roomData -> {
                             roomData.getGenerated().ifPresent(room -> {
+                                List<Player> players = Room.getPlayersInRoom(event.getLevel().getServer(), room);
                                 floor.getType().getGlobalModifiers().forEach(roomModifier -> {
-                                    roomModifier.tick(room, Room.getPlayersInRoom(event.getLevel().getServer(), room));
+                                    roomModifier.tick(room, players);
                                 });
-                                room.tick((ServerLevel) event.getLevel());
+                                room.tick((ServerLevel) event.getLevel(), players);
                             });
                         });
                     });

@@ -50,6 +50,7 @@
 * [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:
+* Pedestal lag with heavy keyblades, now you can render all your collection without rendering issues.
 * Reversal RC being available even when the Dusk was out of reach.
 * Small jump after being hit due to aerial recovery.
 * Melding screen not showing the level of equipped spells.
@@ -73,4 +74,7 @@
 * Blox bug texture being full black.
 * Some chat / hotbar messages on server were not properly translated to your local language:
   * Learning recipes, unlocking forms, magic and shotlock equipment directions, savepoint messages, some commands... 
+* Dropped orbs like Drive, Focus, HP, MP and Munny now move smoothly.
+* Minor Gummi Ship logic optimization.
+* Gummi Hangar now stops rendering after a certain distance.
 * Small translation issues (Thanks to Held_der_Zeit).

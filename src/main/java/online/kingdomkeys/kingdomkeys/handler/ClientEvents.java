@@ -83,6 +83,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
+import online.kingdomkeys.kingdomkeys.client.render.LargeItemModels;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
@@ -323,7 +324,7 @@ public class ClientEvents {
 		Entity viewEntity = camera.getEntity();
 		if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
 			if(ship.structure != null){
-				Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
+				Vec3i realSize = ship.getRealSize();
 				int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
 
 				if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
@@ -1321,6 +1322,9 @@ public class ClientEvents {
 		// start of that tick, so stepping the arc beforehand meant the step was erased and the frames in
 		// between had nothing to draw.
 		Reversal.tick();
+
+		// Lets go of the GPU copies of heavy item models nobody has drawn in a while
+		LargeItemModels.tick();
 
 		if (Minecraft.getInstance().level != null) {
 			if (KeyboardHelper.isScrollActivatorDown()) {

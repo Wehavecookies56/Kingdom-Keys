@@ -23,15 +23,11 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Quaternionf;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class PlayerPortraitGui extends OverlayBase {
     public static ResourceLocation SKINRL = null;
 
 	public static final PlayerPortraitGui INSTANCE = new PlayerPortraitGui();
-    private static final Map<UUID, Vec3i> GUMMI_SIZE_CACHE = new HashMap<>();
 
     private PlayerPortraitGui() {
 		super();
@@ -246,8 +242,6 @@ public class PlayerPortraitGui extends OverlayBase {
         if (ship == null || ship.structure == null)
             return new Vec3i(1,1,1);
 
-        return GUMMI_SIZE_CACHE.computeIfAbsent(ship.getUUID(), id ->
-                Utils.getRealGummiStructureSize(ship.structure)
-        );
+        return ship.getRealSize();
     }
 }

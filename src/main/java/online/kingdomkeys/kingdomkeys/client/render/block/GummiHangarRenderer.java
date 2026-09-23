@@ -102,13 +102,8 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 	}
 
     @Override
-    public boolean shouldRender(GummiHangarTileEntity blockEntity, Vec3 cameraPos) {
-        return true;
-    }
-
-    @Override
-    public boolean shouldRenderOffScreen(GummiHangarTileEntity blockEntity) {
-        return true;
+    public int getViewDistance() {
+        return 96;
     }
 
     @Override
@@ -202,7 +197,9 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
     @Override
     public AABB getRenderBoundingBox(GummiHangarTileEntity blockEntity) {
-        BlockPos pos = blockEntity.getBlockPos();
-        return new AABB(pos.offset(-10,-10,-10).getCenter(), pos.offset(10,10,10).getCenter());
+        BlockState state = blockEntity.getBlockState();
+        int size = state.hasProperty(GummiHangarBlock.LEVEL) ? GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL)) : GummiHangarBlock.getSize(10);
+
+        return new AABB(blockEntity.getBlockPos()).inflate(size + 1, 0, size + 1).expandTowards(0, size + 1, 0);
     }
 }

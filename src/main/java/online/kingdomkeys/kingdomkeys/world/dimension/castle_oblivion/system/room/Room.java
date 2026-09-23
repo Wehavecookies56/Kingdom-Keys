@@ -247,7 +247,10 @@ public class Room implements EncounterContext {
     }
 
     public void tick(ServerLevel level) {
-        List<Player> players = getPlayersInRoom(level.getServer(), this);
+        tick(level, getPlayersInRoom(level.getServer(), this));
+    }
+
+    public void tick(ServerLevel level, List<Player> players) {
         if (shouldRoomTick(players)) {
             if (ticksSinceLastSpawn > 100) {
                 boolean invalidCache = false;
