@@ -73,6 +73,16 @@ public class TreasureChestTileEntity extends BlockEntity {
         level.setBlockEntity(te);
     }
 
+    public boolean isEmpty() {
+        return !isTrapped() && treasure.isEmpty();
+    }
+
+    public void stash(ItemStack reward) {
+        treasure = new ArrayList<>(List.of(reward));
+        setChanged();
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+    }
+
     private boolean isTrapped() {
         return trapEntity != null;
     }

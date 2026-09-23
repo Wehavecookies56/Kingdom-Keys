@@ -2572,6 +2572,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.chest.locked", "Este cofre está bloqueado");
         add("message.chest.keyblade_set", "Has establecido tu llave espada para desbloquear este cofre");
         add("message.chest.unlocked", "El Cofre ha sido desbloqueado");
+        add("message.chest.reward_set", "%s establecido como recompensa del cofre");
+        add("message.pedestal.placed", "%s colocado en el pedestal");
         add("message.magic_max_level", "%s ya está en el máximo nivel");
         add("message.magic_upgrade", "%s ha mejorado a %s");
         add("message.unlocked", "Desbloqueado %s");

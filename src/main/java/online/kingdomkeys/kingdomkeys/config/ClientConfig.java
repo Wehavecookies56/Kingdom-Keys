@@ -267,7 +267,7 @@ public class ClientConfig {
 	        bakeHeldModels = builder
 	                .comment("The same for large item models held in hand or lying on the ground")
 	                .translation(KingdomKeys.MODID + ".config.bake_held_models")
-	                .define("bakeHeldModels", false);
+	                .define("bakeHeldModels", true);
 	        builder.pop();
     }
 

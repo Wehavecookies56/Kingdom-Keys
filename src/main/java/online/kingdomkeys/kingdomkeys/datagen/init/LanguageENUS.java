@@ -2537,6 +2537,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Message_Chest + ".lock", "Use a keyblade to lock this chest");
         add(Message_Chest + ".can_be_locked", "Can be locked with a keyblade");
         add(Message_Chest + ".locked", "This chest is locked");
+        add(Message_Chest + ".reward_set", "%s set as this chest's reward");
+        add("message.pedestal.placed", "%s placed on the pedestal");
         add(Message_Chest + ".keyblade_set", "Your keyblade has been set to unlock this chest");
         add(Message_Chest + ".unlocked", "Chest has been unlocked");
         add(Message_KK + ".gui_toggle", "GUI display set to: %s");

@@ -477,7 +477,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				if (targetStrafe == 0) {
 					currentStrafeSpeed += strafeDelta * brake;
 					if (Math.abs(currentStrafeSpeed) < 0.001F) currentStrafeSpeed = 0;
-				} else {7
+				} else {
 					if (strafeDelta > 0) {
 						currentStrafeSpeed += strafeDelta * ascendAcceleration;
 						if (currentStrafeSpeed > targetStrafe) currentStrafeSpeed = targetStrafe;

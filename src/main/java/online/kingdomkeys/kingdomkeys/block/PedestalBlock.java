@@ -2,7 +2,10 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -21,9 +24,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenChoiceScreen;
@@ -58,6 +63,11 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 		if (worldIn.isClientSide)
 			return ItemInteractionResult.SUCCESS;
 
+		if (player.isSecondaryUseActive() && stack.getItem() instanceof KeychainItem && worldIn.getBlockEntity(pos) instanceof PedestalTileEntity te && !te.isStationOfAwakeningMarker()) {
+			putOnPedestal(te, stack, worldIn, pos, player);
+			return ItemInteractionResult.SUCCESS;
+		}
+
 		MenuProvider namedContainerProvider = this.getMenuProvider(state, worldIn, pos);
 		if (namedContainerProvider != null) {
 			if (!(player instanceof ServerPlayer serverPlayerEntity))
@@ -81,6 +91,24 @@ public class PedestalBlock extends BaseEntityBlock implements INoDataGen {
 			}
 		}
 		return ItemInteractionResult.SUCCESS;
+	}
+
+	private static void putOnPedestal(PedestalTileEntity te, ItemStack held, Level level, BlockPos pos, Player player) {
+		if (!(te.inventory.get() instanceof IItemHandlerModifiable slots)) {
+			return;
+		}
+
+		ItemStack shown = slots.getStackInSlot(0);
+		ItemStack placed = player.hasInfiniteMaterials() ? held.copyWithCount(1) : held.split(1);
+		slots.setStackInSlot(0, placed);
+		player.displayClientMessage(Component.translatable("message.pedestal.placed", placed.getHoverName()), true);
+
+		if (!shown.isEmpty() && !player.addItem(shown)) {
+			player.drop(shown, false);
+		}
+
+		level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1F, 1F);
+		level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), Block.UPDATE_CLIENTS);
 	}
 
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
