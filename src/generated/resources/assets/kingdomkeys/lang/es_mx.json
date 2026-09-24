@@ -2722,7 +2722,6 @@
   "kingdomkeys.config.custom_font": "Muestra la fuente personalizada",
   "kingdomkeys.config.dragon_level": "Permite que el Dragón del End suba de nivel",
   "kingdomkeys.config.drive_drop_probability": "Probabilidad de soltar puntos de Fusión",
-  "kingdomkeys.config.drive_form_xp_multiplier": "Multiplicador de XP para Formas de Fusión",
   "kingdomkeys.config.drive_heal": "Cura de Fusión",
   "kingdomkeys.config.drive_points_multiplier": "Multiplicador de puntos de Fusión",
   "kingdomkeys.config.focus_drop_probability": "Probabilidad de soltar puntos de tino",

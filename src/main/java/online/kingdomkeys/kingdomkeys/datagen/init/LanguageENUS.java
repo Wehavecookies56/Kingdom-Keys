@@ -135,7 +135,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
         addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Hearts Multiplier");
         addConfigKey(ModConfigs.getServerConfig().partyXPShare, "XP Share in party");
-        addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Drive Form XP Multiplier");
         addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Stats multiplier");
 
 

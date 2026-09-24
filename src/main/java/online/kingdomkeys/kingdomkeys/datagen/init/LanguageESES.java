@@ -135,7 +135,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "Multiplicador de XP");
         addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Multiplicador de Corazones");
         addConfigKey(ModConfigs.getServerConfig().partyXPShare, "Compartir XP en grupo");
-        addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Multiplicador de XP para Formas de Fusión");
         addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Multiplicador de Estadísticas");
 
         //Advancements

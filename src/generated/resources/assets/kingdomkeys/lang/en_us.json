@@ -2777,7 +2777,6 @@
   "kingdomkeys.config.custom_font": "Toggle the custom font",
   "kingdomkeys.config.dragon_level": "Allow the Enderdragon to level up",
   "kingdomkeys.config.drive_drop_probability": "Drive Drops Probability",
-  "kingdomkeys.config.drive_form_xp_multiplier": "Drive Form XP Multiplier",
   "kingdomkeys.config.drive_heal": "Drive form heal",
   "kingdomkeys.config.drive_points_multiplier": "Drive Points Multiplier",
   "kingdomkeys.config.focus_drop_probability": "Focus Drops Probability",

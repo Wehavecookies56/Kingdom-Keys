@@ -33,6 +33,11 @@ public class DriveFormBuilder {
 		return this;
 	}
 
+	public DriveFormBuilder xpMult(float value) {
+		root.addProperty("xp_mult", value);
+		return this;
+	}
+
 	public DriveFormBuilder canGoAnti(boolean value) {
 		root.addProperty("can_go_anti", value);
 		return this;

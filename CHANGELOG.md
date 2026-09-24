@@ -42,6 +42,7 @@
 ## Changed:
 * Default Kingdom Key recipe is now replaced by a starting keyblade linked to each player's UUID.
 * Abilities are now data driven.
+* Moved drive form xp multiplier to be data diven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.
 * Sell screen now groups all equal items, showing fewer lines and able to sell it all at once.

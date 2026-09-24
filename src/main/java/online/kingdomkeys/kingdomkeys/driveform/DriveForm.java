@@ -268,6 +268,10 @@ public abstract class DriveForm implements KKRegistryObject {
 	public float getMagMult() {
 		return data.magMult;
 	}
+	public float getXPMult() {
+		return data.xpMult;
+	}
+
 	public float getSpeedMult() {
 		return data.speedMult;
 	}

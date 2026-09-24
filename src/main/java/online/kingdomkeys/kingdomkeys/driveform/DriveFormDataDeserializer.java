@@ -40,6 +40,9 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 			case "speed_mult":
 				out.setSpeedMult(element.getAsFloat());
 				break;
+			case "xp_mult":
+				out.setXPMult(element.getAsFloat());
+				break;
 			case "can_go_anti":
 				out.setCanGoAnti(element.getAsBoolean());
 				break;

@@ -11,29 +11,10 @@ import java.util.List;
  */
 public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData, gummiInfoHUDData, gummiReadoutHUDData, gummiControlsHUDData, synthesisTrackerHUDData;
-
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D;
-    public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
-    
-    public ModConfigSpec.BooleanValue hpShowHearts;
-    public ModConfigSpec.IntValue hpAlarm;
-
-
-    public ModConfigSpec.IntValue lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
-    
-    public ModConfigSpec.IntValue partyYDistance;
-
-    public ModConfigSpec.BooleanValue summonTogether;
-
-    public ModConfigSpec.BooleanValue bakeDisplayedModels, bakeHeldModels;
-
-	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
-
 	public ModConfigSpec.ConfigValue<List<? extends Integer>> hiddenMagic;
-
-	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
-
-	public ModConfigSpec.BooleanValue seasonalEvents;
+	public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D, hpShowHearts, summonTogether, bakeDisplayedModels, bakeHeldModels, shoulderSurfingDecoupled, seasonalEvents;
+	public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance;
+	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder
@@ -55,79 +36,79 @@ public class ClientConfig {
 		cmHUDData = builder
 				.comment("Command Menu HUD Data")
 				.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), o -> o instanceof Number);
+				.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), () -> 0F, o -> o instanceof Number);
 		rcHUDData = builder
 				.comment("Reaction Commands HUD Data")
 				.translation(KingdomKeys.MODID + ".config.rc_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), o -> o instanceof Number);
+				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), () -> 0F, o -> o instanceof Number);
 		hpHUDData = builder
 				.comment("Health Bar HUD Data")
 				.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), o -> o instanceof Number);
+				.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), () -> 0F, o -> o instanceof Number);
 		mpHUDData = builder
 				.comment("Magic Bar HUD Data")
 				.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), o -> o instanceof Number);
+				.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), () -> 0F, o -> o instanceof Number);
 		driveHUDData = builder
 				.comment("Drive Bar HUD Data")
 				.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), o -> o instanceof Number);
+				.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), () -> 0F, o -> o instanceof Number);
 		portraitHUDData = builder
 				.comment("Portrait HUD Data")
 				.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), o -> o instanceof Number);
+				.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), () -> 0F, o -> o instanceof Number);
 		lockOnHUDData = builder
 				.comment("Lock On HUD Data")
 				.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), o -> o instanceof Number);
+				.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), () -> 0F, o -> o instanceof Number);
 		partyHUDData = builder
 				.comment("Party HUD Data")
 				.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), o -> o instanceof Number);
+				.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), () -> 0F, o -> o instanceof Number);
 		focusHUDData = builder
 				.comment("Focus Bar HUD Data")
 				.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), o -> o instanceof Number);
+				.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), () -> 0F, o -> o instanceof Number);
 		munnyExpHUDData = builder
 				.comment("Munny get and Exp. for next level HUD Data")
 				.translation(KingdomKeys.MODID + ".config.munny_exp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), o -> o instanceof Number);
+				.defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), () -> 0F, o -> o instanceof Number);
 		levelUpHUDData = builder
 				.comment("Level up notification HUD Data")
 				.translation(KingdomKeys.MODID + ".config.levelup_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), o -> o instanceof Number);
+				.defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), () -> 0F, o -> o instanceof Number);
 		driveLevelHUDData = builder
 				.comment("Drive form level up HUD Data")
 				.translation(KingdomKeys.MODID + ".config.drivelevel_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), o -> o instanceof Number);
+				.defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), () -> 0F, o -> o instanceof Number);
 		minimapHUDData = builder
 				.comment("Castle Oblivion Minimap HUD Data")
 				.translation(KingdomKeys.MODID + ".config.minimap_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), o -> o instanceof Number);
+				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), () -> 0F, o -> o instanceof Number);
 		roomNameHUDData = builder
 				.comment("Castle Oblivion Room Name HUD Data")
 				.translation(KingdomKeys.MODID + ".config.roomname_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), o -> o instanceof Number);
+				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), () -> 0F, o -> o instanceof Number);
 		itemGetHUDData = builder
 				.comment("Small item obtained notification HUD Data")
 				.translation(KingdomKeys.MODID + ".config.itemget_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), o -> o instanceof Number);
+				.defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), () -> 0F, o -> o instanceof Number);
 		gummiInfoHUDData = builder
 				.comment("Gummi ship name and coordinates HUD Data")
 				.translation(KingdomKeys.MODID + ".config.gummi_info_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiInfoHUDData", () -> HUDElement.getDefaultValues("GummiInfo"), o -> o instanceof Number);
+				.defineList("gummiInfoHUDData", () -> HUDElement.getDefaultValues("GummiInfo"), () -> 0F, o -> o instanceof Number);
 		gummiReadoutHUDData = builder
 				.comment("Gummi ship fuel, engine and boost bars HUD Data")
 				.translation(KingdomKeys.MODID + ".config.gummi_readout_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiReadoutHUDData", () -> HUDElement.getDefaultValues("GummiReadout"), o -> o instanceof Number);
+				.defineList("gummiReadoutHUDData", () -> HUDElement.getDefaultValues("GummiReadout"), () -> 0F, o -> o instanceof Number);
 		gummiControlsHUDData = builder
 				.comment("Gummi ship flight controls HUD Data")
 				.translation(KingdomKeys.MODID + ".config.gummi_controls_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), o -> o instanceof Number);
+				.defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), () -> 0F, o -> o instanceof Number);
 		synthesisTrackerHUDData = builder
 				.comment("Materials still needed for the synthesis recipe being followed HUD Data")
 				.translation(KingdomKeys.MODID + ".config.synthesis_tracker_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("synthesisTrackerHUDData", () -> HUDElement.getDefaultValues("SynthesisTracker"), o -> o instanceof Number);
+				.defineList("synthesisTrackerHUDData", () -> HUDElement.getDefaultValues("SynthesisTracker"), () -> 0F, o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");
@@ -155,7 +136,7 @@ public class ClientConfig {
 			hiddenMagic = builder
 					.comment("Magic to hide from the Command Menu")
 					.translation(KingdomKeys.MODID + ".config.cm_hidden_magic")
-					.defineList("hiddenMagic", () -> List.of(),obj -> obj instanceof Integer);
+					.defineList("hiddenMagic", List.of(), () -> 0, obj -> obj instanceof Integer);
 	        
 	        cmTextXOffset = builder
 	                .comment("Command Menu Text X Offset")

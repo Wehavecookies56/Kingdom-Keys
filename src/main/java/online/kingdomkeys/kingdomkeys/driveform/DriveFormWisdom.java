@@ -7,7 +7,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
@@ -30,7 +29,7 @@ public class DriveFormWisdom extends DriveForm {
 				if (event.getSource().getEntity() instanceof Player player) {
                     PlayerData playerData = PlayerData.get(player);
 					if (playerData != null && playerData.isFormActive(ModDriveForms.WISDOM)) {
-						double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(1).split(",")[1]);
+						double mult = ModDriveForms.WISDOM.get().getXPMult();
 						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 					}

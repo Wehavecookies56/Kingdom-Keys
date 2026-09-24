@@ -15,21 +15,12 @@ import java.util.List;
  * Config file for config options shared between the server and the client
  */
 public class CommonConfig {
+	public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
+	public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate, playerSpawnHeartlessData, startingRecipes, starterKeyblades;
+	public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats, coEntranceChunkX, coEntranceChunkZ;
+	public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames, generateCOEntrance;
+	public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
-    public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
-    public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
-
-    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
-    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
-    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
-
-    public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
-    public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
-    public ModConfigSpec.ConfigValue<List<? extends String>> starterKeyblades;
-
-    public ModConfigSpec.BooleanValue generateCOEntrance;
-    public ModConfigSpec.IntValue coEntranceChunkX, coEntranceChunkZ;
-    
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
 
@@ -237,7 +228,7 @@ public class CommonConfig {
                         KingdomKeys.MODID + ":" + Strings.magicBoost,
                         KingdomKeys.MODID + ":" + Strings.defenseBoost,
                         KingdomKeys.MODID + ":" + Strings.apBoost
-                ), o -> {
+                ), () -> KingdomKeys.MODID + ":" + Strings.potion, o -> {
                     if (o instanceof String s) {
                         return ResourceLocation.tryParse(s) != null;
                     }
@@ -255,7 +246,8 @@ public class CommonConfig {
                         KingdomKeys.MODID + ":" + Strings.rainfell,
                         KingdomKeys.MODID + ":" + Strings.waywardWind,
                         KingdomKeys.MODID + ":" + Strings.starlight
-                ), o -> {
+                ),
+                () -> KingdomKeys.MODID + ":" + Strings.kingdomKey, o -> {
                     if (o instanceof String s) {
                         return ResourceLocation.tryParse(s) != null;
                     }

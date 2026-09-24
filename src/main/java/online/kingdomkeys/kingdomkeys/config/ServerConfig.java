@@ -10,7 +10,6 @@ public class ServerConfig {
 
     public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
 
-    public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
@@ -199,15 +198,11 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.party_xp_share")
                 .defineInRange("partyXPShare", 0F, 0, 100);
 
-        driveFormXPMultiplier = builder
-                .comment("Drive Form XP Multiplier")
-                .translation(KingdomKeys.MODID + ".config.drive_form_xp_multiplier")
-                .defineList("driveFormXPMultiplier", Lists.newArrayList("Valor,1", "Wisdom,1", "Limit,1", "Master,1", "Final,1"), o -> o instanceof String);
 
         statsMultiplier = builder
                 .comment("Strength, Magic and Defense multiplier in % for players")
                 .translation(KingdomKeys.MODID + ".config.stats_multiplier")
-                .defineList("statsMultiplier", Lists.newArrayList(100, 100, 100), o -> o instanceof Integer);
+                .defineList("statsMultiplier", Lists.newArrayList(100, 100, 100), () -> 100, o -> o instanceof Integer);
 
         builder.pop();
         

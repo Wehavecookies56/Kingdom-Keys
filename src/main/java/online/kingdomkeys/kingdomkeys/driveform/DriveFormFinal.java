@@ -14,7 +14,6 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
@@ -39,7 +38,7 @@ public class DriveFormFinal extends DriveForm {
                 PlayerData playerData = PlayerData.get(player);
 
 				if (playerData != null && playerData.isFormActive(ModDriveForms.FINAL)) {
-					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(4).split(",")[1]);
+					double mult = ModDriveForms.FINAL.get().getXPMult();
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}

@@ -38,5 +38,6 @@
   ],
   "mag_mult": 1.2,
   "speed_mult": 1.3,
-  "str_mult": 1.2
+  "str_mult": 1.2,
+  "xp_mult": 1.0
 }

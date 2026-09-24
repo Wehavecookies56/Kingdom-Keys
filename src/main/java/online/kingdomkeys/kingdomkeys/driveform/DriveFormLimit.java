@@ -8,7 +8,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -28,7 +27,7 @@ public class DriveFormLimit extends DriveForm {
 			if (event.getSource().getEntity() instanceof Player player) {
                 PlayerData playerData = PlayerData.get(player);
 				if (playerData != null && playerData.isFormActive(ModDriveForms.LIMIT) && playerData.hasShotMaxShotlock()) {
-					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(2).split(",")[1]);
+					double mult = ModDriveForms.LIMIT.get().getXPMult();
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					playerData.setHasShotMaxShotlock(false);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);

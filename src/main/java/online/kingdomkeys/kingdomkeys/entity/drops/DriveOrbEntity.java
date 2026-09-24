@@ -8,7 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -37,7 +36,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 		else {
 			playerData.addFP(finalValue);
 			if (playerData.isFormActive(ModDriveForms.MASTER)) {
-				double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(3).split(",")[1]);
+				double mult = ModDriveForms.MASTER.get().getXPMult();
 				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (Math.max(1, (value/10F) * mult)))); //Ensure at least 1 point
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 			}

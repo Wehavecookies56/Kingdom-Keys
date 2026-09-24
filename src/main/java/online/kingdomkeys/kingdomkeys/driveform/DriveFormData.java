@@ -11,6 +11,7 @@ import java.util.List;
 public class DriveFormData {
 
     float strMult, magMult, speedMult;
+    float xpMult = 1F;
     int cost, ap;
     int[] levelUp = new int[0];
     List<ResourceLocation> abilities = new ArrayList<>();
@@ -73,6 +74,14 @@ public class DriveFormData {
 		this.speedMult = speedMult;
 	}
 	
+	public float getXPMult() {
+		return xpMult;
+	}
+
+	public void setXPMult(float xpMult) {
+		this.xpMult = xpMult;
+	}
+
 	public int[] getLevelUp() {
 		return levelUp;
 	}
