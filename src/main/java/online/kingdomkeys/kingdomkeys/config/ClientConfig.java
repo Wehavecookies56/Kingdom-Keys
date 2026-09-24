@@ -17,239 +17,77 @@ public class ClientConfig {
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
-		summonTogether = builder
-                .comment("Summon both Keyblade and Armor with Summon Keyblade key")
-                .translation(KingdomKeys.MODID + ".config.summon_together")
-                .define("summonTogether", false);
-
-		auto3rdPersonShip = builder
-				.comment("Automatically change to 3rd person when riding a gummi ship")
-				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
-				.define("auto3rdPersonShip", true);
-
-		seasonalEvents = builder
-				.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)")
-				.translation(KingdomKeys.MODID + ".config.seasonal_events")
-				.define("seasonalEvents", true);
+		summonTogether = builder.comment("Summon both Keyblade and Armor with Summon Keyblade key").translation(KingdomKeys.MODID + ".config.summon_together").define("summonTogether", false);
+		auto3rdPersonShip = builder.comment("Automatically change to 3rd person when riding a gummi ship").translation(KingdomKeys.MODID + ".config.auto_third_person_ship").define("auto3rdPersonShip", true);
+		seasonalEvents = builder.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)").translation(KingdomKeys.MODID + ".config.seasonal_events").define("seasonalEvents", true);
 
 		builder.push("hud_data");
-		cmHUDData = builder
-				.comment("Command Menu HUD Data")
-				.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), () -> 0F, o -> o instanceof Number);
-		rcHUDData = builder
-				.comment("Reaction Commands HUD Data")
-				.translation(KingdomKeys.MODID + ".config.rc_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), () -> 0F, o -> o instanceof Number);
-		hpHUDData = builder
-				.comment("Health Bar HUD Data")
-				.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), () -> 0F, o -> o instanceof Number);
-		mpHUDData = builder
-				.comment("Magic Bar HUD Data")
-				.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), () -> 0F, o -> o instanceof Number);
-		driveHUDData = builder
-				.comment("Drive Bar HUD Data")
-				.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), () -> 0F, o -> o instanceof Number);
-		portraitHUDData = builder
-				.comment("Portrait HUD Data")
-				.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), () -> 0F, o -> o instanceof Number);
-		lockOnHUDData = builder
-				.comment("Lock On HUD Data")
-				.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), () -> 0F, o -> o instanceof Number);
-		partyHUDData = builder
-				.comment("Party HUD Data")
-				.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), () -> 0F, o -> o instanceof Number);
-		focusHUDData = builder
-				.comment("Focus Bar HUD Data")
-				.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), () -> 0F, o -> o instanceof Number);
-		munnyExpHUDData = builder
-				.comment("Munny get and Exp. for next level HUD Data")
-				.translation(KingdomKeys.MODID + ".config.munny_exp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), () -> 0F, o -> o instanceof Number);
-		levelUpHUDData = builder
-				.comment("Level up notification HUD Data")
-				.translation(KingdomKeys.MODID + ".config.levelup_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), () -> 0F, o -> o instanceof Number);
-		driveLevelHUDData = builder
-				.comment("Drive form level up HUD Data")
-				.translation(KingdomKeys.MODID + ".config.drivelevel_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), () -> 0F, o -> o instanceof Number);
-		minimapHUDData = builder
-				.comment("Castle Oblivion Minimap HUD Data")
-				.translation(KingdomKeys.MODID + ".config.minimap_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), () -> 0F, o -> o instanceof Number);
-		roomNameHUDData = builder
-				.comment("Castle Oblivion Room Name HUD Data")
-				.translation(KingdomKeys.MODID + ".config.roomname_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), () -> 0F, o -> o instanceof Number);
-		itemGetHUDData = builder
-				.comment("Small item obtained notification HUD Data")
-				.translation(KingdomKeys.MODID + ".config.itemget_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), () -> 0F, o -> o instanceof Number);
-		gummiInfoHUDData = builder
-				.comment("Gummi ship name and coordinates HUD Data")
-				.translation(KingdomKeys.MODID + ".config.gummi_info_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiInfoHUDData", () -> HUDElement.getDefaultValues("GummiInfo"), () -> 0F, o -> o instanceof Number);
-		gummiReadoutHUDData = builder
-				.comment("Gummi ship fuel, engine and boost bars HUD Data")
-				.translation(KingdomKeys.MODID + ".config.gummi_readout_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiReadoutHUDData", () -> HUDElement.getDefaultValues("GummiReadout"), () -> 0F, o -> o instanceof Number);
-		gummiControlsHUDData = builder
-				.comment("Gummi ship flight controls HUD Data")
-				.translation(KingdomKeys.MODID + ".config.gummi_controls_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), () -> 0F, o -> o instanceof Number);
-		synthesisTrackerHUDData = builder
-				.comment("Materials still needed for the synthesis recipe being followed HUD Data")
-				.translation(KingdomKeys.MODID + ".config.synthesis_tracker_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("synthesisTrackerHUDData", () -> HUDElement.getDefaultValues("SynthesisTracker"), () -> 0F, o -> o instanceof Number);
+			//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+			cmHUDData = builder.comment("Command Menu HUD Data").translation(KingdomKeys.MODID + ".config.cm_hud_data").defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), () -> 0F, o -> o instanceof Number);
+			rcHUDData = builder.comment("Reaction Commands HUD Data").translation(KingdomKeys.MODID + ".config.rc_hud_data").defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), () -> 0F, o -> o instanceof Number);
+			hpHUDData = builder.comment("Health Bar HUD Data").translation(KingdomKeys.MODID + ".config.hp_hud_data").defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), () -> 0F, o -> o instanceof Number);
+			mpHUDData = builder.comment("Magic Bar HUD Data").translation(KingdomKeys.MODID + ".config.mp_hud_data").defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), () -> 0F, o -> o instanceof Number);
+			driveHUDData = builder.comment("Drive Bar HUD Data").translation(KingdomKeys.MODID + ".config.drive_hud_data").defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), () -> 0F, o -> o instanceof Number);
+			portraitHUDData = builder.comment("Portrait HUD Data").translation(KingdomKeys.MODID + ".config.portrait_hud_data").defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), () -> 0F, o -> o instanceof Number);
+			lockOnHUDData = builder.comment("Lock On HUD Data").translation(KingdomKeys.MODID + ".config.lock_on_hud_data").defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), () -> 0F, o -> o instanceof Number);
+			partyHUDData = builder.comment("Party HUD Data").translation(KingdomKeys.MODID + ".config.party_hud_data").defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), () -> 0F, o -> o instanceof Number);
+			focusHUDData = builder.comment("Focus Bar HUD Data").translation(KingdomKeys.MODID + ".config.focus_hud_data").defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), () -> 0F, o -> o instanceof Number);
+			munnyExpHUDData = builder.comment("Munny get and Exp. for next level HUD Data").translation(KingdomKeys.MODID + ".config.munny_exp_hud_data").defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), () -> 0F, o -> o instanceof Number);
+			levelUpHUDData = builder.comment("Level up notification HUD Data").translation(KingdomKeys.MODID + ".config.levelup_hud_data").defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), () -> 0F, o -> o instanceof Number);
+			driveLevelHUDData = builder.comment("Drive form level up HUD Data").translation(KingdomKeys.MODID + ".config.drivelevel_hud_data").defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), () -> 0F, o -> o instanceof Number);
+			minimapHUDData = builder.comment("Castle Oblivion Minimap HUD Data").translation(KingdomKeys.MODID + ".config.minimap_hud_data").defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), () -> 0F, o -> o instanceof Number);
+			roomNameHUDData = builder.comment("Castle Oblivion Room Name HUD Data").translation(KingdomKeys.MODID + ".config.roomname_hud_data").defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), () -> 0F, o -> o instanceof Number);
+			itemGetHUDData = builder.comment("Small item obtained notification HUD Data").translation(KingdomKeys.MODID + ".config.itemget_hud_data").defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), () -> 0F, o -> o instanceof Number);
+			gummiInfoHUDData = builder.comment("Gummi ship name and coordinates HUD Data").translation(KingdomKeys.MODID + ".config.gummi_info_hud_data").defineList("gummiInfoHUDData", () -> HUDElement.getDefaultValues("GummiInfo"), () -> 0F, o -> o instanceof Number);
+			gummiReadoutHUDData = builder.comment("Gummi ship fuel, engine and boost bars HUD Data").translation(KingdomKeys.MODID + ".config.gummi_readout_hud_data").defineList("gummiReadoutHUDData", () -> HUDElement.getDefaultValues("GummiReadout"), () -> 0F, o -> o instanceof Number);
+			gummiControlsHUDData = builder.comment("Gummi ship flight controls HUD Data").translation(KingdomKeys.MODID + ".config.gummi_controls_hud_data").defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), () -> 0F, o -> o instanceof Number);
+			synthesisTrackerHUDData = builder.comment("Materials still needed for the synthesis recipe being followed HUD Data").translation(KingdomKeys.MODID + ".config.synthesis_tracker_hud_data").defineList("synthesisTrackerHUDData", () -> HUDElement.getDefaultValues("SynthesisTracker"), () -> 0F, o -> o instanceof Number);
 		builder.pop();
 
-        builder.push("gui");
-			showGuiToggle = builder
-				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
-				.translation(KingdomKeys.MODID + ".config.show_gui_toggle")
-				.defineEnum("showGuiToggle", ModConfigs.ShowType.SHOW);
+		builder.push("performance");
+			bakeDisplayedModels = builder.comment("Draw large item models on pedestals and in item frames from a buffer kept on the GPU, instead of rebuilding every vertex every frame. Turn off if a displayed keyblade looks wrong").translation(KingdomKeys.MODID + ".config.bake_displayed_models").define("bakeDisplayedModels", true);
+			bakeHeldModels = builder.comment("The same for large item models held in hand or lying on the ground").translation(KingdomKeys.MODID + ".config.bake_held_models").define("bakeHeldModels", true);
+		builder.pop();
 
-			customFont = builder
-				.comment("Enable the custom font")
-				.translation(KingdomKeys.MODID + ".config.custom_font")
-				.define("customFont", true);
-
-			portrait3D = builder
-                .comment("Render the player portrait as the actual 3D model instead of a 2D skin cutout")
-                .translation(KingdomKeys.MODID + ".config.portrait_3d")
-                .define("portrait3D", false);
-
-		builder.push("command_menu");
-			cmChangeColor = builder
-                    .comment("Allow the Command Menu to change colors based on nearby enemies")
-                    .translation(KingdomKeys.MODID + ".config.cm_change_color")
-                    .define("cmChangeColor", true);
-
-			hiddenMagic = builder
-					.comment("Magic to hide from the Command Menu")
-					.translation(KingdomKeys.MODID + ".config.cm_hidden_magic")
-					.defineList("hiddenMagic", List.of(), () -> 0, obj -> obj instanceof Integer);
-	        
-	        cmTextXOffset = builder
-	                .comment("Command Menu Text X Offset")
-	                .translation(KingdomKeys.MODID + ".config.cm_text_x_offset")
-	                .defineInRange("cmTextXOffset", 0, -1000, 1000);
-	        
-	        cmHeaderTextVisible = builder
-	                .comment("Command Menu Header Text Visibility")
-	                .translation(KingdomKeys.MODID + ".config.cm_header_text_visibility")
-	                .define("cmHeaderTextVisibility", true);
-	        
-	        cmClassicColors = builder
-	                .comment("Command Menu classic color scheme")
-	                .translation(KingdomKeys.MODID + ".config.cm_classic_colors")
-	                .define("cmClassicColors", false);
-	        
-	        snapChatToCommandMenu = builder
-	                .comment("Push the chat log above the Command Menu so the two do not overlap")
-	                .translation(KingdomKeys.MODID + ".config.snap_chat_to_command_menu")
-	                .define("snapChatToCommandMenu", true);
-	        
-	        cmSelectedXOffset = builder
-	                .comment("Command Menu Selected X Offset")
-	                .translation(KingdomKeys.MODID + ".config.cm_selected_x_offset")
-	                .defineInRange("cmSelectedXOffset", 5, -1000, 1000);
-	        
-	        cmSubXOffset = builder
-	                .comment("Command Menu Submenu X Offset %")
-	                .translation(KingdomKeys.MODID + ".config.cm_sub_x_offset")
-	                .defineInRange("cmSubXOffset", 100, -1000, 1000);
-
-			cmEndLWidth = builder
-					.comment("Command Menu Element Left End Segment Width")
-					.translation(KingdomKeys.MODID + ".config.cm_end_l_width")
-					.defineInRange("cmEndLWidth", 10, 0, 256);
-
-			cmEndRWidth = builder
-				.comment("Command Menu Element Right End Segment Width")
-				.translation(KingdomKeys.MODID + ".config.cm_end_r_width")
-				.defineInRange("cmEndRWidth", 10, 0, 256);
-
-			cmHeaderEndLWidth = builder
-				.comment("Command Menu Header Left End Segment Width")
-				.translation(KingdomKeys.MODID + ".config.cm_header_end_l_width")
-				.defineInRange("cmHeaderEndLWidth", 10, 0, 256);
-
-			cmHeaderEndRWidth = builder
-				.comment("Command Menu Header Right End Segment Width")
-				.translation(KingdomKeys.MODID + ".config.cm_header_end_r_width")
-				.defineInRange("cmHeaderEndRWidth", 15, 0, 256);
-
-			cmReactionEndLWidth = builder
-				.comment("Reaction command left end segment width")
-				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_l_width")
-				.defineInRange("cmReactionEndLWidth", 10, 0, 256);
-
-			cmReactionEndRWidth = builder
-				.comment("Reaction command right end segment width")
-				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
-				.defineInRange("cmReactionEndRWidth", 10, 0, 256);
+		builder.push("gui");
+			showGuiToggle = builder.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon").translation(KingdomKeys.MODID + ".config.show_gui_toggle").defineEnum("showGuiToggle", ModConfigs.ShowType.SHOW);
+			customFont = builder.comment("Enable the custom font").translation(KingdomKeys.MODID + ".config.custom_font").define("customFont", true);
+			portrait3D = builder.comment("Render the player portrait as the actual 3D model instead of a 2D skin cutout").translation(KingdomKeys.MODID + ".config.portrait_3d").define("portrait3D", false);
+			builder.push("command_menu");
+				cmChangeColor = builder.comment("Allow the Command Menu to change colors based on nearby enemies").translation(KingdomKeys.MODID + ".config.cm_change_color").define("cmChangeColor", true);
+				hiddenMagic = builder.comment("Magic to hide from the Command Menu").translation(KingdomKeys.MODID + ".config.cm_hidden_magic").defineList("hiddenMagic", List.of(), () -> 0, obj -> obj instanceof Integer);
+				cmTextXOffset = builder.comment("Command Menu Text X Offset").translation(KingdomKeys.MODID + ".config.cm_text_x_offset").defineInRange("cmTextXOffset", 0, -1000, 1000);
+				cmHeaderTextVisible = builder.comment("Command Menu Header Text Visibility").translation(KingdomKeys.MODID + ".config.cm_header_text_visibility").define("cmHeaderTextVisibility", true);
+				cmClassicColors = builder.comment("Command Menu classic color scheme").translation(KingdomKeys.MODID + ".config.cm_classic_colors").define("cmClassicColors", false);
+				snapChatToCommandMenu = builder.comment("Push the chat log above the Command Menu so the two do not overlap").translation(KingdomKeys.MODID + ".config.snap_chat_to_command_menu").define("snapChatToCommandMenu", true);
+				cmSelectedXOffset = builder.comment("Command Menu Selected X Offset").translation(KingdomKeys.MODID + ".config.cm_selected_x_offset").defineInRange("cmSelectedXOffset", 5, -1000, 1000);
+				cmSubXOffset = builder.comment("Command Menu Submenu X Offset %").translation(KingdomKeys.MODID + ".config.cm_sub_x_offset").defineInRange("cmSubXOffset", 100, -1000, 1000);
+				cmEndLWidth = builder.comment("Command Menu Element Left End Segment Width").translation(KingdomKeys.MODID + ".config.cm_end_l_width").defineInRange("cmEndLWidth", 10, 0, 256);
+				cmEndRWidth = builder.comment("Command Menu Element Right End Segment Width").translation(KingdomKeys.MODID + ".config.cm_end_r_width").defineInRange("cmEndRWidth", 10, 0, 256);
+				cmHeaderEndLWidth = builder.comment("Command Menu Header Left End Segment Width").translation(KingdomKeys.MODID + ".config.cm_header_end_l_width").defineInRange("cmHeaderEndLWidth", 10, 0, 256);
+				cmHeaderEndRWidth = builder.comment("Command Menu Header Right End Segment Width").translation(KingdomKeys.MODID + ".config.cm_header_end_r_width").defineInRange("cmHeaderEndRWidth", 15, 0, 256);
+				cmReactionEndLWidth = builder.comment("Reaction command left end segment width").translation(KingdomKeys.MODID + ".config.cm_reaction_end_l_width").defineInRange("cmReactionEndLWidth", 10, 0, 256);
+				cmReactionEndRWidth = builder.comment("Reaction command right end segment width").translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width").defineInRange("cmReactionEndRWidth", 10, 0, 256);
 			builder.pop();
-	        
-	        builder.push("hp_bar");
-	        hpShowHearts = builder
-	        		.comment("Show Hearts")
-	                .translation(KingdomKeys.MODID + ".config.hp_hearts")
-	                .define("hpShowHearts", true);
-	        
-	        hpAlarm = builder
-	        		.comment("Low HP Alarm Volume")
-	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
-	                .defineInRange("hpAlarmVolume", 10, 0, 10);
-	        builder.pop();
-	        
-	        builder.push("lock_on");
-	        lockOnIconScale = builder
-	                .comment("Lock On Icon Scale")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
-	                .defineInRange("lockOnIconScale", 75, -1000, 1000);
-	        lockOnIconRotation = builder
-	                .comment("Lock On Icon Rotation Speed")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation")
-	                .defineInRange("lockOnIconRotation", 16, -1000, 1000);
-	        lockOnHpPerBar = builder
-	                .comment("Lock On HP per bar")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar")
-	                .defineInRange("lockOnHpPerBar", 40, 10, 100);
-			if (KingdomKeys.shoulderSurfingLoaded) {
-				shoulderSurfingDecoupled = builder
-						.comment("Shoulder Surfing mod: Decoupled camera while not locked on")
-						.translation(KingdomKeys.MODID + ".config.shoulder_surfing_decoupled")
-						.define("shoulderSurfingDecoupled", true);
-			}
-	        builder.pop();
-	        
-	        builder.push("party");
-	        partyYDistance = builder
-	                .comment("Party HUD Y Offset")
-	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
-	                .defineInRange("partyYOffset", 70, -1000, 1000);
-	        builder.pop();
 
-	        builder.push("performance");
-	        bakeDisplayedModels = builder
-	                .comment("Draw large item models on pedestals and in item frames from a buffer kept on the GPU, instead of rebuilding every vertex every frame. Turn off if a displayed keyblade looks wrong")
-	                .translation(KingdomKeys.MODID + ".config.bake_displayed_models")
-	                .define("bakeDisplayedModels", true);
+			builder.push("hp_bar");
+				hpShowHearts = builder.comment("Show Hearts").translation(KingdomKeys.MODID + ".config.hp_hearts").define("hpShowHearts", true);
+				hpAlarm = builder.comment("Low HP Alarm Volume").translation(KingdomKeys.MODID + ".config.hp_alarm").defineInRange("hpAlarmVolume", 10, 0, 10);
+			builder.pop();
 
-	        bakeHeldModels = builder
-	                .comment("The same for large item models held in hand or lying on the ground")
-	                .translation(KingdomKeys.MODID + ".config.bake_held_models")
-	                .define("bakeHeldModels", true);
-	        builder.pop();
-    }
+			builder.push("lock_on");
+				lockOnIconScale = builder.comment("Lock On Icon Scale").translation(KingdomKeys.MODID + ".config.lock_on_icon_scale").defineInRange("lockOnIconScale", 75, -1000, 1000);
+				lockOnIconRotation = builder.comment("Lock On Icon Rotation Speed").translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation").defineInRange("lockOnIconRotation", 16, -1000, 1000);
+				lockOnHpPerBar = builder.comment("Lock On HP per bar").translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar").defineInRange("lockOnHpPerBar", 40, 10, 100);
+				if (KingdomKeys.shoulderSurfingLoaded) {
+					shoulderSurfingDecoupled = builder.comment("Shoulder Surfing mod: Decoupled camera while not locked on").translation(KingdomKeys.MODID + ".config.shoulder_surfing_decoupled").define("shoulderSurfingDecoupled", true);
+				}
+			builder.pop();
+
+			builder.push("party");
+				partyYDistance = builder.comment("Party HUD Y Offset").translation(KingdomKeys.MODID + ".config.party_y_offset").defineInRange("partyYOffset", 70, -1000, 1000);
+			builder.pop();
+		builder.pop();
+	}
 
 }

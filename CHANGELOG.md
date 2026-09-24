@@ -77,6 +77,7 @@
 * Some chat / hotbar messages on server were not properly translated to your local language:
   * Learning recipes, unlocking forms, magic and shotlock equipment directions, savepoint messages, some commands... 
 * Dropped orbs like Drive, Focus, HP, MP and Munny now move smoothly.
+* Dropped CO cards now move smoothly when falling.
 * Minor Gummi Ship logic optimization.
 * Gummi Hangar now stops rendering after a certain distance.
 * Small translation issues (Thanks to Held_der_Zeit).

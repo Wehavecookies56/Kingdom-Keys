@@ -69,7 +69,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<StruggleOrbEntity>> TYPE_STRUGGLE_ORB = createEntityType(StruggleOrbEntity::new, MobCategory.MISC,"entity_struggle_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, MobCategory.MISC,"entity_focus_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<LuxOrbEntity>> TYPE_LUXORB = createEntityType(LuxOrbEntity::new, MobCategory.MISC,"entity_lux_orb", 0.25F, 0.25F);
-    public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = createEntityType(CardItemEntity::new, MobCategory.MISC,"entity_card_drop", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = ENTITIES.register("entity_card_drop", () -> EntityType.Builder.<CardItemEntity>of(CardItemEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(20).build("entity_card_drop"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, MobCategory.MISC,"entity_fire", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
