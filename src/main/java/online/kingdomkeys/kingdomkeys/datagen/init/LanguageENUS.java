@@ -125,6 +125,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Moogle Projector has shop");
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
+        addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");

@@ -5,6 +5,7 @@
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Your foreteller will visit you once at dawn you synthesise your first keyblade (next keyblade you synthesise in old worlds).
   * It will take you to Daybreak Town to do some introductory training, and then you'll return to where you were.
+  * Includes a config to turn it off.
 * Daybreak Town, full of keyblade wielders who you can spar with.
   * They will fight the heartless that spawn there, which will be weak since it's a light-related world.
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.

@@ -125,6 +125,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Proyector Moguri contiene tienda");
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
+        addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");

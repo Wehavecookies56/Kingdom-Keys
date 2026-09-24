@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
@@ -44,7 +45,7 @@ public class ForetellerVisit {
 
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent.Post event) {
-		if (event.getServer().getTickCount() % CHECK_INTERVAL != 0) {
+		if (event.getServer().getTickCount() % CHECK_INTERVAL != 0 || !ModConfigs.getServerConfig().storyProgress.get()) {
 			return;
 		}
 

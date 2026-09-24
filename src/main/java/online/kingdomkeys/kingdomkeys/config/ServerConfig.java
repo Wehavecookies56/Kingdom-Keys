@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -169,6 +169,11 @@ public class ServerConfig {
                 .comment("If true it will allow any Organization XIII member to use any limit, if false only the associated member ones")
                 .translation(KingdomKeys.MODID + ".config.allow_all_org_limits")
                 .define("allowAllOrgLimits", false);
+
+        storyProgress = builder
+                .comment("If true, the story moves on by itself, like the master showing up one morning")
+                .translation(KingdomKeys.MODID + ".config.story_progress")
+                .define("storyProgress", true);
 
         builder.pop();
 
