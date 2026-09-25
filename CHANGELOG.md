@@ -49,6 +49,7 @@
 * Consumables like potions in shop will now show the recovery stats they affect.
 * Path to some armor texture files.
 * Halved the mobility triangular Aero/G-02 gives.
+* Reflect damage now scales off it's level.
 * [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:

@@ -126,8 +126,7 @@ public class DimensionCommand extends BaseCommand {
 		PlayerData playerData = PlayerData.get(player);
 		if (dimension == playerData.getReturnDimension()) {
 			Vec3 vec3 = playerData.getReturnLocation();
-			//TODO fix cast
-			return new BlockPos((int)vec3.x, (int)vec3.y, (int)vec3.z);
+			return BlockPos.containing(vec3);
 		}
 		return new BlockPos(0, 64, 0);
 	}

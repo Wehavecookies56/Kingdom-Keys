@@ -96,7 +96,6 @@ public class LockOnGui extends OverlayBase {
 
 				PoseStack poseStack = guiGraphics.pose();
 
-                //TODO change with the config
                 if(!ModConfigs.SERVER.softLockOnMode.get()) {
                     // Icon
                     poseStack.pushPose();

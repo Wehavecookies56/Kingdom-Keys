@@ -668,7 +668,6 @@ public class EditBoxLength extends AbstractWidget implements Widget, GuiEventLis
 
 	@Override
 	public boolean apply() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

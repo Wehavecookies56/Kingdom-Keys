@@ -947,7 +947,7 @@ public class EntityEvents {
 					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
 						float radius = 2F + playerData.getReflectLevel() * 0.5F;
-						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.location()).getDamageMult(); //TODO reflect level?
+						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.location()).getRealDamageMult(player);
 
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Utils.removeAllies(player, list);

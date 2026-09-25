@@ -54,7 +54,7 @@ public class MagnetBloxTileEntity extends BlockEntity {
 			int range = TE.calculateActualRange(facing, state.getValue(MagnetBloxBlock.RANGE));
 			if (range > 0) {
 				boolean attract = state.getValue(MagnetBloxBlock.ATTRACT);
-				if (level.isClientSide() && TE.ticks % (11 - range) == 0) { //TODO spawn less trails if range is less
+				if (level.isClientSide() && TE.ticks % (11 - range) == 0) { // Shorter reach, fewer trails
 					ClientUtils.spawnRandomMiniTrail(pos, facing, range, attract);
 				}
 
