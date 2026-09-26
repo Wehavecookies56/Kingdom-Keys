@@ -18,9 +18,12 @@ import java.util.List;
 
 public class ConfirmUnionMenuPopup extends MenuPopup {
     private final Union union;
+    private final boolean switching;
 
     public ConfirmUnionMenuPopup(Union union) {
         this.union = union;
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        this.switching = playerData != null && playerData.hasUnion();
     }
 
     @Nonnull
@@ -40,7 +43,7 @@ public class ConfirmUnionMenuPopup extends MenuPopup {
         List<String> display = new ArrayList<>();
         display.add(union.getTranslationKey());
         display.add(union.getDescriptionKey());
-        display.add(Strings.SoA_UnionConfirm);
+        display.add(switching ? Strings.SoA_UnionSwitch : Strings.SoA_UnionConfirm);
         return display;
     }
 
@@ -50,8 +53,16 @@ public class ConfirmUnionMenuPopup extends MenuPopup {
         PlayerData playerData = PlayerData.get(mc.player);
 
         playerData.setUnion(union);
-        playerData.setSoAState(SoAState.CHOICE);
         PacketHandler.sendToServer(new CSSetUnion(union));
+
+        if (switching) {
+            mc.setScreen(null);
+            SoAMessages.INSTANCE.clearMessage();
+            SoAMessages.INSTANCE.queueMessages(new Utils.Title(null, Strings.SoA_UnionSwitched, 10, 60, 20));
+            return;
+        }
+
+        playerData.setSoAState(SoAState.CHOICE);
 
         if (mc.level != null) {
             SoABridgeRenderer.beginReveal(mc.level.getGameTime());

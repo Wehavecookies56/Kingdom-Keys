@@ -104,7 +104,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             SoAMessages.INSTANCE.clearMessage();
             SoAMessages.INSTANCE.queueMessages(
                     new Utils.Title(null, Strings.SoA_ResetIntro1, 10, 35, 20),
-                    new Utils.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20)
+                    new Utils.Title(null, Strings.SoA_ResetIntro2, 10, 70, 20),
+                    new Utils.Title(null, Strings.SoA_ResetIntro3, 10, 70, 20)
             );
             Minecraft mc = Minecraft.getInstance();
             PlayerData playerData = PlayerData.get(mc.player);
@@ -157,6 +158,8 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
             displayText.add(getStringForChoice(playerData.getChosen()));
             displayText.add(Strings.SoA_Confirm3);
             displayText.add(getStringForChoice(playerData.getSacrificed()));
+            // Already translated: the popup passes each line through the translator again, which leaves plain text alone
+            displayText.add(Utils.translateToLocal(Strings.SoA_ConfirmUnion, Utils.translateToLocal(playerData.getUnion().getTranslationKey())));
             displayText.add(Strings.SoA_Confirm5);
         }
         return displayText;

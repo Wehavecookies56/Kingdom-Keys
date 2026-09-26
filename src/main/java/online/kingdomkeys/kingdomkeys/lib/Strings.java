@@ -1606,7 +1606,8 @@ public class Strings {
             SoA_SacrificeIntro2 = "soa.sacrifice.intro.2",
             SoA_ResetIntro1 = "soa.reset.intro.1",
             SoA_ResetIntro2 = "soa.reset.intro.2",
-            SoA_Confirm1 = "soa.confirm.1",
+		    SoA_ResetIntro3 = "soa.reset.intro.3",
+			SoA_Confirm1 = "soa.confirm.1",
             SoA_ConfirmWarrior = "soa.confirm.warrior",
             SoA_ConfirmGuardian = "soa.confirm.guardian",
             SoA_ConfirmMystic = "soa.confirm.mystic",
@@ -1617,6 +1618,10 @@ public class Strings {
             SoA_UnionConfirm = "soa.union.confirm",
             SoA_UnionChosen1 = "soa.union.chosen.1",
             SoA_UnionChosen2 = "soa.union.chosen.2",
+            SoA_UnionSwitch = "soa.union.switch",
+            SoA_UnionSwitched = "soa.union.switched",
+            SoA_UnionOnward = "soa.union.onward",
+            SoA_ConfirmUnion = "soa.confirm.union",
             UnionChoice = "soa.chat.union.choice",
             UnionChoicePick = "soa.chat.union.pick"
     ;

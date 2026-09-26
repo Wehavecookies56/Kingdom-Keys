@@ -33,9 +33,13 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Union;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenUnionScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
+
+import java.util.List;
 
 public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDefeat {
     private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BYTE);
@@ -303,31 +307,48 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (level().isClientSide || hand != InteractionHand.MAIN_HAND)
+        if (hand != InteractionHand.MAIN_HAND || !listensTo(player))
+            return InteractionResult.PASS;
+        if (level().isClientSide)
             return InteractionResult.SUCCESS;
         if (!(player instanceof ServerPlayer serverPlayer))
             return InteractionResult.FAIL;
 
-        if (isSparring())
-            return InteractionResult.FAIL;
-
         PlayerData playerData = PlayerData.get(player);
-        if (playerData == null)
-            return InteractionResult.FAIL;
 
-        if (playerData.isOrgMember())
-            return InteractionResult.FAIL;
-
-        if (playerData.getSoAState() == SoAState.UNION && !playerData.hasUnion()) { // SOA join union screen
+        if (choosing(playerData)) {
             PacketHandler.sendTo(new SCOpenUnionScreen(getUnion()), serverPlayer);
-            return InteractionResult.SUCCESS;
+        } else if (reconsidering(playerData)) {
+            // The others offer theirs, your own sends you on
+            if (playerData.getUnion() != getUnion()) {
+                PacketHandler.sendTo(new SCOpenUnionScreen(getUnion()), serverPlayer);
+            } else {
+                PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title("", Strings.SoA_UnionOnward, 10, 60, 20))), serverPlayer);
+            }
+        } else {
+            DialogueHandler.start(serverPlayer, this, dialogue);
         }
-
-        if (!playerData.hasUnion())
-            return InteractionResult.FAIL;
-
-        DialogueHandler.start(serverPlayer, this, dialogue);
         return InteractionResult.SUCCESS;
+    }
+
+    // Any master while the union is being chosen at the Station of Awakening, only your own once it has been
+    private boolean listensTo(Player player) {
+        PlayerData playerData = PlayerData.get(player);
+
+        if (isSparring() || playerData == null || playerData.isOrgMember())
+            return false;
+
+        return choosing(playerData) || reconsidering(playerData) || (playerData.hasUnion() && playerData.getUnion() == getUnion());
+    }
+
+    // Union taken, but the Station of Awakening not yet left: it can still be changed
+    private static boolean reconsidering(PlayerData playerData) {
+        return playerData.hasUnion() && SoAState.canChangeUnion(playerData.getSoAState());
+    }
+
+    // If player still hasn't chosen its union
+    private static boolean choosing(PlayerData playerData) {
+        return playerData.getSoAState() == SoAState.UNION && !playerData.hasUnion();
     }
 
     private boolean vulnerableTo(DamageSource source) {

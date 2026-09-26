@@ -77,7 +77,7 @@ public abstract class MenuPopup extends Screen {
         this.scaledHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
         int buttonWidth = 50;
         int buttonX = (scaledWidth / 2) - (buttonWidth * 2);
-        int buttonY = (scaledHeight / 2) + -10 + (getTextToDisplay().size() * ((font.lineHeight * 2) + 3));
+        int buttonY = (int) (textTop() + textHeight() + BUTTON_GAP);
         this.addRenderableWidget(ok = new MenuButton(buttonX, buttonY, buttonWidth, Utils.translateToLocal(OKString()), MenuButton.ButtonType.ROUNDBUTTON, (p)->buttonAction(Action.OK)));
         this.addRenderableWidget(cancel = new MenuButton(buttonX + (buttonWidth * 2), buttonY, buttonWidth, Utils.translateToLocal(CANCELString()), MenuButton.ButtonType.ROUNDBUTTON, (p)->buttonAction(Action.CANCEL)));
         ok.visible = false;
@@ -102,17 +102,39 @@ public abstract class MenuPopup extends Screen {
     int scaledWidth;
     int scaledHeight;
 
+    private static final float MAX_SCALE = 2F;
+    private static final int BUTTON_GAP = 10, BUTTON_HEIGHT = 20, MARGIN = 10;
+
+    // Big as before, but shrunk when there are too many lines for the text and the buttons to fit on screen
+    private float textScale() {
+        float room = scaledHeight - BUTTON_GAP - BUTTON_HEIGHT - MARGIN * 2;
+        return Math.min(MAX_SCALE, room / (getTextToDisplay().size() * getLineStep()));
+    }
+
+    private int getLineStep() {
+        return font.lineHeight + 3;
+    }
+
+    private float textHeight() {
+        return getTextToDisplay().size() * getLineStep() * textScale();
+    }
+
+    // The text and the buttons below it, centred together
+    private float textTop() {
+        return (scaledHeight - textHeight() - BUTTON_GAP - BUTTON_HEIGHT) / 2F;
+    }
+
     @Override
     public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         super.render(gui, mouseX, mouseY, partialTicks);
-        float startY = -10.0F;
         PoseStack matrixStack = gui.pose();
         matrixStack.pushPose();
-        matrixStack.translate((float) (this.scaledWidth / 2), (float) (this.scaledHeight / 2) - ((startY + ((getTextToDisplay().size()-1) * (font.lineHeight + 3))) / 2F), 0.0F);
+        matrixStack.translate(this.scaledWidth / 2F, textTop(), 0.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         matrixStack.pushPose();
-        matrixStack.scale(2.0F, 2.0F, 2.0F);
+        float scale = textScale();
+        matrixStack.scale(scale, scale, scale);
 
         for (int i = 0; i < getTextToDisplay().size(); i++) {
             float f4 = (float) timer[i] - partialTicks;
@@ -125,8 +147,8 @@ public abstract class MenuPopup extends Screen {
             if (alpha[i] > 8) {
                 int l1 = alpha[i] << 24 & -16777216;
                 int i2 = font.width(Utils.translateToLocal(getTextToDisplay().get(i)));
-                this.renderTextBackground(gui, (int) (startY + (i * (font.lineHeight + 3))), i2);
-                gui.drawString(Minecraft.getInstance().font, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), startY + (i * (font.lineHeight + 3)), 16777215 | l1, true);
+                this.renderTextBackground(gui, i * getLineStep(), i2);
+                gui.drawString(Minecraft.getInstance().font, Utils.translateToLocal(getTextToDisplay().get(i)), (float) (-i2 / 2), i * getLineStep(), 16777215 | l1, true);
             }
         }
 

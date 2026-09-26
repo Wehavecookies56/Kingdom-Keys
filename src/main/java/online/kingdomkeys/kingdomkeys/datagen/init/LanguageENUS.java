@@ -2605,6 +2605,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.union.confirm", "Will you stand with them?");
         add("soa.union.chosen.1", "Your union is decided.");
         add("soa.union.chosen.2", "The road ahead is open now.");
+        add("soa.union.switch", "Will you walk with them instead?");
+        add("soa.union.switched", "Your union has changed.");
+        add("soa.union.onward", "You have already chosen. Go on, your path lies ahead.");
+        add("soa.confirm.union", "You walk alongside %s.");
+        add("soa.reset.intro.3", "If your heart wavers, another master awaits.");
         add("kingdomkeys.union.none", "No Union");
         add("kingdomkeys.union.none.desc", "No bearer has claimed you.");
         add("kingdomkeys.union.unicornis", "Unicornis");

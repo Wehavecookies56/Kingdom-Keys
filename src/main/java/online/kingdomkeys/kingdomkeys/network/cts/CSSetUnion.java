@@ -30,12 +30,15 @@ public record CSSetUnion(Union union) implements Packet {
         if (union == Union.NONE)
             return;
 
-        // Has to be at the union stage, and cannot already have one
-        if (playerData.getSoAState() != SoAState.UNION || playerData.hasUnion())
+        if (playerData.getSoAState() == SoAState.UNION && !playerData.hasUnion()) {
+            playerData.setUnion(union);
+            playerData.setSoAState(SoAState.CHOICE);
+        } else if (playerData.hasUnion() && SoAState.canChangeUnion(playerData.getSoAState())) {
+            playerData.setUnion(union);
+        } else {
             return;
+        }
 
-        playerData.setUnion(union);
-        playerData.setSoAState(SoAState.CHOICE);
         PacketHandler.syncToAllAround(player, playerData);
     }
 

@@ -2639,6 +2639,11 @@ public class LanguageESES extends KKLanguageProvider {
         add("soa.union.confirm", "¿Caminarás a su lado?");
         add("soa.union.chosen.1", "Tu unión está decidida.");
         add("soa.union.chosen.2", "El camino ya está abierto.");
+        add("soa.union.switch", "¿Caminarás con ellos en su lugar?");
+        add("soa.union.switched", "Tu unión ha cambiado.");
+        add("soa.union.onward", "Ya has elegido. Sigue adelante, tu camino te espera.");
+        add("soa.confirm.union", "Caminas junto a %s.");
+        add("soa.reset.intro.3", "Si tu corazón duda, otro maestro te espera.");
         add("soa.chat.union.choice", "Las cinco uniones se fundaron después de que abandonaras la Estación del Despertar, así que no perteneces a ninguna. Hasta que te unas a una, ningún portador te hablará y no recibirás lux.");
         add("soa.chat.union.pick", "Elige a cuál acompañarás: ");
         add("kingdomkeys.union.none", "Sin unión");

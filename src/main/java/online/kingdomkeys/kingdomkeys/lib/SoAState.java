@@ -24,6 +24,11 @@ public enum SoAState implements StringRepresentable {
         this.name = name;
         this.b = b;
     }
+    /** The stages after picking a union and before leaving the Station of Awakening, where the union may still change */
+    public static boolean canChangeUnion(SoAState state) {
+        return state == CHOICE || state == SACRIFICE || state == CONFIRM;
+    }
+
     public byte get() {
         return b;
     }
