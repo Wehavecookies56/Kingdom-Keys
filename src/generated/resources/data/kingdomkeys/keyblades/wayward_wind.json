@@ -1,7 +1,8 @@
 {
+  "ability": "kingdomkeys:ability_treasure_magnet",
   "base_stats": {
-    "mag": 1,
-    "str": 4
+    "mag": 2,
+    "str": 3
   },
   "description": "item.kingdomkeys.wayward_wind.desc",
   "hit_particles": [
@@ -10,64 +11,46 @@
   "keychain": "kingdomkeys:wayward_wind_chain",
   "levels": [
     {
-      "mag": 2,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_shard",
+          "material": "kingdomkeys:stormy_shard",
+          "quantity": 1
+        }
+      ],
+      "str": 3
+    },
+    {
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_shard",
           "quantity": 2
         }
       ],
       "str": 4
     },
     {
-      "mag": 2,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 3
-        }
-      ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:fluorite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 3
-        }
-      ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 4
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
+          "material": "kingdomkeys:stormy_shard",
           "quantity": 2
         }
       ],
-      "str": 6
+      "str": 4
     },
     {
       "mag": 4,
@@ -77,121 +60,123 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 4
+          "material": "kingdomkeys:stormy_shard",
+          "quantity": 2
         },
         {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 3
+          "material": "kingdomkeys:wellspring_shard",
+          "quantity": 1
         }
       ],
-      "str": 6
+      "str": 5
     },
     {
-      "mag": 4,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:damascus",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 5
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 4
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 5
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 4
-        },
-        {
           "material": "kingdomkeys:stormy_shard",
-          "quantity": 1
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
+          "quantity": 2
         },
         {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 6
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 5
-        },
-        {
-          "material": "kingdomkeys:stormy_shard",
+          "material": "kingdomkeys:wellspring_shard",
           "quantity": 2
         }
       ],
-      "str": 8
+      "str": 5
     },
     {
-      "mag": 6,
+      "mag": 5,
       "recipe": [
         {
-          "material": "kingdomkeys:adamantite",
+          "material": "kingdomkeys:damascus",
           "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 6
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 6
         },
         {
           "material": "kingdomkeys:stormy_shard",
           "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:wellspring_shard",
+          "quantity": 2
         }
       ],
-      "str": 8
+      "str": 6
     },
     {
       "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:wellspring_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 6
+    },
+    {
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:wellspring_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:wellspring_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:electrum",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_shard",
-          "quantity": 6
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 6
-        },
-        {
           "material": "kingdomkeys:stormy_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:wellspring_shard",
           "quantity": 3
         }
       ],
-      "str": 9
+      "str": 8
     }
   ],
   "reach": 1.0,

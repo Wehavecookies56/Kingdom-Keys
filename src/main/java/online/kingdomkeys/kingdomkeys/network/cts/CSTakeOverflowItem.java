@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -34,7 +35,7 @@ public record CSTakeOverflowItem() implements Packet {
         if (player.getInventory().getFreeSlot() < 0) {
             Component warning = Component.translatable(Strings.WarningStockFull);
             player.displayClientMessage(warning, true);
-            SCShowWarning.send(player, warning);
+            SCShowWarning.send(player, warning, ModSounds.error.get());
             return;
         }
 

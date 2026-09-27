@@ -16,7 +16,6 @@ public class KeybladeLevel {
     private int magic;
     //The materials required to upgrade to this level, key is the material, value is the quantity
     private Map<Item, Integer> materials;
-    //private Map<Material, Integer> materialsList;
     //The ability gained when upgrading to this level
     
     //TODO ability system and potentially multiple abilities here

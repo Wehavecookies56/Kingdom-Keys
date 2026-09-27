@@ -187,7 +187,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
         add(Container_GummiHangar, "Gummi Hangar");
 
-
         add(Container_GummiHangar + ".gummifound","There's already a Gummi Ship in the building area");
         add(Container_GummiHangar + ".gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
         add(Container_GummiHangar + ".noname","You need to name your Gummi Ship");
@@ -226,6 +225,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Container_GummiHangar + ".armor","Armor");
         add(Container_GummiHangar + ".effectivespeed","Eff. Speed");
         add(Container_GummiHangar + ".seats","Seats");
+        add(Container_GummiHangar + ".cost","Cost");
+        add(Container_GummiHangar + ".com.over_cost","This ship's cost is %1$s, right now you can only build a ship whose cost does not exceed %2$s");
         add(Container_GummiHangar + ".mobility","Mobility");
 
         // Gummi - ships, phone, hangar and blueprints
@@ -1242,6 +1243,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
         addItem(ModItems.gummiShipBlueprintCreative, "Gummi Blueprint (Creative)");
         addItem(ModItems.gummiPhone, "Gummiphone");
+        addItem(ModItems.gummiCostLimitChip, "Cost limit upgrade chip");
+        add("kingdomkeys.gummi.com_chip.desc","Put in a Gummi Hangar to raise its Cost Upgrade Limit. Each hangar size can hold one more");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Abaddon Plasma");
@@ -2553,6 +2556,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Message_Wayfinder + ".calling_for_help","%s is calling you, use their wayfinder!");
         add(Message_Wayfinder + ".asking_other_for_help","Calling %s to come here");
         add(Message_Wayfinder + ".player_has_no_wayfinder","%s does not have your wayfinder on them right now");
+        add(Message_Wayfinder + ".none", "<Empty>");
         add(Message_Wayfinder + ".tooltip1", "Right click to teleport");
         add(Message_Wayfinder + ".tooltip2", "Shift + right click to call");
         add(Message + ".unlocked","Unlocked %s");

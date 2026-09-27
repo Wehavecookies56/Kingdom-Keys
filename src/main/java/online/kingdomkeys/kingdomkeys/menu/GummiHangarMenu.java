@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import online.kingdomkeys.kingdomkeys.item.GummiCostChipItem;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
@@ -29,6 +30,7 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 
 	private static final int VANILLA_FIRST_SLOT_INDEX = 0;
 	private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+	public static final int COST_SLOT_X = 132, COST_SLOT_Y = 58; // Beside the fuel slot, clear of the ship move buttons
 	private static final int GUMMI_HANGAR_SLOTS = GummiHangarTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
 	public static final int TILE_INVENTORY_YPOS = 20; // the ContainerScreenBasic needs to know these so it can tell where to draw the
@@ -83,6 +85,13 @@ public class GummiHangarMenu extends AbstractContainerMenu {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return stack.getBurnTime(RecipeType.SMELTING) > 0;
+            }
+        });
+
+        addSlot(new SlotItemHandler(iih, GummiHangarTileEntity.COST_SLOT, COST_SLOT_X, COST_SLOT_Y) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof GummiCostChipItem;
             }
         });
 

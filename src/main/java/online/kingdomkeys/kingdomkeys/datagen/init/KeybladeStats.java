@@ -55,7 +55,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.divewing, Strings.divewingChain, 7, 8, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.divineRose, Strings.divineRoseChain, 8, 2, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.dualDisc, Strings.dualDiscChain, 6, 4, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.earthshaker, Strings.earthshakerChain, 4, 3, null, 1.0F, ModSounds.earthshaker_hit.get());
+		addStats(Strings.earthshaker, Strings.earthshakerChain, 4, 1, ModAbilities.CRITICAL_BOOST.location(), 1.0F, ModSounds.earthshaker_hit.get());
 		addStats(Strings.elementalEncoder, Strings.elementalEncoderChain, 4, 4, ModAbilities.GRAND_MAGIC_HASTE.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.endOfPain, Strings.endOfPainChain, 8, 8, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.endsOfTheEarth, Strings.endsOfTheEarthChain, 6, 5, null, 1.0F, ModSounds.earthshaker_hit.get());
@@ -87,7 +87,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, null, 1.0F, ModSounds.way_to_dawn_hit.get());
 		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.location(), 2.0F, ModSounds.generic_hit.get(), ModParticles.KIBLADE_HIT);
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.location(), 1.0F, ModSounds.kingdom_key_hit.get());
-		addStats(Strings.kingdomKeyD, Strings.kingdomKeyDChain, 4, 1, null, 1.0F, ModSounds.kingdom_key_hit.get());
+		addStats(Strings.kingdomKeyD, Strings.kingdomKeyDChain, 3, 2, ModAbilities.DAMAGE_CONTROL.location(), 1.0F, ModSounds.kingdom_key_hit.get());
 		addStats(Strings.kingdomKeyN, Strings.kingdomKeyNChain, 4, 1, ModAbilities.BERSERK_CHARGE.location(), 1.0F, ModSounds.kingdom_key_hit.get());
 		addStats(Strings.knockoutPunch, Strings.knockoutPunchChain, 7, 5, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.ladyLuck, Strings.ladyLuckChain, 6, 5, ModAbilities.LUCKY_STRIKE.location(), 1.0F, ModSounds.generic_hit.get());
@@ -124,7 +124,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.photonDebugger, Strings.photonDebuggerChain, 5, 3, ModAbilities.THUNDER_BOOST.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.pixiePetal, Strings.pixiePetalChain, 4, 8, ModAbilities.LEAF_BRACER.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.pumpkinhead, Strings.pumpkinheadChain, 6, 2, ModAbilities.CRITICAL_BOOST.location(), 2.0F, ModSounds.generic_hit.get());
-		addStats(Strings.rainfell, Strings.rainfellChain, 4, 4, null, 1.0F, ModSounds.rainfell_hit.get());
+		addStats(Strings.rainfell, Strings.rainfellChain, 1, 4, ModAbilities.BLIZZARD_BOOST.location(), 1.0F, ModSounds.rainfell_hit.get());
 		addStats(Strings.rejectionOfFate, Strings.rejectionOfFateChain, 5, 2, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.royalRadiance, Strings.royalRadianceChain, 9, 8, ModAbilities.ENDLESS_MAGIC.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.rumblingRose, Strings.rumblingRoseChain, 7, 3, null, 1.0F, ModSounds.generic_hit.get());
@@ -137,7 +137,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.spellbinder, Strings.spellbinderChain, 4, 8, ModAbilities.FULL_MP_BLAST.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.starCluster, Strings.starClusterChain, 5, 6, null, 1.0F, ModSounds.star_cluster_hit.get());
 		addStats(Strings.starSeeker, Strings.starSeekerChain, 4, 1, null, 1.0F, ModSounds.star_cluster_hit.get());
-		addStats(Strings.starlight, Strings.starlightChain, 5, 5, ModAbilities.MP_HASTE.location(), 1.0F, ModSounds.generic_hit.get());
+		addStats(Strings.starlight, Strings.starlightChain, 2, 3, ModAbilities.MP_HASTE.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.stormfall, Strings.stormfallChain, 6, 5, null, 1.0F, ModSounds.rainfell_hit.get());
 		addStats(Strings.strokeOfMidnight, Strings.strokeOfMidnightChain, 4, 4, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.sweetDreams, Strings.sweetDreamsChain, 8, 6, null, 2.0F, ModSounds.generic_hit.get());
@@ -159,8 +159,8 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.victoryLine, Strings.victoryLineChain, 5, 3, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.voidGear, Strings.voidGearChain, 9, 6, null, 1.5F, ModSounds.generic_hit.get());
 		addStats(Strings.voidGearRemnant, Strings.voidGearRemnantChain, 9, 6, null, 1.5F, ModSounds.generic_hit.get());
-		addStats(Strings.wayToTheDawn, Strings.wayToTheDawnChain, 4, 1, null, 1.0F, ModSounds.way_to_dawn_hit.get());
-		addStats(Strings.waywardWind, Strings.waywardWindChain, 4, 1, null, 1.0F, ModSounds.wayward_wind_hit.get());
+		addStats(Strings.wayToTheDawn, Strings.wayToTheDawnChain, 3, 2, ModAbilities.BERSERK_CHARGE.location(), 1.0F, ModSounds.way_to_dawn_hit.get());
+		addStats(Strings.waywardWind, Strings.waywardWindChain, 3, 2, ModAbilities.TREASURE_MAGNET.location(), 1.0F, ModSounds.wayward_wind_hit.get());
 		addStats(Strings.wheelOfFate, Strings.wheelOfFateChain, 6, 4, ModAbilities.WATERZA.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.winnersProof, Strings.winnersProofChain, 8, 9, ModAbilities.ZERO_EXP.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.wishingLamp, Strings.wishingLampChain, 6, 5, ModAbilities.JACKPOT.location(), 1.0F, ModSounds.generic_hit.get());
@@ -214,7 +214,7 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.divewing, List.of(m(ModItems.wellspring_crystal.get(), 3), m(ModItems.twilight_crystal.get(), 3), m(ModItems.blazing_gem.get(), 2)));
 		BASE_MATERIALS.put(Strings.divineRose, List.of(m(ModItems.soothing_gem.get(), 4), m(ModItems.pulsing_stone.get(), 4), m(ModItems.wellspring_crystal.get(), 3)));
 		BASE_MATERIALS.put(Strings.dualDisc, List.of(m(ModItems.soothing_crystal.get(), 2), m(ModItems.pulsing_gem.get(), 5), m(ModItems.lightning_gem.get(), 4)));
-		BASE_MATERIALS.put(Strings.earthshaker, List.of(m(ModItems.writhing_shard.get(), 5), m(ModItems.betwixt_stone.get(), 3), m(ModItems.wellspring_shard.get(), 3)));
+		BASE_MATERIALS.put(Strings.earthshaker, List.of(m(ModItems.writhing_shard.get(), 2), m(ModItems.wellspring_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.elementalEncoder, List.of(m(ModItems.blazing_gem.get(), 1), m(ModItems.frost_crystal.get(), 1), m(ModItems.lightning_crystal.get(), 1)));
 		BASE_MATERIALS.put(Strings.endOfPain, List.of(m(ModItems.pulsing_stone.get(), 3), m(ModItems.wellspring_crystal.get(), 2), m(ModItems.writhing_shard.get(), 3)));
 		BASE_MATERIALS.put(Strings.endsOfTheEarth, List.of(m(ModItems.pulsing_stone.get(), 3), m(ModItems.writhing_shard.get(), 3), m(ModItems.writhing_gem.get(), 1)));
@@ -246,7 +246,7 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.keybladeOfPeoplesHearts, List.of(m(ModItems.writhing_crystal.get(), 3), m(ModItems.pulsing_stone.get(), 2)));
 		BASE_MATERIALS.put(Strings.kiblade, List.of(m(ModItems.blazing_crystal.get(), 2), m(ModItems.soothing_crystal.get(), 2), m(ModItems.writhing_crystal.get(), 2)));
 		BASE_MATERIALS.put(Strings.kingdomKey, List.of(m(ModItems.pulsing_stone.get(), 1), m(ModItems.pulsing_shard.get(), 1)));
-		BASE_MATERIALS.put(Strings.kingdomKeyD, List.of(m(ModItems.pulsing_gem.get(), 1), m(ModItems.pulsing_shard.get(), 1)));
+		BASE_MATERIALS.put(Strings.kingdomKeyD, List.of(m(ModItems.sinister_shard.get(), 1), m(ModItems.pulsing_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.kingdomKeyN, List.of(m(ModItems.writhing_gem.get(), 1), m(ModItems.sinister_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.knockoutPunch, List.of(m(ModItems.pulsing_stone.get(), 2), m(ModItems.wellspring_crystal.get(), 2), m(ModItems.soothing_stone.get(), 2)));
 		BASE_MATERIALS.put(Strings.ladyLuck, List.of(m(ModItems.pulsing_stone.get(), 4), m(ModItems.wellspring_crystal.get(), 2), m(ModItems.hungry_shard.get(), 1)));
@@ -282,7 +282,7 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.photonDebugger, List.of(m(ModItems.lightning_shard.get(), 4), m(ModItems.lightning_crystal.get(), 2), m(ModItems.lightning_gem.get(), 3)));
 		BASE_MATERIALS.put(Strings.pixiePetal, List.of(m(ModItems.lucid_stone.get(), 2), m(ModItems.soothing_shard.get(), 2), m(ModItems.pulsing_gem.get(), 2)));
 		BASE_MATERIALS.put(Strings.pumpkinhead, List.of(m(ModItems.writhing_crystal.get(), 2), m(ModItems.pulsing_gem.get(), 3), m(ModItems.lucid_shard.get(), 5)));
-		BASE_MATERIALS.put(Strings.rainfell, List.of(m(ModItems.writhing_stone.get(), 2), m(ModItems.frost_stone.get(), 1), m(ModItems.lucid_shard.get(), 5)));
+		BASE_MATERIALS.put(Strings.rainfell, List.of(m(ModItems.frost_shard.get(), 1), m(ModItems.lucid_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.rejectionOfFate, List.of(m(ModItems.twilight_gem.get(), 2), m(ModItems.writhing_stone.get(), 2), m(ModItems.twilight_crystal.get(), 3)));
 		BASE_MATERIALS.put(Strings.royalRadiance, List.of(m(ModItems.pulsing_stone.get(), 5), m(ModItems.frost_shard.get(), 2), m(ModItems.soothing_stone.get(), 3)));
 		BASE_MATERIALS.put(Strings.rumblingRose, List.of(m(ModItems.pulsing_stone.get(), 4), m(ModItems.soothing_shard.get(), 2), m(ModItems.lucid_gem.get(), 3)));
@@ -295,7 +295,7 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.spellbinder, List.of(m(ModItems.lucid_crystal.get(), 2), m(ModItems.frost_stone.get(), 2), m(ModItems.pulsing_gem.get(), 2)));
 		BASE_MATERIALS.put(Strings.starCluster, List.of(m(ModItems.twilight_crystal.get(), 2), m(ModItems.betwixt_stone.get(), 2)));
 		BASE_MATERIALS.put(Strings.starSeeker, List.of(m(ModItems.twilight_stone.get(), 5), m(ModItems.betwixt_shard.get(), 3), m(ModItems.pulsing_shard.get(), 2)));
-		BASE_MATERIALS.put(Strings.starlight, List.of(m(ModItems.mythril_stone.get(), 3), m(ModItems.mythril_crystal.get(), 3), m(ModItems.mythril_shard.get(), 3)));
+		BASE_MATERIALS.put(Strings.starlight, List.of(m(ModItems.twilight_shard.get(), 1), m(ModItems.soothing_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.stormfall, List.of(m(ModItems.stormy_stone.get(), 2), m(ModItems.stormy_crystal.get(), 1), m(ModItems.soothing_stone.get(), 3)));
 		BASE_MATERIALS.put(Strings.strokeOfMidnight, List.of(m(ModItems.pulsing_stone.get(), 2), m(ModItems.frost_shard.get(), 2), m(ModItems.betwixt_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.sweetDreams, List.of(m(ModItems.pulsing_stone.get(), 2), m(ModItems.wellspring_crystal.get(), 2), m(ModItems.twilight_shard.get(), 4)));
@@ -317,8 +317,8 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.victoryLine, List.of(m(ModItems.soothing_stone.get(), 3), m(ModItems.lucid_gem.get(), 2), m(ModItems.pulsing_crystal.get(), 3)));
 		BASE_MATERIALS.put(Strings.voidGear, List.of(m(ModItems.writhing_shard.get(), 1), m(ModItems.sinister_crystal.get(), 4), m(ModItems.sinister_shard.get(), 5)));
 		BASE_MATERIALS.put(Strings.voidGearRemnant, List.of(m(ModItems.writhing_shard.get(), 1), m(ModItems.sinister_crystal.get(), 4), m(ModItems.sinister_shard.get(), 5)));
-		BASE_MATERIALS.put(Strings.wayToTheDawn, List.of(m(ModItems.writhing_crystal.get(), 1), m(ModItems.hungry_gem.get(), 4), m(ModItems.twilight_crystal.get(), 1)));
-		BASE_MATERIALS.put(Strings.waywardWind, List.of(m(ModItems.writhing_shard.get(), 2), m(ModItems.pulsing_shard.get(), 2), m(ModItems.stormy_shard.get(), 1)));
+		BASE_MATERIALS.put(Strings.wayToTheDawn, List.of(m(ModItems.writhing_shard.get(), 1), m(ModItems.twilight_shard.get(), 1)));
+		BASE_MATERIALS.put(Strings.waywardWind, List.of(m(ModItems.stormy_shard.get(), 1), m(ModItems.wellspring_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.wheelOfFate, List.of(m(ModItems.writhing_shard.get(), 2), m(ModItems.pulsing_gem.get(), 2), m(ModItems.stormy_crystal.get(), 3)));
 		BASE_MATERIALS.put(Strings.wishingLamp, List.of(m(ModItems.wellspring_stone.get(), 3), m(ModItems.lucid_crystal.get(), 2), m(ModItems.pulsing_crystal.get(), 3)));
 		BASE_MATERIALS.put(Strings.winnersProof, List.of(m(ModItems.writhing_stone.get(), 3), m(ModItems.tranquility_shard.get(), 4), m(ModItems.writhing_shard.get(), 5)));

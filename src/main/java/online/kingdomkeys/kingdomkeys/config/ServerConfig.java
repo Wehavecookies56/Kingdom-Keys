@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
@@ -33,26 +33,6 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.staff_crowns_update")
                 .define("staffCrownsUpdate", true);
 
-        gummiShipFuelSystem = builder
-                .comment("Set whether to enable Gummi Ships fuel system")
-                .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
-                .define("gummiShipFuelSystem", true);
-
-        gummiHangarAutoBuild = builder
-                .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")
-                .translation(KingdomKeys.MODID + ".config.gummi_hangar_auto_build")
-                .define("gummiHangarAutoBuild", true);
-
-        gummiHangarBuildCost = builder
-                .comment("Energy a Gummi Hangar spends on each block it places on its own")
-                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_cost")
-                .defineInRange("gummiHangarBuildCost", 20, 0, 100000);
-
-        gummiHangarBuildDelay = builder
-                .comment("Ticks a Gummi Hangar waits between rounds of placing blocks on its own. Each round places one block per hangar level")
-                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_delay")
-                .defineInRange("gummiHangarBuildDelay", 20, 1, 1200);
-        
         finalMixVariantChance = builder
                 .comment("Percentage chance for a spawning Heartless to use its Final Mix palette variant")
                 .translation(KingdomKeys.MODID + ".config.final_mix_variant_chance")
@@ -174,6 +154,37 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.story_progress")
                 .define("storyProgress", true);
 
+        builder.pop();
+
+        builder.push("gummi");
+        gummiShipFuelSystem = builder
+                .comment("Set whether to enable Gummi Ships fuel system")
+                .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
+                .define("gummiShipFuelSystem", true);
+
+        gummiHangarAutoBuild = builder
+                .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_auto_build")
+                .define("gummiHangarAutoBuild", true);
+
+        gummiHangarBuildCost = builder
+                .comment("Energy a Gummi Hangar spends on each block it places on its own")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_cost")
+                .defineInRange("gummiHangarBuildCost", 20, 0, 100000);
+
+        gummiHangarBuildDelay = builder
+                .comment("Ticks a Gummi Hangar waits between rounds of placing blocks on its own. Each round places one block per hangar level")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_delay")
+                .defineInRange("gummiHangarBuildDelay", 20, 1, 1200);
+
+        gummiHangarBaseCost = builder
+                .comment("Base cost a gummi hangar has without any cost limit upgrade")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_base_cost")
+                .defineInRange("gummiHangarBaseCost", 400, 1, 50000);
+        gummiHangarLevelCost = builder
+                .comment("Cost upgrade a gummi hangar gets per each cost limit upgrade")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_level_cost")
+                .defineInRange("gummiHangarLevelCost", 300, 1, 50000);
         builder.pop();
 
         builder.push("leveling");

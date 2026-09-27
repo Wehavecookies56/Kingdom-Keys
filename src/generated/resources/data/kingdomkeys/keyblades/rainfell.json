@@ -1,7 +1,8 @@
 {
+  "ability": "kingdomkeys:ability_blizzard_boost",
   "base_stats": {
     "mag": 4,
-    "str": 4
+    "str": 1
   },
   "description": "item.kingdomkeys.rainfell.desc",
   "hit_particles": [
@@ -17,11 +18,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 1
         }
       ],
-      "str": 4
+      "str": 1
     },
     {
       "mag": 5,
@@ -31,11 +32,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 3
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 2
         }
       ],
-      "str": 5
+      "str": 2
     },
     {
       "mag": 6,
@@ -45,11 +46,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 3
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 2
         }
       ],
-      "str": 5
+      "str": 2
     },
     {
       "mag": 6,
@@ -59,95 +60,87 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 4
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 6
-    },
-    {
-      "mag": 7,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 4
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
-          "quantity": 2
-        }
-      ],
-      "str": 6
-    },
-    {
-      "mag": 7,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 5
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
-          "quantity": 2
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 8,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 5
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
+          "material": "kingdomkeys:frost_shard",
           "quantity": 2
         },
         {
           "material": "kingdomkeys:lucid_shard",
-          "quantity": 5
+          "quantity": 1
         }
       ],
-      "str": 7
+      "str": 3
     },
     {
-      "mag": 8,
+      "mag": 7,
       "recipe": [
         {
-          "material": "kingdomkeys:adamantite",
+          "material": "kingdomkeys:damascus",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 6
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 2
         },
         {
-          "material": "kingdomkeys:frost_stone",
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 3
+    },
+    {
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:frost_shard",
           "quantity": 3
         },
         {
           "material": "kingdomkeys:lucid_shard",
-          "quantity": 9
+          "quantity": 2
         }
       ],
-      "str": 8
+      "str": 4
+    },
+    {
+      "mag": 8,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 4
+    },
+    {
+      "mag": 8,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 5
     },
     {
       "mag": 9,
@@ -157,19 +150,15 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 6
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
+          "material": "kingdomkeys:frost_shard",
           "quantity": 3
         },
         {
           "material": "kingdomkeys:lucid_shard",
-          "quantity": 12
+          "quantity": 3
         }
       ],
-      "str": 8
+      "str": 5
     },
     {
       "mag": 9,
@@ -179,19 +168,15 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 6
-        },
-        {
-          "material": "kingdomkeys:frost_stone",
+          "material": "kingdomkeys:frost_shard",
           "quantity": 3
         },
         {
           "material": "kingdomkeys:lucid_shard",
-          "quantity": 15
+          "quantity": 3
         }
       ],
-      "str": 9
+      "str": 6
     }
   ],
   "reach": 1.0,

@@ -233,48 +233,49 @@ public class LanguageESES extends KKLanguageProvider {
         //Containers(Menus)
         add("container.magical_chest", "Cofre Mágico");
         add("container.pedestal", "Pedestal");
-        add("container.gummi_hangar", "Hangar Gummi");
+        add(Container_GummiHangar, "Hangar Gummi");
 
+        add(Container_GummiHangar + ".gummifound","Ya hay una Nave Gummi en la zona");
+        add(Container_GummiHangar + ".gummitoobig","Hay una Nave Gummi demasiado grande para el hangar en la zona");
+        add(Container_GummiHangar + ".noname","Necesitas nombrar tu Nave Gummi");
+        add(Container_GummiHangar + ".save_file", "Guardar");
+        add(Container_GummiHangar + ".load_file", "Cargar");
+        add(Container_GummiHangar + ".file_saved", "Guardada en kingdomkeys/gummi_ships/%s.nbt");
+        add(Container_GummiHangar + ".file_loaded", "%s cargada en el plano");
+        add(Container_GummiHangar + ".no_saved_ships", "Todavía no hay nada guardado en kingdomkeys/gummi_ships");
+        add(Container_GummiHangar + ".noblueprintsave", "No hay ningún plano que guardar");
+        add(Container_GummiHangar + ".noblueprintload", "No hay ningún plano donde cargarla");
+        add(Container_GummiHangar + ".file_unwritable", "No se ha podido escribir el archivo, mira el log");
+        add(Container_GummiHangar + ".nothing_to_save", "Pon primero en la ranura un plano con una nave");
+        add(Container_GummiHangar + ".moveshipfw","Mover nave hacia delante");
+        add(Container_GummiHangar + ".moveshipbw","Mover nave hacia atrás");
+        add(Container_GummiHangar + ".moveshipleft","Mover nave hacia la izquierda");
+        add(Container_GummiHangar + ".moveshipright","Mover nave hacia la derecha");
+        add(Container_GummiHangar + ".moveshiphigher","Mover nave hacia arriba");
+        add(Container_GummiHangar + ".moveshiplower","Mover nave hacia abajo");
 
-        add("container.gummi_hangar.gummifound","Ya hay una Nave Gummi en la zona");
-        add("container.gummi_hangar.gummitoobig","Hay una Nave Gummi demasiado grande para el hangar en la zona");
-        add("container.gummi_hangar.noname","Necesitas nombrar tu Nave Gummi");
-        add("container.gummi_hangar.save_file", "Guardar");
-        add("container.gummi_hangar.load_file", "Cargar");
-        add("container.gummi_hangar.file_saved", "Guardada en kingdomkeys/gummi_ships/%s.nbt");
-        add("container.gummi_hangar.file_loaded", "%s cargada en el plano");
-        add("container.gummi_hangar.no_saved_ships", "Todavía no hay nada guardado en kingdomkeys/gummi_ships");
-        add("container.gummi_hangar.noblueprintsave", "No hay ningún plano que guardar");
-        add("container.gummi_hangar.noblueprintload", "No hay ningún plano donde cargarla");
-        add("container.gummi_hangar.file_unwritable", "No se ha podido escribir el archivo, mira el log");
-        add("container.gummi_hangar.nothing_to_save", "Pon primero en la ranura un plano con una nave");
-        add("container.gummi_hangar.moveshipfw","Mover nave hacia delante");
-        add("container.gummi_hangar.moveshipbw","Mover nave hacia atrás");
-        add("container.gummi_hangar.moveshipleft","Mover nave hacia la izquierda");
-        add("container.gummi_hangar.moveshipright","Mover nave hacia la derecha");
-        add("container.gummi_hangar.moveshiphigher","Mover nave hacia arriba");
-        add("container.gummi_hangar.moveshiplower","Mover nave hacia abajo");
+        add(Container_GummiHangar + ".noblueprintimp","Debes meter unos planos para importarlos");
+        add(Container_GummiHangar + ".noblueprintname","Debes especificar un nombre para los planos");
+        add(Container_GummiHangar + ".noblueprintexp","Debes meter unos planos para exportarlos");
 
-        add("container.gummi_hangar.noblueprintimp","Debes meter unos planos para importarlos");
-        add("container.gummi_hangar.noblueprintname","Debes especificar un nombre para los planos");
-        add("container.gummi_hangar.noblueprintexp","Debes meter unos planos para exportarlos");
+        add(Container_GummiHangar + ".build","Ensamblar");
+        add(Container_GummiHangar + ".autobuild","Autoensamblar");
+        add(Container_GummiHangar + ".autobuild.tooltip","Coloca el plano bloque a bloque, gastando energía almacenada y sacando las piezas de cualquier contenedor pegado al hangar");
+        add(Container_GummiHangar + ".autobuild.disabled","Desactivado en la config del servidor");
+        add(Container_GummiHangar + ".autobuild.nochest","No hay ningún contenedor al lado del hangar");
+        add(Container_GummiHangar + ".edit","Modificar");
+        add(Container_GummiHangar + ".import","Importar");
+        add(Container_GummiHangar + ".export","Exportar");
 
-        add("container.gummi_hangar.build","Ensamblar");
-        add("container.gummi_hangar.autobuild","Autoensamblar");
-        add("container.gummi_hangar.autobuild.tooltip","Coloca el plano bloque a bloque, gastando energía almacenada y sacando las piezas de cualquier contenedor pegado al hangar");
-        add("container.gummi_hangar.autobuild.disabled","Desactivado en la config del servidor");
-        add("container.gummi_hangar.autobuild.nochest","No hay ningún contenedor al lado del hangar");
-        add("container.gummi_hangar.edit","Modificar");
-        add("container.gummi_hangar.import","Importar");
-        add("container.gummi_hangar.export","Exportar");
-
-        add("container.gummi_hangar.power","Pot. motora");
-        add("container.gummi_hangar.firepower","Pot. ofensiva");
-        add("container.gummi_hangar.weight","Peso");
-        add("container.gummi_hangar.armor","Coraza");
-        add("container.gummi_hangar.effectivespeed","Vel. Efectiva");
-        add("container.gummi_hangar.seats","Asientos");
-        add("container.gummi_hangar.mobility","Movilidad");
+        add(Container_GummiHangar + ".power","Pot. motora");
+        add(Container_GummiHangar + ".firepower","Pot. ofensiva");
+        add(Container_GummiHangar + ".weight","Peso");
+        add(Container_GummiHangar + ".armor","Coraza");
+        add(Container_GummiHangar + ".effectivespeed","Vel. Efectiva");
+        add(Container_GummiHangar + ".seats","Asientos");
+        add(Container_GummiHangar + ".cost","Coste");
+        add(Container_GummiHangar + ".com.over_cost","El coste de esta nave es de %1$s, ahora mismo solo puedes construir una nave cuyo coste no supere %2$s");
+        add(Container_GummiHangar + ".mobility","Movilidad");
 
         add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
         add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");
@@ -1696,6 +1697,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.gummiShipBlueprint, "Planos de Gummi");
         addItem(ModItems.gummiShipBlueprintCreative, "Planos de Gummi (Creativo)");
         addItem(ModItems.gummiPhone, "Gumífono");
+        addItem(ModItems.gummiCostLimitChip, "Chip de mejora de límite de coste");
+        add("kingdomkeys.gummi.com_chip.desc","Ponlo en un Hangar Gummi para subir su límite de coste. Cada nivel de hangar admite uno más");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Plasma de Abadón");
@@ -2588,6 +2591,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.wayfinder.calling_for_help","%s te reclama, ¡usa su siemprejuntos!");
         add("message.wayfinder.asking_other_for_help","Llamando a %s para venir aquí");
         add("message.wayfinder.player_has_no_wayfinder","%s no tiene tu siemprejuntos encima ahora mismo");
+        add("message.wayfinder.none","<Vacío>");
         add("message.wayfinder.tooltip1", "Click derecho para teletransportarte");
         add("message.wayfinder.tooltip2", "Shift + click derecho para llamar");
 

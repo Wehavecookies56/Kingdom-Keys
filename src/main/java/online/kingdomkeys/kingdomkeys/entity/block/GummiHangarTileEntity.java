@@ -27,6 +27,8 @@ import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
+import online.kingdomkeys.kingdomkeys.item.GummiCostChipItem;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -48,7 +50,8 @@ import java.util.List;
 import java.util.Set;
 
 public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
-	public static final int NUMBER_OF_SLOTS = 2;
+	public static final int NUMBER_OF_SLOTS = 3;
+	public static final int COST_SLOT = 2;
 	private final ItemStackHandler itemStackHandler = createInventory();
 	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
 	private String lastShipName = "";
@@ -92,8 +95,16 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		return new ItemStackHandler(NUMBER_OF_SLOTS) {
 			@Override
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                boolean isFuel = stack.getBurnTime(RecipeType.SMELTING) > 0;
-                return slot == 0 ? stack.getItem() instanceof GummiShipBlueprintItem : isFuel;
+                return switch (slot) {
+                    case 0 -> stack.getItem() instanceof GummiShipBlueprintItem;
+                    case COST_SLOT -> stack.getItem() instanceof GummiCostChipItem;
+                    default -> stack.getBurnTime(RecipeType.SMELTING) > 0;
+                };
+			}
+
+			@Override
+			public int getSlotLimit(int slot) {
+				return slot == COST_SLOT ? GummiCostLevel.maxChips(getBlockState().getValue(GummiHangarBlock.LEVEL)) : super.getSlotLimit(slot);
 			}
 
 			@Override
@@ -253,6 +264,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         return fitted;
     }
 
+    public int getCostLimitLevel() {
+        return GummiCostLevel.fromChips(inventory.get().getStackInSlot(COST_SLOT).getCount(), getBlockState().getValue(GummiHangarBlock.LEVEL));
+    }
+
     private void buildFromBlueprint(Level level, BlockPos pos, BlockState state) {
         if (--buildCooldown > 0) {
             return;
@@ -270,6 +285,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
 
         if (blueprint == null) {
+            return;
+        }
+
+        if (GummiCostLevel.overLimit(Utils.getShipStats(blueprint), getCostLimitLevel()) != null) {
             return;
         }
 

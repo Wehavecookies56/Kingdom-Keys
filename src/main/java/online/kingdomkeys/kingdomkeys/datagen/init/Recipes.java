@@ -1356,6 +1356,18 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("mosaic_stained_glass", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.mosaic_stained_glass.get()))
                 .save(consumer);
 
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.gummiCostLimitChip.get())
+				.pattern("FGF")
+				.pattern("GDG")
+				.pattern("FRF")
+				.define('F', ModItems.gummiMeteorFragment.get())
+				.define('G', Items.GOLD_INGOT)
+				.define('D', Items.DIAMOND)
+				.define('R', Items.REDSTONE)
+				.group(KingdomKeys.MODID)
+				.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.gummiPhone.get())
 				.pattern("G G")
 				.pattern("RWR")

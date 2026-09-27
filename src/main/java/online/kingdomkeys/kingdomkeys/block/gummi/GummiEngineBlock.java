@@ -1,17 +1,24 @@
 package online.kingdomkeys.kingdomkeys.block.gummi;
 
 public class GummiEngineBlock extends GummiBlockBase {
-    int speed;
-    public GummiEngineBlock(GummiBlockProperties gummiProperties, int speed) {
+    private final int topSpeed, lowSpeed, horsepower;
+
+    public GummiEngineBlock(GummiBlockProperties gummiProperties, int topSpeed, int lowSpeed, int horsepower) {
         super(gummiProperties);
-        this.speed = speed;
+        this.topSpeed = topSpeed;
+        this.lowSpeed = lowSpeed;
+        this.horsepower = horsepower;
     }
 
-    public int getSpeed() {
-        return speed;
+    public int getTopSpeed() {
+        return topSpeed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public int getLowSpeed() {
+        return lowSpeed;
+    }
+
+    public int getHorsepower() {
+        return horsepower;
     }
 }

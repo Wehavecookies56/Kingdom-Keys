@@ -273,6 +273,7 @@ public class ClientPacketHandler {
     public static void showWarning(SCShowWarning message) {
         Minecraft mc = Minecraft.getInstance();
         mc.setScreen(new PopupWarningScreen(mc.screen, Component.translatable(Strings.WarningInformation), message.body(), new Color(112, 31, 35)));
+        mc.player.playSound(message.soundEvent());
     }
 
     public static void syncAbilityData(SCSyncAbilityData message) {

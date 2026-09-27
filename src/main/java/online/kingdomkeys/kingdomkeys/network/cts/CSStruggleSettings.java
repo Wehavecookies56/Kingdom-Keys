@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -48,7 +49,7 @@ public record CSStruggleSettings(Struggle struggle) implements Packet {
 		if (tooFar(struggle.getC1(), match.blockPos, range) || tooFar(struggle.getC2(), match.blockPos, range) || tooFar(struggle.getSpectatorPos(), match.blockPos, range)) {
 			Component warning = Component.translatable(Strings.WarningStruggleRange, range);
 			player.displayClientMessage(warning, true);
-			SCShowWarning.send(player, warning);
+			SCShowWarning.send(player, warning, ModSounds.error.get());
 			return;
 		}
 

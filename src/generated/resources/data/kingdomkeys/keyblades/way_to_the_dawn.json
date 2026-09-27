@@ -1,7 +1,8 @@
 {
+  "ability": "kingdomkeys:ability_berserk_charge",
   "base_stats": {
-    "mag": 1,
-    "str": 4
+    "mag": 2,
+    "str": 3
   },
   "description": "item.kingdomkeys.way_to_the_dawn.desc",
   "hit_particles": [
@@ -10,64 +11,46 @@
   "keychain": "kingdomkeys:way_to_the_dawn_chain",
   "levels": [
     {
-      "mag": 2,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 1
+        }
+      ],
+      "str": 3
+    },
+    {
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
         }
       ],
       "str": 4
     },
     {
-      "mag": 2,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 2
         }
       ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:fluorite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 2
-        }
-      ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 4
-        }
-      ],
-      "str": 6
+      "str": 4
     },
     {
       "mag": 4,
@@ -77,77 +60,51 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 6
+          "material": "kingdomkeys:twilight_shard",
+          "quantity": 1
         }
       ],
-      "str": 6
+      "str": 5
     },
     {
-      "mag": 4,
+      "mag": 5,
       "recipe": [
         {
           "material": "kingdomkeys:damascus",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 3
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
         },
         {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 7
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 8
-        },
-        {
-          "material": "kingdomkeys:twilight_crystal",
-          "quantity": 1
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 10
-        },
-        {
-          "material": "kingdomkeys:twilight_crystal",
+          "material": "kingdomkeys:twilight_shard",
           "quantity": 2
         }
       ],
-      "str": 8
+      "str": 5
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:twilight_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 6
     },
     {
       "mag": 6,
@@ -157,41 +114,69 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 11
-        },
-        {
-          "material": "kingdomkeys:twilight_crystal",
-          "quantity": 3
+          "material": "kingdomkeys:twilight_shard",
+          "quantity": 2
         }
       ],
-      "str": 8
+      "str": 6
     },
     {
       "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:twilight_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:twilight_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:electrum",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:hungry_gem",
-          "quantity": 12
-        },
-        {
-          "material": "kingdomkeys:twilight_crystal",
+          "material": "kingdomkeys:twilight_shard",
           "quantity": 3
         }
       ],
-      "str": 9
+      "str": 8
     }
   ],
   "reach": 1.0,

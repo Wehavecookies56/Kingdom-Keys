@@ -34,7 +34,7 @@ public class KeybladeBuilder extends ModelFile {
     }
 
     private KeybladeBuilder self() {
-        return (KeybladeBuilder) this;
+        return this;
     }
 
     public KeybladeBuilder keychain(String keyChain) {

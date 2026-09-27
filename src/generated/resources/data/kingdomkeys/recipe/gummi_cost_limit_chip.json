@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "F": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "FGF",
+    "GDG",
+    "FRF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_cost_limit_chip"
+  }
+}

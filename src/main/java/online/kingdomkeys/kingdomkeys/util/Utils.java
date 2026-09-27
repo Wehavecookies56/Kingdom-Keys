@@ -678,8 +678,28 @@ public class Utils {
 		return stats;
 	}
 
+	/** How much horsepower per point of weight it takes for a ship to reach its best engine's top speed */
+	private static final float HORSEPOWER_FOR_TOP_SPEED = 1F / 1.5F;
+
+	// The part of a big gummi that stands for all of it, so it is only counted once
+	private static boolean isGummiOrigin(BlockState state) {
+		if (!(state.getBlock() instanceof GummiBlockBase gummi) || !gummi.isMultiBlock()) {
+			return true;
+		}
+
+		for (Property<?> property : state.getProperties()) {
+			String name = property.getName();
+			if ((name.equals("x") || name.equals("y") || name.equals("z")) && state.getValue(property) instanceof Integer part && part != 0) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
-		float speed = 0;
+		int topSpeed = 0, lowSpeed = 0, horsepower = 0;
+		int cost = 0;
 		int mobility = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
@@ -696,8 +716,12 @@ public class Utils {
 				for (int z = 0; z < sizeZ; z++) {
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
-						weight++;//TODO make heavier blocks maybe?
+						weight++;
 						armour++;
+						boolean origin = isGummiOrigin(state);
+						if (origin && state.getBlock() instanceof GummiBlockBase costed) {
+							cost += costed.getCost();
+						}
 						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
 							if (!cockpit.isMultiBlock() || state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
 								if (cockpit.getMaxSeats() > 0) {
@@ -734,14 +758,26 @@ public class Utils {
 							}
 						} else if (state.getBlock() instanceof GummiAeroBlock aero) {
 							mobility += aero.getMobility();
-						} else if (state.getBlock() instanceof GummiEngineBlock engine) {
-							speed += engine.getSpeed();
+						} else if (state.getBlock() instanceof GummiEngineBlock engine && origin) {
+							horsepower += engine.getHorsepower();
+							if (engine.getTopSpeed() > topSpeed) {
+								topSpeed = engine.getTopSpeed();
+								lowSpeed = engine.getLowSpeed();
+							}
 						}
 					}
 				}
 			}
 		}
-		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,impact,passengers,mobility);
+		// As in Kingdom Hearts: the best engine sets the range, and the ship gets nearer its top the more
+		// horsepower it has for the weight it carries, so one strong engine on a cockpit flies fastest
+		float speed = 0;
+		if (topSpeed > 0 && weight > 0) {
+			float drive = Math.min(horsepower / (weight * HORSEPOWER_FOR_TOP_SPEED), 1F);
+			speed = lowSpeed + (topSpeed - lowSpeed) * drive;
+		}
+
+		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,impact,passengers,mobility,horsepower,cost);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {

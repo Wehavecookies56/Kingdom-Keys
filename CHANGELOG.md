@@ -14,6 +14,10 @@
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
   * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
+* Gummi Ship cost system.
+  * Can be changed in the config, by default it is 400 base cost and each cost increaser chip adds 300.
+  * These chips can be stacked up to the level of the ship (+1 initial), so the default max cost of an XL hangar is 1900.
+  * Their crafting recipe requires a diamond, 3 gold, a redstone dust and 4 gummi fragments.
 * Synthesis recipe tracker to keep the amount of required materials on screen at all times.
 * Spells in the selling shop, for a 25% of their original price.
 * Physics for Starlight keychain.
@@ -41,6 +45,16 @@
 
 ## Changed:
 * Default Kingdom Key recipe is now replaced by a starting keyblade linked to each player's UUID.
+* Initial keyblades have been rebalanced and much cheaper to synthesise:
+  * Earthshaker 4/3 → 4/1 [critical boost]
+  * Kingdom Keys (untouched)
+  * Kingdom Key D 4/1 → 3/2 [Damage Control]
+  * Rainfell 4/4 → 1/4 [Blizzard Boost]
+  * Starlight 5/5 → 2/3 [MP Haste]
+  * Way to the Dawn 4/1 → 3/2 [Berserk Charge]
+  * Wayward Wind 4/1 → 3/2 [Treasure Magnet]
+* Gummi ship speed is now more similar to KH, where it can go up to the speed of your strongest engine, but not above.
+  * Having more engines help to compensate with having more blocks on the ship. 
 * Abilities are now data driven.
 * Moved drive form xp multiplier to be data diven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
@@ -53,7 +67,7 @@
 * [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:
-* Pedestal lag with heavy keyblades, now you can render all your collection without rendering issues.
+* Pedestal lag with heavy keyblades, now you can render all your collection without performance issues.
 * Reversal RC being available even when the Dusk was out of reach.
 * Small jump after being hit due to aerial recovery.
 * Melding screen not showing the level of equipped spells.
@@ -81,4 +95,5 @@
 * Dropped CO cards now move smoothly when falling.
 * Minor Gummi Ship logic optimization.
 * Gummi Hangar now stops rendering after a certain distance.
+* Empty wayfinders having unlocalized string on their tooltip.
 * Small translation issues (Thanks to Held_der_Zeit).

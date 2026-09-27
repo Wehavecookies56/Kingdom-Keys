@@ -851,6 +851,7 @@ public class Strings {
         
         wayfinder = "wayfinder",
         gummiPhone = "gummiphone",
+        gummiCostLimitChip = "gummi_cost_limit_chip",
 		gummiShipBlueprint = "gummi_ship_blueprint",
 		gummiShipBlueprintCreative = "gummi_ship_blueprint_creative",
         

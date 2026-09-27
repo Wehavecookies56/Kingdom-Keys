@@ -1,7 +1,8 @@
 {
+  "ability": "kingdomkeys:ability_damage_control",
   "base_stats": {
-    "mag": 1,
-    "str": 4
+    "mag": 2,
+    "str": 3
   },
   "description": "item.kingdomkeys.kingdom_key_d.desc",
   "hit_particles": [
@@ -10,64 +11,46 @@
   "keychain": "kingdomkeys:kingdom_key_d_chain",
   "levels": [
     {
-      "mag": 2,
+      "mag": 3,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 1
+        }
+      ],
+      "str": 3
+    },
+    {
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 2
         }
       ],
       "str": 4
     },
     {
-      "mag": 2,
+      "mag": 4,
       "recipe": [
         {
           "material": "kingdomkeys:fluorite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 2
         }
       ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:fluorite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:pulsing_gem",
-          "quantity": 2
-        }
-      ],
-      "str": 5
-    },
-    {
-      "mag": 3,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:pulsing_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 1
-        }
-      ],
-      "str": 6
+      "str": 4
     },
     {
       "mag": 4,
@@ -77,8 +60,44 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:pulsing_shard",
+          "quantity": 1
+        }
+      ],
+      "str": 5
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:pulsing_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 5
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 3
         },
         {
           "material": "kingdomkeys:pulsing_shard",
@@ -88,14 +107,14 @@
       "str": 6
     },
     {
-      "mag": 4,
+      "mag": 6,
       "recipe": [
         {
-          "material": "kingdomkeys:damascus",
+          "material": "kingdomkeys:adamantite",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 3
         },
         {
@@ -103,43 +122,7 @@
           "quantity": 2
         }
       ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:pulsing_gem",
-          "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 2
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:pulsing_gem",
-          "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:pulsing_shard",
-          "quantity": 3
-        }
-      ],
-      "str": 8
+      "str": 6
     },
     {
       "mag": 6,
@@ -149,7 +132,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 3
         },
         {
@@ -157,17 +140,35 @@
           "quantity": 3
         }
       ],
-      "str": 8
+      "str": 7
     },
     {
-      "mag": 6,
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:pulsing_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 7,
       "recipe": [
         {
           "material": "kingdomkeys:electrum",
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:pulsing_gem",
+          "material": "kingdomkeys:sinister_shard",
           "quantity": 3
         },
         {
@@ -175,7 +176,7 @@
           "quantity": 3
         }
       ],
-      "str": 9
+      "str": 8
     }
   ],
   "reach": 1.0,

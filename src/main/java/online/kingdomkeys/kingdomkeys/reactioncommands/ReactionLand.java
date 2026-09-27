@@ -43,7 +43,7 @@ public class ReactionLand extends ReactionCommand {
 		if (playerData == null || !playerData.knowsWorld(world)) {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.error, SoundSource.MASTER, 1.0f, 1.0f);
 
-			SCShowWarning.send(serverPlayer, Component.translatable("kingdomkeys.worldmap.locked"));
+			SCShowWarning.send(serverPlayer, Component.translatable("kingdomkeys.worldmap.locked"), ModSounds.error.get());
 			return;
 		}
 		player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal, SoundSource.MASTER, 1.0f, 1.0f);

@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -49,7 +50,7 @@ public record CSLoadGummiShipFile(String name, byte[] data, int containerID) imp
 		if (data.length > MAX_BYTES) {
 			Component tooBig = Component.translatable(Strings.WarningFileTooBig);
 			player.sendSystemMessage(tooBig);
-			SCShowWarning.send(player, tooBig);
+			SCShowWarning.send(player, tooBig, ModSounds.error.get());
 			return;
 		}
 
@@ -71,7 +72,7 @@ public record CSLoadGummiShipFile(String name, byte[] data, int containerID) imp
 			KingdomKeys.LOGGER.error("Could not load gummi ship {} sent by {}", name, player.getName().getString(), e);
 			Component unreadable = Component.translatable(Strings.WarningFileUnreadable);
 			player.sendSystemMessage(unreadable);
-			SCShowWarning.send(player, unreadable);
+			SCShowWarning.send(player, unreadable, ModSounds.error.get());
 		}
 	}
 

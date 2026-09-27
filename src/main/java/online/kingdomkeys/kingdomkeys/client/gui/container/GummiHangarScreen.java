@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -49,13 +50,12 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	private static final DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
 	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/gummi_hangar.png");
 
-	/** Stats column sitting beside the window rather than on top of it */
 	private static final int PANEL_WIDTH = 104;
 	/** Clears the upgrade tab, which sticks 17 pixels out of the right edge */
 	private static final int PANEL_GAP_RIGHT = 20;
 	private static final int PANEL_GAP_LEFT = 4;
 	private static final int PANEL_PADDING = 5;
-	private static final int STATS_TOP = 6;
+	private static final int STATS_TOP = 1;
 
 	/** Twice the old twelve, which is what the four file buttons needed to stop being cramped */
 	private static final int BUTTON_HEIGHT = 16;
@@ -409,14 +409,42 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight();
 	}
 
-	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats) {
+	private static final int OVER_LIMIT = 0xFF5555;
+	private static final int COST_BAR_HEIGHT = 5, COST_GAP = 4;
+
+	private int drawCostPanel(GuiGraphics gui, int x, int y, GummiShipEntity.ShipStats stats, int costLimitLevel) {
+		int max = GummiCostLevel.maxCost(costLimitLevel);
+		boolean over = stats.cost() > max;
+		int height = PANEL_PADDING + (font.lineHeight + 2) + COST_BAR_HEIGHT + 3;
+
+		gui.fill(x, y, x + PANEL_WIDTH, y + height, 0xC0000000);
+		gui.renderOutline(x, y, PANEL_WIDTH, height, 0xFF555555);
+
+		int line = y - PANEL_PADDING + font.lineHeight;
+		String value = stats.cost() + "/" + max;
+		gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.cost"), x + PANEL_PADDING, line, 0xA0A0A0, false);
+		gui.drawString(font, value, x + PANEL_WIDTH - PANEL_PADDING - font.width(value), line, over ? OVER_LIMIT : 0xFFFFFF, false);
+
+		int barX = x + PANEL_PADDING;
+		int barY = line + font.lineHeight + 2;
+		int barWidth = PANEL_WIDTH - PANEL_PADDING * 2;
+		float used = max <= 0 ? 1F : Math.min((float) stats.cost() / max, 1F);
+		int colour = over ? 0xFFFF5555 : used > 0.8F ? 0xFFFFC040 : 0xFF55DD55;
+
+		gui.fill(barX, barY, barX + barWidth, barY + COST_BAR_HEIGHT, 0xFF303030);
+		gui.fill(barX, barY, barX + Math.round(barWidth * used), barY + COST_BAR_HEIGHT, colour);
+
+		return height;
+	}
+
+	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel) {
 		String effectiveSpeed = df.format(stats.getEffectiveSpeed());
 		if (effectiveSpeed.equals("NaN")) {
 			effectiveSpeed = "0";
 		}
 
 		String[][] rows = {
-				{Utils.translateToLocal("container.gummi_hangar.power"), String.valueOf((int) stats.speed())},
+				{Utils.translateToLocal("container.gummi_hangar.power"), String.valueOf(stats.horsepower())},
 				{Utils.translateToLocal("container.gummi_hangar.effectivespeed"), effectiveSpeed},
 				{Utils.translateToLocal("container.gummi_hangar.mobility"), String.valueOf(stats.mobility())},
 				{Utils.translateToLocal("container.gummi_hangar.weight"), String.valueOf(stats.weight())},
@@ -427,7 +455,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 		boolean fitsLeft = leftPos - PANEL_GAP_LEFT - PANEL_WIDTH >= 0;
 		int x = fitsLeft ? -PANEL_GAP_LEFT - PANEL_WIDTH : imageWidth + PANEL_GAP_RIGHT;
-		int y = STATS_TOP;
+		int y = STATS_TOP + drawCostPanel(gui, x, STATS_TOP, stats, comLevel) + COST_GAP;
 		int height = PANEL_PADDING * 2 + rows.length * (font.lineHeight + 2) - 2;
 
 		gui.fill(x, y, x + PANEL_WIDTH, y + height, 0xC0000000);
@@ -450,7 +478,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
 		updateShip();
 		if(structure != null){
-			drawStatsPanel(gui, Utils.getShipStats(structure));
+			drawStatsPanel(gui, Utils.getShipStats(structure), menu.TE.getCostLimitLevel());
 
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
@@ -556,6 +584,13 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
 		gui.blit(texture, xPos, yPos, 0, 0, imageWidth, imageHeight);
+
+		// Limit upgrade chip texture
+		int slotX = xPos + GummiHangarMenu.COST_SLOT_X - 1;
+		int slotY = yPos + GummiHangarMenu.COST_SLOT_Y - 1;
+		gui.fill(slotX, slotY, slotX + 18, slotY + 18, 0xFF373737);
+		gui.fill(slotX + 1, slotY + 1, slotX + 18, slotY + 18, 0xFFFFFFFF);
+		gui.fill(slotX + 1, slotY + 1, slotX + 17, slotY + 17, 0xFF8B8B8B);
 	}
 
 	@Override

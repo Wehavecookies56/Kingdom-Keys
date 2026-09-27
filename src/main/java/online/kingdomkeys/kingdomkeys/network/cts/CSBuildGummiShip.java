@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -28,7 +30,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.ArrayList;
 
 public record CSBuildGummiShip(String name, int containerID) implements Packet {
-
 	public static final Type<CSBuildGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_create_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSBuildGummiShip> STREAM_CODEC = StreamCodec.composite(
@@ -63,32 +64,38 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
 			Component warning = Component.translatable(Strings.WarningBannedBlocks).append(bannedBlocksNames);
 			player.sendSystemMessage(warning);
-			SCShowWarning.send(player, warning);
+			SCShowWarning.send(player, warning, ModSounds.error.get());
 
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
             Component warning = Component.translatable(Strings.WarningNoCore);
             player.displayClientMessage(warning, true);
-            SCShowWarning.send(player, warning);
+            SCShowWarning.send(player, warning, ModSounds.error.get());
             return;
         }
         if(Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) != 1){
             Component warning = Component.translatable(Strings.WarningSingleCore).append(""+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size));
             player.displayClientMessage(warning, true);
-            SCShowWarning.send(player, warning);
+            SCShowWarning.send(player, warning, ModSounds.error.get());
             return;
         }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			Component warning = Component.translatable(Strings.WarningPlateOccupied);
 			player.displayClientMessage(warning, true);
-			SCShowWarning.send(player, warning);
+			SCShowWarning.send(player, warning, ModSounds.error.get());
 			return;
 		}
 
-		container.TE.setLastShipName("");
-
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
+
+		Component tooBig = GummiCostLevel.overLimit(Utils.getShipStats(struct), container.TE.getCostLimitLevel());
+		if (tooBig != null) {
+			player.displayClientMessage(tooBig, true);
+			SCShowWarning.send(player, tooBig, ModSounds.error.get());
+			return;
+		}
+
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
         boolean xEven = Utils.isStructureEven(struct)[0];

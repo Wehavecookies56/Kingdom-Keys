@@ -57,9 +57,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility) {
+	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility, int horsepower, int cost) {
+		public static final float SPEED_SCALE = 0.03F;
+
 		public float getEffectiveSpeed(){
-			return speed() / (weight() * 0.5F);
+			return speed() * SPEED_SCALE;
 		}
 	}
 

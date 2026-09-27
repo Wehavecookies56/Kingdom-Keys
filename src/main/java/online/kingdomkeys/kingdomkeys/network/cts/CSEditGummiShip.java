@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -56,7 +57,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 				KingdomKeys.LOGGER.debug("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
 				Component warning = Component.translatable(Strings.WarningShipTooBig);
 				player.sendSystemMessage(warning);
-				SCShowWarning.send(player, warning);
+				SCShowWarning.send(player, warning, ModSounds.error.get());
 				return;
 			}
 

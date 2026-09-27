@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -67,7 +68,7 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 				if (fitted == null) {
 					Component warning = Component.translatable(Strings.WarningBlueprintTooBig);
 					player.sendSystemMessage(warning);
-					SCShowWarning.send(player, warning);
+					SCShowWarning.send(player, warning, ModSounds.error.get());
 					return;
 				}
 
