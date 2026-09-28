@@ -64,11 +64,13 @@
 * Path to some armor texture files.
 * Halved the mobility triangular Aero/G-02 gives.
 * Reflect damage now scales off it's level.
+* Moogle hitbox is slightly smaller.
 * [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:
 * Pedestal lag with heavy keyblades, now you can render all your collection without performance issues.
 * Reversal RC being available even when the Dusk was out of reach.
+* Potentially rubber banding when non-op players moved too fast (Airstep, flowmotion, rails...).
 * Small jump after being hit due to aerial recovery.
 * Melding screen not showing the level of equipped spells.
 * Blocking Blizzard will no longer add you the Freezing effect.

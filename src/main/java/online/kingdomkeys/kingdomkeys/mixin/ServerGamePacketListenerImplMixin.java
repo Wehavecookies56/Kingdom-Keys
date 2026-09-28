@@ -7,6 +7,8 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -42,6 +44,28 @@ public class ServerGamePacketListenerImplMixin {
                 && StruggleHandler.isWeaponLocked(((ServerGamePacketListenerImpl)(Object)this).player.getUUID())) {
             ci.cancel();
         }
+    }
+
+    /**
+     * Players can move much faster than vanilla allows through Flowmotion, Airstep...
+     * If the speed limit is exceeded, the server used to log "moved too quickly!" and teleported the player back.
+     */
+    @ModifyConstant(method = "handleMovePlayer", constant = @Constant(floatValue = 300.0F))
+    private float kk$removeElytraMovementSpeedLimit(float original) {
+        return Float.MAX_VALUE;
+    }
+
+    @ModifyConstant(method = "handleMovePlayer", constant = @Constant(floatValue = 100.0F))
+    private float kk$removePlayerMovementSpeedLimit(float original) {
+        return Float.MAX_VALUE;
+    }
+
+    /**
+     * The same validation for vehicles (mainly gummi ships).
+     */
+    @ModifyConstant(method = "handleMoveVehicle", constant = @Constant(doubleValue = 100.0D))
+    private double kk$removeVehicleMovementSpeedLimit(double original) {
+        return Double.MAX_VALUE;
     }
 
 }
