@@ -79,7 +79,6 @@ public class MoogleModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
-    	poseStack.translate(0,-0.5,0);
         OrgCoat.render(poseStack, buffer, packedLight, packedOverlay, colour);
 
         boolean dyed = pompomColor != MoogleEntity.NO_POMPOM_DYE;

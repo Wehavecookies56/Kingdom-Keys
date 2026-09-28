@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 import javax.annotation.Nullable;
 
 public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<MoogleEntity>> {
-
     private static final int PROJECTION_COLOUR = 0x80FFFFFF;
 
     public MoogleRenderer(EntityRendererProvider.Context context) {
@@ -46,13 +45,12 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
             VertexConsumer builder = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
             matrixStackIn.popPose();
             {
-
     	       	float f = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
 	            float f7 = this.getBob(entityIn, partialTicks);
 	            this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks, entityIn.getScale());
 	            matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 	            this.scale(entityIn, matrixStackIn, partialTicks);
-	            matrixStackIn.translate(0.5D, -1.501F, -0.5D);
+	            matrixStackIn.translate(0.5D, -2.001F, -0.5D);
 	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(yawTowardsLocalPlayer(entityIn, partialTicks)));
 	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), PROJECTION_COLOUR);
             }
@@ -65,21 +63,16 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
                 float speed = (float)Math.sqrt(vel.x * vel.x + vel.z * vel.z);
                 float yawRad = (float)Math.toRadians(entityIn.getYRot());
                 float moveFactor = Mth.clamp(speed * 20.0F, 0.0F, 1.0F);
-                float idleFactor = 1.0F - moveFactor;
                 float localSwayX = Mth.cos(time * 0.1F) * 0.05F * moveFactor;
                 float localSwayZ = Mth.sin(time * 0.1F) * 0.02F * moveFactor;
                 float sin = Mth.sin(yawRad);
                 float cos = Mth.cos(yawRad);
                 float worldX = localSwayX * cos - localSwayZ * sin;
                 float worldZ = localSwayX * sin + localSwayZ * cos;
-                float baseBob = Mth.sin(time * 0.1F) * 0.1F;
-                float bob = baseBob * idleFactor;
-                matrixStackIn.translate(worldX, bob, worldZ);
+                matrixStackIn.translate(worldX, 0, worldZ);
                 float idleShadow = 0.20F;
                 float moveShadow = 0.15F;
-                float base = Mth.lerp(moveFactor, idleShadow, moveShadow);
-                float shadowBob = Mth.sin(entityIn.tickCount * 0.1F) * 0.02F;
-                shadowRadius = base + shadowBob * (1.0F - moveFactor);
+                shadowRadius = Mth.lerp(moveFactor, idleShadow, moveShadow);
                 super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }
             matrixStackIn.popPose();
@@ -108,7 +101,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     
 	@Nullable
     @Override //probably is called getRenderType or something
-    protected RenderType getRenderType(MoogleEntity p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
-        return super.getRenderType(p_230496_1_, p_230496_2_, p_230496_3_, p_230496_4_);
+	protected RenderType getRenderType(MoogleEntity livingEntity, boolean bodyVisible, boolean translucent, boolean glowing) {
+        return super.getRenderType(livingEntity, bodyVisible, translucent, glowing);
     }
 }

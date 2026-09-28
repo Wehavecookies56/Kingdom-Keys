@@ -150,7 +150,7 @@ public class ModEntities {
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MobCategory.AMBIENT, "moogle", 0.4F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MobCategory.AMBIENT, "moogle", 0.4F, 0.8F);
     public static final Supplier<Item> MOOGLE_EGG = ModItems.ITEMS.register("moogle_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MOOGLE, 0xDACAB0, 0xC50033, PROPERTIES));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ForetellerEntity>> TYPE_FORETELLER = createEntityType(ForetellerEntity::new, MobCategory.MISC, "foreteller", 0.6F, 1.95F);

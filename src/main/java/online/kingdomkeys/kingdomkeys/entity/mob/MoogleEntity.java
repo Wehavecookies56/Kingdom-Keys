@@ -9,6 +9,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,6 +21,8 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -26,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -42,10 +47,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-//TODO make moogle float
 public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpawn {
 
     private static final EntityDataAccessor<Integer> POMPOM_COLOR = SynchedEntityData.defineId(MoogleEntity.class, EntityDataSerializers.INT);
+
+    private static final float HOVER_HEIGHT = 0.5F;
+    private static final float HOVER_BOB_AMPLITUDE = 0.2F;
+    private static final float HOVER_BOB_SPEED = 0.1F;
+    private static final float HOVER_VERTICAL_SPEED = 0.20F;
 
     public static final int NO_POMPOM_DYE = -1;
 
@@ -61,6 +70,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         inv = Utils.randomWithRange(0, 100) >= 98 ? "kingdomkeys:special" :  "kingdomkeys:default";
 
         setRandomName();
+        setNoGravity(true);
         if (name == null) {
             name = "";
         }
@@ -118,8 +128,12 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         normalGoals();
     }
 
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new FlyingPathNavigation(this, level);
+    }
+
     public void normalGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
@@ -179,6 +193,22 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         } else {
             super.travel(travelVector);
         }
+    }
+
+    private void maintainHoverHeight() {
+        if (level().isClientSide) {
+            return;
+        }
+
+        BlockPos ground = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockPosition());
+        double bob = Mth.sin(tickCount * HOVER_BOB_SPEED) * HOVER_BOB_AMPLITUDE;
+        double targetY = ground.getY() + HOVER_HEIGHT + bob;
+        double difference = targetY - getY();
+
+        // Follow slopes/steps smoothly instead of snapping vertically every tick.
+        double verticalMotion = Mth.clamp(difference, -HOVER_VERTICAL_SPEED, HOVER_VERTICAL_SPEED);
+        Vec3 movement = getDeltaMovement();
+        setDeltaMovement(movement.x, verticalMotion, movement.z);
     }
 
     @Override
@@ -264,7 +294,9 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
                 interacting = null;
             }
         }
+        setNoGravity(true);
         super.tick();
+        maintainHoverHeight();
     }
 
     @Override
