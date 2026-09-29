@@ -26,10 +26,10 @@
 * Orb of Light and it's shaded variant as enemies, not spawning on their own, only used by the foretellers as training to their pupils.
 * Command to set a player Lux amount.
 * Command to set a player union.
-  * Players *with no unions* (returning players with a choice made) can use it to get their union, OPs can use it with a player parameter to enforce one.
+  * Players **with no unions** (mostly returning players with a path choice already made) can use it to get their union, OPs can use it with a player parameter to enforce one.
 * Ability group parameter.
   * Prevents a player from equipping multiple abilities that belong in the same group.
-* Item slot unlocks through levelup, by default they get one every X levels: Guardian 4, Warrior 5, Mystic 6. Up to 6 slots.
+* Item slot unlocks through level up, by default they get one every X levels: Guardian 4, Warrior 5, Mystic 6. Up to 6 slots.
 * Warning / Confirmation screens on:
   * When trying to unequip an accessory and max AP would decrease below the total used AP.
   * When selling items.
@@ -46,7 +46,7 @@
 ## Changed:
 * Default Kingdom Key recipe is now replaced by a starting keyblade linked to each player's UUID.
 * Initial keyblades have been rebalanced and much cheaper to synthesise:
-  * Earthshaker 4/3 → 4/1 [critical boost]
+  * Earthshaker 4/3 → 4/1 [Critical Boost]
   * Kingdom Keys (untouched)
   * Kingdom Key D 4/1 → 3/2 [Damage Control]
   * Rainfell 4/4 → 1/4 [Blizzard Boost]

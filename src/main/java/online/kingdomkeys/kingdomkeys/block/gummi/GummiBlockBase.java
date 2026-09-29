@@ -335,6 +335,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case PILLAR -> List.of(AXIS);
             case MULTIBLOCK2D -> List.of(QUARTER, HORIZONTAL_FACING, X, Z);
             case MULTIBLOCK3D -> List.of(HORIZONTAL_FACING, X, Y, Z);
+	        case MULTIBLOCK2DEPTH -> List.of(AXIS);
         };
         if (gummiProperties.tinted) {
             this.color = gummiProperties.colour;
@@ -379,7 +380,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             DyeColor dyeColor = dyeItem.getDyeColor();
             Block b = blocks.get(dyeColor.getId()).get();
             BlockState newState = b.defaultBlockState();
-            //TODO handle multiblocks (need to set all the blocks to change
+            //TODO handle multiblocks (need to set all the blocks to change)
             newState = switch (placementType) {
                 case END -> newState.setValue(FACING, state.getValue(FACING));
                 case STANDARD -> newState;
@@ -388,6 +389,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 case PILLAR -> newState.setValue(AXIS, state.getValue(AXIS));
                 case MULTIBLOCK2D -> state;
                 case MULTIBLOCK3D -> state;
+                case MULTIBLOCK2DEPTH -> state;
             };
             level.setBlockAndUpdate(pos, newState);
             player.swing(hand);
@@ -484,6 +486,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
+            case MULTIBLOCK2DEPTH -> this.defaultBlockState().setValue(AXIS, direction.getAxis());
         };
     }
 
@@ -540,7 +543,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     level.setBlock(pos3, Blocks.AIR.defaultBlockState(), 3);
                 }
             }
-        }
+        }//TODO remove the engine one
     }
 
     @Override
@@ -650,9 +653,15 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             } else {
                 return RenderShape.INVISIBLE;
             }
-        } else {
-            return super.getRenderShape(state);
+        } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
+            if (state.getValue(X) == 0 && state.getValue(Z) == 0) {
+                return RenderShape.MODEL;
+            } else {
+                return RenderShape.INVISIBLE;
+            }
         }
+
+        return super.getRenderShape(state);
     }
 
     @Override
@@ -715,9 +724,11 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         //TODO more multiblock sizes
-        if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
             if (placementType == GummiPlacementType.MULTIBLOCK2D) {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x1x2").withStyle(ChatFormatting.GRAY));
+            } else if(placementType == GummiPlacementType.MULTIBLOCK2DEPTH){
+                tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x2").withStyle(ChatFormatting.GRAY));
             } else {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x2x2").withStyle(ChatFormatting.GRAY));
             }
