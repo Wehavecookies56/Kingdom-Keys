@@ -99,6 +99,34 @@ public class BlockStates extends BlockStateProvider {
 
 						return builder.build();
 					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+
+						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
+
+						builder.modelFile(new ModelFile.ExistingModelFile(
+								KingdomKeys.rl(path),
+								models().existingFileHelper
+						));
+
+						// El modelo base está vertical (eje Y), así que primero
+						// lo tumbamos para que su longitud pase al eje horizontal.
+						builder.rotationX(90);
+
+						// Después orientamos el extremo "frontal" del modelo.
+						int y = switch (facing) {
+							case NORTH -> 180;
+							case SOUTH -> 0;
+							case EAST -> 90;
+							case WEST -> 270;
+							default -> 0;
+						};
+
+						builder.rotationY(y);
+
+						return builder.build();
+					});
 				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.CORNER) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
