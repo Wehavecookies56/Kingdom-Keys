@@ -104,10 +104,7 @@ public class BlockStates extends BlockStateProvider {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Direction facing = blockState.getValue(GummiBlockBase.FACING);
 
-						builder.modelFile(new ModelFile.ExistingModelFile(
-								KingdomKeys.rl(path),
-								models().existingFileHelper
-						));
+						builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 
 						int x = switch (facing) {
 							case UP -> 180;

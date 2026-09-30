@@ -128,7 +128,7 @@ public class ModBlocks {
 
             gummiVernier = createNewGummiEngineBlock("gummi_vernier", GummiBlockProperties.of(1, 1, 24).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB), 80, 60, 10), // Fire-G
             gummiThruster = createNewGummiEngineBlock("gummi_thruster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.END), 90, 70, 20), // Fira-G
-            gummiBooster = createNewGummiEngineBlock("gummi_booster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK2DEPTH), 100, 80, 30); // Firaga-G
+            gummiBooster = createNewGummiEngineBlock("gummi_booster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
             // Flare/G and Holy/G?
 
     public static List<Supplier<Block>>
