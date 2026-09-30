@@ -110,11 +110,8 @@ public class BlockStates extends BlockStateProvider {
 								models().existingFileHelper
 						));
 
-						// El modelo base está vertical (eje Y), así que primero
-						// lo tumbamos para que su longitud pase al eje horizontal.
 						builder.rotationX(90);
 
-						// Después orientamos el extremo "frontal" del modelo.
 						int y = switch (facing) {
 							case NORTH -> 180;
 							case SOUTH -> 0;
