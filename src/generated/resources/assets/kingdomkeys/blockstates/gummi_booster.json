@@ -1,118 +1,54 @@
 {
   "variants": {
-    "axis=x,facing=east,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 90
+    "facing=down,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_booster"
     },
-    "axis=x,facing=east,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 90
+    "facing=down,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_booster"
     },
-    "axis=x,facing=north,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=x,facing=north,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=x,facing=south,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=x,facing=south,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=x,facing=west,z=0": {
+    "facing=east,z=0": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
       "x": 90,
       "y": 270
     },
-    "axis=x,facing=west,z=1": {
+    "facing=east,z=1": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
       "x": 90,
       "y": 270
     },
-    "axis=y,facing=east,z=0": {
+    "facing=north,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 270
+    },
+    "facing=north,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 270
+    },
+    "facing=south,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 90
+    },
+    "facing=south,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 90
+    },
+    "facing=up,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 180
+    },
+    "facing=up,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_booster",
+      "x": 180
+    },
+    "facing=west,z=0": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
       "x": 90,
       "y": 90
     },
-    "axis=y,facing=east,z=1": {
+    "facing=west,z=1": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
       "x": 90,
       "y": 90
-    },
-    "axis=y,facing=north,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=y,facing=north,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=y,facing=south,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=y,facing=south,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=y,facing=west,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 270
-    },
-    "axis=y,facing=west,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 270
-    },
-    "axis=z,facing=east,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 90
-    },
-    "axis=z,facing=east,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 90
-    },
-    "axis=z,facing=north,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=z,facing=north,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 180
-    },
-    "axis=z,facing=south,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=z,facing=south,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90
-    },
-    "axis=z,facing=west,z=0": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 270
-    },
-    "axis=z,facing=west,z=1": {
-      "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 90,
-      "y": 270
     }
   }
 }

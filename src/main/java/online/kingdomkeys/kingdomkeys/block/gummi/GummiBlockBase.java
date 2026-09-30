@@ -335,7 +335,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case PILLAR -> List.of(AXIS);
             case MULTIBLOCK2D -> List.of(QUARTER, HORIZONTAL_FACING, X, Z);
             case MULTIBLOCK3D -> List.of(HORIZONTAL_FACING, X, Y, Z);
-	        case MULTIBLOCK2DEPTH -> List.of(AXIS, Z, HORIZONTAL_FACING);
+	        case MULTIBLOCK2DEPTH -> List.of(FACING, Z);
         };
         if (gummiProperties.tinted) {
             this.color = gummiProperties.colour;
@@ -486,7 +486,14 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
-            case MULTIBLOCK2DEPTH -> this.defaultBlockState().setValue(AXIS, facing.getAxis()).setValue(HORIZONTAL_FACING, facing);
+            case MULTIBLOCK2DEPTH -> {
+                BlockPos otherPos = blockpos.relative(direction);
+                if (level.getBlockState(otherPos).getBlock() == Blocks.AIR) {
+                    yield this.defaultBlockState().setValue(FACING, direction);
+                } else {
+                    yield null;
+                }
+            }
         };
     }
 
@@ -545,14 +552,14 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             }
         } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
             if (newState.getBlock() == Blocks.AIR) {
-                Direction facing = state.getValue(HORIZONTAL_FACING);
+                Direction facing = state.getValue(FACING);
 
                 Direction otherDirection = state.getValue(Z) == 0 ? facing : facing.getOpposite();
 
                 BlockPos otherPos = pos.relative(otherDirection);
                 BlockState otherState = level.getBlockState(otherPos);
 
-                if (otherState.getBlock() instanceof GummiBlockBase otherGummi && otherGummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH && otherState.getValue(HORIZONTAL_FACING) == facing && otherState.getValue(Z) != state.getValue(Z)) {
+                if (otherState.getBlock() instanceof GummiBlockBase otherGummi && otherGummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH && otherState.getValue(FACING) == facing && otherState.getValue(Z) != state.getValue(Z)) {
                     level.setBlock(otherPos, Blocks.AIR.defaultBlockState(), 3);
                 }
             }
@@ -593,14 +600,12 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 level.setBlock(pos3.relative(Direction.UP), state.setValue(X, 1).setValue(Z, 1).setValue(Y, 1), 3);
             }
         } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
-            Direction facing = state.getValue(HORIZONTAL_FACING);
+            Direction facing = state.getValue(FACING);
             BlockPos pos1 = pos.relative(facing);
 
             if (level.getBlockState(pos1).getBlock() == Blocks.AIR) {
                 super.setPlacedBy(level, pos, state, placer, stack);
-
-                BlockState secondState = state.setValue(Z, 1).setValue(HORIZONTAL_FACING, facing).setValue(AXIS, facing.getAxis());
-                level.setBlock(pos1, secondState, 3);
+                level.setBlock(pos1, state.setValue(Z, 1), 3);
             }
         } else {
             super.setPlacedBy(level, pos, state, placer, stack);
@@ -712,6 +717,9 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case PILLAR -> {
                 return rotatePillar(state, rotation);
             }
+            case MULTIBLOCK2DEPTH -> {
+                return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+            }
         }
         return super.rotate(state, rotation);
     }
@@ -738,7 +746,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        if (placementType == GummiPlacementType.END) {
+        if (placementType == GummiPlacementType.END || placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
             return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
         }
         return super.mirror(state, mirror);

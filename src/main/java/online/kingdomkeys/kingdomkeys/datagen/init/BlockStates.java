@@ -102,24 +102,27 @@ public class BlockStates extends BlockStateProvider {
 				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-
-						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
+						Direction facing = blockState.getValue(GummiBlockBase.FACING);
 
 						builder.modelFile(new ModelFile.ExistingModelFile(
 								KingdomKeys.rl(path),
 								models().existingFileHelper
 						));
 
-						builder.rotationX(90);
+						int x = switch (facing) {
+							case UP -> 180;
+							case DOWN -> 0;
+							case SOUTH, EAST, WEST -> 90;
+							case NORTH -> 270;
+						};
 
 						int y = switch (facing) {
-							case NORTH -> 180;
-							case SOUTH -> 0;
-							case EAST -> 90;
-							case WEST -> 270;
+							case EAST -> 270;
+							case WEST -> 90;
 							default -> 0;
 						};
 
+						builder.rotationX(x);
 						builder.rotationY(y);
 
 						return builder.build();
