@@ -18,11 +18,13 @@
     },
     "facing=north,z=0": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 270
+      "x": 90,
+      "y": 180
     },
     "facing=north,z=1": {
       "model": "kingdomkeys:block/gummi/gummi_booster",
-      "x": 270
+      "x": 90,
+      "y": 180
     },
     "facing=south,z=0": {
       "model": "kingdomkeys:block/gummi/gummi_booster",

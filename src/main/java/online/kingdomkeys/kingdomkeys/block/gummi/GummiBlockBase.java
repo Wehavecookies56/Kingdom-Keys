@@ -567,7 +567,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if (placementType == GummiPlacementType.MULTIBLOCK2D) {
             Quarter quarter = state.getValue(QUARTER);
             Direction facing = state.getValue(HORIZONTAL_FACING);

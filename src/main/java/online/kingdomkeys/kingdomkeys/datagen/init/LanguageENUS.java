@@ -882,7 +882,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
         addAbilityWithDesc(ModAbilities.AERIAL_RECOVERY, "Aerial Recovery", "Quickly regains balance with Jump when knocked down.");
         addAbilityWithDesc(ModAbilities.GUARD, "Guard", "Blocks and shoots back enemy attacks using a parrying action with right click. Not available in Epic Fight combat mode.");
-        addAbilityWithDesc(ModAbilities.COUNTERGUARD, "Counterguard", "Counterattacks neraby enemies with Attack while performing Guard.");
+        addAbilityWithDesc(ModAbilities.COUNTERGUARD, "Counterguard", "Counterattacks nearby enemies with Attack while performing Guard.");
         addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superslide", "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");

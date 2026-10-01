@@ -4,7 +4,7 @@
 	"loader": "neoforge:obj",
 	"model": "kingdomkeys:models/block/gummi/gummi_booster.obj",
 	"transform":{
-		"translation": [ -0.25, -1.24, 1 ],
+		"translation": [ 0, -1.24, 1 ],
 		"scale": [ 1,0.8,1 ],
 		"rotation": [ 0, 0, 0 ]
 	},
