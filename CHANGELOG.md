@@ -18,6 +18,7 @@
   * Can be changed in the config, by default it is 400 base cost and each cost increaser chip adds 300.
   * These chips can be stacked up to the level of the ship (+1 initial), so the default max cost of an XL hangar is 1900.
   * Their crafting recipe requires a diamond, 3 gold, a redstone dust and 4 gummi fragments.
+* Gummi booster engine, has a 2x2x2 multiform shape (like the cockpit).
 * Synthesis recipe tracker to keep the amount of required materials on screen at all times.
 * Spells in the selling shop, for a 25% of their original price.
 * Physics for Starlight keychain.
