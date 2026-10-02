@@ -674,7 +674,7 @@ public class Recipes extends RecipeProvider {
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBoosters.getFirst().get())
 				.pattern("PPP")
-				.pattern("FFF")
+				.pattern("FPF")
 				.pattern("GGG")
 				.define('P', Blocks.PISTON)
 				.define('F', Blocks.FURNACE)

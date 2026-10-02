@@ -1,13 +1,21 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "kingdomkeys:gummi_booster_white"
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "F": {
+      "item": "minecraft:furnace"
     },
-    {
-      "item": "minecraft:white_dye"
+    "G": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "P": {
+      "item": "minecraft:piston"
     }
+  },
+  "pattern": [
+    "PPP",
+    "FPF",
+    "GGG"
   ],
   "result": {
     "count": 1,
