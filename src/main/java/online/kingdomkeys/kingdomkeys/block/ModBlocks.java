@@ -127,8 +127,7 @@ public class ModBlocks {
             //gummiWatergaHorizontal = createNewGummiWeaponBlock("gummi_waterga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184));
 
             gummiVernier = createNewGummiEngineBlock("gummi_vernier", GummiBlockProperties.of(1, 1, 24).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB), 80, 60, 10), // Fire-G
-            gummiThruster = createNewGummiEngineBlock("gummi_thruster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.END), 90, 70, 20), // Fira-G
-            gummiBooster = createNewGummiEngineBlock("gummi_booster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
+            gummiThruster = createNewGummiEngineBlock("gummi_thruster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.END), 90, 70, 20); // Fira-G
             // Flare/G and Holy/G?
 
     public static List<Supplier<Block>>
@@ -166,6 +165,8 @@ public class ModBlocks {
             gummiMiniHelms = new ArrayList<>(),
             gummiAeroTriangles = new ArrayList<>(),
             gummiAeroSquares = new ArrayList<>(),
+
+            gummiBoosters = new ArrayList<>(),
 
             flowmotionRails = new ArrayList<>()
         ;
@@ -218,6 +219,8 @@ public class ModBlocks {
         createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 2).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_PLATE), 10);
         createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 2).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 5);
 
+        createNewGummiEngineBlock("gummi_booster", gummiBoosters, GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
+
         for (DyeColor dye : DyeColor.values()) {
             String name = "flowmotion_rail_" + dye.getName();
             Supplier<Block> rail = BLOCKS.register(name, () -> new FlowmotionRailBlock(Block.Properties.of().mapColor(dye.getMapColor()).noCollission().strength(0.7F).sound(SoundType.METAL).lightLevel(state -> 7), dye));
@@ -252,11 +255,19 @@ public class ModBlocks {
         return newBlock;
     }
 
-    // Top and low speed and horsepower, as the engine gummis in Kingdom Hearts
+    // Top and low speed and horsepower
     private static Supplier<Block> createNewGummiEngineBlock(String name, GummiBlockProperties gummiBlockProperties, int topSpeed, int lowSpeed, int horsepower) {
         Supplier<Block> newBlock = BLOCKS.register(name, () -> new GummiEngineBlock(gummiBlockProperties, topSpeed, lowSpeed, horsepower));
         createNewBlockItem(name, newBlock);
         return newBlock;
+    }
+
+    private static void createNewGummiEngineBlock(String name, List<Supplier<Block>> blocks, GummiBlockProperties gummiBlockProperties, int topSpeed, int lowSpeed, int horsepower) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiEngineBlock(gummiBlockProperties.withColour(dye, blocks), topSpeed, lowSpeed, horsepower));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            blocks.add(newBlock);
+        }
     }
 
     private static void createNewGummiAeroBlock(String name, List<Supplier<Block>> blocks, GummiBlockProperties gummiBlockProperties, int mobility) {

@@ -10,6 +10,7 @@
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
-		"particle": "#texture0"
+        "texture1": "minecraft:block/gray_concrete",
+        "particle": "#texture0"
 	}
 }

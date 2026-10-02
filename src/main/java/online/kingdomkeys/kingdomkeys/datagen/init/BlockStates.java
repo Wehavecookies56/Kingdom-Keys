@@ -99,6 +99,24 @@ public class BlockStates extends BlockStateProvider {
 
 						return builder.build();
 					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
+
+						int x = switch (facing) {
+							case EAST, NORTH, SOUTH, WEST -> 90;
+							default -> 0;
+						};
+
+						int y = switch (facing) {
+							case EAST -> 270;
+							case NORTH -> 180;
+							case WEST -> 90;
+							default -> 0;
+						};
+
+						return ConfiguredModel.builder().modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper)).rotationX(x).rotationY(y).build();
+					});
 				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
