@@ -3036,6 +3036,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(WarningBannedBlocks, "Structure contains banned blocks: ");
         add(WarningNoCore, "Structure doesn't contain a core");
         add(WarningSingleCore, "Structure must contain a single core, currently has ");
+        add(WarningMultiblockOutside, "A multiblock structure must fit completely inside the build area");
         add(WarningShipTooBig, "This Gummi Ship is too big");
         add(WarningFileUnreadable, "That file couldn't be read as a Gummi Ship");
         add(WarningFileTooBig, "That Gummi Ship is too big to send to the server");

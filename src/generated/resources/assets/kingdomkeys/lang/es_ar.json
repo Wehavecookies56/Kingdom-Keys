@@ -3268,6 +3268,7 @@
   "warning.gummi.blueprint_too_big": "Los planos son demasiado grandes para este hangar",
   "warning.gummi.file_too_big": "Esa Nave Gummi es demasiado grande para enviarla al servidor",
   "warning.gummi.file_unreadable": "Ese archivo no se puede leer como Nave Gummi",
+  "warning.gummi.multiblock_outside": "Una estructura multibloque debe caber completamente dentro del área de construcción",
   "warning.gummi.no_core": "La estructura no tiene un núcleo",
   "warning.gummi.plate_occupied": "Ya hay una nave gummi en la plataforma, apártala primero.",
   "warning.gummi.ship_too_big": "Esta Nave Gummi es demasiado grande",

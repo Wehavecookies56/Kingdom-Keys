@@ -68,30 +68,31 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
 			return;
 		}
+        if (Utils.hasMultiblockOutsideBuildArea(level, origin, hangar.getValue(GummiHangarBlock.FACING), size)) {
+            Component warning = Component.translatable(Strings.WarningMultiblockOutside);
+            SCShowWarning.send(player, warning, ModSounds.error.get());
+            return;
+        }
+
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
             Component warning = Component.translatable(Strings.WarningNoCore);
-            player.displayClientMessage(warning, true);
             SCShowWarning.send(player, warning, ModSounds.error.get());
             return;
         }
         if(Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) != 1){
             Component warning = Component.translatable(Strings.WarningSingleCore).append(""+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size));
-            player.displayClientMessage(warning, true);
             SCShowWarning.send(player, warning, ModSounds.error.get());
             return;
         }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			Component warning = Component.translatable(Strings.WarningPlateOccupied);
-			player.displayClientMessage(warning, true);
 			SCShowWarning.send(player, warning, ModSounds.error.get());
 			return;
 		}
 
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
-
 		Component tooBig = GummiCostLevel.overLimit(Utils.getShipStats(struct), container.TE.getCostLimitLevel());
 		if (tooBig != null) {
-			player.displayClientMessage(tooBig, true);
 			SCShowWarning.send(player, tooBig, ModSounds.error.get());
 			return;
 		}

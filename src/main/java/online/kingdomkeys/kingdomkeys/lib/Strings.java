@@ -1730,6 +1730,7 @@ public class Strings {
 			WarningBannedBlocks = "warning.gummi.banned_blocks",
 			WarningNoCore = "warning.gummi.no_core",
 			WarningSingleCore = "warning.gummi.single_core",
+			WarningMultiblockOutside = "warning.gummi.multiblock_outside",
 			WarningShipTooBig = "warning.gummi.ship_too_big",
 			WarningBlueprintTooBig = "warning.gummi.blueprint_too_big",
 			WarningFileTooBig = "warning.gummi.file_too_big",

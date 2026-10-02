@@ -409,6 +409,50 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         return isMultiBlock;
     }
 
+    /** Returns every block position occupied by this multiblock */
+    public List<BlockPos> getMultiBlockPositions(BlockPos pos, BlockState state) {
+        return switch (placementType) {
+            case MULTIBLOCK2D -> {
+                Quarter quarter = state.getValue(QUARTER);
+                Direction facing = state.getValue(HORIZONTAL_FACING);
+                Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
+                Direction zDir = quarter == Quarter.BOTTOM || quarter == Quarter.TOP
+                        ? (state.getValue(Z) == 0 ? facing.getClockWise() : facing.getCounterClockWise())
+                        : (state.getValue(Z) == 0 ? Direction.UP : Direction.DOWN);
+
+                if (quarter == Quarter.TOP || quarter == Quarter.RIGHT) {
+                    zDir = zDir.getOpposite();
+                }
+
+                BlockPos pos1 = pos.relative(xDir);
+                BlockPos pos2 = pos.relative(zDir);
+                BlockPos pos3 = pos1.relative(zDir);
+                yield List.of(pos, pos1, pos2, pos3);
+            }
+            case MULTIBLOCK3D -> {
+                Direction facing = state.getValue(HORIZONTAL_FACING);
+                Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
+                Direction yDir = state.getValue(Y) == 0 ? Direction.UP : Direction.DOWN;
+                Direction zDir = state.getValue(Z) == 0 ? facing.getClockWise() : facing.getCounterClockWise();
+
+                BlockPos pos1 = pos.relative(xDir);
+                BlockPos pos2 = pos.relative(zDir);
+                BlockPos pos3 = pos1.relative(zDir);
+                BlockPos pos4 = pos.relative(yDir);
+                BlockPos pos5 = pos1.relative(yDir);
+                BlockPos pos6 = pos2.relative(yDir);
+                BlockPos pos7 = pos3.relative(yDir);
+                yield List.of(pos, pos1, pos2, pos3, pos4, pos5, pos6, pos7);
+            }
+            case MULTIBLOCK2DEPTH -> {
+                Direction facing = state.getValue(FACING);
+                Direction otherDirection = state.getValue(Z) == 0 ? facing : facing.getOpposite();
+                yield List.of(pos, pos.relative(otherDirection));
+            }
+            default -> List.of(pos);
+        };
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {

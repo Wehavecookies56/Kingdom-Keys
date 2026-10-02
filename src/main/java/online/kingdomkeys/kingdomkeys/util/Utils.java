@@ -1258,6 +1258,48 @@ public class Utils {
 		return cores;
 	}
 
+	/** Checks that every part of every multiblock touching the build plate is inside the hangar bounds */
+	public static boolean hasMultiblockOutsideBuildArea(Level level, BlockPos origin, Direction facing, int size) {
+		int[] offsets = Utils.getShipOffset(facing, size);
+		if (offsets == null)
+			return false;
+
+		BlockPos minCorner = origin.offset(offsets[0], 0, offsets[1]);
+		BlockPos maxCorner = minCorner.offset(size - 1, size - 1, size - 1);
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
+
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = size - 1 - x; rz = size - 1 - z; }
+						case EAST -> { rx = z; rz = size - 1 - x; }
+						case WEST -> { rx = size - 1 - z; rz = x; }
+					}
+
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					BlockState state = level.getBlockState(target);
+					if (!(state.getBlock() instanceof GummiBlockBase gummi) || !gummi.isMultiBlock()) {
+						continue;
+					}
+
+					for (BlockPos part : gummi.getMultiBlockPositions(target, state)) {
+						if (part.getX() < minCorner.getX() || part.getX() > maxCorner.getX()
+								|| part.getY() < minCorner.getY() || part.getY() > maxCorner.getY()
+								|| part.getZ() < minCorner.getZ() || part.getZ() > maxCorner.getZ()) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
 

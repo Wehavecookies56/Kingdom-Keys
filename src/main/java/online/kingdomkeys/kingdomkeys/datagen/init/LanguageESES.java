@@ -3046,6 +3046,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(WarningBannedBlocks, "La estructura contiene bloques prohibidos: ");
         add(WarningNoCore, "La estructura no tiene un núcleo");
         add(WarningSingleCore, "La estructura solo puede tener un núcleo, actualmente hay ");
+        add(WarningMultiblockOutside, "Una estructura multibloque debe caber completamente dentro del área de construcción");
         add(WarningShipTooBig, "Esta Nave Gummi es demasiado grande");
         add(WarningFileUnreadable, "Ese archivo no se puede leer como Nave Gummi");
         add(WarningFileTooBig, "Esa Nave Gummi es demasiado grande para enviarla al servidor");
