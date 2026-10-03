@@ -18,6 +18,7 @@
   * Can be changed in the config, by default it is 400 base cost and each cost increaser chip adds 300.
   * These chips can be stacked up to the level of the ship (+1 initial), so the default max cost of an XL hangar is 1900.
   * Their crafting recipe requires a diamond, 3 gold, a redstone dust and 4 gummi fragments.
+  * Cost will be seen on top of the hangar block as a hologram too.
 * Booster/G and Holy/G engines, have a 2x2x2 multiform shape (like the Bubble Helm/G).
 * Flare/G engine, has a 1x1x3 multiform shape.
 * Tooltip data for functional gummi blocks (cost, power, armor...).

@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,8 +22,10 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -30,6 +35,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minecraft.Util.NIL_UUID;
 
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
 
@@ -101,6 +108,43 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 		return found;
 	}
 
+    private static final float HOLOGRAM_RANGE = 20;
+    private static final int HOLOGRAM_REFRESH = 10;
+    private static final int HOLOGRAM_COLOR = 0x55FFFF, HOLOGRAM_OVER = 0xFF5555;
+
+    private void renderCostHologram(GummiHangarTileEntity hangar, PoseStack poseStack, MultiBufferSource buffer, Direction facing, int size) {
+        Minecraft mc = Minecraft.getInstance();
+        long now = mc.level.getGameTime();
+
+        if (hangar.hologramTime == Long.MIN_VALUE || now - hangar.hologramTime >= HOLOGRAM_REFRESH) {
+            hangar.hologramTime = now;
+            GummiStructure onPlate = Utils.getGummiStructureWithFacing(NIL_UUID, "", mc.level, hangar.getBlockPos(), facing, size);
+            GummiShipEntity.ShipStats stats = onPlate == null ? null : Utils.getShipStats(onPlate);
+            hangar.hologramCost = stats == null || stats.weight() <= 0 ? -1 : stats.cost();
+        }
+
+        if (hangar.hologramCost < 0) {
+            return;
+        }
+
+        int max = GummiCostLevel.maxCost(hangar.getCostLimitLevel());
+        Component text = Component.literal(Utils.translateToLocal("container.gummi_hangar.cost") + ": " + hangar.hologramCost + "/" + max);
+        int colour = hangar.hologramCost > max ? HOLOGRAM_OVER : HOLOGRAM_COLOR;
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(0.5, 1.6, 0.5);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+            poseStack.scale(0.025F, -0.025F, 0.025F);
+
+            Font font = mc.font;
+            float x = -font.width(text) / 2F;
+            font.drawInBatch(text, x, 0, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.SEE_THROUGH, 0x40000000, LightTexture.FULL_BRIGHT);
+            font.drawInBatch(text, x, 0, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+        }
+        poseStack.popPose();
+    }
+
     @Override
     public int getViewDistance() {
         return 96;
@@ -169,6 +213,10 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                     ClientUtils.drawLine(vertexLines, matrixStackIn, x1, origin.y(), z1, x2, origin.y(), z2, r, g, b, a);
                     ClientUtils.drawLine(vertexLines, matrixStackIn, x2, origin.y(), z1, x1, origin.y(), z2, r, g, b, a);
                 }
+            }
+
+            if (dist < HOLOGRAM_RANGE) {
+                renderCostHologram(TE, matrixStackIn, bufferIn, facing, size);
             }
 
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {

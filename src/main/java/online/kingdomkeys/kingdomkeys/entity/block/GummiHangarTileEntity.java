@@ -114,6 +114,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
                     // Remove display if blueprint is removed
                     getLevel().setBlockAndUpdate(getBlockPos(), getBlockState().setValue(GummiHangarBlock.DISPLAY_BLUEPRINT, false));
+                } else if (slot == COST_SLOT && level != null && !level.isClientSide) {
+                    // Increasing the limit updates the hologram too
+                    setChanged();
+                    level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
                 }
 				super.onContentsChanged(slot);
 			}
@@ -263,6 +267,9 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
         return fitted;
     }
+
+    public int hologramCost = -1;
+    public long hologramTime = Long.MIN_VALUE;
 
     public int getCostLimitLevel() {
         return GummiCostLevel.fromChips(inventory.get().getStackInSlot(COST_SLOT).getCount(), getBlockState().getValue(GummiHangarBlock.LEVEL));
