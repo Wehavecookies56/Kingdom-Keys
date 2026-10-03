@@ -3,7 +3,9 @@ package online.kingdomkeys.kingdomkeys.block.gummi;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +40,6 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     DyeColor color;
     List<Supplier<Block>> blocks;
-    int armour, weight, cost;
     GummiPlacementType placementType;
     GummiBlockProperties.Shape shape;
     boolean isMultiBlock;
@@ -323,9 +324,6 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     public GummiBlockBase(GummiBlockProperties gummiProperties) {
         super(gummiProperties.properties);
-        this.weight = gummiProperties.weight;
-        this.armour = gummiProperties.armour;
-        this.cost = gummiProperties.cost;
         this.placementType = gummiProperties.placementType;
         this.shape = gummiProperties.shape;
         properties = switch (placementType) {
@@ -351,16 +349,38 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         this.registerDefaultState(this.stateDefinition.any());
     }
 
+    @Nullable
+    private ResourceLocation statsKey;
+
+    @Nullable
+    protected GummiStats stats() {
+        if (statsKey == null) {
+            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(this);
+            String path = id.getPath();
+
+            if (color != null && path.endsWith("_" + color.getName())) {
+                path = path.substring(0, path.length() - color.getName().length() - 1);
+            }
+
+            statsKey = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), path);
+        }
+
+        return GummiStatsLoader.get(statsKey);
+    }
+
     public int getArmour() {
-        return armour;
+        GummiStats stats = stats();
+        return stats != null ? stats.armour() : 0;
     }
 
     public int getWeight() {
-        return weight;
+        GummiStats stats = stats();
+        return stats != null ? stats.weight() : 0;
     }
 
     public int getCost() {
-        return cost;
+        GummiStats stats = stats();
+        return stats != null ? stats.cost() : 0;
     }
 
     public GummiPlacementType getPlacementType() {
@@ -843,8 +863,8 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(stat("cost", cost));
-        tooltipComponents.add(stat("armor", armour));
+        tooltipComponents.add(stat("cost", getCost()));
+        tooltipComponents.add(stat("armor", getArmour()));
         appendStats(tooltipComponents);
 
         if (placementType == GummiPlacementType.MULTIBLOCK2x1x2 || placementType == GummiPlacementType.MULTIBLOCK2x2x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x3) {

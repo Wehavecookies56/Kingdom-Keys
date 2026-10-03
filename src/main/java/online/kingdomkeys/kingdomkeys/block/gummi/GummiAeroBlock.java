@@ -5,22 +5,18 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class GummiAeroBlock extends GummiBlockBase {
-    int mobility;
-    public GummiAeroBlock(GummiBlockProperties gummiProperties, int mobility) {
+
+    public GummiAeroBlock(GummiBlockProperties gummiProperties) {
         super(gummiProperties);
-        this.mobility = mobility;
     }
 
     @Override
     protected void appendStats(List<Component> tooltip) {
-        tooltip.add(stat("mobility", mobility));
+        tooltip.add(stat("mobility", getMobility()));
     }
 
     public int getMobility() {
-        return mobility;
-    }
-
-    public void setMobility(int mobility) {
-        this.mobility = mobility;
+        GummiStats stats = stats();
+        return stats != null ? stats.mobility() : 0;
     }
 }

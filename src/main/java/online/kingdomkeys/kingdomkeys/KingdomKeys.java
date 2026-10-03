@@ -49,6 +49,7 @@ import online.kingdomkeys.kingdomkeys.command.ModCommands;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.dialogue.ModDialogue;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiStatsLoader;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -264,7 +265,6 @@ public class KingdomKeys {
 		pat.rawTemplates = rawTemplates;
 	}
 
-
 	@SubscribeEvent
 	public void registerCommands(RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
@@ -278,6 +278,7 @@ public class KingdomKeys {
 		event.addListener(new RecipeDataLoader());
 		event.addListener(new MeldingDataLoader());
 		event.addListener(new DriveFormDataLoader());
+		event.addListener(new GummiStatsLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new AbilityDataLoader());
 		event.addListener(new LevelingDataLoader());

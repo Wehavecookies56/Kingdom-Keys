@@ -2990,6 +2990,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add("kingdomkeys.gummi.hangar.area_value", "Área: %s");
+        add("kingdomkeys.gummi.hangar.cost_value", "Coste: %s");
         add("kingdomkeys.gummi.hangar.area.off", "Off");
         add("kingdomkeys.gummi.hangar.area.odd", "Impar");
         add("kingdomkeys.gummi.hangar.area.even", "Par");

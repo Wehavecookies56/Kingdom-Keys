@@ -51,6 +51,7 @@ public class PacketHandler {
 		client(SCSyncCastleOblivionInteriorData.TYPE, SCSyncCastleOblivionInteriorData.STREAM_CODEC);
 		client(SCSyncDimensionLists.TYPE, SCSyncDimensionLists.STREAM_CODEC);
 		client(SCSyncDriveFormData.TYPE, SCSyncDriveFormData.STREAM_CODEC);
+		client(SCSyncGummiStats.TYPE, SCSyncGummiStats.STREAM_CODEC);
 		client(SCSyncGlobalData.TYPE, SCSyncGlobalData.STREAM_CODEC);
 		client(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC);
 		client(SCSyncLevelingData.TYPE, SCSyncLevelingData.STREAM_CODEC);
@@ -167,6 +168,7 @@ public class PacketHandler {
 		server(CSGummiFirePacket.TYPE, CSGummiFirePacket.STREAM_CODEC);
 		server(CSMoveGummiShipPacket.TYPE, CSMoveGummiShipPacket.STREAM_CODEC);
         server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
+        server(CSShowHangarCostPacket.TYPE, CSShowHangarCostPacket.STREAM_CODEC);
         server(CSToggleHangarBuildPacket.TYPE, CSToggleHangarBuildPacket.STREAM_CODEC);
         server(CSCombatActionPacket.TYPE, CSCombatActionPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);

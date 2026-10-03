@@ -55,6 +55,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new ShopDataProvider(output));
         generator.addProvider(event.includeServer(), new SellDataProvider(output));
         generator.addProvider(event.includeServer(), new DriveFormDataProvider(output));
+        generator.addProvider(event.includeServer(), new GummiStatsProvider(output));
         generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));

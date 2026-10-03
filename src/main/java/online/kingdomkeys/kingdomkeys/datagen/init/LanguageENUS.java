@@ -2979,6 +2979,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add(Gummi_Hangar + ".area_value", "Area: %s");
+        add(Gummi_Hangar + ".cost_value", "Cost: %s");
         add(Gummi_Hangar + ".area.off", "Off");
         add(Gummi_Hangar + ".area.odd", "Odd");
         add(Gummi_Hangar + ".area.even", "Even");

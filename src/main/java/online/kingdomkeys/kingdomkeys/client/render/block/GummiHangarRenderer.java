@@ -215,7 +215,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                 }
             }
 
-            if (dist < HOLOGRAM_RANGE) {
+            if (state.getValue(GummiHangarBlock.SHOW_COST) && dist < HOLOGRAM_RANGE) {
                 renderCostHologram(TE, matrixStackIn, bufferIn, facing, size);
             }
 

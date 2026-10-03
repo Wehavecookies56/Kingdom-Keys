@@ -11,9 +11,6 @@ import java.util.function.Supplier;
 public class GummiBlockProperties {
 
     BlockBehaviour.Properties properties = BlockBehaviour.Properties.of().noOcclusion().strength(0.1F, 10.0F);
-    int weight;
-    int armour;
-    int cost;
     boolean tinted;
     DyeColor colour;
     GummiPlacementType placementType = GummiPlacementType.STANDARD;
@@ -38,19 +35,11 @@ public class GummiBlockProperties {
         AERO_PLATE
     }
 
-    private GummiBlockProperties(int weight, int armour, int cost) {
-        this.weight = weight;
-        this.armour = armour;
-        this.cost = cost;
+    private GummiBlockProperties() {
     }
 
-    public static GummiBlockProperties of(int weight, int armor, int cost) {
-        return new GummiBlockProperties(weight, armor, cost);
-    }
-
-    public GummiBlockProperties addProperties(BlockBehaviour.Properties properties) {
-        this.properties = properties.noOcclusion().strength(0.1F, 10.0F);
-        return this;
+    public static GummiBlockProperties of() {
+        return new GummiBlockProperties();
     }
 
     public GummiBlockProperties setProperties(BlockBehaviour.Properties properties) {

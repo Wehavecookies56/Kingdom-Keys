@@ -55,9 +55,11 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
 	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,10); //5 XS (0), 7 S (1), 9 M (2), 11 L (3), 13 XL (4), (rest are for command only)
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static final BooleanProperty SHOW_COST = BooleanProperty.create("show_cost");
 
 	public GummiHangarBlock(Properties properties) {
 		super(properties);
+		registerDefaultState(stateDefinition.any().setValue(SHOW_COST, true));
 	}
 
 	public static int getSize(int level) {
@@ -72,7 +74,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(ACTIVE,false).setValue(SHOW_LINES,LineDisplay.OFF).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(ACTIVE,false).setValue(SHOW_LINES,LineDisplay.OFF).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false).setValue(SHOW_COST,true);
 	}
 
 	@Override
@@ -83,6 +85,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		builder.add(LEVEL);
 		builder.add(DISPLAY_BLUEPRINT);
         builder.add(ACTIVE);
+        builder.add(SHOW_COST);
 	}
 
     @Override

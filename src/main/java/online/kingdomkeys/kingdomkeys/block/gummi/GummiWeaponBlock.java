@@ -29,7 +29,6 @@ import java.util.List;
 public class GummiWeaponBlock extends GummiBlockBase {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
-    int firepower, fuelPerShot;
     public ShotType shotType;
     public enum ShotType {
         FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA, GRAVITY, GRAVIRA, GRAVIGA, WATER, WATERA, WATERGA;
@@ -48,25 +47,25 @@ public class GummiWeaponBlock extends GummiBlockBase {
         return new float[]{0.5F,0,0.5F};
     }
 
-    public GummiWeaponBlock(GummiBlockProperties gummiProperties, ShotType shotType, int firepower, int fuelPerShot) {
+    public GummiWeaponBlock(GummiBlockProperties gummiProperties, ShotType shotType) {
         super(gummiProperties);
-        this.firepower = firepower;
         this.shotType = shotType;
-        this.fuelPerShot = fuelPerShot;
     }
 
     @Override
     protected void appendStats(List<Component> tooltip) {
-        tooltip.add(stat("firepower", firepower));
-        tooltip.add(stat("fuel_per_shot", fuelPerShot));
+        tooltip.add(stat("firepower", getFirepower()));
+        tooltip.add(stat("fuel_per_shot", getFuelPerShot()));
     }
 
     public int getFirepower() {
-        return firepower;
+        GummiStats stats = stats();
+        return stats != null ? stats.firepower() : 0;
     }
 
     public int getFuelPerShot(){
-        return fuelPerShot;
+        GummiStats stats = stats();
+        return stats != null ? stats.fuelPerShot() : 0;
     }
 
     public void castShot(Player player, Level level, float dmg, Vec3 pos, float xOff, float yOff, float speed, Vec3 direction) {
@@ -210,7 +209,6 @@ public class GummiWeaponBlock extends GummiBlockBase {
             level.setBlockAndUpdate(pos, state.setValue(ACTIVE, level.hasNeighborSignal(pos)));
         }
     }
-
 
     @Override
     public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side) {

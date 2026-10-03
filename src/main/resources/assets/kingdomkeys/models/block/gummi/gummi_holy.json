@@ -3,6 +3,7 @@
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
 	"emissive_ambient": false,
+	"flip_v": true,
 	"model": "kingdomkeys:models/block/gummi/gummi_engine_big.obj",
 	"transform": {
 		"translation": [0.065, -1.265, 1.05],

@@ -74,6 +74,7 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiStatsLoader;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -341,6 +342,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncAbilityData(AbilityDataLoader.names, AbilityDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncGummiStats(GummiStatsLoader.names, GummiStatsLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncShotlockData(ShotlockDataLoader.names, ShotlockDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncSavePointData(SavePointDataLoader.names, SavePointDataLoader.dataList), player);
@@ -525,7 +527,6 @@ public class EntityEvents {
 					magicsMap.put(i, ItemStack.EMPTY);
 				}
 				playerData.equipAllMagics(magicsMap, true);
-
 
 				// Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
@@ -1744,7 +1745,6 @@ public class EntityEvents {
 			final PlayerData playerData = PlayerData.get(nPlayer);
 			nPlayer.setHealth(playerData.getMaxHP());
 			Utils.RefreshAbilityAttributes(nPlayer, playerData);
-
 
 			PacketHandler.sendTo(new SCSyncWorldData(nPlayer.getServer()), (ServerPlayer) nPlayer);
 

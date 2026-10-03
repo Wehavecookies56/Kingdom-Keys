@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,6 +25,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.AbilityData;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiStats;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiStatsLoader;
 import online.kingdomkeys.kingdomkeys.client.gui.*;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.MapCardRouletteScreen;
@@ -386,6 +390,19 @@ public class ClientPacketHandler {
         }
 
         GummiWorldLoader.replaceAll(worlds);
+    }
+
+    public static void syncGummiStats(SCSyncGummiStats message) {
+        Map<ResourceLocation, GummiStats> stats = new LinkedHashMap<>();
+
+        for (int i = 0; i < message.names().size(); i++) {
+            ResourceLocation name = ResourceLocation.parse(message.names().get(i));
+            GummiStats.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseString(message.data().get(i)))
+                    .resultOrPartial(error -> KingdomKeys.LOGGER.error("Error parsing gummi stats json file {}: {}", name, error))
+                    .ifPresent(read -> stats.put(name, read));
+        }
+
+        GummiStatsLoader.replaceAll(stats);
     }
 
     public static void syncSavePointData(SCSyncSavePointData message) {

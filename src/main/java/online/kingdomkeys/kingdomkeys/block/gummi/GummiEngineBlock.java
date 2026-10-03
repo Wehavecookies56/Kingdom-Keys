@@ -5,31 +5,30 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 public class GummiEngineBlock extends GummiBlockBase {
-    private final int topSpeed, lowSpeed, horsepower;
 
-    public GummiEngineBlock(GummiBlockProperties gummiProperties, int topSpeed, int lowSpeed, int horsepower) {
+    public GummiEngineBlock(GummiBlockProperties gummiProperties) {
         super(gummiProperties);
-        this.topSpeed = topSpeed;
-        this.lowSpeed = lowSpeed;
-        this.horsepower = horsepower;
     }
 
     @Override
     protected void appendStats(List<Component> tooltip) {
-        tooltip.add(stat("top_speed", topSpeed));
-        tooltip.add(stat("low_speed", lowSpeed));
-        tooltip.add(stat("horsepower", horsepower));
+        tooltip.add(stat("top_speed", getTopSpeed()));
+        tooltip.add(stat("low_speed", getLowSpeed()));
+        tooltip.add(stat("horsepower", getHorsepower()));
     }
 
     public int getTopSpeed() {
-        return topSpeed;
+        GummiStats stats = stats();
+        return stats != null ? stats.topSpeed() : 0;
     }
 
     public int getLowSpeed() {
-        return lowSpeed;
+        GummiStats stats = stats();
+        return stats != null ? stats.lowSpeed() : 0;
     }
 
     public int getHorsepower() {
-        return horsepower;
+        GummiStats stats = stats();
+        return stats != null ? stats.horsepower() : 0;
     }
 }

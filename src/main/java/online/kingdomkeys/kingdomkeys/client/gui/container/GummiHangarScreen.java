@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -70,7 +71,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		this.imageHeight = 212;
 	}
 
-	ExtendedButton build, editShip, imp, exp, saveFile, loadFile, moveShipFW,moveShipBW,moveShipLeft,moveShipRight,moveShipUp,moveShipDown, showLines, autoBuild;
+	ExtendedButton build, editShip, imp, exp, saveFile, loadFile, moveShipFW,moveShipBW,moveShipLeft,moveShipRight,moveShipUp,moveShipDown, showLines, showCost, autoBuild;
 	EditBox name;
 	GummiStructure structure;
 
@@ -174,26 +175,31 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
             showLines.setMessage(Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).next().getDisplayName()));
         }));
 
+        addRenderableWidget(showCost = new ExtendedButton(build.getX(), showLines.getY() - BUTTON_HEIGHT, editShip.getWidth(), BUTTON_HEIGHT, Component.translatable("kingdomkeys.gummi.hangar.cost_value", CommonComponents.optionStatus(menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_COST))), p -> {
+            PacketHandler.sendToServer(new CSShowHangarCostPacket(menu.containerId));
+            showCost.setMessage(Component.translatable("kingdomkeys.gummi.hangar.cost_value", CommonComponents.optionStatus(!menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_COST))));
+        }));
+
 		int x = editShip.getX();
-		int y = topPos + 80;
+		int y = topPos + 81;
 		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.literal("⤓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
 		}));
-		addRenderableWidget(moveShipFW = new ExtendedButton(x + 21, y, 20, 10, Component.literal("↑"), p -> {
+		addRenderableWidget(moveShipFW = new ExtendedButton(x + 20, y, 20, 10, Component.literal("↑"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
 		}));
-		addRenderableWidget(moveShipUp = new ExtendedButton(x + 42, y, 20, 10, Component.literal("⤒"), p -> {
+		addRenderableWidget(moveShipUp = new ExtendedButton(x + 40, y, 20, 10, Component.literal("⤒"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
 		}));
 
-		y += 11;
+		y += 10;
 		addRenderableWidget(moveShipLeft = new ExtendedButton(x, y, 20, 10, Component.literal("←"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
 		}));
-		addRenderableWidget(moveShipBW = new ExtendedButton(x+21, y, 20, 10, Component.literal("↓"), p -> {
+		addRenderableWidget(moveShipBW = new ExtendedButton(x+20, y, 20, 10, Component.literal("↓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
 		}));
-		addRenderableWidget(moveShipRight = new ExtendedButton(x + 42, y, 20, 10, Component.literal("→"), p -> {
+		addRenderableWidget(moveShipRight = new ExtendedButton(x + 40, y, 20, 10, Component.literal("→"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
 		}));
 	}
@@ -354,7 +360,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
 
 				if(GummiShipBlueprintItem.isBlueprint(stack)){
-					if(name.getValue().equals("")){
+					if(name.getValue().isEmpty()){
 						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.noblueprintname").getString()));
 					}
 				} else {
@@ -406,7 +412,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	}
 
 	public boolean isHoveringButton(ExtendedButton button, int mouseX, int mouseY) {
-		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight();
+		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() - 1 && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight() - 1;
 	}
 
 	private static final int OVER_LIMIT = 0xFF5555;
@@ -481,7 +487,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
 			imp.active = GummiShipBlueprintItem.isBlueprint(stack);
-			exp.active = GummiShipBlueprintItem.isBlueprint(stack) && !name.getValue().equals("");
+			exp.active = GummiShipBlueprintItem.isBlueprint(stack) && !name.getValue().isEmpty();
 
 			// Loading only needs somewhere to put the ship; saving needs one that already holds a ship
 			loadFile.active = GummiShipBlueprintItem.isBlueprint(stack);

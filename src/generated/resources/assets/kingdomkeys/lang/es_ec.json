@@ -2971,6 +2971,7 @@
   "kingdomkeys.gummi.hangar.area.off": "Off",
   "kingdomkeys.gummi.hangar.area_value": "Área: %s",
   "kingdomkeys.gummi.hangar.cant_place": "No puedes colocar el Hangar Gummi aquí",
+  "kingdomkeys.gummi.hangar.cost_value": "Coste: %s",
   "kingdomkeys.gummi.hangar.stored_fuel": "Combustible almacenado: ",
   "kingdomkeys.gummi.phone.already_stored": "Ya hay una nave Gummi guardada en tu teléfono Gummi",
   "kingdomkeys.gummi.phone.call_ship": "Llamar nave Gummi: ",

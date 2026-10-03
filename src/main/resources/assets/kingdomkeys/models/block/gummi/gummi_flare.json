@@ -3,23 +3,12 @@
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
 	"emissive_ambient": false,
+	"flip_v": true,
 	"model": "kingdomkeys:models/block/gummi/gummi_engine_big.obj",
 	"transform": {
-		"translation": [
-			-0.2501,
-			0.35,
-			-0.2501
-		],
-		"scale": [
-			0.4997,
-			1.2349,
-			0.4997
-		],
-		"rotation": [
-			0,
-			0,
-			0
-		]
+		"translation": [-0.2501, 0.35, -0.2501],
+		"scale": [0.4997, 1.2349, 0.4997],
+		"rotation": [0, 0, 0]
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_engine_big",

@@ -62,6 +62,7 @@
   * Having more engines help to compensate with having more blocks on the ship.
 * Gummi ship rotation speed adjusted to take into account the ship weight too.
 * Gummi Hangars will now check for multiblocks partially outside it's building area, if found it complains and won't build. 
+* Gummi blocks data is now data-driven, not hardcoded.
 * Abilities are now data driven.
 * Moved drive form xp multiplier to be data diven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
