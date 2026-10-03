@@ -22,6 +22,7 @@
 * Booster/G and Holy/G engines, have a 2x2x2 multiform shape (like the Bubble Helm/G).
 * Flare/G engine, has a 1x1x3 multiform shape.
 * Tooltip data for functional gummi blocks (cost, power, armor...).
+* Mythril synthesis materials as meteorite drops.
 * Synthesis recipe tracker to keep the amount of required materials on screen at all times.
 * Spells in the selling shop, for a 25% of their original price.
 * Physics for Starlight keychain.
