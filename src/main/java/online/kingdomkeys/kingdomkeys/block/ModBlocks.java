@@ -109,20 +109,20 @@ public class ModBlocks {
             gummiCore = createNewBlock("gummi_core", ()-> new GummiCoreBlock(Block.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 3600000.0F))),
 
             gummiFire = createNewGummiWeaponBlock("gummi_fire", GummiBlockProperties.of(1, 1, 40).withPlacement(GummiPlacementType.EDGE), GummiWeaponBlock.ShotType.FIRE, 2, 35),
-            gummiFira = createNewGummiWeaponBlock("gummi_fira", GummiBlockProperties.of(1, 1, 50).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.FIRA, 3, 41),
+            gummiFira = createNewGummiWeaponBlock("gummi_fira", GummiBlockProperties.of(1, 1, 50).withPlacement(GummiPlacementType.MULTIBLOCK2x1x2), GummiWeaponBlock.ShotType.FIRA, 3, 41),
             //gummiFiragaVertical = createNewGummiWeaponBlock("gummi_firaga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.FIRAGA, 1, 1, 53, 53)),
             //gummiFiragaHorizontal = createNewGummiWeaponBlock("gummi_firaga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.FIRAGA, 1, 1, 53, 53)),
             gummiBlizzard = createNewGummiWeaponBlock("gummi_blizzard", GummiBlockProperties.of(1, 1, 70).withPlacement(GummiPlacementType.EDGE), GummiWeaponBlock.ShotType.BLIZZARD, 2,71),
-            gummiBlizzara = createNewGummiWeaponBlock("gummi_blizzara", GummiBlockProperties.of(1, 1, 110).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.BLIZZARA, 3,108),
+            gummiBlizzara = createNewGummiWeaponBlock("gummi_blizzara", GummiBlockProperties.of(1, 1, 110).withPlacement(GummiPlacementType.MULTIBLOCK2x1x2), GummiWeaponBlock.ShotType.BLIZZARA, 3,108),
             //gummiBlizzagaVertical = createNewGummiWeaponBlock("gummi_blizzaga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.BLIZZAGA, 1, 1, 35,138)),
             //gummiBlizzagaHorizontal = createNewGummiWeaponBlock("gummi_blizzaga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.BLIZZAGA, 1, 1, 35,138)),
             gummiGravity = createNewGummiWeaponBlock("gummi_gravity", GummiBlockProperties.of(1, 1, 70).withPlacement(GummiPlacementType.EDGE),  GummiWeaponBlock.ShotType.GRAVITY, 10, 145),
-            gummiGravira = createNewGummiWeaponBlock("gummi_gravira", GummiBlockProperties.of(1, 1, 110).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.GRAVIRA, 15,155),
+            gummiGravira = createNewGummiWeaponBlock("gummi_gravira", GummiBlockProperties.of(1, 1, 110).withPlacement(GummiPlacementType.MULTIBLOCK2x1x2), GummiWeaponBlock.ShotType.GRAVIRA, 15,155),
             //gummiGravigaVertical = createNewGummiWeaponBlock("gummi_graviga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.GRAVIGA, 1, 1, 130,184)),
             //gummiGravigaHorizontal = createNewGummiWeaponBlock("gummi_graviga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.GRAVIGA, 1, 1, 130,184)),
 
             gummiWater = createNewGummiWeaponBlock("gummi_water", GummiBlockProperties.of(1, 1, 50).withPlacement(GummiPlacementType.EDGE), GummiWeaponBlock.ShotType.WATER, 2, 0),
-            gummiWatera = createNewGummiWeaponBlock("gummi_watera", GummiBlockProperties.of(1, 1, 70).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.WATERA, 3,0),
+            gummiWatera = createNewGummiWeaponBlock("gummi_watera", GummiBlockProperties.of(1, 1, 70).withPlacement(GummiPlacementType.MULTIBLOCK2x1x2), GummiWeaponBlock.ShotType.WATERA, 3,0),
             //gummiWatergaVertical = createNewGummiWeaponBlock("gummi_waterga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184)),
             //gummiWatergaHorizontal = createNewGummiWeaponBlock("gummi_waterga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184));
 
@@ -215,7 +215,7 @@ public class ModBlocks {
         Vec3 seat1 = new Vec3(0.5F, 0F, 0F); //first is 0.5F positive (to the center, first row)
         Vec3 seat2 = new Vec3(0F, 0F, 1F);//second is right behind the 0,0 block
         Vec3 seat3 = new Vec3(1F, 0F, 1F);//third is right next to the second, opposite to 0,0
-        createNewGummiBubbleHelmBlock("gummi_bubble_helm", gummiBubbleHelms, GummiBlockProperties.of(2, 40, 0).withPlacement(GummiPlacementType.MULTIBLOCK3D), seat1,seat2,seat3);
+        createNewGummiBubbleHelmBlock("gummi_bubble_helm", gummiBubbleHelms, GummiBlockProperties.of(2, 40, 0).withPlacement(GummiPlacementType.MULTIBLOCK2x2x2), seat1,seat2,seat3);
 
         Vec3 seat0 = new Vec3(0F, 0F, 0F);
         createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0).withShape(GummiBlockProperties.Shape.SLAB), seat0);
@@ -223,9 +223,9 @@ public class ModBlocks {
         createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 2).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_PLATE), 10);
         createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 2).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 5);
 
-        createNewGummiEngineBlock("gummi_booster", gummiBoosters, GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
-        createNewGummiEngineBlock("gummi_flare", gummiFlares, GummiBlockProperties.of(1, 1, 40).withPlacement(GummiPlacementType.MULTIBLOCK3DEPTH), 110, 90, 30); // Flare-G, 1x1x3
-        createNewGummiEngineBlock("gummi_holy", gummiHolys, GummiBlockProperties.of(1, 1, 45).withPlacement(GummiPlacementType.MULTIBLOCK3D), 120, 100, 80); // Holy-G, costing what Rocket/G does in KH3
+        createNewGummiEngineBlock("gummi_booster", gummiBoosters, GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK2x2x2), 100, 80, 30); // Firaga-G
+        createNewGummiEngineBlock("gummi_flare", gummiFlares, GummiBlockProperties.of(1, 1, 40).withPlacement(GummiPlacementType.MULTIBLOCK1x1x3), 110, 90, 30); // Flare-G, 1x1x3
+        createNewGummiEngineBlock("gummi_holy", gummiHolys, GummiBlockProperties.of(1, 1, 45).withPlacement(GummiPlacementType.MULTIBLOCK2x2x2), 120, 100, 80); // Holy-G, costing what Rocket/G does in KH3
 
         for (DyeColor dye : DyeColor.values()) {
             String name = "flowmotion_rail_" + dye.getName();

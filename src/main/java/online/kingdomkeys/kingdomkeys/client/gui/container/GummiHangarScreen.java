@@ -438,10 +438,8 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	}
 
 	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel) {
-		String effectiveSpeed = df.format(stats.getEffectiveSpeed());
-		if (effectiveSpeed.equals("NaN")) {
-			effectiveSpeed = "0";
-		}
+		float mps = stats.getMeterPerSecond();
+		String effectiveSpeed = (Float.isFinite(mps) ? df.format(mps) : "0") + " m/s";
 
 		String[][] rows = {
 				{Utils.translateToLocal("container.gummi_hangar.power"), String.valueOf(stats.horsepower())},

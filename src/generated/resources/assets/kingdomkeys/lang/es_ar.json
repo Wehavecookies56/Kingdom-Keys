@@ -911,7 +911,7 @@
   "container.gummi_hangar.com.over_cost": "El coste de esta nave es de %1$s, ahora mismo solo puedes construir una nave cuyo coste no supere %2$s",
   "container.gummi_hangar.cost": "Coste",
   "container.gummi_hangar.edit": "Modificar",
-  "container.gummi_hangar.effectivespeed": "Vel. Efectiva",
+  "container.gummi_hangar.effectivespeed": "Velocidad",
   "container.gummi_hangar.export": "Exportar",
   "container.gummi_hangar.file_loaded": "%s cargada en el plano",
   "container.gummi_hangar.file_saved": "Guardada en kingdomkeys/gummi_ships/%s.nbt",

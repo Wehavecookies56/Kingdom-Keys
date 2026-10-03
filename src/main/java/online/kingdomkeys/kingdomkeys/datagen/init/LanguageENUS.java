@@ -223,7 +223,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Container_GummiHangar + ".firepower","Firepower");
         add(Container_GummiHangar + ".weight","Weight");
         add(Container_GummiHangar + ".armor","Armor");
-        add(Container_GummiHangar + ".effectivespeed","Eff. Speed");
+        add(Container_GummiHangar + ".effectivespeed","Speed");
         add(Container_GummiHangar + ".seats","Seats");
         add(Container_GummiHangar + ".cost","Cost");
         add(Container_GummiHangar + ".com.over_cost","This ship's cost is %1$s, right now you can only build a ship whose cost does not exceed %2$s");

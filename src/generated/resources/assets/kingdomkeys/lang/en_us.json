@@ -912,7 +912,7 @@
   "container.gummi_hangar.com.over_cost": "This ship's cost is %1$s, right now you can only build a ship whose cost does not exceed %2$s",
   "container.gummi_hangar.cost": "Cost",
   "container.gummi_hangar.edit": "Edit",
-  "container.gummi_hangar.effectivespeed": "Eff. Speed",
+  "container.gummi_hangar.effectivespeed": "Speed",
   "container.gummi_hangar.export": "Export",
   "container.gummi_hangar.file_loaded": "Loaded %s into the blueprint",
   "container.gummi_hangar.file_saved": "Saved to kingdomkeys/gummi_ships/%s.nbt",

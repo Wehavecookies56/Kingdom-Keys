@@ -72,7 +72,7 @@ public class GummiBlockProperties {
 
     public GummiBlockProperties withPlacement(GummiPlacementType placementType) {
         this.placementType = placementType;
-        if (placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2x2x2 || placementType == GummiPlacementType.MULTIBLOCK2x1x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
             this.properties = properties.pushReaction(PushReaction.IGNORE);
             this.isMultiBlock = true;
         }

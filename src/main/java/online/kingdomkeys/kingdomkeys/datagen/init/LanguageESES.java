@@ -271,7 +271,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Container_GummiHangar + ".firepower","Pot. ofensiva");
         add(Container_GummiHangar + ".weight","Peso");
         add(Container_GummiHangar + ".armor","Coraza");
-        add(Container_GummiHangar + ".effectivespeed","Vel. Efectiva");
+        add(Container_GummiHangar + ".effectivespeed","Velocidad");
         add(Container_GummiHangar + ".seats","Asientos");
         add(Container_GummiHangar + ".cost","Coste");
         add(Container_GummiHangar + ".com.over_cost","El coste de esta nave es de %1$s, ahora mismo solo puedes construir una nave cuyo coste no supere %2$s");

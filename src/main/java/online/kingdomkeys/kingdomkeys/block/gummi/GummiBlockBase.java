@@ -334,10 +334,10 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case CORNER -> List.of(HALF, CORNER);
             case END -> List.of(FACING);
             case PILLAR -> List.of(AXIS);
-            case MULTIBLOCK2D -> List.of(QUARTER, HORIZONTAL_FACING, X, Z);
-            case MULTIBLOCK3D -> List.of(HORIZONTAL_FACING, X, Y, Z);
-	        case MULTIBLOCK2DEPTH -> List.of(FACING, Z);
-	        case MULTIBLOCK3DEPTH -> List.of(FACING, LENGTH);
+            case MULTIBLOCK2x1x2 -> List.of(QUARTER, HORIZONTAL_FACING, X, Z);
+            case MULTIBLOCK2x2x2 -> List.of(HORIZONTAL_FACING, X, Y, Z);
+	        case MULTIBLOCK1x1x2 -> List.of(FACING, Z);
+	        case MULTIBLOCK1x1x3 -> List.of(FACING, LENGTH);
         };
         if (gummiProperties.tinted) {
             this.color = gummiProperties.colour;
@@ -389,9 +389,9 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 case EDGE -> newState.setValue(HORIZONTAL_FACING, state.getValue(HORIZONTAL_FACING)).setValue(QUARTER, state.getValue(QUARTER));
                 case CORNER -> newState.setValue(CORNER, state.getValue(CORNER)).setValue(HALF, state.getValue(HALF));
                 case PILLAR -> newState.setValue(AXIS, state.getValue(AXIS));
-                case MULTIBLOCK2D -> state;
-                case MULTIBLOCK3D -> state;
-                case MULTIBLOCK2DEPTH, MULTIBLOCK3DEPTH -> state;
+                case MULTIBLOCK2x1x2 -> state;
+                case MULTIBLOCK2x2x2 -> state;
+                case MULTIBLOCK1x1x2, MULTIBLOCK1x1x3 -> state;
             };
             level.setBlockAndUpdate(pos, newState);
             player.swing(hand);
@@ -414,7 +414,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     /** Returns every block position occupied by this multiblock */
     public List<BlockPos> getMultiBlockPositions(BlockPos pos, BlockState state) {
         return switch (placementType) {
-            case MULTIBLOCK2D -> {
+            case MULTIBLOCK2x1x2 -> {
                 Quarter quarter = state.getValue(QUARTER);
                 Direction facing = state.getValue(HORIZONTAL_FACING);
                 Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
@@ -431,7 +431,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 BlockPos pos3 = pos1.relative(zDir);
                 yield List.of(pos, pos1, pos2, pos3);
             }
-            case MULTIBLOCK3D -> {
+            case MULTIBLOCK2x2x2 -> {
                 Direction facing = state.getValue(HORIZONTAL_FACING);
                 Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
                 Direction yDir = state.getValue(Y) == 0 ? Direction.UP : Direction.DOWN;
@@ -446,12 +446,12 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 BlockPos pos7 = pos3.relative(yDir);
                 yield List.of(pos, pos1, pos2, pos3, pos4, pos5, pos6, pos7);
             }
-            case MULTIBLOCK2DEPTH -> {
+            case MULTIBLOCK1x1x2 -> {
                 Direction facing = state.getValue(FACING);
                 Direction otherDirection = state.getValue(Z) == 0 ? facing : facing.getOpposite();
                 yield List.of(pos, pos.relative(otherDirection));
             }
-            case MULTIBLOCK3DEPTH -> {
+            case MULTIBLOCK1x1x3 -> {
                 Direction facing = state.getValue(FACING);
                 BlockPos origin = pos.relative(facing, -state.getValue(LENGTH));
                 yield List.of(origin, origin.relative(facing), origin.relative(facing, 2));
@@ -499,7 +499,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             }
             case END -> this.defaultBlockState().setValue(FACING, direction);
             case PILLAR -> this.defaultBlockState().setValue(AXIS, direction.getAxis());
-            case MULTIBLOCK2D -> {
+            case MULTIBLOCK2x1x2 -> {
                 Direction zDir = direction == Direction.UP || direction == Direction.DOWN ? facing.getClockWise() : Direction.UP;
                 if (direction == Direction.DOWN) {
                     zDir = zDir.getOpposite();
@@ -527,7 +527,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
-            case MULTIBLOCK3D -> {
+            case MULTIBLOCK2x2x2 -> {
                 BlockPos pos1 = blockpos.relative(facing);
                 BlockPos pos2 = blockpos.relative(facing.getClockWise());
                 BlockPos pos3 = blockpos.relative(facing).relative(facing.getClockWise());
@@ -537,7 +537,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
-            case MULTIBLOCK2DEPTH -> {
+            case MULTIBLOCK1x1x2 -> {
                 BlockPos otherPos = blockpos.relative(direction);
                 if (level.getBlockState(otherPos).getBlock() == Blocks.AIR) {
                     yield this.defaultBlockState().setValue(FACING, direction);
@@ -545,7 +545,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
-            case MULTIBLOCK3DEPTH -> {
+            case MULTIBLOCK1x1x3 -> {
                 if (level.getBlockState(blockpos.relative(direction)).getBlock() == Blocks.AIR && level.getBlockState(blockpos.relative(direction, 2)).getBlock() == Blocks.AIR) {
                     yield this.defaultBlockState().setValue(FACING, direction);
                 } else {
@@ -558,7 +558,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         super.onRemove(state, level, pos, newState, movedByPiston);
-        if (placementType == GummiPlacementType.MULTIBLOCK3D) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2x2x2) {
             if (newState.getBlock() == Blocks.AIR) {
                 Direction facing = state.getValue(HORIZONTAL_FACING);
                 Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
@@ -586,7 +586,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     level.setBlock(pos3.relative(yDir), Blocks.AIR.defaultBlockState(), 3);
                 }
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK2D) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK2x1x2) {
             if (newState.getBlock() == Blocks.AIR) {
                 Quarter quarter = state.getValue(QUARTER);
                 Direction facing = state.getValue(HORIZONTAL_FACING);
@@ -608,7 +608,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     level.setBlock(pos3, Blocks.AIR.defaultBlockState(), 3);
                 }
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x2) {
             if (newState.getBlock() == Blocks.AIR) {
                 Direction facing = state.getValue(FACING);
 
@@ -617,11 +617,11 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 BlockPos otherPos = pos.relative(otherDirection);
                 BlockState otherState = level.getBlockState(otherPos);
 
-                if (otherState.getBlock() instanceof GummiBlockBase otherGummi && otherGummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH && otherState.getValue(FACING) == facing && otherState.getValue(Z) != state.getValue(Z)) {
+                if (otherState.getBlock() instanceof GummiBlockBase otherGummi && otherGummi.getPlacementType() == GummiPlacementType.MULTIBLOCK1x1x2 && otherState.getValue(FACING) == facing && otherState.getValue(Z) != state.getValue(Z)) {
                     level.setBlock(otherPos, Blocks.AIR.defaultBlockState(), 3);
                 }
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
             if (newState.getBlock() == Blocks.AIR) {
                 Direction facing = state.getValue(FACING);
 
@@ -638,7 +638,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (placementType == GummiPlacementType.MULTIBLOCK2D) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2x1x2) {
             Quarter quarter = state.getValue(QUARTER);
             Direction facing = state.getValue(HORIZONTAL_FACING);
             Direction zDir = quarter == Quarter.BOTTOM || quarter == Quarter.TOP ? facing.getClockWise() : quarter == Quarter.RIGHT ? Direction.DOWN : Direction.UP;
@@ -654,7 +654,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 level.setBlock(pos2, state.setValue(Z, 1), 3);
                 level.setBlock(pos3, state.setValue(X, 1).setValue(Z, 1), 3);
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK3D) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK2x2x2) {
             Direction facing = state.getValue(HORIZONTAL_FACING);
             BlockPos pos1 = pos.relative(facing);
             BlockPos pos2 = pos.relative(facing.getClockWise());
@@ -669,7 +669,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 level.setBlock(pos2.relative(Direction.UP), state.setValue(Z, 1).setValue(Y, 1), 3);
                 level.setBlock(pos3.relative(Direction.UP), state.setValue(X, 1).setValue(Z, 1).setValue(Y, 1), 3);
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x2) {
             Direction facing = state.getValue(FACING);
             BlockPos pos1 = pos.relative(facing);
 
@@ -677,7 +677,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 super.setPlacedBy(level, pos, state, placer, stack);
                 level.setBlock(pos1, state.setValue(Z, 1), 3);
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
             Direction facing = state.getValue(FACING);
             BlockPos pos1 = pos.relative(facing);
             BlockPos pos2 = pos.relative(facing, 2);
@@ -749,25 +749,25 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        if (placementType == GummiPlacementType.MULTIBLOCK2D) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2x1x2) {
             if (state.getValue(X) == 0 && state.getValue(Z) == 0) {
                 return RenderShape.MODEL;
             } else {
                 return RenderShape.INVISIBLE;
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK3D) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK2x2x2) {
             if (state.getValue(X) == 0 && state.getValue(Y) == 0 && state.getValue(Z) == 0) {
                 return RenderShape.MODEL;
             } else {
                 return RenderShape.INVISIBLE;
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x2) {
             if (state.getValue(Z) == 0) {
                 return RenderShape.MODEL;
             } else {
                 return RenderShape.INVISIBLE;
             }
-        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        } else if (placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
             return state.getValue(LENGTH) == 0 ? RenderShape.MODEL : RenderShape.INVISIBLE;
         }
 
@@ -799,7 +799,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case PILLAR -> {
                 return rotatePillar(state, rotation);
             }
-            case MULTIBLOCK2DEPTH, MULTIBLOCK3DEPTH -> {
+            case MULTIBLOCK1x1x2, MULTIBLOCK1x1x3 -> {
                 return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
             }
         }
@@ -828,7 +828,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        if (placementType == GummiPlacementType.END || placementType == GummiPlacementType.MULTIBLOCK2DEPTH || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        if (placementType == GummiPlacementType.END || placementType == GummiPlacementType.MULTIBLOCK1x1x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
             return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
         }
         return super.mirror(state, mirror);
@@ -843,16 +843,16 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        appendStats(tooltipComponents);
-        tooltipComponents.add(stat("armor", armour));
         tooltipComponents.add(stat("cost", cost));
+        tooltipComponents.add(stat("armor", armour));
+        appendStats(tooltipComponents);
 
-        if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2DEPTH || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
-            if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2x1x2 || placementType == GummiPlacementType.MULTIBLOCK2x2x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x2 || placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
+            if (placementType == GummiPlacementType.MULTIBLOCK1x1x3) {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x3").withStyle(ChatFormatting.GRAY));
-            } else if (placementType == GummiPlacementType.MULTIBLOCK2D) {
+            } else if (placementType == GummiPlacementType.MULTIBLOCK2x1x2) {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x1x2").withStyle(ChatFormatting.GRAY));
-            } else if(placementType == GummiPlacementType.MULTIBLOCK2DEPTH){
+            } else if(placementType == GummiPlacementType.MULTIBLOCK1x1x2){
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x2").withStyle(ChatFormatting.GRAY));
             } else {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x2x2").withStyle(ChatFormatting.GRAY));

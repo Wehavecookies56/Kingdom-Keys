@@ -59,7 +59,7 @@ public class BlockStates extends BlockStateProvider {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 					builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
-					if (cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+					if (cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK2x2x2) {
 						Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
 						int y = switch (facing) {
 							case DOWN, UP, SOUTH -> 270;
@@ -74,7 +74,7 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof GummiBlockBase gummiBlockBase) {
 				if (gummiBlockBase.getPlacementType() == GummiPlacementType.STANDARD) {
 					simpleBlock(block, new ModelFile.UncheckedModelFile(KingdomKeys.rl("block/" + name)));
-				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.EDGE || gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.EDGE || gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2x1x2) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Quarter quarter = blockState.getValue(GummiBlockBase.QUARTER);
@@ -99,7 +99,7 @@ public class BlockStates extends BlockStateProvider {
 
 						return builder.build();
 					});
-				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2x2x2) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
 
@@ -117,7 +117,7 @@ public class BlockStates extends BlockStateProvider {
 
 						return ConfiguredModel.builder().modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper)).rotationX(x).rotationY(y).build();
 					});
-				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK3DEPTH) {
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK1x1x3) {
 					// Modelled standing up with the exhaust on top, turned the way an end rod is so the exhaust points along FACING
 					getVariantBuilder(block).forAllStates(blockState -> {
 						Direction facing = blockState.getValue(GummiBlockBase.FACING);
@@ -137,7 +137,7 @@ public class BlockStates extends BlockStateProvider {
 
 						return ConfiguredModel.builder().modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper)).rotationX(x).rotationY(y).build();
 					});
-				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH) {
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK1x1x2) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Direction facing = blockState.getValue(GummiBlockBase.FACING);

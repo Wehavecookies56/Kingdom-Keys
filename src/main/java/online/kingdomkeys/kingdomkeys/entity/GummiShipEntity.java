@@ -63,6 +63,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		public float getEffectiveSpeed(){
 			return speed() * SPEED_SCALE;
 		}
+
+		public float getMeterPerSecond(){
+			return getEffectiveSpeed() * 2 * 20;
+		}
 	}
 
 	public GummiShipEntity(Level world, GummiStructure gummiStruct) {
@@ -210,15 +214,15 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 					if (state != null && !state.isAir()) {
 						Block block = state.getBlock();
 						if(block instanceof GummiBlockBase gummi) {
-							if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
+							if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2x1x2) {
 								if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
 									continue; //skip fake blocks
 								}
-							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2x2x2) {
 								if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Y) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
 									continue; //skip fake blocks
 								}
-							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3DEPTH) {
+							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK1x1x3) {
 								if (state.getValue(GummiBlockBase.LENGTH) != 0) {
 									continue; //skip fake blocks
 								}
