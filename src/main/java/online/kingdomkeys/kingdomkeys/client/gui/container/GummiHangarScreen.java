@@ -588,13 +588,6 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		int xPos = (width - imageWidth) / 2;
 		int yPos = (height / 2) - (imageHeight / 2);
 		gui.blit(texture, xPos, yPos, 0, 0, imageWidth, imageHeight);
-
-		// Limit upgrade chip texture
-		int slotX = xPos + GummiHangarMenu.COST_SLOT_X - 1;
-		int slotY = yPos + GummiHangarMenu.COST_SLOT_Y - 1;
-		gui.fill(slotX, slotY, slotX + 18, slotY + 18, 0xFF373737);
-		gui.fill(slotX + 1, slotY + 1, slotX + 18, slotY + 18, 0xFFFFFFFF);
-		gui.fill(slotX + 1, slotY + 1, slotX + 17, slotY + 17, 0xFF8B8B8B);
 	}
 
 	@Override
