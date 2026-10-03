@@ -117,6 +117,26 @@ public class BlockStates extends BlockStateProvider {
 
 						return ConfiguredModel.builder().modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper)).rotationX(x).rotationY(y).build();
 					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK3DEPTH) {
+					// Modelled standing up with the exhaust on top, turned the way an end rod is so the exhaust points along FACING
+					getVariantBuilder(block).forAllStates(blockState -> {
+						Direction facing = blockState.getValue(GummiBlockBase.FACING);
+
+						int x = switch (facing) {
+							case UP -> 0;
+							case DOWN -> 180;
+							default -> 90;
+						};
+
+						int y = switch (facing) {
+							case SOUTH -> 180;
+							case EAST -> 90;
+							case WEST -> 270;
+							default -> 0;
+						};
+
+						return ConfiguredModel.builder().modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper)).rotationX(x).rotationY(y).build();
+					});
 				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2DEPTH) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();

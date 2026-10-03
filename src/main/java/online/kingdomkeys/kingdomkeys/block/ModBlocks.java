@@ -170,6 +170,7 @@ public class ModBlocks {
 
             gummiBoosters = new ArrayList<>(),
             gummiHolys = new ArrayList<>(),
+            gummiFlares = new ArrayList<>(),
 
             flowmotionRails = new ArrayList<>()
         ;
@@ -224,6 +225,7 @@ public class ModBlocks {
 
         createNewGummiEngineBlock("gummi_booster", gummiBoosters, GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
         createNewGummiEngineBlock("gummi_holy", gummiHolys, GummiBlockProperties.of(1, 1, 45).withPlacement(GummiPlacementType.MULTIBLOCK3D), 120, 100, 80); // Holy-G, costing what Rocket/G does in KH3
+        createNewGummiEngineBlock("gummi_flare", gummiFlares, GummiBlockProperties.of(1, 1, 40).withPlacement(GummiPlacementType.MULTIBLOCK3DEPTH), 110, 90, 30); // Flare-G, 1x1x3
 
         for (DyeColor dye : DyeColor.values()) {
             String name = "flowmotion_rail_" + dye.getName();

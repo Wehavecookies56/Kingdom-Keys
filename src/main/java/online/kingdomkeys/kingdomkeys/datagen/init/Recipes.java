@@ -511,6 +511,33 @@ public class Recipes extends RecipeProvider {
 			}
 		}
 
+		for (int i = 0; i < ModBlocks.gummiFlares.size(); i++) {
+			for (int j = 0; j < ModBlocks.gummiFlares.size(); j++) {
+				if (i != j) {
+					Block inputFlare = ModBlocks.gummiFlares.get(i).get();
+					Block outputFlare = ModBlocks.gummiFlares.get(j).get();
+					DyeColor dye = DyeColor.values()[j];
+
+					ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, outputFlare, 1)
+							.requires(inputFlare)
+							.requires(DyeItem.byColor(dye))
+							.unlockedBy("has_" + Utils.getBlockRegistryName(inputFlare).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(inputFlare))
+							.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(outputFlare).getPath() + "_from_" + Utils.getBlockRegistryName(inputFlare).getPath()));
+				}
+			}
+		}
+
+		// A long engine: pistons and a blast furnace in a column
+		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiFlares.getFirst().get())
+				.pattern("GPG")
+				.pattern("GBG")
+				.pattern("GPG")
+				.define('P', Blocks.PISTON)
+				.define('B', Blocks.BLAST_FURNACE)
+				.define('G', ModItems.gummiMeteorFragment.get())
+				.unlockedBy("gummi_flare", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.BLAST_FURNACE))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiHolys.getFirst().get())
 				.pattern("DGD")
 				.pattern("GBG")

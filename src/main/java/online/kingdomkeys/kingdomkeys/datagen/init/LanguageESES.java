@@ -279,6 +279,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
         add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");
+        add("kingdomkeys.gummi.block.shape_size_1x1x3", "Tamaño de forma: 1x1x3");
         add("kingdomkeys.gummi.block.place_corner", "Colócalo en la esquina inferior izquierda del área para orientarlo correctamente");
         add("kingdomkeys.gummi.blueprint.blank", "(en blanco)");
         add("kingdomkeys.gummi.hangar.cant_place", "No puedes colocar el Hangar Gummi aquí");
@@ -1128,6 +1129,7 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.gummiThruster, "Gummi Cohete");
         addTintedBlock(ModBlocks.gummiBoosters, "Gummi Impulso %s");
         addTintedBlock(ModBlocks.gummiHolys, "Gummi Sanctus %s");
+        addTintedBlock(ModBlocks.gummiFlares, "Gummi Fulgor %s");
 
 
         //Thrusters: Envión, Cohete, Impulso

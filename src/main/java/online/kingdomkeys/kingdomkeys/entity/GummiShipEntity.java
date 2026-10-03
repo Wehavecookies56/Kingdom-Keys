@@ -218,6 +218,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 								if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Y) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
 									continue; //skip fake blocks
 								}
+							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3DEPTH) {
+								if (state.getValue(GummiBlockBase.LENGTH) != 0) {
+									continue; //skip fake blocks
+								}
 							}
 						}
 

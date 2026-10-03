@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "minecraft:blast_furnace"
+    },
+    "G": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "pattern": [
+    "GPG",
+    "GBG",
+    "GPG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_flare_white"
+  }
+}

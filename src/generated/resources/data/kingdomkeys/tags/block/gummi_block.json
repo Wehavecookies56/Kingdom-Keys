@@ -537,6 +537,22 @@
     "kingdomkeys:gummi_holy_brown",
     "kingdomkeys:gummi_holy_green",
     "kingdomkeys:gummi_holy_red",
-    "kingdomkeys:gummi_holy_black"
+    "kingdomkeys:gummi_holy_black",
+    "kingdomkeys:gummi_flare_white",
+    "kingdomkeys:gummi_flare_orange",
+    "kingdomkeys:gummi_flare_magenta",
+    "kingdomkeys:gummi_flare_light_blue",
+    "kingdomkeys:gummi_flare_yellow",
+    "kingdomkeys:gummi_flare_lime",
+    "kingdomkeys:gummi_flare_pink",
+    "kingdomkeys:gummi_flare_gray",
+    "kingdomkeys:gummi_flare_light_gray",
+    "kingdomkeys:gummi_flare_cyan",
+    "kingdomkeys:gummi_flare_purple",
+    "kingdomkeys:gummi_flare_blue",
+    "kingdomkeys:gummi_flare_brown",
+    "kingdomkeys:gummi_flare_green",
+    "kingdomkeys:gummi_flare_red",
+    "kingdomkeys:gummi_flare_black"
   ]
 }

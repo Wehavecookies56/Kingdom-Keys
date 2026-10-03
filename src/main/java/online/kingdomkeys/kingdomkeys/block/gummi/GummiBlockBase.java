@@ -317,6 +317,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     public static final IntegerProperty X = IntegerProperty.create("x", 0, 1);
     public static final IntegerProperty Y = IntegerProperty.create("y", 0, 1);
     public static final IntegerProperty Z = IntegerProperty.create("z", 0, 1);
+    public static final IntegerProperty LENGTH = IntegerProperty.create("z", 0, 2);
 
     final List<Property<?>> properties;
 
@@ -336,6 +337,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case MULTIBLOCK2D -> List.of(QUARTER, HORIZONTAL_FACING, X, Z);
             case MULTIBLOCK3D -> List.of(HORIZONTAL_FACING, X, Y, Z);
 	        case MULTIBLOCK2DEPTH -> List.of(FACING, Z);
+	        case MULTIBLOCK3DEPTH -> List.of(FACING, LENGTH);
         };
         if (gummiProperties.tinted) {
             this.color = gummiProperties.colour;
@@ -389,7 +391,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 case PILLAR -> newState.setValue(AXIS, state.getValue(AXIS));
                 case MULTIBLOCK2D -> state;
                 case MULTIBLOCK3D -> state;
-                case MULTIBLOCK2DEPTH -> state;
+                case MULTIBLOCK2DEPTH, MULTIBLOCK3DEPTH -> state;
             };
             level.setBlockAndUpdate(pos, newState);
             player.swing(hand);
@@ -448,6 +450,11 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 Direction facing = state.getValue(FACING);
                 Direction otherDirection = state.getValue(Z) == 0 ? facing : facing.getOpposite();
                 yield List.of(pos, pos.relative(otherDirection));
+            }
+            case MULTIBLOCK3DEPTH -> {
+                Direction facing = state.getValue(FACING);
+                BlockPos origin = pos.relative(facing, -state.getValue(LENGTH));
+                yield List.of(origin, origin.relative(facing), origin.relative(facing, 2));
             }
             default -> List.of(pos);
         };
@@ -538,6 +545,13 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     yield null;
                 }
             }
+            case MULTIBLOCK3DEPTH -> {
+                if (level.getBlockState(blockpos.relative(direction)).getBlock() == Blocks.AIR && level.getBlockState(blockpos.relative(direction, 2)).getBlock() == Blocks.AIR) {
+                    yield this.defaultBlockState().setValue(FACING, direction);
+                } else {
+                    yield null;
+                }
+            }
         };
     }
 
@@ -607,6 +621,18 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                     level.setBlock(otherPos, Blocks.AIR.defaultBlockState(), 3);
                 }
             }
+        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+            if (newState.getBlock() == Blocks.AIR) {
+                Direction facing = state.getValue(FACING);
+
+                for (BlockPos part : getMultiBlockPositions(pos, state)) {
+                    BlockState other = level.getBlockState(part);
+
+                    if (!part.equals(pos) && other.getBlock() == this && other.getValue(FACING) == facing) {
+                        level.setBlock(part, Blocks.AIR.defaultBlockState(), 3);
+                    }
+                }
+            }
         }
     }
 
@@ -650,6 +676,16 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             if (level.getBlockState(pos1).getBlock() == Blocks.AIR) {
                 super.setPlacedBy(level, pos, state, placer, stack);
                 level.setBlock(pos1, state.setValue(Z, 1), 3);
+            }
+        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+            Direction facing = state.getValue(FACING);
+            BlockPos pos1 = pos.relative(facing);
+            BlockPos pos2 = pos.relative(facing, 2);
+
+            if (level.getBlockState(pos1).getBlock() == Blocks.AIR && level.getBlockState(pos2).getBlock() == Blocks.AIR) {
+                super.setPlacedBy(level, pos, state, placer, stack);
+                level.setBlock(pos1, state.setValue(LENGTH, 1), 3);
+                level.setBlock(pos2, state.setValue(LENGTH, 2), 3);
             }
         } else {
             super.setPlacedBy(level, pos, state, placer, stack);
@@ -731,6 +767,8 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             } else {
                 return RenderShape.INVISIBLE;
             }
+        } else if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+            return state.getValue(LENGTH) == 0 ? RenderShape.MODEL : RenderShape.INVISIBLE;
         }
 
         return super.getRenderShape(state);
@@ -761,7 +799,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case PILLAR -> {
                 return rotatePillar(state, rotation);
             }
-            case MULTIBLOCK2DEPTH -> {
+            case MULTIBLOCK2DEPTH, MULTIBLOCK3DEPTH -> {
                 return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
             }
         }
@@ -790,7 +828,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        if (placementType == GummiPlacementType.END || placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
+        if (placementType == GummiPlacementType.END || placementType == GummiPlacementType.MULTIBLOCK2DEPTH || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
             return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
         }
         return super.mirror(state, mirror);
@@ -799,8 +837,10 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         //TODO more multiblock sizes
-        if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2DEPTH) {
-            if (placementType == GummiPlacementType.MULTIBLOCK2D) {
+        if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2DEPTH || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+            if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
+                tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x3").withStyle(ChatFormatting.GRAY));
+            } else if (placementType == GummiPlacementType.MULTIBLOCK2D) {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x1x2").withStyle(ChatFormatting.GRAY));
             } else if(placementType == GummiPlacementType.MULTIBLOCK2DEPTH){
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x2").withStyle(ChatFormatting.GRAY));

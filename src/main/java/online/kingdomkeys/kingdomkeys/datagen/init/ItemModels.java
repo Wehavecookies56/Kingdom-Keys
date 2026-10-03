@@ -293,6 +293,18 @@ public class ItemModels extends ItemModelProvider {
 					.transform(ItemDisplayContext.FIXED).scale(0.5F, 0.5F, 0.5F).end()
 					.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
 					.end();
+		} else if (type.equals("gummi_flare")) {
+			// Three blocks tall from its origin: shrunk and lowered so the middle of it sits in the slot
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
+					.transform(ItemDisplayContext.GROUND).scale(0.2F, 0.2F, 0.2F).translation(0, 1F, 0).end()
+					.transform(ItemDisplayContext.GUI).scale(0.34F, 0.34F, 0.34F).rotation(45, -135, 0).translation(0, -3.8F, 0).end()
+					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.3F, 0.3F, 0.3F).rotation(0, -135, 0).translation(0, -4F, 0).end()
+					.transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).scale(0.3F, 0.3F, 0.3F).rotation(0, -135, 0).translation(0, -4F, 0).end()
+					.transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).scale(0.3F, 0.3F, 0.3F).rotation(70, -135, 0).end()
+					.transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).scale(0.3F, 0.3F, 0.3F).rotation(70, -135, 0).end()
+					.transform(ItemDisplayContext.FIXED).scale(0.3F, 0.3F, 0.3F).translation(0, -4F, 0).end()
+					.transform(ItemDisplayContext.HEAD).scale(0.3F, 0.3F, 0.3F).end()
+					.end();
 		} else if (type.equals("gummi_booster") || type.equals("gummi_holy")) {
 			float gui = type.equals("gummi_booster") ? 0.4F : 0.38F;
 			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()

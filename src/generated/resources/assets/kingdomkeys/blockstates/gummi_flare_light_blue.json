@@ -1,0 +1,82 @@
+{
+  "variants": {
+    "facing=down,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 180
+    },
+    "facing=down,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 180
+    },
+    "facing=down,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 180
+    },
+    "facing=east,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90
+    },
+    "facing=north,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90
+    },
+    "facing=north,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90
+    },
+    "facing=south,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare"
+    },
+    "facing=up,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare"
+    },
+    "facing=up,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare"
+    },
+    "facing=west,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,z=2": {
+      "model": "kingdomkeys:block/gummi/gummi_flare",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

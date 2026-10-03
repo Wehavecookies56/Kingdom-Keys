@@ -232,6 +232,7 @@ public class LanguageENUS extends KKLanguageProvider {
         // Gummi - ships, phone, hangar and blueprints
         add(Gummi_Block + ".shape_size_2x1x2", "Shape size: 2x1x2");
         add(Gummi_Block + ".shape_size_2x2x2", "Shape size: 2x2x2");
+        add(Gummi_Block + ".shape_size_1x1x3", "Shape size: 1x1x3");
         add(Gummi_Block + ".place_corner", "Place in the bottom-left corner of the area for correct orientation");
         add(Gummi_Blueprint + ".blank", "(blank)");
         add(Gummi_Hangar + ".cant_place", "You can't place the Gummi Hangar here");
@@ -863,6 +864,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiThruster, "Thruster/G");
         addTintedBlock(ModBlocks.gummiBoosters, "Booster/G %s");
         addTintedBlock(ModBlocks.gummiHolys, "Holy/G %s");
+        addTintedBlock(ModBlocks.gummiFlares, "Flare/G %s");
 
         /**KK stuff**/
         //Abilities
