@@ -834,9 +834,19 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         return super.mirror(state, mirror);
     }
 
+    protected void appendStats(List<Component> tooltip) {
+    }
+
+    protected static Component stat(String name, Object value) {
+        return Component.translatable("kingdomkeys.gummi.block.stat." + name, value).withStyle(ChatFormatting.GRAY);
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        //TODO more multiblock sizes
+        appendStats(tooltipComponents);
+        tooltipComponents.add(stat("armor", armour));
+        tooltipComponents.add(stat("cost", cost));
+
         if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D || placementType == GummiPlacementType.MULTIBLOCK2DEPTH || placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
             if (placementType == GummiPlacementType.MULTIBLOCK3DEPTH) {
                 tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_1x1x3").withStyle(ChatFormatting.GRAY));

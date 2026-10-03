@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.block.gummi;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -19,6 +20,11 @@ public class GummiCockpitBlock extends GummiBlockBase {
 
     public Vec3 getSeat(int i){
         return seats.get(i);
+    }
+
+    @Override
+    protected void appendStats(List<Component> tooltip) {
+        tooltip.add(stat("seats", getMaxSeats()));
     }
 
     public int getMaxSeats(){

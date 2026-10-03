@@ -233,6 +233,15 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gummi_Block + ".shape_size_2x1x2", "Shape size: 2x1x2");
         add(Gummi_Block + ".shape_size_2x2x2", "Shape size: 2x2x2");
         add(Gummi_Block + ".shape_size_1x1x3", "Shape size: 1x1x3");
+        add(Gummi_Block + ".stat.cost", "Cost: %s");
+        add(Gummi_Block + ".stat.armor", "Armor: %s");
+        add(Gummi_Block + ".stat.top_speed", "Top speed: %s");
+        add(Gummi_Block + ".stat.low_speed", "Low speed: %s");
+        add(Gummi_Block + ".stat.horsepower", "Horsepower: %s");
+        add(Gummi_Block + ".stat.firepower", "Firepower: %s");
+        add(Gummi_Block + ".stat.fuel_per_shot", "Fuel per shot: %s");
+        add(Gummi_Block + ".stat.mobility", "Mobility: %s");
+        add(Gummi_Block + ".stat.seats", "Seats: %s");
         add(Gummi_Block + ".place_corner", "Place in the bottom-left corner of the area for correct orientation");
         add(Gummi_Blueprint + ".blank", "(blank)");
         add(Gummi_Hangar + ".cant_place", "You can't place the Gummi Hangar here");

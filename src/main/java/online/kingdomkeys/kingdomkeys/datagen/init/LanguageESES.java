@@ -280,6 +280,15 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
         add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");
         add("kingdomkeys.gummi.block.shape_size_1x1x3", "Tamaño de forma: 1x1x3");
+        add("kingdomkeys.gummi.block.stat.cost", "Coste: %s");
+        add("kingdomkeys.gummi.block.stat.armor", "Protección: %s");
+        add("kingdomkeys.gummi.block.stat.top_speed", "Velocidad máxima: %s");
+        add("kingdomkeys.gummi.block.stat.low_speed", "Velocidad mínima: %s");
+        add("kingdomkeys.gummi.block.stat.horsepower", "Potencia: %s");
+        add("kingdomkeys.gummi.block.stat.firepower", "Potencia de fuego: %s");
+        add("kingdomkeys.gummi.block.stat.fuel_per_shot", "Combustible por disparo: %s");
+        add("kingdomkeys.gummi.block.stat.mobility", "Movilidad: %s");
+        add("kingdomkeys.gummi.block.stat.seats", "Asientos: %s");
         add("kingdomkeys.gummi.block.place_corner", "Colócalo en la esquina inferior izquierda del área para orientarlo correctamente");
         add("kingdomkeys.gummi.blueprint.blank", "(en blanco)");
         add("kingdomkeys.gummi.hangar.cant_place", "No puedes colocar el Hangar Gummi aquí");

@@ -20,6 +20,7 @@
   * Their crafting recipe requires a diamond, 3 gold, a redstone dust and 4 gummi fragments.
 * Booster/G and Holy/G engines, have a 2x2x2 multiform shape (like the Bubble Helm/G).
 * Flare/G engine, has a 1x1x3 multiform shape.
+* Tooltip data for functional gummi blocks (cost, power, armor...).
 * Synthesis recipe tracker to keep the amount of required materials on screen at all times.
 * Spells in the selling shop, for a 25% of their original price.
 * Physics for Starlight keychain.

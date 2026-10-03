@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.block.gummi;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +24,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class GummiWeaponBlock extends GummiBlockBase {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
@@ -51,6 +53,12 @@ public class GummiWeaponBlock extends GummiBlockBase {
         this.firepower = firepower;
         this.shotType = shotType;
         this.fuelPerShot = fuelPerShot;
+    }
+
+    @Override
+    protected void appendStats(List<Component> tooltip) {
+        tooltip.add(stat("firepower", firepower));
+        tooltip.add(stat("fuel_per_shot", fuelPerShot));
     }
 
     public int getFirepower() {
