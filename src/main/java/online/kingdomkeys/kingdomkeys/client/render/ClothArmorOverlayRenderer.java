@@ -7,6 +7,7 @@ import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,10 +22,12 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -51,6 +54,7 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	private static final Map<ResourceLocation, Boolean> EXISTING = new HashMap<>();
 	private static EntityModelSet bakedFrom;
 	private static HumanoidArmorModel<LivingEntity> baseOuter, baseLeggings;
+	private static HumanoidArmorModel<LivingEntity> baseOuterNoTorso, baseLeggingsNoTorso;
 	private final HumanoidArmorModel<T> outerModel;
 	private final HumanoidArmorModel<T> leggingsModel;
 	private final HumanoidArmorModel<T> apprenticeOuterModel;
@@ -151,15 +155,40 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	}
 
 	public static HumanoidModel<?> baseModel(EquipmentSlot slot) {
+		return baseModel(slot, false);
+	}
+
+	public static HumanoidModel<?> baseModel(EquipmentSlot slot, boolean noTorso) {
 		EntityModelSet models = Minecraft.getInstance().getEntityModels();
 
 		if (models != bakedFrom) {
 			bakedFrom = models;
 			baseOuter = new HumanoidArmorModel<>(models.bakeLayer(BASE_OUTER_LAYER));
 			baseLeggings = new HumanoidArmorModel<>(models.bakeLayer(BASE_LEGGINGS_LAYER));
+			baseOuterNoTorso = new HumanoidArmorModel<>(withoutTorso(models.bakeLayer(BASE_OUTER_LAYER)));
+			baseLeggingsNoTorso = new HumanoidArmorModel<>(withoutTorso(models.bakeLayer(BASE_LEGGINGS_LAYER)));
+		}
+
+		if (noTorso) {
+			return slot == EquipmentSlot.LEGS ? baseLeggingsNoTorso : baseOuterNoTorso;
 		}
 
 		return slot == EquipmentSlot.LEGS ? baseLeggings : baseOuter;
+	}
+
+	private static ModelPart withoutTorso(ModelPart root) {
+		Map<String, ModelPart> children = new HashMap<>();
+
+		for (String name : new String[]{"head", "hat", "body", "right_arm", "left_arm", "right_leg", "left_leg"}) {
+			children.put(name, name.equals("body") ? new ModelPart(List.of(), Map.of()) : root.getChild(name));
+		}
+
+		return new ModelPart(List.of(), children);
+	}
+
+	public static boolean ownFirstPersonBody(LivingEntity entity) {
+		Minecraft mc = Minecraft.getInstance();
+		return !ClientUtils.renderingEntityInGui && mc.options.getCameraType().isFirstPerson() && mc.getCameraEntity() == entity;
 	}
 
 	@Override

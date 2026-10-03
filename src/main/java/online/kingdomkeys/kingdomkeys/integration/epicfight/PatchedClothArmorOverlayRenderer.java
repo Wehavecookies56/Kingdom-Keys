@@ -100,6 +100,8 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 
 		ensureMeshes();
 
+		boolean firstPerson = this.firstPerson || ClothArmorOverlayRenderer.ownFirstPersonBody(entity);
+
 		/*
 		 * CHEST
 		 * Third person: body + both arms

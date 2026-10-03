@@ -165,7 +165,7 @@ public class ClientSetup {
 		IClientItemExtensions clothArmor = new IClientItemExtensions() {
 			@Override
 			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> original) {
-				return ClothArmorOverlayRenderer.baseModel(slot);
+				return ClothArmorOverlayRenderer.baseModel(slot, ClothArmorOverlayRenderer.ownFirstPersonBody(entity));
 			}
 		};
 

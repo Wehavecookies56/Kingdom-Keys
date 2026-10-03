@@ -72,6 +72,7 @@
 * Halved the mobility triangular Aero/G-02 gives.
 * Reflect damage now scales off it's level.
 * Moogle hitbox is slightly smaller and it actually hovers.
+* [EFM] Excluded armor torso from first person view.
 * [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:

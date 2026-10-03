@@ -61,7 +61,7 @@
             }
           ],
           "name": "kingdomkeys:gummi_meteor_fragment",
-          "weight": 50
+          "weight": 80
         },
         {
           "type": "minecraft:item",
