@@ -28,7 +28,11 @@ public class SynthesisRecipeBuilder extends ModelFile {
     }
 
     private SynthesisRecipeBuilder self() {
-        return (SynthesisRecipeBuilder) this;
+        return this;
+    }
+
+    public SynthesisRecipeBuilder output(String output) {
+        return output(output,1);
     }
 
     public SynthesisRecipeBuilder output(String output, int quantity) {
@@ -49,17 +53,17 @@ public class SynthesisRecipeBuilder extends ModelFile {
         return self();
     }
     
-    public SynthesisRecipeBuilder addType(String type) {
+    public SynthesisRecipeBuilder type(String type) {
         this.type = type;
         return self();
     }
     
-    public SynthesisRecipeBuilder addCost(int cost) {
+    public SynthesisRecipeBuilder cost(int cost) {
         this.cost = cost;
         return self();
     }
     
-    public SynthesisRecipeBuilder addTier(int tier) {
+    public SynthesisRecipeBuilder tier(int tier) {
         this.tier = tier;
         return self();
     }

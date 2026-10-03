@@ -58,7 +58,8 @@
   * Way to the Dawn 4/1 → 3/2 [Berserk Charge]
   * Wayward Wind 4/1 → 3/2 [Treasure Magnet]
 * Gummi ship speed is now more similar to KH, where it can go up to the speed of your strongest engine, but not above.
-  * Having more engines help to compensate with having more blocks on the ship. 
+  * Having more engines help to compensate with having more blocks on the ship.
+* Gummi ship rotation speed adjusted to take into account the ship weight too.
 * Gummi Hangars will now check for multiblocks partially outside it's building area, if found it complains and won't build. 
 * Abilities are now data driven.
 * Moved drive form xp multiplier to be data diven.

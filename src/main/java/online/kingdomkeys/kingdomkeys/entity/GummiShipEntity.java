@@ -59,6 +59,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility, int horsepower, int cost) {
 		public static final float SPEED_SCALE = 0.03F;
+		public static final float MIN_TURN = 1F, MAX_TURN = 20F;
 
 		public float getEffectiveSpeed(){
 			return speed() * SPEED_SCALE;
@@ -66,6 +67,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 		public float getMeterPerSecond(){
 			return getEffectiveSpeed() * 2 * 20;
+		}
+
+		public float getTurnRate(){
+			float handling = weight() <= 0 ? 1F : Math.min(1.5F * mobility() / weight(), 1F);
+			return MIN_TURN + (MAX_TURN - MIN_TURN) * handling;
 		}
 	}
 
@@ -345,7 +351,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	public float currentRotationSpeed = 0F;
 	private final float legacyRotationAcceleration = 0.08F;
 	private final float legacyRotationDeceleration = 0.08F;
-	private final float baseYawTurnRate = 3F;
 
 	public float currentVerticalSpeed = 0F;
 	public float currentStrafeSpeed = 0F;
@@ -402,7 +407,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 			if (isFlightType3D()) {
 				float previousYRot = this.getYRot();
-				float yawTurnRate = baseYawTurnRate * (getShipStats().mobility() * 0.05F);
+				float yawTurnRate = getShipStats().getTurnRate();
 				float yawDelta = Mth.wrapDegrees(this.cameraY - this.getYRot());
 				float yawStep = Mth.clamp(yawDelta, -yawTurnRate, yawTurnRate);
 				this.setYRot(this.getYRot() + yawStep);
@@ -411,7 +416,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 				float targetPitch = Mth.clamp(this.cameraX, -maxShipPitch, maxShipPitch);
 				float pitchDelta = Mth.wrapDegrees(targetPitch - this.getXRot());
-				float pitchStep = Mth.clamp(pitchDelta, -pitchTurnRate, pitchTurnRate);
+				float pitchStep = Mth.clamp(pitchDelta, -yawTurnRate, yawTurnRate);
 				this.setXRot(this.getXRot() + pitchStep);
 			} else {
 				// ============ Original 2D key-steered flight ============
@@ -419,9 +424,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				float targetRotation = 0F;
 
 				if (this.inputLeft)
-					targetRotation = -getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
+					targetRotation = -getShipStats().getTurnRate();
 				else if (this.inputRight)
-					targetRotation = getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
+					targetRotation = getShipStats().getTurnRate();
 
 				float rotationDelta = targetRotation - currentRotationSpeed;
 				if(targetRotation == 0){
