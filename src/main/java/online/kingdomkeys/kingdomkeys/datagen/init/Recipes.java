@@ -527,11 +527,10 @@ public class Recipes extends RecipeProvider {
 			}
 		}
 
-		// A long engine: pistons and a blast furnace in a column
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiFlares.getFirst().get())
 				.pattern("GPG")
-				.pattern("GBG")
 				.pattern("GPG")
+				.pattern("GBG")
 				.define('P', Blocks.PISTON)
 				.define('B', Blocks.BLAST_FURNACE)
 				.define('G', ModItems.gummiMeteorFragment.get())

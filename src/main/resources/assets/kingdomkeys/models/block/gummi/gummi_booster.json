@@ -6,9 +6,9 @@
 	"model": "kingdomkeys:models/block/gummi/gummi_engine_big.obj",
 	"transform": {
 		"translation": [
-			-0.3,
+			-0.45,
 			-1.265,
-			0.7
+			0.55
 		],
 		"scale": [
 			0.7,

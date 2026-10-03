@@ -14,8 +14,8 @@
   },
   "pattern": [
     "GPG",
-    "GBG",
-    "GPG"
+    "GPG",
+    "GBG"
   ],
   "result": {
     "count": 1,
