@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +31,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -55,6 +57,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     private static final float HOVER_BOB_AMPLITUDE = 0.2F;
     private static final float HOVER_BOB_SPEED = 0.1F;
     private static final float HOVER_VERTICAL_SPEED = 0.20F;
+    private static final int FLOOR_SEARCH = 8;
 
     public static final int NO_POMPOM_DYE = -1;
 
@@ -200,15 +203,45 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
             return;
         }
 
-        BlockPos ground = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockPosition());
-        double bob = Mth.sin(tickCount * HOVER_BOB_SPEED) * HOVER_BOB_AMPLITUDE;
-        double targetY = ground.getY() + HOVER_HEIGHT + bob;
-        double difference = targetY - getY();
+        double floor = floorBelow();
+        double verticalMotion;
 
-        // Follow slopes/steps smoothly instead of snapping vertically every tick.
-        double verticalMotion = Mth.clamp(difference, -HOVER_VERTICAL_SPEED, HOVER_VERTICAL_SPEED);
+        if (Double.isNaN(floor)) {
+            verticalMotion = -HOVER_VERTICAL_SPEED;
+        } else {
+            double bob = Mth.sin(tickCount * HOVER_BOB_SPEED) * HOVER_BOB_AMPLITUDE;
+            double difference = floor + HOVER_HEIGHT + bob - getY();
+
+            // Follow slopes/steps smoothly instead of snapping vertically every tick.
+            verticalMotion = Mth.clamp(difference, -HOVER_VERTICAL_SPEED, HOVER_VERTICAL_SPEED);
+        }
+
         Vec3 movement = getDeltaMovement();
         setDeltaMovement(movement.x, verticalMotion, movement.z);
+    }
+
+    private double floorBelow() {
+        BlockPos.MutableBlockPos cursor = blockPosition().mutable();
+
+        for (int i = 0; i <= FLOOR_SEARCH; i++) {
+            BlockState state = level().getBlockState(cursor);
+            VoxelShape shape = state.getCollisionShape(level(), cursor);
+
+            if (!shape.isEmpty()) {
+                double top = cursor.getY() + shape.max(Direction.Axis.Y);
+
+                // Only what is beneath its feet, not a block it is partly inside of
+                if (top <= getY() + HOVER_HEIGHT + HOVER_BOB_AMPLITUDE) {
+                    return top;
+                }
+            } else if (!state.getFluidState().isEmpty()) {
+                return cursor.getY() + state.getFluidState().getHeight(level(), cursor);
+            }
+
+            cursor.move(Direction.DOWN);
+        }
+
+        return Double.NaN;
     }
 
     @Override

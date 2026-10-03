@@ -56,6 +56,7 @@
   * Wayward Wind 4/1 → 3/2 [Treasure Magnet]
 * Gummi ship speed is now more similar to KH, where it can go up to the speed of your strongest engine, but not above.
   * Having more engines help to compensate with having more blocks on the ship. 
+* Gummi Hangars will now check for multiblocks partially outside it's building area, if found it complains and won't build. 
 * Abilities are now data driven.
 * Moved drive form xp multiplier to be data diven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.

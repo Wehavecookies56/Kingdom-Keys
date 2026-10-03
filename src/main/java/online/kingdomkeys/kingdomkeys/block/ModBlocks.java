@@ -128,7 +128,9 @@ public class ModBlocks {
 
             gummiVernier = createNewGummiEngineBlock("gummi_vernier", GummiBlockProperties.of(1, 1, 24).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB), 80, 60, 10), // Fire-G
             gummiThruster = createNewGummiEngineBlock("gummi_thruster", GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.END), 90, 70, 20); // Fira-G
+            //Booster/G and Holy/G are tinted blocks so they're below
             // Flare/G and Holy/G?
+            //In KH3 there is Rocket/G (Proyectil in Spanish) 1x1x3 which could replace Flare/G, we could also add Holy/G as a max power thruster (still 2x2x2)
 
     public static List<Supplier<Block>>
             gummiCubes = new ArrayList<>(),
@@ -167,6 +169,7 @@ public class ModBlocks {
             gummiAeroSquares = new ArrayList<>(),
 
             gummiBoosters = new ArrayList<>(),
+            gummiHolys = new ArrayList<>(),
 
             flowmotionRails = new ArrayList<>()
         ;
@@ -220,6 +223,7 @@ public class ModBlocks {
         createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 2).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 5);
 
         createNewGummiEngineBlock("gummi_booster", gummiBoosters, GummiBlockProperties.of(1, 1, 32).withPlacement(GummiPlacementType.MULTIBLOCK3D), 100, 80, 30); // Firaga-G
+        createNewGummiEngineBlock("gummi_holy", gummiHolys, GummiBlockProperties.of(1, 1, 45).withPlacement(GummiPlacementType.MULTIBLOCK3D), 120, 100, 80); // Holy-G, costing what Rocket/G does in KH3
 
         for (DyeColor dye : DyeColor.values()) {
             String name = "flowmotion_rail_" + dye.getName();

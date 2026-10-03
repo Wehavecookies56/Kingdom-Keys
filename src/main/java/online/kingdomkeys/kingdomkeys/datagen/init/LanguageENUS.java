@@ -861,6 +861,8 @@ public class LanguageENUS extends KKLanguageProvider {
         //Engines
         addBlock(ModBlocks.gummiVernier, "Vernier/G");
         addBlock(ModBlocks.gummiThruster, "Thruster/G");
+        addTintedBlock(ModBlocks.gummiBoosters, "Booster/G %s");
+        addTintedBlock(ModBlocks.gummiHolys, "Holy/G %s");
 
         /**KK stuff**/
         //Abilities

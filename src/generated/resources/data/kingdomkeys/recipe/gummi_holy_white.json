@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "kingdomkeys:gummi_booster_white"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    }
+  },
+  "pattern": [
+    "DGD",
+    "GBG",
+    "DGD"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_holy_white"
+  }
+}

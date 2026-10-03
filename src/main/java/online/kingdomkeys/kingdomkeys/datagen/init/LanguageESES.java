@@ -1126,6 +1126,9 @@ public class LanguageESES extends KKLanguageProvider {
         //Engines
         addBlock(ModBlocks.gummiVernier, "Gummi Envión");
         addBlock(ModBlocks.gummiThruster, "Gummi Cohete");
+        addTintedBlock(ModBlocks.gummiBoosters, "Gummi Impulso %s");
+        addTintedBlock(ModBlocks.gummiHolys, "Gummi Sanctus %s");
+
 
         //Thrusters: Envión, Cohete, Impulso
         //Canons: Gummi Electro, Gummi Electro+, Gummi Electro++,

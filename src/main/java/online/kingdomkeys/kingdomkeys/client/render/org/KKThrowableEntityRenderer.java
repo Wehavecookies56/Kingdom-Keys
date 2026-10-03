@@ -72,6 +72,7 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 					}
 				} else if (itemstack.getItem() instanceof KeybladeItem) { //Strike raid rotation
 					poseStack.scale(2, 2, 2);
+					poseStack.mulPose(Axis.YP.rotationDegrees(90F));
 					if (entityIn.getRotationPoint() == 0) {
 						poseStack.mulPose(Axis.ZP.rotationDegrees(180F));
 						poseStack.mulPose(Axis.YP.rotationDegrees(90F));

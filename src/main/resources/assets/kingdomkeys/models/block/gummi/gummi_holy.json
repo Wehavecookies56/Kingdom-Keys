@@ -1,0 +1,16 @@
+{
+	"parent": "neoforge:block/default",
+	"render_type": "minecraft:cutout",
+	"loader": "neoforge:obj",
+	"emissive_ambient": false,
+	"model": "kingdomkeys:models/block/gummi/gummi_holy.obj",
+	"transform":{
+		"translation": [ 0, -1.24, 1 ],
+		"scale": [ 1,0.8,1 ],
+		"rotation": [ 0, 0, 0 ]
+	},
+	"textures": {
+		"texture0": "kingdomkeys:block/gummi/gummi_holy",
+        "particle": "#texture0"
+	}
+}

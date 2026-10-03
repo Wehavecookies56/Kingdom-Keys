@@ -495,6 +495,32 @@ public class Recipes extends RecipeProvider {
 			}
 		}
 
+		for (int i = 0; i < ModBlocks.gummiHolys.size(); i++) {
+			for (int j = 0; j < ModBlocks.gummiHolys.size(); j++) {
+				if (i != j) {
+					Block inputHoly = ModBlocks.gummiHolys.get(i).get();
+					Block outputHoly = ModBlocks.gummiHolys.get(j).get();
+					DyeColor dye = DyeColor.values()[j];
+
+					ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, outputHoly, 1)
+							.requires(inputHoly)
+							.requires(DyeItem.byColor(dye))
+							.unlockedBy("has_" + Utils.getBlockRegistryName(inputHoly).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(inputHoly))
+							.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(outputHoly).getPath() + "_from_" + Utils.getBlockRegistryName(inputHoly).getPath()));
+				}
+			}
+		}
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiHolys.getFirst().get())
+				.pattern("DGD")
+				.pattern("GBG")
+				.pattern("DGD")
+				.define('B', ModBlocks.gummiBoosters.getFirst().get())
+				.define('D', Items.DIAMOND)
+				.define('G', ModItems.gummiMeteorFragment.get())
+				.unlockedBy("gummi_booster", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.gummiBoosters.getFirst().get()))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magnetBlox.get())
 				.pattern("RIR")
 				.pattern("GBG")

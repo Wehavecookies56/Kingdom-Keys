@@ -1623,6 +1623,7 @@ public class ClientEvents {
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBoosters.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiHolys.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getRailColour, ModBlocks.flowmotionRails.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
@@ -1706,6 +1707,7 @@ public class ClientEvents {
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBoosters.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiHolys.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getRailColour, ModBlocks.flowmotionRails.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}

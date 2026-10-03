@@ -224,11 +224,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 
 					KKThrowableEntity entity = new KKThrowableEntity(level);
 					switch (BuiltInRegistries.ITEM.getKey(itemstack.getItem()).getPath()) {
-						case Strings.retribution:
-							entity.setRotationPoint(0);
-							break;
-						default:
-							entity.setRotationPoint(1);
+						case Strings.retribution -> entity.setRotationPoint(0);
+						default -> entity.setRotationPoint(1);
 					}
 					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
 					entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
