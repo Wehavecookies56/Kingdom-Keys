@@ -1,5 +1,6 @@
 ## Added:
 * IMagicCaster interface for addons to implement on their mobs to cast magics at a certain level.
+* Curios support for bag slots. 
 
 ## Changed:
 * Improved Foreteller visit and portal placing. 
@@ -9,3 +10,4 @@
 ## Fixed:
 * Hopefully the crash regarding non-humanoid models trying to load humanoid layers.
 * Large body and Defender invincibility now fully follow the model position.
+* Gummi projectiles are now smoother.

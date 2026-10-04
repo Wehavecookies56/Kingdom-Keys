@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectPoti
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -106,7 +105,7 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 			}
 
 			if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.CONSUMABLES_BAG)) {
-				ItemStack consumablesBag = Utils.getItemInInventory(minecraft.player, ModItems.consumablesBag.get());
+				ItemStack consumablesBag = Utils.getBag(minecraft.player, BagItem.Type.CONSUMABLES_BAG);
 
 				if (!consumablesBag.isEmpty() && consumablesBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 					for (int i = 0; i < bagInv.getSlots(); i++) {

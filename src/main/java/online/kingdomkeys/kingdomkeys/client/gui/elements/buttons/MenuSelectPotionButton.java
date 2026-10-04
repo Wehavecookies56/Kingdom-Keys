@@ -24,11 +24,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuPotion
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
@@ -55,7 +55,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 
 					if (fromBag) {
 						bagSlot = Math.abs(slot - MenuPotionSelectorScreen.BAG_OFFSET);
-						ItemStack bag = Utils.getItemInInventory(player, ModItems.consumablesBag.get());
+						ItemStack bag = Utils.getBag(player, BagItem.Type.CONSUMABLES_BAG);
 						if (bag.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv) || bagSlot >= inv.getSlots())
 							return;
 						bagInv = inv;

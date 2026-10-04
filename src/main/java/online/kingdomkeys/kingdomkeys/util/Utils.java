@@ -69,6 +69,7 @@ import net.minecraft.world.scores.Team;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.integration.curios.CuriosUtils;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
@@ -247,17 +248,6 @@ public class Utils {
 		return null;
 	}
 
-	public static int getMagicBagSlot(Player player) {
-		NonNullList<ItemStack> items = player.getInventory().items;
-		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
-			ItemStack stack = items.get(i);
-			if (stack.is(ModItems.magicsBag.get())) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	public static Item getBagItem(BagItem.Type type) {
 		return switch (type) {
 			case SYNTHESIS_BAG -> ModItems.synthesisBag.get();
@@ -269,16 +259,26 @@ public class Utils {
 		};
 	}
 
-	public static int getBagSlot(Player player, BagItem.Type type) {
-		NonNullList<ItemStack> items = player.getInventory().items;
+	public static List<ItemStack> getBags(Player player, BagItem.Type type) {
 		Item item = getBagItem(type);
+		List<ItemStack> bags = new ArrayList<>();
 
-		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
-			if (items.get(i).is(item)) {
-				return i;
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.is(item)) {
+				bags.add(stack);
 			}
 		}
-		return -1;
+
+		if (KingdomKeys.curiosLoaded) {
+			bags.addAll(CuriosUtils.find(player, item));
+		}
+
+		return bags;
+	}
+
+	public static ItemStack getBag(Player player, BagItem.Type type) {
+		List<ItemStack> bags = getBags(player, type);
+		return bags.isEmpty() ? ItemStack.EMPTY : bags.getFirst();
 	}
 
 	public static ResourceLocation getShortcutMagic(PlayerData playerData, int index) {
@@ -300,19 +300,7 @@ public class Utils {
 	}
 
 	public static boolean hasOnlyOneBag(Player player, BagItem.Type type) {
-		boolean found = false;
-		Item item = getBagItem(type);
-
-		for (ItemStack stack : player.getInventory().items) {
-			if (stack.is(item)) {
-				if (found) {
-					return false;
-				} else {
-					found = true;
-				}
-			}
-		}
-		return found;
+		return getBags(player, type).size() == 1;
 	}
 
 	public static int getBagSlots(ItemStack bag) {
@@ -370,16 +358,10 @@ public class Utils {
 			return stack;
 		}
 
-		Item bagItem = getBagItem(type);
 		ItemStack remaining = stack;
-		Inventory inventory = player.getInventory();
 
-		for (int i = 0; i < inventory.getContainerSize() && !remaining.isEmpty(); i++) {
-			ItemStack bag = inventory.getItem(i);
-
-			if (bag.is(bagItem)) {
-				remaining = insertIntoBag(bag, remaining, simulate);
-			}
+		for (ItemStack bag : getBags(player, type)) {
+			remaining = insertIntoBag(bag, remaining, simulate);
 		}
 
 		return remaining;
@@ -402,7 +384,7 @@ public class Utils {
 			return null;
 		}
 
-		ItemStack bag = getItemInInventory(player, getBagItem(type));
+		ItemStack bag = getBag(player, type);
 
 		return !bag.isEmpty() && bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv ? inv : null;
 	}
@@ -412,7 +394,7 @@ public class Utils {
 			return -1;
 		}
 
-		ItemStack bag = getItemInInventory(player, getBagItem(type));
+		ItemStack bag = getBag(player, type);
 
 		if (bag.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv)) {
 			return -1;

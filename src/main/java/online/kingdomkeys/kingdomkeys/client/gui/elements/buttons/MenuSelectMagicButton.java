@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -51,7 +50,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 						if (!Utils.hasOnlyOneBag(player, BagItem.Type.SPELLS_BAG)) //Only one bag should be in the inv
 							return;
 
-						ItemStack magicBag = player.getInventory().getItem(Utils.getMagicBagSlot(player));
+						ItemStack magicBag = Utils.getBag(player, BagItem.Type.SPELLS_BAG);
 						if (magicBag.isEmpty()) return;
 						if (!(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv)) return;
 
@@ -66,8 +65,8 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 						if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 							int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-							ItemStack magicBag = Utils.getItemInInventory(player, ModItems.magicsBag.get());
 
+							ItemStack magicBag = Utils.getBag(player, BagItem.Type.SPELLS_BAG);
 							if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 								bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);
 							}

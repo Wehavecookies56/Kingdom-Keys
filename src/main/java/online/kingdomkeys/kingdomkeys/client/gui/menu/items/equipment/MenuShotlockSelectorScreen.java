@@ -15,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectShotlockButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
@@ -92,7 +91,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 
 		// Shotlocks bag
 		if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.SHOTLOCKS_BAG)) {
-			ItemStack shotlockBag = Utils.getItemInInventory(minecraft.player, ModItems.shotlocksBag.get());
+			ItemStack shotlockBag = Utils.getBag(minecraft.player, BagItem.Type.SHOTLOCKS_BAG);
 
 			if (!shotlockBag.isEmpty() && shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 				for (int i = 0; i < bagInv.getSlots(); i++) {

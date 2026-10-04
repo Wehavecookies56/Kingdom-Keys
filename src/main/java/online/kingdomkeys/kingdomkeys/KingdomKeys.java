@@ -122,6 +122,7 @@ public class KingdomKeys {
 					.build());
 	public static boolean efmLoaded = false;
 	public static boolean patchouliLoaded = false;
+	public static boolean curiosLoaded = false;
 	public static boolean shoulderSurfingLoaded = false;
 
 	public static ResourceLocation rl(String namespace, String path) {
@@ -190,6 +191,8 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("wildfire_gender")) {
 			modEventBus.addListener(KKWildFireGender::registerCapabilities);
 		}
+
+		curiosLoaded = ModList.get().isLoaded("curios");
 
 		if (ModList.get().isLoaded("patchouli")) {
 			patchouliLoaded = true;

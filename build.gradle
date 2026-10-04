@@ -63,6 +63,14 @@ repositories {
         }
     }
 
+    maven {
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
+    }
+
     flatDir {
         dir'libs'
     }
@@ -156,7 +164,10 @@ dependencies {
     implementation "curse.maven:just-enough-resources-jer-240630:6174588"
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:lithostitched-936015:8660310"
-    implementation "curse.maven:immediatelyfast-686911:8749421"}
+    implementation "curse.maven:immediatelyfast-686911:8749421"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+}
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [

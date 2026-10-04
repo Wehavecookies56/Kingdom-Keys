@@ -73,9 +73,9 @@ public class GummiWeaponBlock extends GummiBlockBase {
             castShotFromRedstone(level, xOff, yOff, getFirepower(), pos, speed/2F);
         } else {
             GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getRootType().name().toLowerCase(), dmg);
-            level.addFreshEntity(shot);
             shot.setPos(pos);
             shot.setDeltaMovement(direction.scale(speed));
+            level.addFreshEntity(shot);
         }
     }
 
@@ -112,10 +112,9 @@ public class GummiWeaponBlock extends GummiBlockBase {
         }
 
         GummiShotEntity shot = new GummiShotEntity(level, shotType.name().toLowerCase(), dmg);
-        level.addFreshEntity(shot);
-
         shot.setPos(pos.add(0.5F+xOff,0.5F,0.5F+zOff));
         this.shootFromRotation(shot, xRot, yRot+dir, 0, speed, 0);
+        level.addFreshEntity(shot);
     }
 
     public void shootFromRotation(GummiShotEntity shot, float x, float y, float z, float velocity, float inaccuracy) {

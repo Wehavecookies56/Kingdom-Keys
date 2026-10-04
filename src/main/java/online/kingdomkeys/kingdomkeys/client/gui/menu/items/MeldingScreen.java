@@ -22,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -207,14 +206,7 @@ public class MeldingScreen extends MenuFilterable {
 		}
 
 		if (Utils.hasOnlyOneBag(player, BagItem.Type.SPELLS_BAG)) {
-			ItemStack magicBag = ItemStack.EMPTY;
-
-			for (ItemStack stack : minecraft.player.getInventory().items) {
-				if (stack.getItem() == ModItems.magicsBag.get()) {
-					magicBag = stack;
-					break;
-				}
-			}
+			ItemStack magicBag = Utils.getBag(minecraft.player, BagItem.Type.SPELLS_BAG);
 
 			if (!magicBag.isEmpty()) {
 				if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {

@@ -29,7 +29,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
@@ -63,7 +62,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						if (!Utils.hasOnlyOneBag(player, BagItem.Type.KEYCHAINS_BAG)) //Only one bag should be in the inv
 							return;
 
-						ItemStack keychainBag = Utils.getItemInInventory(player, ModItems.keychainsBag.get());
+						ItemStack keychainBag = Utils.getBag(player, BagItem.Type.KEYCHAINS_BAG);
 						if (keychainBag.isEmpty())
 							return;
 						if (!(keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv))
@@ -81,8 +80,7 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 						ItemStack stackPreviouslyEquipped = playerData.equipKeychain(parent.form, stackToEquip);
 
 						if (fromBag) {
-							ItemStack keychainBag = Utils.getItemInInventory(player, ModItems.keychainsBag.get());
-
+							ItemStack keychainBag = Utils.getBag(player, BagItem.Type.KEYCHAINS_BAG);
 							if (keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 								bagInv.setStackInSlot(Math.abs(slot - MenuEquipmentSelectorScreen.BAG_OFFSET), stackPreviouslyEquipped);
 							}

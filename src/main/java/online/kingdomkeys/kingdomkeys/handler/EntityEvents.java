@@ -982,69 +982,36 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void entityPickup(ItemEntityPickupEvent.Pre event) {
-		if (event.getItemEntity().getItem() != null) {
-			if (event.getItemEntity().getItem().getItem() instanceof SynthesisItem) {
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.synthesisBag.get()) {
-							if (addToBag(event, bag)) {
-								Player picker = event.getPlayer();
-								picker.level().playSound(null, picker.blockPosition(), ModSounds.synthesisPickup.get(), SoundSource.PLAYERS, 0.6F, 1F);
-							}
-						}
-					}
-				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof MagicSpellItem spell) {
-				PlayerData playerData = PlayerData.get(event.getPlayer());
-				if(playerData.getTotalMaterialAmount(spell) == 0){
-					playerData.setTotalMaterial(spell,1);
-				}
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.magicsBag.get()) {
-							addToBag(event, bag);
-						}
-					}
-				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof MapCardItem) {
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.cardsBag.get()) {
-							addToBag(event, bag);
-						}
-					}
-				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof ShotlockItem) {
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.shotlocksBag.get()) {
-							addToBag(event, bag);
-						}
-					}
-				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof KeychainItem) {
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.keychainsBag.get()) {
-							addToBag(event, bag);
-						}
-					}
-				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof KKPotionItem) {
-				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-					ItemStack bag = event.getPlayer().getInventory().getItem(i);
-					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-						if (bag.getItem() == ModItems.consumablesBag.get()) {
-							addToBag(event, bag);
-						}
-					}
-				}
+		Item item = event.getItemEntity().getItem().getItem();
+		Player picker = event.getPlayer();
+
+		// Spells get added into the map once you pick one up (to unlock it in the shop)
+		if (item instanceof MagicSpellItem spell) {
+			PlayerData playerData = PlayerData.get(picker);
+			if (playerData.getTotalMaterialAmount(spell) == 0) {
+				playerData.setTotalMaterial(spell, 1);
 			}
+		}
+
+		BagItem.Type type = item instanceof SynthesisItem ? BagItem.Type.SYNTHESIS_BAG
+				: item instanceof MagicSpellItem ? BagItem.Type.SPELLS_BAG
+				: item instanceof MapCardItem ? BagItem.Type.CARDS_BAG
+				: item instanceof ShotlockItem ? BagItem.Type.SHOTLOCKS_BAG
+				: item instanceof KeychainItem ? BagItem.Type.KEYCHAINS_BAG
+				: item instanceof KKPotionItem ? BagItem.Type.CONSUMABLES_BAG
+				: null;
+
+		if (type == null) {
+			return;
+		}
+
+		boolean stored = false;
+		for (ItemStack bag : Utils.getBags(picker, type)) {
+			stored |= addToBag(event, bag);
+		}
+
+		if (stored) {
+			picker.level().playSound(null, picker.blockPosition(), ModSounds.synthesisPickup.get(), SoundSource.PLAYERS, 0.6F, 1F);
 		}
 	}
 
@@ -1062,8 +1029,9 @@ public class EntityEvents {
 			return true;
 		}
 
+		boolean stored = remaining.getCount() < onGround.getCount();
 		onGround.setCount(remaining.getCount());
-		return false;
+		return stored;
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)

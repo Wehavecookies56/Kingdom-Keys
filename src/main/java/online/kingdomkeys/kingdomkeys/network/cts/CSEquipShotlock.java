@@ -14,12 +14,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShotlockSelectorScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 /**
@@ -44,7 +44,7 @@ public record CSEquipShotlock(int slotToEquipFrom) implements Packet {
 
 		if (fromBag) {
 			bagSlot = Math.abs(slotToEquipFrom - MenuShotlockSelectorScreen.BAG_OFFSET);
-			ItemStack shotlockBag = Utils.getItemInInventory(player, ModItems.shotlocksBag.get());
+			ItemStack shotlockBag = Utils.getBag(player, BagItem.Type.SHOTLOCKS_BAG);
 			if (shotlockBag.isEmpty())
 				return;
 

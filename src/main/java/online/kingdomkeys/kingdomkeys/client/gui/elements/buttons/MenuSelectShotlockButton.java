@@ -20,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShotlo
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
@@ -53,7 +52,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 					if (!Utils.hasOnlyOneBag(player, BagItem.Type.SHOTLOCKS_BAG)) //Only one bag should be in the inv
 						return;
 
-					ItemStack shotlockBag = Utils.getItemInInventory(player, ModItems.shotlocksBag.get());
+					ItemStack shotlockBag = Utils.getBag(player, BagItem.Type.SHOTLOCKS_BAG);
 					if (shotlockBag.isEmpty()) return;
 					if (!(shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv)) return;
 
@@ -69,8 +68,8 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 					if (stackPreviouslyEquipped != null) {
 						if (fromBag) {
 							int bagSlot = Math.abs(slot - MenuShotlockSelectorScreen.BAG_OFFSET);
-							ItemStack shotlockBag = Utils.getItemInInventory(player, ModItems.shotlocksBag.get());
 
+							ItemStack shotlockBag = Utils.getBag(player, BagItem.Type.SHOTLOCKS_BAG);
 							if (shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 								bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);
 							}

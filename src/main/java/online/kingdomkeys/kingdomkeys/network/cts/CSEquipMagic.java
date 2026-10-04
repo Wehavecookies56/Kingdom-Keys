@@ -14,12 +14,12 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuMagicSelectorScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipMagic(int slotToEquipTo, int slotToEquipFrom) implements Packet {
@@ -38,7 +38,7 @@ public record CSEquipMagic(int slotToEquipTo, int slotToEquipFrom) implements Pa
 
 		if (fromBag) {
 			bagSlot = Math.abs(slotToEquipFrom - MenuMagicSelectorScreen.BAG_OFFSET);
-			ItemStack magicBag = Utils.getItemInInventory(player, ModItems.magicsBag.get());
+			ItemStack magicBag = Utils.getBag(player, BagItem.Type.SPELLS_BAG);
 			if (magicBag.isEmpty())
 				return;
 

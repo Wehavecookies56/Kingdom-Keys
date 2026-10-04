@@ -20,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEqui
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -110,7 +109,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 
 			// Keychains bag
 			if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.KEYCHAINS_BAG)) {
-				ItemStack keychainBag = Utils.getItemInInventory(minecraft.player, ModItems.keychainsBag.get());
+				ItemStack keychainBag = Utils.getBag(minecraft.player, BagItem.Type.KEYCHAINS_BAG);
 
 				if (!keychainBag.isEmpty() && keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 					for (int i = 0; i < bagInv.getSlots(); i++) {
