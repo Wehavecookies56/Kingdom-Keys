@@ -7,3 +7,4 @@
 
 ## Fixed:
 * Hopefully the crash regarding non-humanoid models trying to load humanoid layers.
+* Large body and Defender invincibility now fully follow the model position.

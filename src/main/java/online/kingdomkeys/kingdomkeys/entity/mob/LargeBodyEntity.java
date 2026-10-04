@@ -122,7 +122,7 @@ public class LargeBodyEntity extends BaseKHEntity {
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from
-            float diff = Mth.wrapDegrees(attackYaw-getYRot());
+            float diff = Mth.wrapDegrees(attackYaw-yBodyRot);
 
     		if(diff > 30 && diff < 150 && !this.hasEffect(ModMobEffects.GRAVITY)) {
     			if(attacker instanceof LivingEntity) {

@@ -78,11 +78,12 @@ public class DefenderEntity extends BaseKHEntity {
 				double dz = attacker.getZ() - this.getZ();
 				// Global degree the attack is coming from.
 				float attackYaw = (float) Math.toDegrees(Mth.atan2(dz, dx));
-				float diff = Mth.wrapDegrees(attackYaw - getYRot());
+				// Against the body, which is what the model is drawn facing; the yaw can be well ahead of it while turning
+				float diff = Mth.wrapDegrees(attackYaw - yBodyRot);
 
 				if (diff > 30 && diff < 150 && !this.hasEffect(ModMobEffects.GRAVITY) && attacker instanceof LivingEntity living) {
 					living.knockback(0.8F, -dx, -dz);
-					level().playSound(null, blockPosition(), ModSounds.invincible_hit.get(), SoundSource.PLAYERS, 1F, 1F);
+					level().playSound(null, blockPosition(), ModSounds.guard.get(), SoundSource.PLAYERS, 1F, 1F);
 					attacker.setDeltaMovement(attacker.getDeltaMovement().x, 0.5F, attacker.getDeltaMovement().z);
 					return false;
 				}
