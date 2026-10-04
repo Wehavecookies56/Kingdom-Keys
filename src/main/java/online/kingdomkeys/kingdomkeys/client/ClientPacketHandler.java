@@ -2,8 +2,8 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.mojang.serialization.JsonOps;
 import com.mojang.authlib.GameProfile;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;

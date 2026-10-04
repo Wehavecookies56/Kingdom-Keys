@@ -8,13 +8,7 @@ import online.kingdomkeys.kingdomkeys.api.event.RegisterFightingStylesEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public final class KKStyleRegistry {
     private static final Map<ResourceLocation, KKFightingStyle> STYLES = new LinkedHashMap<>();
