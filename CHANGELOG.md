@@ -7,3 +7,4 @@
 
 ## Fixed:
 * Gummi Aeros rendering the adjacent block face invisible.
+* Gummi Boosters, Flares and Holy not dropping when breaking.

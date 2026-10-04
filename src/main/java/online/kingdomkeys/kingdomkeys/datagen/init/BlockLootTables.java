@@ -138,7 +138,11 @@ public class BlockLootTables extends BlockLootSubProvider {
 						ModBlocks.gummiMiniHelms,
 
                         ModBlocks.gummiAeroSquares,
-                        ModBlocks.gummiAeroTriangles
+                        ModBlocks.gummiAeroTriangles,
+
+                        ModBlocks.gummiBoosters,
+						ModBlocks.gummiFlares,
+						ModBlocks.gummiHolys
 				)
 				.flatMap(list -> list.stream().map(Supplier::get))
 				.toList();
