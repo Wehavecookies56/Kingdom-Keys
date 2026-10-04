@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.DuelGoal;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.SeekPupilGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -40,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDefeat {
     private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BYTE);
@@ -58,6 +60,9 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
     private static final ResourceLocation DUEL_BOOST = KingdomKeys.rl("duel_boost");
 
     private ResourceLocation dialogue = DIALOGUE;
+
+    // The pupil he has come looking for; once spoken to he stays where he is
+    private UUID seeking;
 
     public ForetellerEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -218,6 +223,10 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
         this.dialogue = dialogue == null ? DIALOGUE : dialogue;
     }
 
+    public void seek(Player pupil) {
+        this.seeking = pupil == null ? null : pupil.getUUID();
+    }
+
     public void wearUnionRobes() {
         Item[] robes = robesFor(getUnion());
         if (robes == null)
@@ -270,14 +279,15 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new DuelGoal<>(this));
-        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 12.0F));
-        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new SeekPupilGoal(this, () -> isSparring() ? null : seeking));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 12.0F));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3D)
                 .add(Attributes.ATTACK_DAMAGE, 0.0D)
                 .add(Attributes.FOLLOW_RANGE, 40.0D);
     }
@@ -332,6 +342,11 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
                 PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title("", Strings.SoA_UnionOnward, 10, 60, 20))), serverPlayer);
             }
         } else {
+            if (player.getUUID().equals(seeking)) {
+                seek(null);
+                getNavigation().stop();
+            }
+
             DialogueHandler.start(serverPlayer, this, dialogue);
         }
         return InteractionResult.SUCCESS;
@@ -425,6 +440,10 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
         super.addAdditionalSaveData(tag);
         tag.putByte("union", getUnion().get());
         tag.putString("dialogue", dialogue.toString());
+
+        if (seeking != null) {
+            tag.putUUID("seeking", seeking);
+        }
     }
 
     @Override
@@ -432,6 +451,7 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
         super.readAdditionalSaveData(tag);
         setUnion(Union.fromByte(tag.getByte("union")));
         setDialogue(tag.contains("dialogue") ? ResourceLocation.tryParse(tag.getString("dialogue")) : null);
+        seeking = tag.hasUUID("seeking") ? tag.getUUID("seeking") : null;
 
         entityData.set(SPARRING, false);
         duel.clear();

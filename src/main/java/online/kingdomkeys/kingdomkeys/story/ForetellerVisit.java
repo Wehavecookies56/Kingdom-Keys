@@ -2,11 +2,11 @@ package online.kingdomkeys.kingdomkeys.story;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.util.OpenSpot;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 import java.util.List;
@@ -32,9 +33,8 @@ public class ForetellerVisit {
 
 	private static final int CHECK_INTERVAL = 20;
 
-	private static final int DISTANCE = 4;
-	private static final int HEADROOM = 2;
-	private static final int DROP = 3, RISE = 3;
+	private static final double[] FAR_DISTANCES = {20D, 16D, 24D, 12D};
+	private static final double[] NEAR_DISTANCES = {4D, 3D, 5D, 2D};
 
 	private static final Set<ResourceKey<Level>> CLOSED = Set.of(
 			ModDimensions.DIVE_TO_THE_HEART,
@@ -100,6 +100,7 @@ public class ForetellerVisit {
 		// He has come for one conversation, not to run a shop
 		master.setDialogue(FIRST_MEETING);
 		master.lookAt(EntityAnchorArgument.Anchor.EYES, player.getEyePosition());
+		master.seek(player);
 
 		if (!player.serverLevel().addFreshEntity(master)) {
 			return false;
@@ -118,43 +119,14 @@ public class ForetellerVisit {
 
 	private static BlockPos findSpot(ServerPlayer player) {
 		ServerLevel level = player.serverLevel();
-		Vec3 eye = player.position();
+		EntityType<?> type = ModEntities.TYPE_FORETELLER.get();
 
-		for (int step = 0; step < 8; step++) {
-			double angle = player.getYRot() * Math.PI / 180D + step * Math.PI / 4D;
-			int x = (int) Math.floor(eye.x - Math.sin(angle) * DISTANCE);
-			int z = (int) Math.floor(eye.z + Math.cos(angle) * DISTANCE);
+		Vec3 spot = OpenSpot.find(level, null, player.position(), player.getYRot() + 180F, FAR_DISTANCES, type, 0.4D);
 
-			for (int dy = RISE; dy >= -DROP; dy--) {
-				BlockPos candidate = new BlockPos(x, player.getBlockY() + dy, z);
-
-				if (stands(level, candidate)) {
- 					return candidate;
-				}
-			}
+		if (spot == null) {
+			spot = OpenSpot.find(level, player.getEyePosition(), player.position(), player.getYRot(), NEAR_DISTANCES, type, 0.1D);
 		}
 
-		return null;
-	}
-
-	private static boolean stands(ServerLevel level, BlockPos pos) {
-		BlockPos floor = pos.below();
-
-		if (!level.getBlockState(floor).isFaceSturdy(level, floor, Direction.UP)) {
-			return false;
-		}
-
-		for (int up = 0; up < HEADROOM; up++) {
-			BlockPos at = pos.above(up);
-			if (!level.getBlockState(at).getCollisionShape(level, at).isEmpty()) {
-				return false;
-			}
-
-			if (!level.getFluidState(at).isEmpty()) {
-				return false;
-			}
-		}
-
-		return level.canSeeSky(pos);
+		return spot == null ? null : BlockPos.containing(spot);
 	}
 }

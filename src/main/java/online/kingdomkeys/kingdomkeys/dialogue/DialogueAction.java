@@ -17,10 +17,12 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.entity.LightPortalEntity;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.util.OpenSpot;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -281,14 +283,16 @@ public interface DialogueAction {
         }
     }
 
-    /** Far enough in front of the speaker that he is not standing inside his own doorway. */
-    double AHEAD = 2.5D;
+    double[] PORTAL_DISTANCES = {2.5D, 2D, 3.5D, 1.5D};
 
     static Vec3 beside(ServerPlayer player, LivingEntity speaker) {
         Vec3 facing = speaker.position().subtract(player.position());
         facing = facing.lengthSqr() < 1.0E-4D ? speaker.getLookAngle() : facing.normalize();
+        float yaw = (float) Math.toDegrees(Math.atan2(-facing.x, facing.z));
 
-        return speaker.position().add(facing.x * AHEAD, 0.0D, facing.z * AHEAD);
+        Vec3 spot = OpenSpot.find(speaker.level(), speaker.getEyePosition(), speaker.position(), yaw, PORTAL_DISTANCES, ModEntities.TYPE_LIGHT_PORTAL.get(), 0.1D);
+
+        return spot != null ? spot : speaker.position();
     }
 
     /** Ends it. An answer with no node to go to would end anyway; this says so out loud. */

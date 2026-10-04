@@ -2,6 +2,7 @@
 * 
 
 ## Changed:
+* Improved Foreteller visit and portal placing. 
 * All foretellers now have different skin, Ava and Invi have a slim model.
 * Black lines from Apprentice clothin 1 are now removed
 
