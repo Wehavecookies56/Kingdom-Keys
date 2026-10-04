@@ -8,5 +8,5 @@
 ## Fixed:
 * Being able to cast multiple foreteller light portals. 
 * Finishing plus translation in Spanish.
-* Gummi Aeros rendering the adjacent block face invisible.
+* Gummi Aero Triangle and Square rendering the adjacent block face invisible (Might only happen with Sodium or some other mod, but now it's fixed).
 * Gummi Boosters, Flares and Holy not dropping when breaking.
