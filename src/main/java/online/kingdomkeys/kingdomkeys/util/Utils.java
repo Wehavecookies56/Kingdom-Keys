@@ -701,8 +701,8 @@ public class Utils {
 						weight++;
 						armour++;
 						boolean origin = isGummiOrigin(state);
-						if (origin && state.getBlock() instanceof GummiBlockBase costed) {
-							cost += costed.getCost();
+						if (origin) {
+							cost += state.getBlock() instanceof GummiBlockBase costed ? costed.getCost() : 1;
 						}
 						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
 							if (!cockpit.isMultiBlock() || state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
