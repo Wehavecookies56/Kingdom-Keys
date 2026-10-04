@@ -5,13 +5,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -107,22 +105,10 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			}
 
 			if (hitTargets.isEmpty()) { //We heal here so it's not OP
-				float healAmount = 2;
-				if (getOwner() instanceof Player player) {
-					PlayerData playerData = PlayerData.get(player);
-					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), ModMagic.FAITH.location());
-
+				if (getOwner() instanceof LivingEntity owner) {
+					int localLevel = ModMagic.FAITH.get().getMagicLocalLevel(owner);
 					float totalHealPercent = 0.4F + localLevel * 0.1F; //0.5F --> 1.0F
-					int beamCount = 6;
-
-					switch (localLevel) {
-						case 3, 4 -> beamCount = 7;
-						case 5, 6 -> beamCount = 8;
-					}
-
-					healAmount = player.getMaxHealth() * totalHealPercent / beamCount;
-					float factor = 1F;
-					player.heal(healAmount * factor);
+					owner.heal(owner.getMaxHealth() * totalHealPercent / FaithEntityController.getBeamCount(localLevel));
 				}
 			}
 			if (hitTargets.contains(target.getUUID())) {

@@ -46,7 +46,7 @@ public class FaithEntityController extends BaseMagicProjectile {
 	public void setMaxTicks(int maxTicks) {
 		this.maxTicks = maxTicks;
 	}
-	private int getBeamCount(int level) {
+	static int getBeamCount(int level) {
 		return 6 + ((level - 1) / 2);
 	}
 	@Override
@@ -60,12 +60,10 @@ public class FaithEntityController extends BaseMagicProjectile {
 			return;
 		}
 
-		int beamCount = 6;
 		if(getOwner() instanceof Player player) {
-			PlayerData playerData = PlayerData.get(player);
-			playerData.setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
-			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), ModMagic.FAITH.location()));
+			PlayerData.get(player).setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
 		}
+		int beamCount = getBeamCount(ModMagic.FAITH.get().getMagicLocalLevel((LivingEntity) getOwner()));
 
 		if (!level().isClientSide) {
 			if (tickCount % SPAWN_INTERVAL == 0) {

@@ -1,5 +1,5 @@
 ## Added:
-* 
+* IMagicCaster interface for addons to implement on their mobs to cast magics at a certain level.
 
 ## Changed:
 * Improved Foreteller visit and portal placing. 

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -62,19 +63,11 @@ public abstract class Magic implements KKRegistryObject {
 	}
 
 	public float getRealDamageMult(LivingEntity caster) {
-		if (getMaxLevel() <= 1 || !(caster instanceof Player player)) {
+		if (getMaxLevel() <= 1) {
 			return getDamageMult();
 		}
 
-		PlayerData playerData = PlayerData.get(player);
-
-		if (playerData == null) {
-			return getDamageMult();
-		}
-
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName());
-
-		float t = (float) (localLevel - 1) / (getMaxLevel() - 1);
+		float t = (float) (getMagicLocalLevel(caster) - 1) / (getMaxLevel() - 1);
 		float base = getDamageMult();
 		float max = getDamageMultMax();
 
@@ -205,6 +198,10 @@ public abstract class Magic implements KKRegistryObject {
 	}
 
 	public int getMagicLocalLevel(LivingEntity caster) {
+		if (caster instanceof IMagicCaster magicCaster) {
+			return Mth.clamp(magicCaster.getMagicLevel(getRegistryName()), 1, Math.max(1, getMaxLevel()));
+		}
+
 		if (caster instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null) {
