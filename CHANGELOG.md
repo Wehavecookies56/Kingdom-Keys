@@ -1,13 +1,9 @@
 ## Added:
-* IMagicCaster interface for addons to implement on their mobs to cast magics at a certain level.
-* Curios support for bag slots. 
+*  
 
 ## Changed:
-* Improved Foreteller visit and portal placing. 
-* All foretellers now have different skin, Ava and Invi have a slim model.
-* Black lines from Apprentice clothing 1 are now removed
+* Gummi block shapes are now adapted to their collision box.
+* All blocks without any cost specified are now costing 1.
 
 ## Fixed:
-* Hopefully the crash regarding non-humanoid models trying to load humanoid layers.
-* Large body and Defender invincibility now fully follow the model position.
-* Gummi projectiles are now smoother.
+* Gummi Aeros rendering the adjacent block face invisible.

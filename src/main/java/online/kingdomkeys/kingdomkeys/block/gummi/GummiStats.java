@@ -11,7 +11,7 @@ public record GummiStats(int weight, int armour, int cost, int topSpeed, int low
     public static final Codec<GummiStats> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.optionalFieldOf("weight", 0).forGetter(GummiStats::weight),
             Codec.INT.optionalFieldOf("armor", 0).forGetter(GummiStats::armour),
-            Codec.INT.optionalFieldOf("cost", 0).forGetter(GummiStats::cost),
+            Codec.INT.optionalFieldOf("cost", 1).forGetter(GummiStats::cost),
             Codec.INT.optionalFieldOf("top_speed", 0).forGetter(GummiStats::topSpeed),
             Codec.INT.optionalFieldOf("low_speed", 0).forGetter(GummiStats::lowSpeed),
             Codec.INT.optionalFieldOf("horsepower", 0).forGetter(GummiStats::horsepower),

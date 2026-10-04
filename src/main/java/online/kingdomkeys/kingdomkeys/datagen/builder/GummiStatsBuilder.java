@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.datagen.builder;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiStats;
 
 public class GummiStatsBuilder {
-	private int weight, armour, cost, topSpeed, lowSpeed, horsepower, firepower, fuelPerShot, mobility;
+	private int weight, armour, cost = 1, topSpeed, lowSpeed, horsepower, firepower, fuelPerShot, mobility;
 
 	public GummiStatsBuilder weight(int value) {
 		this.weight = value;

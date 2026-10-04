@@ -226,6 +226,18 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         SHAPES.put(shape, byFacing);
     }
 
+    //Outline shape, disable to restore back to full blocks
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        VoxelShape custom = customShape(state);
+        return custom != null ? custom : super.getShape(state, level, pos, context);
+    }
+
+    @Override
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+        return Shapes.empty();
+    }
+
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         VoxelShape custom = customShape(state);
@@ -380,7 +392,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     public int getCost() {
         GummiStats stats = stats();
-        return stats != null ? stats.cost() : 0;
+        return stats != null ? stats.cost() : 1;
     }
 
     public GummiPlacementType getPlacementType() {
