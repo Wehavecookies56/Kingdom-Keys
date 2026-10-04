@@ -39,6 +39,13 @@
         },
         {
           "goto": "offer",
+          "if": [
+            {
+              "type": "kingdomkeys:flag",
+              "flag": "kingdomkeys:story/portal_open",
+              "present": false
+            }
+          ],
           "text": "kingdomkeys.dialogue.first_meeting.answer.come"
         },
         {

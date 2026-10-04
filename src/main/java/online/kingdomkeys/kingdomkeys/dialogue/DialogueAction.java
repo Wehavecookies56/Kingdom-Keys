@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 import online.kingdomkeys.kingdomkeys.util.OpenSpot;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
@@ -191,6 +192,7 @@ public interface DialogueAction {
                 return;
             }
 
+            closeOwnDoors(player, speaker);
             Vec3 here = beside(player, speaker);
             Vec3 arrival = post != null ? post.pos() : new Vec3(pos.get().getX() + 0.5D, pos.get().getY(), pos.get().getZ() + 0.5D);
             float arrivalYaw = post != null ? post.yaw() : speaker.getYRot();
@@ -208,6 +210,7 @@ public interface DialogueAction {
             outward.recordsOrigin();
 
             speaker.level().playSound(null, outward.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.AMBIENT, 0.7F, 1.6F);
+            markOpen(player);
 
             // He waits beside it, and goes when you go
             outward.setGreeter(speaker);
@@ -258,12 +261,14 @@ public interface DialogueAction {
                 return;
             }
 
+            closeOwnDoors(player, speaker);
             LightPortalEntity way = new LightPortalEntity(speaker.level(), beside(player, speaker), data.getReturnLocation(), home, player.getYRot(), player.getUUID());
 
             grants.ifPresent(way::grantsOnCross);
 
             if (speaker.level().addFreshEntity(way)) {
                 speaker.level().playSound(null, way.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.AMBIENT, 0.7F, 1.6F);
+                markOpen(player);
             }
         }
 
@@ -284,6 +289,21 @@ public interface DialogueAction {
     }
 
     double[] PORTAL_DISTANCES = {2.5D, 2D, 3.5D, 1.5D};
+
+    double DOOR_SWEEP = 16D;
+
+    // In case portals are still open, opening a new one will close previous ones
+    static void closeOwnDoors(ServerPlayer player, LivingEntity speaker) {
+        speaker.level().getEntitiesOfClass(LightPortalEntity.class, speaker.getBoundingBox().inflate(DOOR_SWEEP), door -> door.isOwnedBy(player)).forEach(LightPortalEntity::discard);
+    }
+
+    static void markOpen(ServerPlayer player) {
+        PlayerData data = PlayerData.get(player);
+
+        if (data != null && data.addFlag(StoryFlags.PORTAL_OPEN)) {
+            PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+        }
+    }
 
     static Vec3 beside(ServerPlayer player, LivingEntity speaker) {
         Vec3 facing = speaker.position().subtract(player.position());

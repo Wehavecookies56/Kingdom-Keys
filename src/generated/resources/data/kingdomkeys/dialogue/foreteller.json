@@ -287,6 +287,11 @@
             },
             {
               "type": "kingdomkeys:flag",
+              "flag": "kingdomkeys:story/portal_open",
+              "present": false
+            },
+            {
+              "type": "kingdomkeys:flag",
               "flag": "kingdomkeys:training/medium"
             },
             {
@@ -302,6 +307,11 @@
           "if": [
             {
               "type": "kingdomkeys:union"
+            },
+            {
+              "type": "kingdomkeys:flag",
+              "flag": "kingdomkeys:story/portal_open",
+              "present": false
             },
             {
               "type": "kingdomkeys:flag",

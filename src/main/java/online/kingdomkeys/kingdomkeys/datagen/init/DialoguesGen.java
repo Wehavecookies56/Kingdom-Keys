@@ -47,6 +47,7 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
                 // The apprenticeship is over the moment the middle lesson is passed. Until he has said so, this is the only way out, and saying so is what ends it
                 .answer(KEY + "answer.graduate").goTo("graduation")
                     .onlyIf(ownPupil())
+                    .onlyIf(new DialogueCondition.HasFlag(StoryFlags.PORTAL_OPEN, false))
                     .onlyIf(new DialogueCondition.HasFlag(TrainingEncountersGen.trained("medium"), true))
                     .onlyIf(new DialogueCondition.HasFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE, false))
                     .end()
@@ -55,6 +56,7 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
                 // quietly ends the apprenticeship, is a choice nobody asked to be given
                 .answer(KEY + "answer.home").goTo("home")
                     .onlyIf(ownPupil())
+                    .onlyIf(new DialogueCondition.HasFlag(StoryFlags.PORTAL_OPEN, false))
                     .onlyIf(new DialogueCondition.HasFlag(StoryFlags.FORETELLER_VISITED, true))
                     .onlyIf(new DialogueCondition.HasFlag(TrainingEncountersGen.trained("medium"), false))
                     .onlyIf(new DialogueCondition.HasFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE, false))
@@ -100,7 +102,7 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
         meeting.node("start", key + "greeting.1", key + "greeting.2")
                 .answer(key + "answer.who").goTo("who").end()
                 .answer(key + "answer.why").goTo("why").end()
-                .answer(key + "answer.come").goTo("offer").end()
+                .answer(key + "answer.come").goTo("offer").onlyIf(new DialogueCondition.HasFlag(StoryFlags.PORTAL_OPEN, false)).end()
                 .answer(key + "answer.leave").then(new DialogueAction.Close()).end()
                 .end();
 

@@ -17,6 +17,7 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 
 import java.util.UUID;
 
@@ -160,9 +161,8 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 				data.addFlag(grantsOnCross);
 			}
 
-			if (recordsOrigin || grantsOnCross != null) {
-				PacketHandler.sendTo(new SCSyncPlayerData(player), player);
-			}
+			data.removeFlag(StoryFlags.PORTAL_OPEN);
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 
 		if (player.level().dimension().equals(destinationDim)) {
@@ -208,6 +208,22 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 			if (data.hasFlag(door.closesOn)) {
 				door.discard();
 			}
+		}
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		super.remove(reason);
+
+		// Unloading with its chunk is not closing: the door is still there when the chunk comes back
+		if (!reason.shouldDestroy() || owner == null || !(level() instanceof ServerLevel server) || !(server.getServer().getPlayerList().getPlayer(owner) instanceof ServerPlayer player)) {
+			return;
+		}
+
+		PlayerData data = PlayerData.get(player);
+
+		if (data != null && data.removeFlag(StoryFlags.PORTAL_OPEN)) {
+			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 	}
 

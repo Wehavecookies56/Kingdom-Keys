@@ -28,4 +28,7 @@ public final class StoryFlags {
 	 * off this rather than off the lesson alone.</p>
 	 */
 	public static final ResourceLocation INTRODUCTORY_TRAINING_DONE = KingdomKeys.rl("story/training_done");
+
+	/** One of the master's doors is standing open for this player, so he will not open another. */
+	public static final ResourceLocation PORTAL_OPEN = KingdomKeys.rl("story/portal_open");
 }
