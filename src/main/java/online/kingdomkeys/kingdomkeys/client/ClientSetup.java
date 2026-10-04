@@ -76,6 +76,10 @@ public class ClientSetup {
 		event.registerLayerDefinition(ClothArmorOverlayRenderer.LEGGINGS_LAYER, ClothArmorOverlayRenderer::createLeggingsLayer);
 		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer::createApprenticeOuterLayer);
 		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER, ClothArmorOverlayRenderer::createApprenticeLeggingsLayer);
+
+		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_BASE_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimBaseOuterLayer);
+		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimOuterLayer);
+		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimApprenticeOuterLayer);
 	}
 
 	@SubscribeEvent
@@ -83,10 +87,13 @@ public class ClientSetup {
 		for (Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if (entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
-				renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
-				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
-				renderer.addLayer(new ClothArmorOverlayRenderer<>(renderer, event.getEntityModels()));
+
+				if (renderer.getModel() instanceof HumanoidModel) {
+					renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
+					renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
+					renderer.addLayer(new ClothArmorOverlayRenderer<>(renderer, event.getEntityModels()));
+				}
 			}
 		}
 
@@ -165,7 +172,7 @@ public class ClientSetup {
 		IClientItemExtensions clothArmor = new IClientItemExtensions() {
 			@Override
 			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> original) {
-				return ClothArmorOverlayRenderer.baseModel(slot, ClothArmorOverlayRenderer.ownFirstPersonBody(entity));
+				return ClothArmorOverlayRenderer.baseModel(slot, ClothArmorOverlayRenderer.ownFirstPersonBody(entity), ClothArmorOverlayRenderer.isSlim(entity));
 			}
 		};
 

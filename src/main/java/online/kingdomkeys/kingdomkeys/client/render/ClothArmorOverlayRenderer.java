@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +25,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
 import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 
@@ -42,6 +45,10 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	public static final ModelLayerLocation APPRENTICE_OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_apprentice"), "outer");
 	public static final ModelLayerLocation APPRENTICE_LEGGINGS_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_apprentice"), "leggings");
 
+	public static final ModelLayerLocation SLIM_BASE_OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_base"), "outer_slim");
+	public static final ModelLayerLocation SLIM_OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_overlay"), "outer_slim");
+	public static final ModelLayerLocation SLIM_APPRENTICE_OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_apprentice"), "outer_slim");
+
 	private static final float BASE_SIZE = 0.42F;
 	private static final float OUTER_BASE_SIZE = 0.48F;
 
@@ -55,10 +62,13 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	private static EntityModelSet bakedFrom;
 	private static HumanoidArmorModel<LivingEntity> baseOuter, baseLeggings;
 	private static HumanoidArmorModel<LivingEntity> baseOuterNoTorso, baseLeggingsNoTorso;
+	private static HumanoidArmorModel<LivingEntity> slimBaseOuter, slimBaseOuterNoTorso;
 	private final HumanoidArmorModel<T> outerModel;
 	private final HumanoidArmorModel<T> leggingsModel;
 	private final HumanoidArmorModel<T> apprenticeOuterModel;
 	private final HumanoidArmorModel<T> apprenticeLeggingsModel;
+	private final HumanoidArmorModel<T> slimOuterModel;
+	private final HumanoidArmorModel<T> slimApprenticeOuterModel;
 
 	public ClothArmorOverlayRenderer(RenderLayerParent<T, M> parent, EntityModelSet modelSet) {
 		super(parent);
@@ -66,6 +76,15 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 		this.leggingsModel = new HumanoidArmorModel<>(modelSet.bakeLayer(LEGGINGS_LAYER));
 		this.apprenticeOuterModel = new HumanoidArmorModel<>(modelSet.bakeLayer(APPRENTICE_OUTER_LAYER));
 		this.apprenticeLeggingsModel = new HumanoidArmorModel<>(modelSet.bakeLayer(APPRENTICE_LEGGINGS_LAYER));
+		this.slimOuterModel = new HumanoidArmorModel<>(modelSet.bakeLayer(SLIM_OUTER_LAYER));
+		this.slimApprenticeOuterModel = new HumanoidArmorModel<>(modelSet.bakeLayer(SLIM_APPRENTICE_OUTER_LAYER));
+	}
+
+	public static boolean isSlim(LivingEntity entity) {
+		if (entity instanceof AbstractClientPlayer player) {
+			return player.getSkin().model() == PlayerSkin.Model.SLIM;
+		}
+		return entity instanceof ForetellerEntity foreteller && foreteller.isSlim();
 	}
 
 	private static boolean textureExists(ResourceLocation texture) {
@@ -121,12 +140,22 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	}
 
 	private static LayerDefinition clothLayer(float size) {
+		return clothLayer(size, false);
+	}
+
+	private static LayerDefinition clothLayer(float size, boolean slim) {
 		MeshDefinition mesh = HumanoidArmorModel.createBodyLayer(new CubeDeformation(size));
 		PartDefinition root = mesh.getRoot();
 		CubeDeformation legs = new CubeDeformation(size);
 
 		root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, legs), PartPose.offset(-1.9F, 12.0F, 0.0F));
 		root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, legs), PartPose.offset(1.9F, 12.0F, 0.0F));
+
+		if (slim) {
+			CubeDeformation arms = new CubeDeformation(size - 0.5F, size, size);
+			root.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-2.5F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, arms), PartPose.offset(-5.0F, 2.5F, 0.0F));
+			root.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.5F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, arms), PartPose.offset(5.0F, 2.5F, 0.0F));
+		}
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
@@ -154,11 +183,23 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 		return clothLayer(APPRENTICE_LEGGINGS_SIZE);
 	}
 
-	public static HumanoidModel<?> baseModel(EquipmentSlot slot) {
-		return baseModel(slot, false);
+	public static LayerDefinition createSlimOuterLayer() {
+		return clothLayer(OUTER_BASE_SIZE, true);
 	}
 
-	public static HumanoidModel<?> baseModel(EquipmentSlot slot, boolean noTorso) {
+	public static LayerDefinition createSlimBaseOuterLayer() {
+		return clothLayer(BASE_SIZE, true);
+	}
+
+	public static LayerDefinition createSlimApprenticeOuterLayer() {
+		return clothLayer(APPRENTICE_SIZE, true);
+	}
+
+	public static HumanoidModel<?> baseModel(EquipmentSlot slot) {
+		return baseModel(slot, false, false);
+	}
+
+	public static HumanoidModel<?> baseModel(EquipmentSlot slot, boolean noTorso, boolean slim) {
 		EntityModelSet models = Minecraft.getInstance().getEntityModels();
 
 		if (models != bakedFrom) {
@@ -167,6 +208,12 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 			baseLeggings = new HumanoidArmorModel<>(models.bakeLayer(BASE_LEGGINGS_LAYER));
 			baseOuterNoTorso = new HumanoidArmorModel<>(withoutTorso(models.bakeLayer(BASE_OUTER_LAYER)));
 			baseLeggingsNoTorso = new HumanoidArmorModel<>(withoutTorso(models.bakeLayer(BASE_LEGGINGS_LAYER)));
+			slimBaseOuter = new HumanoidArmorModel<>(models.bakeLayer(SLIM_BASE_OUTER_LAYER));
+			slimBaseOuterNoTorso = new HumanoidArmorModel<>(withoutTorso(models.bakeLayer(SLIM_BASE_OUTER_LAYER)));
+		}
+
+		if (slim && slot != EquipmentSlot.LEGS) {
+			return noTorso ? slimBaseOuterNoTorso : slimBaseOuter;
 		}
 
 		if (noTorso) {
@@ -204,7 +251,7 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 			return;
 		}
 
-		HumanoidArmorModel<T> model = outerModel(stack);
+		HumanoidArmorModel<T> model = outerModel(stack, entity);
 		model.body.copyFrom(getParentModel().body);
 		model.rightArm.copyFrom(getParentModel().rightArm);
 		model.leftArm.copyFrom(getParentModel().leftArm);
@@ -240,7 +287,7 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 			return;
 		}
 
-		HumanoidArmorModel<T> model = outerModel(stack);
+		HumanoidArmorModel<T> model = outerModel(stack, entity);
 		model.rightLeg.copyFrom(getParentModel().rightLeg);
 		model.leftLeg.copyFrom(getParentModel().leftLeg);
 
@@ -284,8 +331,12 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 		}
 	}
 
-	private HumanoidArmorModel<T> outerModel(ItemStack stack) {
-		return stack.getItem() instanceof UnionApprenticeArmorItem ? apprenticeOuterModel : outerModel;
+	private HumanoidArmorModel<T> outerModel(ItemStack stack, T entity) {
+		boolean slim = isSlim(entity);
+		if (stack.getItem() instanceof UnionApprenticeArmorItem) {
+			return slim ? slimApprenticeOuterModel : apprenticeOuterModel;
+		}
+		return slim ? slimOuterModel : outerModel;
 	}
 
 	private HumanoidArmorModel<T> leggingsModel(ItemStack stack) {

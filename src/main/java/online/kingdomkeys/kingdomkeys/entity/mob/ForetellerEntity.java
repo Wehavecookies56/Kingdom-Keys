@@ -196,6 +196,12 @@ public class ForetellerEntity extends PathfinderMob implements Dueller, RaysOnDe
         }
     }
 
+    // Ava and Invi use the slim player model
+    public boolean isSlim() {
+        Union union = getUnion();
+        return union == Union.VULPES || union == Union.ANGUIS;
+    }
+
     public Union getUnion() {
         return Union.fromByte(this.entityData.get(UNION));
     }

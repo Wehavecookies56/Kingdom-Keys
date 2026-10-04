@@ -47,6 +47,8 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 
 	private Meshes org;
 	private Meshes apprentice;
+	private Meshes orgSlim;
+	private Meshes apprenticeSlim;
 
 	public PatchedClothArmorOverlayRenderer(boolean firstPerson) {
 		this.firstPerson = firstPerson;
@@ -107,7 +109,7 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		 * Third person: body + both arms
 		 * First person: arms only
 		 */
-		Meshes chestMeshes = familyOf(chest);
+		Meshes chestMeshes = familyOf(chest, entity);
 		paint(chest, EquipmentSlot.CHEST, firstPerson ? chestMeshes.arm() : chestMeshes.chest(), poseStack, buffer, packedLight, poses);
 
 		/*
@@ -115,7 +117,7 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		 * waist = torso shell
 		 * legs  = leg shell, both from the leggings layer
 		 */
-		Meshes legMeshes = familyOf(leggings);
+		Meshes legMeshes = familyOf(leggings, entity);
 
 		if (!firstPerson) {
 			paint(leggings, EquipmentSlot.LEGS, legMeshes.waist(), poseStack, buffer, packedLight, poses);
@@ -126,7 +128,7 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		/*
 		 * BOOTS Uses the outer leg geometry.
 		 */
-		paint(boots, EquipmentSlot.FEET, familyOf(boots).boot(), poseStack, buffer, packedLight, poses);
+		paint(boots, EquipmentSlot.FEET, familyOf(boots, entity).boot(), poseStack, buffer, packedLight, poses);
 	}
 
 	private static void paint(ItemStack stack, EquipmentSlot slot, SkinnedMesh mesh, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses) {
@@ -144,8 +146,12 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		return stack.getItem() instanceof UnionApprenticeArmorItem ? ClothArmorOverlayRenderer.fixedTexture(stack, slot) != null : ClothArmorOverlayRenderer.overlayTexture(stack, slot) != null;
 	}
 
-	private Meshes familyOf(ItemStack stack) {
-		return stack.getItem() instanceof UnionApprenticeArmorItem ? apprentice : org;
+	private Meshes familyOf(ItemStack stack, LivingEntity entity) {
+		boolean slim = ClothArmorOverlayRenderer.isSlim(entity);
+		if (stack.getItem() instanceof UnionApprenticeArmorItem) {
+			return slim ? apprenticeSlim : apprentice;
+		}
+		return slim ? orgSlim : org;
 	}
 
 	private void ensureMeshes() {
@@ -155,6 +161,14 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 
 		if (apprentice == null) {
 			apprentice = bake(ClothArmorOverlayRenderer.APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER);
+		}
+
+		if (orgSlim == null) {
+			orgSlim = bake(ClothArmorOverlayRenderer.SLIM_OUTER_LAYER, ClothArmorOverlayRenderer.LEGGINGS_LAYER);
+		}
+
+		if (apprenticeSlim == null) {
+			apprenticeSlim = bake(ClothArmorOverlayRenderer.SLIM_APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER);
 		}
 	}
 

@@ -537,6 +537,7 @@ public class ModEntities {
         event.registerLayerDefinition(MarluxiaModel.LAYER_LOCATION, MarluxiaModel::createBodyLayer);
         event.registerLayerDefinition(MoogleModel.LAYER_LOCATION, MoogleModel::createBodyLayer);
         event.registerLayerDefinition(ForetellerModel.LAYER_LOCATION, ForetellerModel::createBodyLayer);
+        event.registerLayerDefinition(ForetellerModel.SLIM_LAYER_LOCATION, ForetellerModel::createSlimBodyLayer);
         event.registerLayerDefinition(TrainingDummyModel.LAYER_LOCATION, TrainingDummyModel::createBodyLayer);
         event.registerLayerDefinition(NobodyCreeperModel.LAYER_LOCATION, NobodyCreeperModel::createBodyLayer);
         event.registerLayerDefinition(ShadowGlobModel.LAYER_LOCATION, ShadowGlobModel::createBodyLayer);
