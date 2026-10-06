@@ -1,6 +1,3 @@
-## Added:
-*  
-
 ## Changed:
 * Gummi block shapes are now adapted to their collision box.
 * All blocks without any cost specified are now costing 1.
