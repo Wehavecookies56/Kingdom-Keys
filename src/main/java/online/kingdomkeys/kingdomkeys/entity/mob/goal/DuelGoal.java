@@ -9,6 +9,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.mob.Dueller;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
@@ -34,7 +36,7 @@ public class DuelGoal<T extends PathfinderMob & Dueller> extends Goal {
 	private static final int RECOVERY_PER_LEVEL = 2;
 
 	private static final int LUNGE_TICKS = 14;
-	private static final double LUNGE_SPEED = 1.15D, LUNGE_LIFT = 0.22D;
+	private static final double LUNGE_SPEED = 0.9D, LUNGE_LIFT = 0.42D;
 
 	private static final int CAST_TELEGRAPH = 16;
 
@@ -140,7 +142,8 @@ public class DuelGoal<T extends PathfinderMob & Dueller> extends Goal {
 			return;
 		}
 
-		if (distance >= LUNGE_FROM && distance <= LUNGE_TO && fighter.hasLineOfSight(target)) {
+		// A leap off the ground over open air, never a dash into a wall
+		if (distance >= LUNGE_FROM && distance <= LUNGE_TO && fighter.onGround() && clearRun(target)) {
 			enter(LUNGE);
 			lungeConnected = false;
 			fighter.getNavigation().stop();
@@ -261,6 +264,12 @@ public class DuelGoal<T extends PathfinderMob & Dueller> extends Goal {
 		if (away != null) {
 			fighter.getNavigation().moveTo(away.x, away.y, away.z, FLEE_SPEED);
 		}
+	}
+
+	private boolean clearRun(LivingEntity target) {
+		Vec3 from = fighter.position().add(0D, 0.5D, 0D);
+		Vec3 to = target.position().add(0D, 0.5D, 0D);
+		return fighter.hasLineOfSight(target) && fighter.level().clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, fighter)).getType() == HitResult.Type.MISS;
 	}
 
 	private void enter(int next) {

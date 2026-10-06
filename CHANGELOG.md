@@ -13,3 +13,4 @@
 * Finishing plus translation in Spanish.
 * Gummi Aero Triangle and Square rendering the adjacent block face invisible (Might only happen with Sodium or some other mod, but now it's fixed).
 * Gummi Boosters, Flares and Holy not dropping when breaking.
+* Potential fix for foretellers getting under the map during the spar.

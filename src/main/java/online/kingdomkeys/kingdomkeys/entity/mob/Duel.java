@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -31,6 +32,9 @@ public class Duel {
 
     private boolean down;
 
+    @Nullable
+    private Vec3 footing;
+
     public <T extends Mob & Dueller> Duel(T owner) {
         this.fighter = owner;
         this.dueller = owner;
@@ -56,8 +60,27 @@ public class Duel {
             return;
         }
 
+        keepFooting();
         tickPreparation();
         tickWatch();
+    }
+
+    // Just in case they get underground save this position as respawn
+    private void keepFooting() {
+        boolean lost = fighter.isInWall() || fighter.getY() < fighter.level().getMinBuildHeight();
+
+        if (!lost) {
+            if (fighter.onGround()) {
+                footing = fighter.position();
+            }
+            return;
+        }
+
+        if (footing != null) {
+            fighter.setDeltaMovement(Vec3.ZERO);
+            fighter.getNavigation().stop();
+            fighter.teleportTo(footing.x, footing.y, footing.z);
+        }
     }
 
     public boolean isSettled() {
