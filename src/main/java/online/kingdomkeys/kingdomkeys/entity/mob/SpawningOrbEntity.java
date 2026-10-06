@@ -81,6 +81,10 @@ public class SpawningOrbEntity extends Monster {
 			if(level().dimension().location().equals(Level.END.location()))
 				prob = 0.20F;
 
+			// Avoid dark portals if you're in a KK World
+			if(level().dimension().location().getNamespace().equals(KingdomKeys.MODID))
+				prob = 0F;
+
 			if(level().random.nextDouble() < prob) {
 				setPortal(true);
 			}

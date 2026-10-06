@@ -17,6 +17,7 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -75,6 +76,14 @@ public class WorldMap {
 
 		player.displayClientMessage(Component.translatable("kingdomkeys.worldmap.no_building"), true);
 		return true;
+	}
+
+	// Avoid mob griefing in KK worlds
+	@SubscribeEvent
+	public void mobGriefing(EntityMobGriefingEvent event) {
+		if (event.getEntity().level().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {
+			event.setCanGrief(false);
+		}
 	}
 
 	@SubscribeEvent

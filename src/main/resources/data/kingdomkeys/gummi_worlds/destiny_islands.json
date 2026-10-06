@@ -11,6 +11,6 @@
   "approach_range": 40,
   "build": true,
   "vanilla_mobs": false,
-  "unlocked_by_default": false,
+  "unlocked_by_default": true,
   "marker_colour": "#4FE3E3"
 }
