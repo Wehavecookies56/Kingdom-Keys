@@ -28,6 +28,24 @@ public class GummiCoreTileEntity extends BlockEntity {
         ship.setFuel(Math.min(this.fuel, ship.getMaxFuel()));
     }
 
+    public float getDamage() {
+        return damage;
+    }
+
+    public int getFuel() {
+        return fuel;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = Math.max(0F, damage);
+        setChanged();
+    }
+
+    public void setFuel(int fuel) {
+        this.fuel = Math.max(0, fuel);
+        setChanged();
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);

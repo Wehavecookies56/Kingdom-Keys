@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -76,11 +77,18 @@ public class Duel {
             return;
         }
 
-        if (footing != null) {
-            fighter.setDeltaMovement(Vec3.ZERO);
-            fighter.getNavigation().stop();
-            fighter.teleportTo(footing.x, footing.y, footing.z);
+        if (footing == null) {
+            return;
         }
+
+        // TEMP: find out what puts them there
+        KingdomKeys.LOGGER.warn("[Duel] {} {} at {} (motion {}, pose {}, onGround {}, last hurt by {}), back to {}",
+                fighter.getName().getString(), fighter.isInWall() ? "stuck in a wall" : "below the world", fighter.position(), fighter.getDeltaMovement(),
+                fighter.getPose(), fighter.onGround(), fighter.getLastDamageSource() == null ? "nothing" : fighter.getLastDamageSource().getMsgId(), footing);
+
+        fighter.setDeltaMovement(Vec3.ZERO);
+        fighter.getNavigation().stop();
+        fighter.teleportTo(footing.x, footing.y, footing.z);
     }
 
     public boolean isSettled() {

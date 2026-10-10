@@ -3,11 +3,16 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +27,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.energy.EnergyStorage;
@@ -42,12 +48,15 @@ import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import org.joml.Vector3f;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 3;
@@ -223,28 +232,183 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 hangar.buildFromBlueprint(level, pos, state);
             }
 
-            //Refuel ships
-            if (level.hasNeighborSignal(pos)) {
+            //Refuel ships, unless a redstone signal is holding it back
+            if (state.getValue(GummiHangarBlock.ACTIVE)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
                 List <GummiShipEntity> ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
                 //Refuel all ships found in the area
                 if (!ships.isEmpty() && hangar.energyStorage.getEnergyStored() > 0) {
                     for (GummiShipEntity ship: ships) {
                         int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
+                        boolean serviced = false;
                         //Heal first, refuel later
                         if(ship.getDamage() > 0){
                             ship.setDamage(ship.getDamage() - hangar.energyStorage.extractEnergy((int)(transfer*0.1F), false));
+                            serviced = true;
                         } else {
                             if(ModConfigs.SERVER.gummiShipFuelSystem.get()) { //Only refuel (and lose energy) if the fuel system is enabled
                                 if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
                                     ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
+                                    serviced = true;
                                 }
                             }
                         }
+
+                        if (serviced && level instanceof ServerLevel server) {
+                            serviceTrails(server, pos, state.getValue(GummiHangarBlock.LEVEL), ship.getId(), random -> hullPoint(ship, random), ship.getDamage() > 0, ship.getBoundingBox());
+                        }
+                    }
+                }
+
+                GummiCoreTileEntity core = hangar.editedCore(level, pos, state, size);
+                if (core != null && hangar.energyStorage.getEnergyStored() > 0) {
+                    int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
+                    boolean serviced = false;
+
+                    if (core.getDamage() > 0) {
+                        core.setDamage(core.getDamage() - hangar.energyStorage.extractEnergy((int) (transfer * 0.1F), false));
+                        serviced = true;
+                    } else if (ModConfigs.SERVER.gummiShipFuelSystem.get() && core.getFuel() < GummiShipEntity.getMaxFuelForSize(size)) {
+                        int room = GummiShipEntity.getMaxFuelForSize(size) - core.getFuel();
+                        core.setFuel(core.getFuel() + hangar.energyStorage.extractEnergy(Math.min(transfer, room), false));
+                        serviced = true;
+                    }
+
+                    if (serviced && level instanceof ServerLevel server) {
+                        AABB plate = buildPlate(pos, state, size);
+                        serviceTrails(server, pos, state.getValue(GummiHangarBlock.LEVEL), core.getBlockPos().asLong(), random -> platePoint(level, plate, core.getBlockPos(), random), core.getDamage() > 0, plate);
                     }
                 }
             }
         }
+    }
+
+    private static final DustParticleOptions SERVICE_DUST = new DustParticleOptions(new Vector3f(0.35F, 1F, 0.45F), 1.1F);
+    // A bigger hangar repairs faster, so it sends more streams and they travel quicker
+    private static final int TRAILS_BASE = 2, TRAILS_MAX = 12;
+    private static final int TRIP_TICKS_BASE = 44, TRIP_TICKS_PER_LEVEL = 6, TRIP_TICKS_MIN = 12;
+    private static final int TRAIL_LENGTH = 4;
+    private static final double TRAIL_STEP = 0.025D, TRAIL_ARC = 2.5D;
+
+    // Green streams arcing from the hangar into the ship, so you can see it being charged and patched up
+    private static void serviceTrails(ServerLevel level, BlockPos pos, int hangarLevel, long seed, Function<RandomSource, Vec3> landingPoint, boolean healing, AABB hull) {
+        int trails = Math.min(TRAILS_MAX, TRAILS_BASE + hangarLevel);
+        int tripTicks = Math.max(TRIP_TICKS_MIN, TRIP_TICKS_BASE - hangarLevel * TRIP_TICKS_PER_LEVEL);
+
+        if (level.getGameTime() % 2 != 0) {
+            return;
+        }
+
+        Vec3 from = Vec3.atCenterOf(pos).add(0D, 0.6D, 0D);
+        Vec3 to = hull.getCenter();
+
+        for (int trail = 0; trail < trails; trail++) {
+            long time = level.getGameTime() + (long) trail * tripTicks / trails;
+            double head = (time % tripTicks) / (double) tripTicks;
+
+            // Each trip lands somewhere new on the hull, held for the whole trip so the stream does not jitter
+            RandomSource landing = RandomSource.create(seed * 31L + trail * 7919L + time / tripTicks);
+            Vec3 end = landingPoint.apply(landing);
+            Vec3 peak = from.add(end).scale(0.5D).add(0D, TRAIL_ARC, 0D);
+
+            for (int tail = 0; tail < TRAIL_LENGTH; tail++) {
+                double t = head - tail * TRAIL_STEP;
+                if (t < 0D) {
+                    continue;
+                }
+
+                double u = 1D - t;
+                Vec3 at = from.scale(u * u).add(peak.scale(2D * u * t)).add(end.scale(t * t));
+                level.sendParticles(SERVICE_DUST, at.x, at.y, at.z, 1, 0D, 0D, 0D, 0D);
+            }
+        }
+
+        if (healing && level.getGameTime() % 10 == 0) {
+            level.sendParticles(ParticleTypes.HAPPY_VILLAGER, to.x, to.y, to.z, 6, hull.getXsize() * 0.3D, hull.getYsize() * 0.3D, hull.getZsize() * 0.3D, 0D);
+        }
+    }
+
+    private static final int HULL_TRIES = 24;
+    private static final int CORE_SEARCH_INTERVAL = 20;
+
+    @Nullable
+    private BlockPos editedCorePos;
+
+    // The plate is recounted every so often: with more than one core on it there is no telling which ship is being edited, so none is serviced
+    @Nullable
+    private GummiCoreTileEntity editedCore(Level level, BlockPos pos, BlockState state, int size) {
+        if (level.getGameTime() % CORE_SEARCH_INTERVAL == 0) {
+            editedCorePos = null;
+            AABB plate = buildPlate(pos, state, size);
+            int cores = 0;
+
+            for (BlockPos at : BlockPos.betweenClosed((int) plate.minX, (int) plate.minY, (int) plate.minZ, (int) plate.maxX - 1, (int) plate.maxY - 1, (int) plate.maxZ - 1)) {
+                if (level.getBlockEntity(at) instanceof GummiCoreTileEntity) {
+                    if (++cores > 1) {
+                        editedCorePos = null;
+                        break;
+                    }
+                    editedCorePos = at.immutable();
+                }
+            }
+        }
+
+        if (editedCorePos != null && level.getBlockEntity(editedCorePos) instanceof GummiCoreTileEntity core) {
+            return core;
+        }
+
+        editedCorePos = null;
+        return null;
+    }
+
+    private static AABB buildPlate(BlockPos pos, BlockState state, int size) {
+        int[] offsets = Utils.getShipOffset(state.getValue(GummiHangarBlock.FACING), size);
+        int x = pos.getX() + (offsets == null ? 0 : offsets[0]);
+        int z = pos.getZ() + (offsets == null ? 0 : offsets[1]);
+        return new AABB(x, pos.getY(), z, x + size, pos.getY() + size, z + size);
+    }
+
+    // A random placed block of the ship being edited; air is skipped
+    private static Vec3 platePoint(Level level, AABB plate, BlockPos core, RandomSource random) {
+        for (int i = 0; i < HULL_TRIES; i++) {
+            BlockPos at = BlockPos.containing(Mth.lerp(random.nextDouble(), plate.minX, plate.maxX), Mth.lerp(random.nextDouble(), plate.minY, plate.maxY), Mth.lerp(random.nextDouble(), plate.minZ, plate.maxZ));
+
+            if (!level.getBlockState(at).isAir()) {
+                return Vec3.atCenterOf(at);
+            }
+        }
+
+        return Vec3.atCenterOf(core);
+    }
+
+    // A random block of the ship itself, placed the same way the renderer places it; air is skipped
+    private static Vec3 hullPoint(GummiShipEntity ship, RandomSource random) {
+        GummiStructure structure = ship.structure;
+
+        if (structure != null && structure.getWidth() > 0 && structure.getHeight() > 0 && structure.getDepth() > 0) {
+            int w = structure.getWidth(), h = structure.getHeight(), d = structure.getDepth();
+            boolean[] even = Utils.isStructureEven(structure);
+
+            for (int i = 0; i < HULL_TRIES; i++) {
+                int x = random.nextInt(w), y = random.nextInt(h), z = random.nextInt(d);
+                BlockState state = structure.getBlocks()[x][y][z];
+
+                if (state == null || state.isAir()) {
+                    continue;
+                }
+
+                double bx = (even[0] ? x + 0.5D : x) + 0.5D - w / 2.0D;
+                double bz = (even[1] ? z - 0.5D : z) + 0.5D - d / 2.0D;
+                Vec3 local = new Vec3(bx, y + 0.5D, bz)
+                        .xRot((float) Math.toRadians(ship.getXRot()))
+                        .yRot((float) Math.toRadians(180.0F - ship.getYRot()));
+
+                return ship.position().add(local);
+            }
+        }
+
+        AABB hull = ship.getBoundingBox();
+        return new Vec3(Mth.lerp(random.nextDouble(), hull.minX, hull.maxX), Mth.lerp(random.nextDouble(), hull.minY, hull.maxY), Mth.lerp(random.nextDouble(), hull.minZ, hull.maxZ));
     }
 
     private GummiStructure fitted;

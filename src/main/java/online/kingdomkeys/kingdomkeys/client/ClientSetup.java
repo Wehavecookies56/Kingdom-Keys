@@ -2,6 +2,9 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import online.kingdomkeys.kingdomkeys.client.gui.RODTransitionScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
@@ -116,6 +119,11 @@ public class ClientSetup {
 		renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ClothArmorOverlayRenderer<>(renderer, event.getEntityModels()));
+	}
+
+	@SubscribeEvent
+	public static void registerDimensionTransitions(RegisterDimensionTransitionScreenEvent event) {
+		event.registerIncomingEffect(ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("realm_of_darkness")), RODTransitionScreen::new);
 	}
 
 	@SubscribeEvent

@@ -78,10 +78,14 @@ public class WorldMap {
 		return true;
 	}
 
-	// Avoid mob griefing in KK worlds
+	// Apply mob griefing protection where the world file says so, and in KK worlds without a file of their own
 	@SubscribeEvent
 	public void mobGriefing(EntityMobGriefingEvent event) {
-		if (event.getEntity().level().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {
+		ResourceKey<Level> dimension = event.getEntity().level().dimension();
+		GummiWorld world = GummiWorldLoader.forDimension(dimension);
+		boolean allowed = world != null ? world.mobGriefing() : !dimension.location().getNamespace().equals(KingdomKeys.MODID);
+
+		if (!allowed) {
 			event.setCanGrief(false);
 		}
 	}

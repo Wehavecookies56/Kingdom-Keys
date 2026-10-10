@@ -90,13 +90,13 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
     @Override
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
-        worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+        worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, !worldIn.hasNeighborSignal(pos)));
     }
 
     @Override
     public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
         if (oldState.getBlock() != state.getBlock()) {
-            worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+            worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, !worldIn.hasNeighborSignal(pos)));
         }
     }
 
@@ -174,7 +174,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 			if(worldIn.getBlockEntity(pos) != null) {
 				//Give lvl to the block
                 if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
-                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
+                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, !worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
                     if(worldIn.getBlockEntity(pos) instanceof GummiHangarTileEntity TE){
                         TE.energyStorage = Utils.getEnergyStoragePerLevel(stack.get(ModComponents.HANGAR_LEVEL));
 						if (stack.get(ModComponents.HANGAR_FUEL) != null) {
@@ -182,7 +182,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 						}
                     }
                 } else {
-                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, !worldIn.hasNeighborSignal(pos)));
                 }
 			}
 		}

@@ -10,6 +10,7 @@
   "scale": 32,
   "approach_range": 40,
   "build": true,
+  "mob_griefing": false,
   "vanilla_mobs": false,
   "unlocked_by_default": true,
   "marker_colour": "#A45FD6"

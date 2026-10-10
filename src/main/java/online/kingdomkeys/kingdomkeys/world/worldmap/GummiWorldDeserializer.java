@@ -35,15 +35,16 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 		Vec2 takeOffLook = look(obj, "takeoffRotation");
 		Vec2 landingLook = look(obj, "landingRotation");
 
-		// Both default to true
+		// All default to true
 		boolean build = !obj.has("build") || obj.get("build").getAsBoolean();
 		boolean vanillaMobs = !obj.has("vanilla_mobs") || obj.get("vanilla_mobs").getAsBoolean();
+		boolean mobGriefing = !obj.has("mob_griefing") || obj.get("mob_griefing").getAsBoolean();
 
 		boolean unlockedByDefault = obj.has("unlocked_by_default") && obj.get("unlocked_by_default").getAsBoolean();
 
 		int markerColour = color(obj, "marker_colour", DEFAULT_MARKER_COLOR);
 
-		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build, vanillaMobs, unlockedByDefault, markerColour);
+		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build, vanillaMobs, mobGriefing, unlockedByDefault, markerColour);
 	}
 
 	// Color parser
