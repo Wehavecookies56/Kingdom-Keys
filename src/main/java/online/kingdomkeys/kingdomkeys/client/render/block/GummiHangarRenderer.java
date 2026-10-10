@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -14,18 +15,23 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.joml.Matrix4f;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -35,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static net.minecraft.Util.NIL_UUID;
 
@@ -219,6 +226,10 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                 renderCostHologram(TE, matrixStackIn, bufferIn, facing, size);
             }
 
+            if (TE.servicing) {
+                renderServiceTrails(TE, state, facing, size, partialTicks, matrixStackIn, bufferIn);
+            }
+
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
                 ItemStack stack = TE.inventory.get().getStackInSlot(0);
                 if (GummiShipBlueprintItem.isBlueprint(stack)) {
@@ -241,6 +252,77 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             }
         }
         matrixStackIn.popPose();
+    }
+
+    private static final float TRAIL_R = 0.35F, TRAIL_G = 1F, TRAIL_B = 0.45F;
+    private static final float TRAIL_WIDTH = 0.025F;
+    private static final int TRAIL_SAMPLES = 16;
+    private static final double TRAIL_SPAN = 0.2D, TRAIL_ARC = 2.5D;
+
+    // Green streams arcing from the hangar into the ship it is charging, each landing on a different block every trip
+    private void renderServiceTrails(GummiHangarTileEntity TE, BlockState state, Direction facing, int size, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
+        Level level = TE.getLevel();
+        if (level == null) {
+            return;
+        }
+
+        BlockPos pos = TE.getBlockPos();
+        int hangarLevel = state.getValue(GummiHangarBlock.LEVEL);
+        int trails = GummiHangarTileEntity.trailCount(hangarLevel);
+        int tripTicks = GummiHangarTileEntity.tripTicks(hangarLevel);
+
+        List<GummiShipEntity> ships = Utils.getAllGummiShipsInBuildPlate(level, pos, facing, size);
+        List<Long> seeds = new ArrayList<>();
+        List<Function<RandomSource, Vec3>> landings = new ArrayList<>();
+
+        for (GummiShipEntity ship : ships) {
+            seeds.add((long) ship.getId());
+            landings.add(random -> GummiHangarTileEntity.hullPoint(ship, random));
+        }
+
+        if (ships.isEmpty()) {
+            GummiCoreTileEntity core = TE.editedCore(level, pos, state, size);
+            if (core == null) {
+                return;
+            }
+
+            AABB plate = GummiHangarTileEntity.buildPlate(pos, state, size);
+            seeds.add(core.getBlockPos().asLong());
+            landings.add(random -> GummiHangarTileEntity.platePoint(level, plate, core.getBlockPos(), random));
+        }
+
+        Vec3 origin = Vec3.atLowerCornerOf(pos);
+        Vec3 from = Vec3.atCenterOf(pos).add(0D, 0.6D, 0D);
+        VertexConsumer consumer = buffer.getBuffer(RenderType.debugQuads());
+        Matrix4f pose = poseStack.last().pose();
+
+        double now = Util.getMillis() / 50D;
+
+        for (int target = 0; target < seeds.size(); target++) {
+            for (int trail = 0; trail < trails; trail++) {
+                double time = now + (double) trail * tripTicks / trails;
+                long trip = (long) Math.floor(time / tripTicks);
+                double head = (time - trip * tripTicks) / tripTicks;
+
+                RandomSource landing = RandomSource.create(seeds.get(target) * 31L + trail * 7919L + trip);
+                Vec3 end = landings.get(target).apply(landing);
+                Vec3 peak = from.add(end).scale(0.5D).add(0D, TRAIL_ARC, 0D);
+
+                List<Vec3> points = new ArrayList<>();
+                for (int i = 0; i < TRAIL_SAMPLES; i++) {
+                    double t = head - TRAIL_SPAN * i / (TRAIL_SAMPLES - 1);
+                    if (t < 0D) {
+                        break;
+                    }
+                    double u = 1D - t;
+                    points.add(from.scale(u * u).add(peak.scale(2D * u * t)).add(end.scale(t * t)));
+                }
+
+                if (points.size() >= 4) {
+                    TrailRenderer.render(points.toArray(Vec3[]::new), origin, pose, consumer, TRAIL_R, TRAIL_G, TRAIL_B, TRAIL_WIDTH);
+                }
+            }
+        }
     }
 
     @Override

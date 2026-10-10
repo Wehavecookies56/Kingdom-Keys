@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -48,15 +47,12 @@ import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import org.joml.Vector3f;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 3;
@@ -154,6 +150,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         maxBurnTime = compound.getInt("MaxBurnTime");
         if(compound.contains("EnergyFE"))
             energyStorage.deserializeNBT(provider,compound.getCompound("EnergyFE"));
+        servicing = compound.getBoolean("Servicing");
     }
 
 	@Override
@@ -166,6 +163,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         compound.putInt("BurnTime", burnTime);
         compound.putInt("MaxBurnTime", maxBurnTime);
         compound.put("EnergyFE", energyStorage.serializeNBT(provider));
+        compound.putBoolean("Servicing", servicing);
     }
 
 	@Override
@@ -232,6 +230,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 hangar.buildFromBlueprint(level, pos, state);
             }
 
+            boolean servicedAny = false;
+
             //Refuel ships, unless a redstone signal is holding it back
             if (state.getValue(GummiHangarBlock.ACTIVE)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
@@ -254,8 +254,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                             }
                         }
 
-                        if (serviced && level instanceof ServerLevel server) {
-                            serviceTrails(server, pos, state.getValue(GummiHangarBlock.LEVEL), ship.getId(), random -> hullPoint(ship, random), ship.getDamage() > 0, ship.getBoundingBox());
+                        servicedAny |= serviced;
+
+                        if (serviced && ship.getDamage() > 0 && level instanceof ServerLevel server) {
+                            repairSparks(server, ship.getBoundingBox());
                         }
                     }
                 }
@@ -274,56 +276,49 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                         serviced = true;
                     }
 
-                    if (serviced && level instanceof ServerLevel server) {
-                        AABB plate = buildPlate(pos, state, size);
-                        serviceTrails(server, pos, state.getValue(GummiHangarBlock.LEVEL), core.getBlockPos().asLong(), random -> platePoint(level, plate, core.getBlockPos(), random), core.getDamage() > 0, plate);
+                    servicedAny |= serviced;
+
+                    if (serviced && core.getDamage() > 0 && level instanceof ServerLevel server) {
+                        repairSparks(server, buildPlate(pos, state, size));
                     }
                 }
             }
+
+            hangar.updateServicing(level, servicedAny);
         }
     }
 
-    private static final DustParticleOptions SERVICE_DUST = new DustParticleOptions(new Vector3f(0.35F, 1F, 0.45F), 1.1F);
-    // A bigger hangar repairs faster, so it sends more streams and they travel quicker
-    private static final int TRAILS_BASE = 2, TRAILS_MAX = 12;
+    // A bigger hangar repairs faster, so it sends more streams and they travel quicker. The streams themselves are drawn by the renderer
+    private static final int TRAILS_BASE = 6, TRAILS_PER_LEVEL = 2, TRAILS_MAX = 24;
     private static final int TRIP_TICKS_BASE = 44, TRIP_TICKS_PER_LEVEL = 6, TRIP_TICKS_MIN = 12;
-    private static final int TRAIL_LENGTH = 4;
-    private static final double TRAIL_STEP = 0.025D, TRAIL_ARC = 2.5D;
+    private static final int SERVICING_HOLD = 10;
 
-    // Green streams arcing from the hangar into the ship, so you can see it being charged and patched up
-    private static void serviceTrails(ServerLevel level, BlockPos pos, int hangarLevel, long seed, Function<RandomSource, Vec3> landingPoint, boolean healing, AABB hull) {
-        int trails = Math.min(TRAILS_MAX, TRAILS_BASE + hangarLevel);
-        int tripTicks = Math.max(TRIP_TICKS_MIN, TRIP_TICKS_BASE - hangarLevel * TRIP_TICKS_PER_LEVEL);
+    public static int trailCount(int hangarLevel) {
+        return Math.min(TRAILS_MAX, TRAILS_BASE + hangarLevel * TRAILS_PER_LEVEL);
+    }
 
-        if (level.getGameTime() % 2 != 0) {
-            return;
+    public static int tripTicks(int hangarLevel) {
+        return Math.max(TRIP_TICKS_MIN, TRIP_TICKS_BASE - hangarLevel * TRIP_TICKS_PER_LEVEL);
+    }
+
+    // Synced to the client so it knows when to draw the streams
+    public boolean servicing;
+    private int servicingHold;
+
+    private void updateServicing(Level level, boolean serviced) {
+        servicingHold = serviced ? SERVICING_HOLD : Math.max(0, servicingHold - 1);
+        boolean now = servicingHold > 0;
+
+        if (now != servicing) {
+            servicing = now;
+            setChanged();
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
         }
+    }
 
-        Vec3 from = Vec3.atCenterOf(pos).add(0D, 0.6D, 0D);
-        Vec3 to = hull.getCenter();
-
-        for (int trail = 0; trail < trails; trail++) {
-            long time = level.getGameTime() + (long) trail * tripTicks / trails;
-            double head = (time % tripTicks) / (double) tripTicks;
-
-            // Each trip lands somewhere new on the hull, held for the whole trip so the stream does not jitter
-            RandomSource landing = RandomSource.create(seed * 31L + trail * 7919L + time / tripTicks);
-            Vec3 end = landingPoint.apply(landing);
-            Vec3 peak = from.add(end).scale(0.5D).add(0D, TRAIL_ARC, 0D);
-
-            for (int tail = 0; tail < TRAIL_LENGTH; tail++) {
-                double t = head - tail * TRAIL_STEP;
-                if (t < 0D) {
-                    continue;
-                }
-
-                double u = 1D - t;
-                Vec3 at = from.scale(u * u).add(peak.scale(2D * u * t)).add(end.scale(t * t));
-                level.sendParticles(SERVICE_DUST, at.x, at.y, at.z, 1, 0D, 0D, 0D, 0D);
-            }
-        }
-
-        if (healing && level.getGameTime() % 10 == 0) {
+    private static void repairSparks(ServerLevel level, AABB hull) {
+        if (level.getGameTime() % 10 == 0) {
+            Vec3 to = hull.getCenter();
             level.sendParticles(ParticleTypes.HAPPY_VILLAGER, to.x, to.y, to.z, 6, hull.getXsize() * 0.3D, hull.getYsize() * 0.3D, hull.getZsize() * 0.3D, 0D);
         }
     }
@@ -336,7 +331,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
     // The plate is recounted every so often: with more than one core on it there is no telling which ship is being edited, so none is serviced
     @Nullable
-    private GummiCoreTileEntity editedCore(Level level, BlockPos pos, BlockState state, int size) {
+    public GummiCoreTileEntity editedCore(Level level, BlockPos pos, BlockState state, int size) {
         if (level.getGameTime() % CORE_SEARCH_INTERVAL == 0) {
             editedCorePos = null;
             AABB plate = buildPlate(pos, state, size);
@@ -361,7 +356,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         return null;
     }
 
-    private static AABB buildPlate(BlockPos pos, BlockState state, int size) {
+    public static AABB buildPlate(BlockPos pos, BlockState state, int size) {
         int[] offsets = Utils.getShipOffset(state.getValue(GummiHangarBlock.FACING), size);
         int x = pos.getX() + (offsets == null ? 0 : offsets[0]);
         int z = pos.getZ() + (offsets == null ? 0 : offsets[1]);
@@ -369,7 +364,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     }
 
     // A random placed block of the ship being edited; air is skipped
-    private static Vec3 platePoint(Level level, AABB plate, BlockPos core, RandomSource random) {
+    public static Vec3 platePoint(Level level, AABB plate, BlockPos core, RandomSource random) {
         for (int i = 0; i < HULL_TRIES; i++) {
             BlockPos at = BlockPos.containing(Mth.lerp(random.nextDouble(), plate.minX, plate.maxX), Mth.lerp(random.nextDouble(), plate.minY, plate.maxY), Mth.lerp(random.nextDouble(), plate.minZ, plate.maxZ));
 
@@ -382,7 +377,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     }
 
     // A random block of the ship itself, placed the same way the renderer places it; air is skipped
-    private static Vec3 hullPoint(GummiShipEntity ship, RandomSource random) {
+    public static Vec3 hullPoint(GummiShipEntity ship, RandomSource random) {
         GummiStructure structure = ship.structure;
 
         if (structure != null && structure.getWidth() > 0 && structure.getHeight() > 0 && structure.getDepth() > 0) {
@@ -399,9 +394,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
                 double bx = (even[0] ? x + 0.5D : x) + 0.5D - w / 2.0D;
                 double bz = (even[1] ? z - 0.5D : z) + 0.5D - d / 2.0D;
-                Vec3 local = new Vec3(bx, y + 0.5D, bz)
-                        .xRot((float) Math.toRadians(ship.getXRot()))
-                        .yRot((float) Math.toRadians(180.0F - ship.getYRot()));
+                Vec3 local = new Vec3(bx, y + 0.5D, bz).xRot((float) Math.toRadians(ship.getXRot())).yRot((float) Math.toRadians(180.0F - ship.getYRot()));
 
                 return ship.position().add(local);
             }
