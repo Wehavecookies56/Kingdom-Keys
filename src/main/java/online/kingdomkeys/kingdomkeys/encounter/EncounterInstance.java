@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomEncounters;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
@@ -71,7 +70,6 @@ public class EncounterInstance {
                 CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                     interiorData.setDirty();
                     interiorData.sendToClient(player);
-                    PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
                 });
             });
             context.getRoom().ifPresent(room -> room.setDoorLocks(level, true));

@@ -70,8 +70,9 @@ public class CardDoorTileEntity extends BlockEntity {
             destinationRoom = interiorData.getRoomByData(destinationRoom);
             destinationRoom.setGenerated(RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, destinationRoom, destinationRoom.getFixedType().get(), parent.getGenerated().get(), direction, 0));
             destinationRoom.getGenerated().ifPresent(room -> {
-                PacketHandler.sendToAll(new SCSyncCastleOblivionInteriorData(interiorData, level));
-                PacketHandler.sendToAll(new SCUpdateCORooms(interiorData.getFloorByID(parent.getParentID()).getRooms()));
+                SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) level);
+                SCUpdateCORooms rooms = new SCUpdateCORooms(interiorData.getFloorByID(parent.getParentID()).getRooms());
+                ((ServerLevel) level).players().forEach(player -> PacketHandler.sendTo(rooms, player));
                 CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(room.doors.get(direction.opposite()).pos());
                 if (te != null) {
                     te.setDestinationRoom(parent);

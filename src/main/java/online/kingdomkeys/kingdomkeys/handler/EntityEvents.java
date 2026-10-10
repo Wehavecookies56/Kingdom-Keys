@@ -128,6 +128,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleObli
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.DropModifier;
 import online.kingdomkeys.kingdomkeys.world.dimension.daybreak_town.DaybreakTownDimension;
@@ -570,11 +571,21 @@ public class EntityEvents {
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (CastleOblivionHandler.isInterior(player.level().dimension())) {
-					SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) player.level());
-					ServerLevel level = player.level().getServer().getLevel(player.level().dimension());
+					// Logging back in where they left off, which is not necessarily the first floor
+					ServerLevel level = (ServerLevel) player.level();
 					Floor startFloor = Floor.getOrCreateFirstFloor(level);
-					NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), player));
-					PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
+					CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
+						interiorData.sendToClient(player);
+						Floor floor = interiorData.getFloorAtPos(player.blockPosition());
+						Room room = interiorData.getRoomAtPos(player.blockPosition());
+						if (floor == null) {
+							floor = startFloor;
+						}
+						NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, floor, null, room != null ? room : floor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), player));
+						if (room != null && !room.getType().isEntranceHall()) {
+							NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(null, room, player));
+						}
+					});
 				}
 			}
 			PacketHandler.syncToAllAround(player, playerData);

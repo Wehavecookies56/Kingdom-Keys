@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
@@ -35,14 +36,16 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CastleOblivionHandler {
 
@@ -55,7 +58,7 @@ public class CastleOblivionHandler {
                     interiorData.getFloors().forEach(floor -> {
                         floor.getRooms().forEach(roomData -> {
                             roomData.getGenerated().ifPresent(room -> {
-                                List<Player> players = Room.getPlayersInRoom(event.getLevel().getServer(), room);
+                                List<Player> players = Room.getPlayersInRoom((ServerLevel) event.getLevel(), room);
                                 floor.getType().getGlobalModifiers().forEach(roomModifier -> {
                                     roomModifier.tick(room, players);
                                 });
@@ -134,9 +137,8 @@ public class CastleOblivionHandler {
     //teleports the player outside the front of Castle Oblivion
     public static void exitCastleOblivion(Floor currentFloor, Room currentRoom, Player player) {
         if (player.level().getServer() != null) {
+            // Leaving the room and floor is handled when the dimension changes, the same as any other way out
             player.changeDimension(new DimensionTransition(player.level().getServer().getLevel(CASTLE_OBLIVION), new Vec3(exitPos.getX(), exitPos.getY(), exitPos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, null, player));
-            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currentFloor, null, currentRoom, null, player));
         }
     }
 
@@ -192,16 +194,63 @@ public class CastleOblivionHandler {
         }
     }
 
+    // Last room each player was in, so leaving an instance by any means (door, wayfinder, command...) takes its modifiers off
+    private static final Map<UUID, Room> LAST_ROOM = new HashMap<>();
+
     @SubscribeEvent
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        Player player = event.getEntity();
+        MinecraftServer server = player.getServer();
+        if (server == null) {
+            return;
+        }
+
+        if (isInterior(event.getFrom()) && !event.getFrom().equals(event.getTo())) {
+            leaveInstance(server, player, event.getFrom());
+        }
+
         //if player is entering the interior
         if (isInterior(event.getTo())) {
-            SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
-            ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
+            ServerLevel level = server.getLevel(event.getTo());
+            if (level == null) {
+                return;
+            }
+
             Floor startFloor = Floor.getOrCreateFirstFloor(level);
-            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), event.getEntity()));
-            PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
+            interiorData.sendToClient(player);
+
+            // Not always the entrance: a wayfinder drops you wherever its owner is standing
+            Floor floor = interiorData.getFloorAtPos(player.blockPosition());
+            Room room = interiorData.getRoomAtPos(player.blockPosition());
+            if (floor == null) {
+                floor = startFloor;
+            }
+
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, floor, null, room != null ? room : floor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), player));
+
+            if (room != null && !room.getType().isEntranceHall()) {
+                NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(null, room, player));
+            }
         }
+    }
+
+    private static void leaveInstance(MinecraftServer server, Player player, ResourceKey<Level> from) {
+        Room room = LAST_ROOM.remove(player.getUUID());
+        ServerLevel level = server.getLevel(from);
+        Floor floor = room == null || level == null ? null : CastleOblivionData.InteriorData.get(level).map(room::getParent).orElse(null);
+
+        if (room != null) {
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(room, null, player));
+        }
+        if (floor != null) {
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(floor, null, room, null, player));
+        }
+    }
+
+    @SubscribeEvent
+    public void loggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        LAST_ROOM.remove(event.getEntity().getUUID());
     }
 
     @SubscribeEvent
@@ -240,6 +289,11 @@ public class CastleOblivionHandler {
                 Floor floor = interiorData.getFloorByID(currentRoom.parentFloor);
                 floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(currentRoom, event.getPlayer()));
             });
+        }
+        if (newRoom != null) {
+            LAST_ROOM.put(event.getPlayer().getUUID(), newRoom);
+        } else {
+            LAST_ROOM.remove(event.getPlayer().getUUID());
         }
         if (newRoom != null) {
             KingdomKeys.LOGGER.debug("Entered Room: {}", newRoom.getPosition());

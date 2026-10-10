@@ -25,12 +25,17 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -116,12 +121,24 @@ public class WayfinderItem extends Item {
 	}
 
 	public void teleport(Player player, Entity owner, int color) {
-		if (player.level().dimension() != owner.level().dimension()) {
+		boolean sameLevel = player.level().dimension() == owner.level().dimension();
+
+		// Inside the same castle a jump skips the doors, so the rooms are told about it here; between levels the dimension change does it
+		Room roomBefore = sameLevel ? roomAt(player) : null;
+
+		if (!sameLevel) {
 			ServerLevel destinationWorld = owner.getServer().getLevel(owner.level().dimension());
 			player.changeDimension(new DimensionTransition(destinationWorld, new Vec3(owner.getX(), owner.getY(), owner.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 		}
 
 		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());
+
+		if (sameLevel) {
+			Room roomAfter = roomAt(player);
+			if (roomBefore != roomAfter && CastleOblivionHandler.inInterior(player)) {
+				NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(roomBefore, roomAfter, player));
+			}
+		}
 		player.setDeltaMovement(0, 0, 0);
 		player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
 
@@ -130,6 +147,13 @@ public class WayfinderItem extends Item {
 		spawnWayfinderParticles((ServerLevel) player.level(),player,0.5F, color, 50);
 		((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() + 1, player.getZ(), 100, 0,0,0, 0.2);
 		player.getCooldowns().addCooldown(this, (ModConfigs.SERVER.wayfinderCD.get() * 20));
+	}
+
+	private static Room roomAt(Player player) {
+		if (!(player.level() instanceof ServerLevel level)) {
+			return null;
+		}
+		return CastleOblivionData.InteriorData.get(level).map(data -> data.getRoomAtPos(player.blockPosition())).orElse(null);
 	}
 
 	public void spawnWayfinderParticles(ServerLevel level, Entity entity, float y, int color, int amount) {

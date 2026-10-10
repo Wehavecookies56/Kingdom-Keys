@@ -10,6 +10,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -459,7 +460,11 @@ public class ClientPacketHandler {
 
     public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {
         ClientLevel world = Minecraft.getInstance().level;
-        CastleOblivionData.InteriorData.setClientCache(world, CastleOblivionData.InteriorData.load(message.data(), world.registryAccess()));
+        if (world == null) {
+            return;
+        }
+        ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, message.dimension());
+        CastleOblivionData.InteriorData.setClientCache(dimension, CastleOblivionData.InteriorData.load(message.data(), world.registryAccess()));
     }
 
     public static void syncWorldData(SCSyncWorldData message) {

@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtException;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -25,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.encounter.*;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
@@ -96,7 +94,7 @@ public class Room implements EncounterContext {
         type.getEncounter().ifPresent(roomEncounter -> {
             //check if encounter is either not complete and start it again or if the encounter has not been started yet and start it
             if ((getEncounter().isPresent() && !getEncounter().get().isComplete()) || getEncounter().isEmpty()) {
-                if (Room.getPlayersInRoom(player.server, this).size() == 1) {
+                if (Room.getPlayersInRoom((ServerLevel) player.level(), this).size() == 1) {
                     encounter = roomEncounter.getEncounter().type().createInstance(roomEncounter);
                     encounter.start(this, (ServerLevel) player.level());
                 }
@@ -247,7 +245,7 @@ public class Room implements EncounterContext {
     }
 
     public void tick(ServerLevel level) {
-        tick(level, getPlayersInRoom(level.getServer(), this));
+        tick(level, getPlayersInRoom(level, this));
     }
 
     public void tick(ServerLevel level, List<Player> players) {
@@ -323,7 +321,7 @@ public class Room implements EncounterContext {
     public boolean clearRoom(ServerLevel level) {
         Floor parent = getParent(CastleOblivionData.InteriorData.get(level).orElseThrow());
         if (parent != null) {
-            if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
+            if (!shouldRoomTick(getPlayersInRoom(level, this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
                 getAllEntitiesInRoom(level, this).forEach(entity -> {
                     entity.remove(Entity.RemovalReason.DISCARDED);
@@ -429,13 +427,12 @@ public class Room implements EncounterContext {
     }
 
 
-    public static List<Player> getPlayersInRoom(MinecraftServer server, Room room) {
+    // Only this instance's players: every instance is laid out at the same coordinates, so a player standing on the same spot in someone else's castle is not in this room
+    public static List<Player> getPlayersInRoom(ServerLevel level, Room room) {
         List<Player> players = new ArrayList<>();
-        server.getPlayerList().getPlayers().forEach(serverPlayer -> {
-            if (CastleOblivionHandler.inInterior(serverPlayer)) {
-                if (room.inRoom(serverPlayer.blockPosition())) {
-                    players.add(serverPlayer);
-                }
+        level.players().forEach(serverPlayer -> {
+            if (room.inRoom(serverPlayer.blockPosition())) {
+                players.add(serverPlayer);
             }
         });
         return players;
@@ -544,7 +541,7 @@ public class Room implements EncounterContext {
 
     @Override
     public List<Player> getParticipants(ServerLevel level) {
-        return Room.getPlayersInRoom(level.getServer(), this);
+        return Room.getPlayersInRoom(level, this);
     }
 
     @Override

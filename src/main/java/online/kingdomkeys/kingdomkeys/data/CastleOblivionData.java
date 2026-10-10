@@ -54,7 +54,11 @@ public class CastleOblivionData {
         }
 
         public static void setClientCache(ClientLevel level, InteriorData data) {
-            clientCache.put(level.dimension(), data);
+            setClientCache(level.dimension(), data);
+        }
+
+        public static void setClientCache(ResourceKey<Level> dimension, InteriorData data) {
+            clientCache.put(dimension, data);
         }
 
         private static Map<ResourceKey<Level>, InteriorData> clientCache = new HashMap<>();
@@ -120,6 +124,9 @@ public class CastleOblivionData {
 
         public Room getRoomAtPos(BlockPos pos) {
             Floor floor = getFloorAtPos(pos);
+            if (floor == null) {
+                return null;
+            }
             for (RoomData room : floor.getRooms()) {
                 if (room.getGenerated().isPresent()) {
                     Room r = room.getGenerated().get();
@@ -132,18 +139,19 @@ public class CastleOblivionData {
         }
 
         //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
+        // Floors whose entrance hall has not been generated yet are skipped; null if none has
         public Floor getFloorAtPos(BlockPos pos) {
-            if (floors.getFirst().getEntranceHall().getGenerated().isPresent()) {
-                Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated().get();
-                for (Floor floor : getFloors()) {
-                    if (floor.getEntranceHallPosition().getZ() < pos.getZ()) {
-                        closestEntrance = floor.getEntranceHall().getGenerated().get();
-                    }
+            Floor closest = null;
+            for (Floor floor : getFloors()) {
+                BlockPos entrance = floor.getEntranceHallPosition();
+                if (entrance == null) {
+                    continue;
                 }
-                return closestEntrance.getParent(this);
+                if (closest == null || entrance.getZ() < pos.getZ()) {
+                    closest = floor;
+                }
             }
-            //if there is no room in the first floor nothing has generated yet
-            return null;
+            return closest;
         }
 
         public Floor getFloorByID(int id) {
