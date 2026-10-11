@@ -21,10 +21,8 @@ public record SCSyncCastleOblivionInteriorData(CompoundTag data, ResourceLocatio
 	public static final Type<SCSyncCastleOblivionInteriorData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_castle_oblivion_interior_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncCastleOblivionInteriorData> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.COMPOUND_TAG,
-			SCSyncCastleOblivionInteriorData::data,
-			ResourceLocation.STREAM_CODEC,
-			SCSyncCastleOblivionInteriorData::dimension,
+			ByteBufCodecs.COMPOUND_TAG, SCSyncCastleOblivionInteriorData::data,
+			ResourceLocation.STREAM_CODEC, SCSyncCastleOblivionInteriorData::dimension,
 			SCSyncCastleOblivionInteriorData::new
 	);
 

@@ -100,8 +100,6 @@ public class WaveEncounter implements Encounter {
             return new State();
         }
 
-        Queue<BlockPos> spawnPoints;
-
         @Override
         public void start(WaveEncounter encounter, State state, EncounterInstance instance, EncounterContext context, ServerLevel level) {
             if (encounter.shuffleWaveOrder) {
@@ -110,7 +108,7 @@ public class WaveEncounter implements Encounter {
 
             //spawn first wave
 
-            createSpawnPointQueue(context);
+            createSpawnPointQueue(state, context);
 
             state.setMobsRemaining(encounter.getWaves().stream().mapToInt(Wave::size).sum());
             KingdomKeys.LOGGER.debug("Wave encounter started with {} mobs total", state.getMobsRemaining());
@@ -120,8 +118,8 @@ public class WaveEncounter implements Encounter {
 
         @Override
         public void tick(WaveEncounter encounter, State state, EncounterInstance instance, EncounterContext context, ServerLevel level) {
-            if (spawnPoints == null) {
-                createSpawnPointQueue(context);
+            if (state.spawnPoints == null) {
+                createSpawnPointQueue(state, context);
             }
 
             trickle(encounter, state, context, level);
@@ -143,13 +141,14 @@ public class WaveEncounter implements Encounter {
 
         }
 
-        public void createSpawnPointQueue(EncounterContext context) {
-            spawnPoints = context.getSpawnPoints().stream().collect(Collectors.toCollection(ArrayListDeque::new));
+        // The handler is one object shared by every room running this encounter, so the queue lives in each run's own state
+        public void createSpawnPointQueue(State state, EncounterContext context) {
+            state.spawnPoints = context.getSpawnPoints().stream().collect(Collectors.toCollection(ArrayListDeque::new));
         }
 
-        public BlockPos getSpawnPoint() {
-            BlockPos next = spawnPoints.poll();
-            spawnPoints.offer(next);
+        public BlockPos getSpawnPoint(State state) {
+            BlockPos next = state.spawnPoints.poll();
+            state.spawnPoints.offer(next);
             return next;
         }
 
@@ -174,7 +173,7 @@ public class WaveEncounter implements Encounter {
         public void place(EntityType<?> entityType, Wave wave, State state, EncounterContext context, ServerLevel level) {
             LivingEntity adopted = context.adopt(entityType);
             LivingEntity spawned = adopted != null ? adopted : (LivingEntity) entityType.create(level);
-            BlockPos spawnPoint = getSpawnPoint();
+            BlockPos spawnPoint = getSpawnPoint(state);
 
             if (spawned == null) {
                 KingdomKeys.LOGGER.error("Failed to spawn {}", entityType);
@@ -291,6 +290,8 @@ public class WaveEncounter implements Encounter {
         private int arrived, untilNextArrival;
         long waveEndTime;
         List<Integer> shuffledOrder = new ArrayList<>();
+        // Not saved, rebuilt from the room the first time it is needed after loading
+        Queue<BlockPos> spawnPoints;
 
         public static final Codec<State> CODEC = RecordCodecBuilder.create(stateInstance ->
                 stateInstance.group(

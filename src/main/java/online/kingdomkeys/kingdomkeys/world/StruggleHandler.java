@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -77,12 +78,7 @@ public class StruggleHandler {
 					if (player == null) continue;
 
 					player.getInventory().selected = weaponSlot.slot();
-
-					ItemStack current = player.getInventory().items.get(weaponSlot.slot());
-					if (current.isEmpty() || current.getItem() != weaponSlot.weapon()) {
-						player.getInventory().items.set(weaponSlot.slot(), new ItemStack(weaponSlot.weapon()));
-						player.inventoryMenu.broadcastChanges();
-					}
+					keepWeaponInSlot(player, weaponSlot);
 				}
 			}
 		}
@@ -164,6 +160,61 @@ public class StruggleHandler {
 
 		worldData.setDirty();
 		PacketHandler.sendToAll(new SCSyncWorldData(server));
+	}
+
+	// Puts the weapon back in its slot if it was moved
+	private static void keepWeaponInSlot(ServerPlayer player, WeaponSlot weaponSlot) {
+		Inventory inventory = player.getInventory();
+		int slot = weaponSlot.slot();
+		ItemStack current = inventory.getItem(slot);
+
+		if (!current.isEmpty() && current.is(weaponSlot.weapon())) {
+			return;
+		}
+
+		ItemStack carried = player.containerMenu.getCarried();
+		if (carried.is(weaponSlot.weapon())) {
+			inventory.setItem(slot, carried);
+			player.containerMenu.setCarried(current);
+		} else {
+			for (int i = 0; i < inventory.getContainerSize(); i++) {
+				if (i != slot && inventory.getItem(i).is(weaponSlot.weapon())) {
+					inventory.setItem(slot, inventory.getItem(i));
+					inventory.setItem(i, current);
+					break;
+				}
+			}
+		}
+
+		player.inventoryMenu.broadcastChanges();
+		player.containerMenu.broadcastChanges();
+	}
+
+	// Throwing the weapon away mid-match would otherwise leave it on the floor while the slot is refilled
+	@SubscribeEvent
+	public void onToss(ItemTossEvent event) {
+		if (!(event.getPlayer() instanceof ServerPlayer player))
+			return;
+
+		WeaponSlot weaponSlot = weaponSlots.get(player.getUUID());
+		ItemStack tossed = event.getEntity().getItem();
+
+		if (weaponSlot == null || !tossed.is(weaponSlot.weapon()))
+			return;
+
+		// Only kept if it fits back, otherwise it is dropped as usual rather than lost
+		boolean kept;
+		if (player.getInventory().getItem(weaponSlot.slot()).isEmpty()) {
+			player.getInventory().setItem(weaponSlot.slot(), tossed.copy());
+			kept = true;
+		} else {
+			kept = player.getInventory().add(tossed.copy());
+		}
+
+		if (kept) {
+			event.setCanceled(true);
+			player.inventoryMenu.broadcastChanges();
+		}
 	}
 
 	public static WeaponSlot findAnyWeaponSlot(Inventory inventory) {
