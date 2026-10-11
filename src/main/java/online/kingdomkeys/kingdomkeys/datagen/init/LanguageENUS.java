@@ -2979,6 +2979,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add(Gummi_Hangar + ".area_value", "Area: %s");
+        add(Gummi_Hangar + ".stopped_redstone", "Charging stopped by a redstone signal");
+        add(Gummi_Hangar + ".stopped_cores", "Charging stopped: more than one core on the plate");
+        add(Gummi_Hangar + ".several_ships", "%s ships on the plate, leave only one to see it's data");
         add(Gummi_Hangar + ".cost_value", "Cost: %s");
         add(Gummi_Hangar + ".area.off", "Off");
         add(Gummi_Hangar + ".area.odd", "Odd");

@@ -2990,6 +2990,9 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add("kingdomkeys.gummi.hangar.area_value", "Área: %s");
+        add("kingdomkeys.gummi.hangar.stopped_redstone", "Carga detenida por una señal de redstone");
+        add("kingdomkeys.gummi.hangar.stopped_cores", "Carga detenida: hay más de un núcleo en la zona");
+        add("kingdomkeys.gummi.hangar.several_ships", "Hay %s naves en la zona, deja solo una para ver sus datos");
         add("kingdomkeys.gummi.hangar.cost_value", "Coste: %s");
         add("kingdomkeys.gummi.hangar.area.off", "Off");
         add("kingdomkeys.gummi.hangar.area.odd", "Impar");

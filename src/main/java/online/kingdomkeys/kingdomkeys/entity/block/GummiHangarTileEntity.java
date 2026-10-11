@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -151,6 +152,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         if(compound.contains("EnergyFE"))
             energyStorage.deserializeNBT(provider,compound.getCompound("EnergyFE"));
         servicing = compound.getBoolean("Servicing");
+        tooManyCores = compound.getBoolean("TooManyCores");
     }
 
 	@Override
@@ -164,6 +166,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         compound.putInt("MaxBurnTime", maxBurnTime);
         compound.put("EnergyFE", energyStorage.serializeNBT(provider));
         compound.putBoolean("Servicing", servicing);
+        compound.putBoolean("TooManyCores", tooManyCores);
     }
 
 	@Override
@@ -284,7 +287,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 }
             }
 
-            hangar.updateServicing(level, servicedAny);
+            hangar.updateServicing(level, state, servicedAny);
         }
     }
 
@@ -301,16 +304,41 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         return Math.max(TRIP_TICKS_MIN, TRIP_TICKS_BASE - hangarLevel * TRIP_TICKS_PER_LEVEL);
     }
 
-    // Synced to the client so it knows when to draw the streams
+    // Synced to the client so it knows when to draw the streams and why the hangar is not charging
     public boolean servicing;
+    public boolean tooManyCores;
     private int servicingHold;
+    private static final int HUM_INTERVAL = 40;
 
-    private void updateServicing(Level level, boolean serviced) {
+    private void updateServicing(Level level, BlockState state, boolean serviced) {
         servicingHold = serviced ? SERVICING_HOLD : Math.max(0, servicingHold - 1);
         boolean now = servicingHold > 0;
 
+        if (now && level.getGameTime() % HUM_INTERVAL == 0) {
+            level.playSound(null, worldPosition, SoundEvents.BEACON_AMBIENT, SoundSource.BLOCKS, 0.5F, 1.4F);
+        }
+
         if (now != servicing) {
+            // Stopping with the power on and the lever off means there was nothing left to do: the ship is full and whole
+            if (!now && state.getValue(GummiHangarBlock.ACTIVE) && energyStorage.getEnergyStored() > 0 && stillHasShip(level, state)) {
+                level.playSound(null, worldPosition, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.5F, 1.2F);
+                level.playSound(null, worldPosition, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.6F, 1.6F);
+            }
+
             servicing = now;
+            setChanged();
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        }
+    }
+
+    private boolean stillHasShip(Level level, BlockState state) {
+        int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
+        return editedCorePos != null || !Utils.getAllGummiShipsInBuildPlate(level, worldPosition, state.getValue(GummiHangarBlock.FACING), size).isEmpty();
+    }
+
+    private void setTooManyCores(Level level, boolean tooMany) {
+        if (tooMany != tooManyCores) {
+            tooManyCores = tooMany;
             setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
         }
@@ -345,6 +373,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     }
                     editedCorePos = at.immutable();
                 }
+            }
+
+            if (!level.isClientSide) {
+                setTooManyCores(level, cores > 1);
             }
         }
 
@@ -427,6 +459,9 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
     public int hologramCost = -1;
     public long hologramTime = Long.MIN_VALUE;
+    @Nullable
+    public GummiShipEntity hologramShip;
+    public int hologramShipCount;
 
     public int getCostLimitLevel() {
         return GummiCostLevel.fromChips(inventory.get().getStackInSlot(COST_SLOT).getCount(), getBlockState().getValue(GummiHangarBlock.LEVEL));

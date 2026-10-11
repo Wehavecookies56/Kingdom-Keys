@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -93,7 +94,14 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 	public void tick() {
 		super.tick();
 
-		if (level().isClientSide || tickCount < OPENING) {
+		if (level().isClientSide) {
+			if (tickCount >= OPENING) {
+				shimmer();
+			}
+			return;
+		}
+
+		if (tickCount < OPENING) {
 			return;
 		}
 
@@ -119,6 +127,26 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 
 		if (closesOn != null && tickCount % CLOSE_CHECK == 0) {
 			closeIfDone();
+		}
+	}
+
+	private static final int MOTES_EVERY = 3;
+	private static final double MOTE_RING = 0.7D;
+
+	private void shimmer() {
+		if (tickCount % MOTES_EVERY != 0) {
+			return;
+		}
+
+		double angle = random.nextDouble() * Math.PI * 2D;
+		double x = getX() + Math.cos(angle) * MOTE_RING * (0.6D + random.nextDouble() * 0.4D);
+		double z = getZ() + Math.sin(angle) * MOTE_RING * (0.6D + random.nextDouble() * 0.4D);
+		double y = getY() + random.nextDouble() * getBbHeight();
+
+		level().addParticle(ParticleTypes.END_ROD, x, y, z, 0D, 0.02D + random.nextDouble() * 0.02D, 0D);
+
+		if (random.nextInt(4) == 0) {
+			level().addParticle(ParticleTypes.WAX_OFF, getX() + (random.nextDouble() - 0.5D) * 0.8D, getY() + random.nextDouble() * 0.4D, getZ() + (random.nextDouble() - 0.5D) * 0.8D, 0D, 0.4D, 0D);
 		}
 	}
 

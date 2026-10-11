@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -30,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
@@ -128,11 +130,26 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             GummiStructure onPlate = Utils.getGummiStructureWithFacing(NIL_UUID, "", mc.level, hangar.getBlockPos(), facing, size);
             GummiShipEntity.ShipStats stats = onPlate == null ? null : Utils.getShipStats(onPlate);
             hangar.hologramCost = stats == null || stats.weight() <= 0 ? -1 : stats.cost();
+            hangar.hologramShip = Utils.getGummiShipInBuildPlate(mc.level, hangar.getBlockPos(), facing, size);
+            hangar.hologramShipCount = Utils.getAmountOfGummiShipsInBuildPlate(mc.level, hangar.getBlockPos(), facing, size);
+
+            // A finished ship standing on the plate is an entity, so its cost comes from the ship itself
+            if (hangar.hologramCost < 0 && hangar.hologramShip != null && hangar.hologramShip.shipStats != null) {
+                hangar.hologramCost = hangar.hologramShip.shipStats.cost();
+            }
+        }
+
+        // With several ships on the plate there is no telling whose cost or tank to show, so it says so instead
+        if (hangar.hologramShipCount > 1) {
+            renderHologramLine(mc, poseStack, buffer, Component.translatable("kingdomkeys.gummi.hangar.several_ships", hangar.hologramShipCount), HOLOGRAM_OVER);
+            return;
         }
 
         if (hangar.hologramCost < 0) {
             return;
         }
+
+        GummiShipEntity ship = hangar.hologramShip != null && hangar.hologramShip.isAlive() ? hangar.hologramShip : null;
 
         int max = GummiCostLevel.maxCost(hangar.getCostLimitLevel());
         Component text = Component.literal(Utils.translateToLocal("container.gummi_hangar.cost") + ": " + hangar.hologramCost + "/" + max);
@@ -146,10 +163,51 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
             Font font = mc.font;
             float x = -font.width(text) / 2F;
+            font.drawInBatch(text, x, -20, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.SEE_THROUGH, 0x40000000, LightTexture.FULL_BRIGHT);
+            font.drawInBatch(text, x, -20, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
+
+            if (ship != null && ship.shipStats != null) {
+                float armour = ship.shipStats.armour();
+                float hull = armour <= 0 ? 0F : Mth.clamp((armour - ship.getDamage()) / armour, 0F, 1F);
+                hologramBar(font, poseStack, buffer, -10, "HP", hull, hull <= 0.25F ? HOLOGRAM_OVER : HOLOGRAM_HULL);
+
+                if (ModConfigs.SERVER.gummiShipFuelSystem.get()) {
+                    float fuel = ship.getMaxFuel() <= 0 ? 0F : Mth.clamp((float) ship.getFuel() / ship.getMaxFuel(), 0F, 1F);
+                    hologramBar(font, poseStack, buffer, 0, Utils.translateToLocal("container.gummi_ship.fuel"), fuel, fuel <= 0.2F ? HOLOGRAM_OVER : HOLOGRAM_FUEL);
+                }
+            }
+        }
+        poseStack.popPose();
+    }
+
+    private static void renderHologramLine(Minecraft mc, PoseStack poseStack, MultiBufferSource buffer, Component text, int colour) {
+        poseStack.pushPose();
+        {
+            poseStack.translate(0.5, 1.6, 0.5);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+            poseStack.scale(0.025F, -0.025F, 0.025F);
+
+            Font font = mc.font;
+            float x = -font.width(text) / 2F;
             font.drawInBatch(text, x, 0, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.SEE_THROUGH, 0x40000000, LightTexture.FULL_BRIGHT);
             font.drawInBatch(text, x, 0, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
         }
         poseStack.popPose();
+    }
+
+    private static final int HOLOGRAM_HULL = 0x55FF55, HOLOGRAM_FUEL = 0xFFAA00, BAR_EMPTY = 0x404040;
+    private static final int BAR_SEGMENTS = 20;
+
+    private static void hologramBar(Font font, PoseStack poseStack, MultiBufferSource buffer, float y, String label, float filled, int colour) {
+        int lit = Math.round(Mth.clamp(filled, 0F, 1F) * BAR_SEGMENTS);
+        Component line = Component.literal(label + " ").withColor(colour)
+                .append(Component.literal("|".repeat(lit)).withColor(colour))
+                .append(Component.literal("|".repeat(BAR_SEGMENTS - lit)).withColor(BAR_EMPTY));
+
+        Matrix4f pose = poseStack.last().pose();
+        float x = -font.width(line) / 2F;
+        font.drawInBatch(line, x, y, 0xFFFFFF, false, pose, buffer, Font.DisplayMode.SEE_THROUGH, 0x40000000, LightTexture.FULL_BRIGHT);
+        font.drawInBatch(line, x, y, 0xFFFFFF, false, pose, buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
     }
 
     @Override

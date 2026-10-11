@@ -30,6 +30,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGummiThrottlePacket;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -362,8 +364,17 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private final float maxShipPitch = 60F;
 	private final float pitchTurnRate = 3F;
 
+	// Server side: set by the pilot's client. Client side: what was last sent, so it is only sent when it changes
+	public boolean pilotThrusting;
+
 	@Override
 	void controlBoat() {
+		boolean thrusting = inputLeft || inputRight || inputUp || inputDown || inputForward || inputBackward;
+		if (level().isClientSide && thrusting != pilotThrusting) {
+			pilotThrusting = thrusting;
+			PacketHandler.sendToServer(new CSGummiThrottlePacket(getId(), thrusting));
+		}
+
 		if(getFuel() <= 0){
 			inputLeft = inputRight = inputUp = inputForward = inputBackward = false;
 			inputDown = true;
@@ -548,6 +559,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	public void tick() {
 		super.tick();
+		// Nobody at the controls: both sides forget the throttle, so a new pilot starts from a clean state
+		if (getControllingPassenger() == null) {
+			pilotThrusting = false;
+		}
 		//setFuel(200);
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
@@ -578,12 +593,18 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		if(!level().isClientSide && this.shipStats != null) {
 			int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor);
 
-			if(getYRot() != prevRot){ //If rotates remove half of what moving takes
+			// Only the pilot's own flying burns fuel: being pushed, knocked about or carried along does not
+			boolean piloted = getControllingPassenger() != null && pilotThrusting;
+			if (getControllingPassenger() == null) {
+				pilotThrusting = false;
+			}
+
+			if(piloted && getYRot() != prevRot){ //If rotates remove half of what moving takes
 				remFuel((int) Math.max(fuelConsumption * 0.3F,1));
 			}
 			boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
 			//If moves take as much fuel as engine power the ship has
-			if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
+			if (moved && piloted && getFuel() > 0) {
 				if(getY() < prevY){//If it's landing use 70% of the fuel it should
 					remFuel((int) Math.max(fuelConsumption * 0.7F,1));
 				} else if(getY() > prevY){//If it's taking off use 130% of the fuel it should
@@ -591,7 +612,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				} else {
 					remFuel(fuelConsumption);
 				}
-
 			}
 
 			prevX = getX();

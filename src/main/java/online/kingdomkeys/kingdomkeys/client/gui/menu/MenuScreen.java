@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Member
 import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_None;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -333,7 +334,18 @@ public class MenuScreen extends MenuBackground {
 				}
 			}
 
-			drawKeybladeIcon(guiGraphics, currentRoom, tileSize);
+			// Companions in other rooms of this castle; anyone sharing your room is already covered by your own icon
+			for (Player other : minecraft.level.players()) {
+				if (other == minecraft.player || other.isSpectator()) {
+					continue;
+				}
+				RoomData otherRoom = roomAt(other);
+				if (otherRoom != null && otherRoom != currentRoom) {
+					drawKeybladeIcon(guiGraphics, otherRoom, tileSize, other, COMPANION_ICON_SCALE);
+				}
+			}
+
+			drawKeybladeIcon(guiGraphics, currentRoom, tileSize, minecraft.player, 16F);
 		}
 		guiGraphics.pose().popPose();
 
@@ -346,14 +358,22 @@ public class MenuScreen extends MenuBackground {
 
 	private static Vec2 inverseRotate45(float x, float y) {
 		float angle = (float) Math.toRadians(-45);
-		return new Vec2(
-				(float) (x * Math.cos(angle) - y * Math.sin(angle)),
-				(float) (x * Math.sin(angle) + y * Math.cos(angle))
-		);
+		return new Vec2((float) (x * Math.cos(angle) - y * Math.sin(angle)), (float) (x * Math.sin(angle) + y * Math.cos(angle)));
 	}
 
 
-	private void drawKeybladeIcon(GuiGraphics guiGraphics, RoomData currentRoom, int tileSize) {
+	private static final float COMPANION_ICON_SCALE = 12F;
+
+	private static RoomData roomAt(Player player) {
+		for (RoomData roomData : rooms) {
+			if (roomData.getGenerated().isPresent() && roomData.getGenerated().get().inRoom(player.blockPosition())) {
+				return roomData;
+			}
+		}
+		return null;
+	}
+
+	private void drawKeybladeIcon(GuiGraphics guiGraphics, RoomData currentRoom, int tileSize, Player who, float iconScale) {
 		if (currentRoom != null) {
 			guiGraphics.pose().pushPose();
 
@@ -365,13 +385,16 @@ public class MenuScreen extends MenuBackground {
 
 			guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
 
-			float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
+			float rotation = Mth.wrapDegrees(who.getYRot() - 45);
 			guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
 
-			float iconScale = 16F;
 			guiGraphics.pose().scale(iconScale, iconScale, 1f);
 
-			ItemStack stack = playerData.getEquippedKeychain(DriveForm.NONE);
+			PlayerData whoData = who == minecraft.player ? playerData : PlayerData.get(who);
+			ItemStack stack = whoData == null ? null : whoData.getEquippedKeychain(DriveForm.NONE);
+			if (stack == null) {
+				stack = ItemStack.EMPTY;
+			}
 			ItemStack item = stack;
 			if(stack.isEmpty()) {
 				item = new ItemStack(ModItems.k111.get());

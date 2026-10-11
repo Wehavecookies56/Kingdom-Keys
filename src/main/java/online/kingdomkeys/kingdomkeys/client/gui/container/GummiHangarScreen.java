@@ -480,6 +480,14 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
         String tier = Utils.getHangarSizeFromLevel(hangar.getValue(GummiHangarBlock.LEVEL));
 		gui.drawString(font, Component.translatable(this.title.getString()).getString()+" "+tier+" ["+size+"x"+size+"x"+size+"]", 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
+
+		int ships = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, menu.TE.getBlockPos(), hangar.getValue(GummiHangarBlock.FACING), size);
+		Component stopped = !hangar.getValue(GummiHangarBlock.ACTIVE) ? Component.translatable("kingdomkeys.gummi.hangar.stopped_redstone")
+				: menu.TE.tooManyCores ? Component.translatable("kingdomkeys.gummi.hangar.stopped_cores")
+				: ships > 1 ? Component.translatable("kingdomkeys.gummi.hangar.several_ships", ships) : null;
+		if (stopped != null) {
+			gui.drawString(font, stopped, (imageWidth - font.width(stopped)) / 2, -11, 0xFF5555, true);
+		}
 		updateShip();
 		if(structure != null){
 			drawStatsPanel(gui, Utils.getShipStats(structure), menu.TE.getCostLimitLevel());

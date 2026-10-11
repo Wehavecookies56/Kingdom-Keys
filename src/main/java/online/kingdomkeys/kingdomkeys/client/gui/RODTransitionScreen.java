@@ -10,12 +10,16 @@ import net.minecraft.Util;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -49,6 +53,11 @@ public class RODTransitionScreen extends ReceivingLevelScreen {
 		} catch (Exception e) {
 			snapshot = null;
 		}
+
+		SoundManager sounds = Minecraft.getInstance().getSoundManager();
+		sounds.play(SimpleSoundInstance.forUI(ModSounds.portal.get(), 0.7F, 0.9F));
+		sounds.play(SimpleSoundInstance.forUI(SoundEvents.WARDEN_SONIC_CHARGE, 0.6F, 0.35F));
+		sounds.play(SimpleSoundInstance.forUI(SoundEvents.AMBIENT_SOUL_SAND_VALLEY_MOOD.value(), 0.8F, 0.6F));
 	}
 
 	@Override
