@@ -130,12 +130,13 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             GummiStructure onPlate = Utils.getGummiStructureWithFacing(NIL_UUID, "", mc.level, hangar.getBlockPos(), facing, size);
             GummiShipEntity.ShipStats stats = onPlate == null ? null : Utils.getShipStats(onPlate);
             hangar.hologramCost = stats == null || stats.weight() <= 0 ? -1 : stats.cost();
+            hangar.hologramArmour = stats == null ? 0 : stats.armour();
             hangar.hologramShip = Utils.getGummiShipInBuildPlate(mc.level, hangar.getBlockPos(), facing, size);
-            hangar.hologramShipCount = Utils.getAmountOfGummiShipsInBuildPlate(mc.level, hangar.getBlockPos(), facing, size);
+            hangar.hologramShipCount = Utils.getAmountOfGummiShipsInBuildPlate(mc.level, hangar.getBlockPos(), facing, size) + (hangar.hologramCost >= 0 ? 1 : 0);
 
             // A finished ship standing on the plate is an entity, so its cost comes from the ship itself
-            if (hangar.hologramCost < 0 && hangar.hologramShip != null && hangar.hologramShip.shipStats != null) {
-                hangar.hologramCost = hangar.hologramShip.shipStats.cost();
+            if (hangar.hologramCost < 0 && hangar.hologramShip != null && hangar.hologramShip.structure != null) {
+                hangar.hologramCost = hangar.hologramShip.getShipStats().cost();
             }
         }
 
@@ -166,14 +167,31 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             font.drawInBatch(text, x, -20, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.SEE_THROUGH, 0x40000000, LightTexture.FULL_BRIGHT);
             font.drawInBatch(text, x, -20, colour, false, poseStack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, LightTexture.FULL_BRIGHT);
 
-            if (ship != null && ship.shipStats != null) {
-                float armour = ship.shipStats.armour();
-                float hull = armour <= 0 ? 0F : Mth.clamp((armour - ship.getDamage()) / armour, 0F, 1F);
+            float armour = -1F, damage = 0F;
+            int fuel = 0, maxFuel = 0;
+
+            if (ship != null && ship.structure != null) {
+                armour = ship.getShipStats().armour();
+                damage = ship.getDamage();
+                fuel = ship.getFuel();
+                maxFuel = ship.getMaxFuel();
+            } else {
+                GummiCoreTileEntity core = hangar.editedCore(mc.level, hangar.getBlockPos(), hangar.getBlockState(), size);
+                if (core != null) {
+                    armour = hangar.hologramArmour;
+                    damage = core.getDamage();
+                    fuel = core.getFuel();
+                    maxFuel = GummiShipEntity.getMaxFuelForSize(size);
+                }
+            }
+
+            if (armour >= 0F) {
+                float hull = armour <= 0 ? 0F : Mth.clamp((armour - damage) / armour, 0F, 1F);
                 hologramBar(font, poseStack, buffer, -10, "HP", hull, hull <= 0.25F ? HOLOGRAM_OVER : HOLOGRAM_HULL);
 
                 if (ModConfigs.SERVER.gummiShipFuelSystem.get()) {
-                    float fuel = ship.getMaxFuel() <= 0 ? 0F : Mth.clamp((float) ship.getFuel() / ship.getMaxFuel(), 0F, 1F);
-                    hologramBar(font, poseStack, buffer, 0, Utils.translateToLocal("container.gummi_ship.fuel"), fuel, fuel <= 0.2F ? HOLOGRAM_OVER : HOLOGRAM_FUEL);
+                    float tank = maxFuel <= 0 ? 0F : Mth.clamp((float) fuel / maxFuel, 0F, 1F);
+                    hologramBar(font, poseStack, buffer, 0, Utils.translateToLocal("container.gummi_ship.fuel"), tank, tank <= 0.2F ? HOLOGRAM_OVER : HOLOGRAM_FUEL);
                 }
             }
         }

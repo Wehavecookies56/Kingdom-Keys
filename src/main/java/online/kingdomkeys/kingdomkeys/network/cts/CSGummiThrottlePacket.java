@@ -26,7 +26,7 @@ public record CSGummiThrottlePacket(int entityID, boolean thrusting) implements 
 		Player player = context.player();
 		Entity entity = player.level().getEntity(entityID);
 		if (entity instanceof GummiShipEntity ship && ship.getControllingPassenger() == player) {
-			ship.pilotThrusting = thrusting;
+			ship.setPilotThrusting(thrusting);
 		}
 	}
 

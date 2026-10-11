@@ -481,14 +481,17 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		gui.drawString(font, Component.translatable(this.title.getString()).getString()+" "+tier+" ["+size+"x"+size+"x"+size+"]", 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
 
-		int ships = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, menu.TE.getBlockPos(), hangar.getValue(GummiHangarBlock.FACING), size);
+		updateShip();
+
+		// A ship as blocks counts as one more alongside any finished ones standing on the plate
+		boolean blocksOnPlate = structure != null && Utils.getShipStats(structure).weight() > 0;
+		int ships = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, menu.TE.getBlockPos(), hangar.getValue(GummiHangarBlock.FACING), size) + (blocksOnPlate ? 1 : 0);
 		Component stopped = !hangar.getValue(GummiHangarBlock.ACTIVE) ? Component.translatable("kingdomkeys.gummi.hangar.stopped_redstone")
 				: menu.TE.tooManyCores ? Component.translatable("kingdomkeys.gummi.hangar.stopped_cores")
 				: ships > 1 ? Component.translatable("kingdomkeys.gummi.hangar.several_ships", ships) : null;
 		if (stopped != null) {
 			gui.drawString(font, stopped, (imageWidth - font.width(stopped)) / 2, -11, 0xFF5555, true);
 		}
-		updateShip();
 		if(structure != null){
 			drawStatsPanel(gui, Utils.getShipStats(structure), menu.TE.getCostLimitLevel());
 
@@ -508,13 +511,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
             build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size) == 0 && !name.getValue().isEmpty();
 
+			// Taking a ship apart on top of blocks already there would fuse the two
 			GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
-			if(gummi != null) {
-				GummiStructure struct = gummi.structure;
-				if (!Utils.fitsInHangar(struct, size)) {
-					editShip.active = false;
-				}
-			}
+			editShip.active = !blocksOnPlate && (gummi == null || Utils.fitsInHangar(gummi.structure, size));
 
             gui.pose().pushPose();
             {

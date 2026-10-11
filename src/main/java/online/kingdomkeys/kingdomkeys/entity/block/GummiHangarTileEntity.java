@@ -462,6 +462,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     @Nullable
     public GummiShipEntity hologramShip;
     public int hologramShipCount;
+    public int hologramArmour;
 
     public int getCostLimitLevel() {
         return GummiCostLevel.fromChips(inventory.get().getStackInSlot(COST_SLOT).getCount(), getBlockState().getValue(GummiHangarBlock.LEVEL));

@@ -110,7 +110,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			MESH_CACHE.put(entityIn.getId(), cached);
 		}
 
-		boolean spawnParticles = entityIn.getDeltaMovement().lengthSqr() >= MOVING_THRESHOLD_SQR;
+		boolean spawnParticles = entityIn.isThrusting() && entityIn.getFuel() > 0 && entityIn.getDeltaMovement().lengthSqr() >= MOVING_THRESHOLD_SQR;
 		Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
 		matrixStackIn.pushPose();

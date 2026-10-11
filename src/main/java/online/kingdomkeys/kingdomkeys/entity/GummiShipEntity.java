@@ -315,7 +315,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return getShipStats().armour;
 	}
 
-	private ShipStats getShipStats(){
+	public ShipStats getShipStats(){
 		if(shipStats == null){
 			shipStats = Utils.getShipStats(structure);
 		}
@@ -366,6 +366,18 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	// Server side: set by the pilot's client. Client side: what was last sent, so it is only sent when it changes
 	public boolean pilotThrusting;
+
+	public void setPilotThrusting(boolean thrusting) {
+		pilotThrusting = thrusting;
+		if (!level().isClientSide) {
+			entityData.set(THRUSTING, thrusting);
+		}
+	}
+
+	// The pilot's own client knows straight away; everyone else waits for the server
+	public boolean isThrusting() {
+		return pilotThrusting || entityData.get(THRUSTING);
+	}
 
 	@Override
 	void controlBoat() {
@@ -561,7 +573,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super.tick();
 		// Nobody at the controls: both sides forget the throttle, so a new pilot starts from a clean state
 		if (getControllingPassenger() == null) {
-			pilotThrusting = false;
+			setPilotThrusting(false);
 		}
 		//setFuel(200);
 		if (structure == null || structure.getBlocks().length == 0) {
@@ -595,9 +607,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 			// Only the pilot's own flying burns fuel: being pushed, knocked about or carried along does not
 			boolean piloted = getControllingPassenger() != null && pilotThrusting;
-			if (getControllingPassenger() == null) {
-				pilotThrusting = false;
-			}
 
 			if(piloted && getYRot() != prevRot){ //If rotates remove half of what moving takes
 				remFuel((int) Math.max(fuelConsumption * 0.3F,1));
@@ -643,6 +652,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private static final EntityDataAccessor<CompoundTag> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> FLIGHT_TYPE_3D = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> THRUSTING = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
@@ -650,6 +660,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		pBuilder.define(DATA, new CompoundTag());
 		pBuilder.define(FUEL, 0);
 		pBuilder.define(FLIGHT_TYPE_3D, false);
+		pBuilder.define(THRUSTING, false);
 	}
 
 	public CompoundTag getData() {
