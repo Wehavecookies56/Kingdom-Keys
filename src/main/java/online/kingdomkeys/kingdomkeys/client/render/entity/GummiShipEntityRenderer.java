@@ -11,18 +11,23 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiEngineBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.*;
@@ -33,19 +38,24 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 	}
 
 	private static final double MOVING_THRESHOLD_SQR = 0.0025D; // ~0.05 blocks/tick before particles kick in
-	private static final Map<Integer, Long> LAST_PARTICLE_TICK = new HashMap<>();
 	private static final Map<Integer, CachedShipMesh> MESH_CACHE = new HashMap<>();
+
+	private record Exhaust(Vec3 pos, double spread, int flames) {}
 
 	private static final class CachedShipMesh {
 		final Map<RenderType, VertexBuffer> buffers;
-		final List<Vec3> engineLocalPositions;
+		final List<Exhaust> engineLocalPositions;
+		// Where each nozzle last bursted, in world space
+		final Vec3[] lastExhaust;
+		long lastBurstTick = Long.MIN_VALUE;
 		final GummiStructure builtFrom;
 		final boolean xEven;
 		final boolean zEven;
 
-		CachedShipMesh(Map<RenderType, VertexBuffer> buffers, List<Vec3> engineLocalPositions, GummiStructure builtFrom, boolean xEven, boolean zEven) {
+		CachedShipMesh(Map<RenderType, VertexBuffer> buffers, List<Exhaust> engineLocalPositions, GummiStructure builtFrom, boolean xEven, boolean zEven) {
 			this.buffers = buffers;
 			this.engineLocalPositions = engineLocalPositions;
+			this.lastExhaust = new Vec3[engineLocalPositions.size()];
 			this.builtFrom = builtFrom;
 			this.xEven = xEven;
 			this.zEven = zEven;
@@ -100,8 +110,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			MESH_CACHE.put(entityIn.getId(), cached);
 		}
 
-		boolean spawnParticles = entityIn.getDeltaMovement().lengthSqr() >= MOVING_THRESHOLD_SQR
-				&& shouldSpawnParticlesThisTick(entityIn);
+		boolean spawnParticles = entityIn.getDeltaMovement().lengthSqr() >= MOVING_THRESHOLD_SQR;
 		Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
 		matrixStackIn.pushPose();
@@ -114,14 +123,9 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 			if (spawnParticles) {
-				for (Vec3 local : cached.engineLocalPositions) {
-					matrixStackIn.pushPose();
-					matrixStackIn.translate(local.x, local.y, local.z);
-					Matrix4f m = matrixStackIn.last().pose();
-					Vec3 worldPos = camPos.add(m.m30(), m.m31(), m.m32());
-					entityIn.level().addParticle(ParticleTypes.FLAME, worldPos.x, worldPos.y, worldPos.z, 0, 0, 0);
-					matrixStackIn.popPose();
-				}
+				emitExhaust(entityIn, cached, matrixStackIn, camPos);
+			} else {
+				java.util.Arrays.fill(cached.lastExhaust, null);
 			}
 
 			Matrix4f pose = new Matrix4f(RenderSystem.getModelViewMatrix()).mul(matrixStackIn.last().pose());
@@ -139,6 +143,42 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		matrixStackIn.popPose();
 	}
 
+	private static final double VERNIER_SPREAD = 0.06D, THRUSTER_SPREAD = 0.2D, FLARE_SPREAD = 0.15D, BIG_SPREAD = 0.45D;
+
+	// Multiblock engines burn from one nozzle, not from every block they are made of. Null for the parts that do not
+	@Nullable
+	private static Exhaust getExhaust(GummiEngineBlock engine, BlockState state, Vec3 center) {
+		switch (engine.getPlacementType()) {
+			case MULTIBLOCK2x2x2 -> {
+				if (state.getValue(GummiBlockBase.X) != 0 || state.getValue(GummiBlockBase.Y) != 0 || state.getValue(GummiBlockBase.Z) != 0) {
+					return null;
+				}
+				Direction facing = state.getValue(GummiBlockBase.HORIZONTAL_FACING);
+				Vec3 back = step(facing).scale(-0.5D);
+				Vec3 corner = step(Direction.UP).add(step(facing.getClockWise())).scale(0.5D);
+				return new Exhaust(center.add(back).add(corner), BIG_SPREAD, 5);
+			}
+			case MULTIBLOCK1x1x3 -> {
+				// Only the block at the nozzle end, the one furthest along facing
+				if (state.getValue(GummiBlockBase.LENGTH) != 2) {
+					return null;
+				}
+				Direction facing = state.getValue(GummiBlockBase.FACING);
+				return new Exhaust(center.add(step(facing).scale(0.5D)), FLARE_SPREAD, 2);
+			}
+			default -> {
+				if (state.is(ModBlocks.gummiThruster.get())) {
+					return new Exhaust(center, THRUSTER_SPREAD, 3);
+				}
+				return new Exhaust(center, VERNIER_SPREAD, 1);
+			}
+		}
+	}
+
+	private static Vec3 step(Direction direction) {
+		return new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ());
+	}
+
 	/** Walks the block grid exactly once (instead of every frame) to bake the ship's geometry into
 	 * per-RenderType VertexBuffers, plus the local-space positions of every engine block (for the
 	 * exhaust particles) so those don't need a full grid walk each frame either. */
@@ -154,7 +194,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
 		BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 		CapturingBufferSource capture = new CapturingBufferSource();
-		List<Vec3> engineLocalPositions = new ArrayList<>();
+		List<Exhaust> engineLocalPositions = new ArrayList<>();
 
 		PoseStack bakePose = new PoseStack();
 		for (int x = 0; x < w; x++) {
@@ -170,8 +210,11 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 						float bz = zEven ? z - 0.5F : z;
 						bakePose.translate(bx, by, bz);
 
-						if (state.getBlock() instanceof GummiEngineBlock) {
-							engineLocalPositions.add(new Vec3(bx + 0.5D, by + 0.5D, bz + 0.5D));
+						if (state.getBlock() instanceof GummiEngineBlock engine) {
+							Exhaust exhaust = getExhaust(engine, state, new Vec3(bx + 0.5D, by + 0.5D, bz + 0.5D));
+							if (exhaust != null) {
+								engineLocalPositions.add(exhaust);
+							}
 						}
 
 						RenderType renderType = ItemBlockRenderTypes.getRenderType(state, false);
@@ -186,13 +229,51 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		return new CachedShipMesh(buffers, engineLocalPositions, entityIn.structure, xEven, zEven);
 	}
 
-	private boolean shouldSpawnParticlesThisTick(GummiShipEntity entityIn) {
-		long gameTime = entityIn.level().getGameTime();
-		Long last = LAST_PARTICLE_TICK.get(entityIn.getId());
-		if (last != null && last == gameTime)
-			return false;
-		LAST_PARTICLE_TICK.put(entityIn.getId(), gameTime);
-		return true;
+	// Distance between bursts along the exhaust's path
+	private static final double BURSTS_STEP = 0.3D;
+	private static final int MAX_BURSTS = 16;
+
+	private void emitExhaust(GummiShipEntity ship, CachedShipMesh cached, PoseStack poseStack, Vec3 camPos) {
+		RandomSource random = ship.level().random;
+		long tick = ship.level().getGameTime();
+		boolean newTick = tick != cached.lastBurstTick;
+
+		for (int e = 0; e < cached.engineLocalPositions.size(); e++) {
+			Exhaust exhaust = cached.engineLocalPositions.get(e);
+
+			poseStack.pushPose();
+			poseStack.translate(exhaust.pos().x, exhaust.pos().y, exhaust.pos().z);
+			Matrix4f m = poseStack.last().pose();
+			Vec3 now = camPos.add(m.m30(), m.m31(), m.m32());
+			poseStack.popPose();
+
+			Vec3 last = cached.lastExhaust[e];
+			double distance = last == null ? 0D : now.distanceTo(last);
+			int bursts;
+
+			if (last == null || distance > BURSTS_STEP * MAX_BURSTS * 2D) {
+				bursts = newTick ? 1 : 0;
+				last = now;
+			} else if (distance >= BURSTS_STEP) {
+				bursts = Math.min(MAX_BURSTS, (int) Math.ceil(distance / BURSTS_STEP));
+			} else {
+				bursts = newTick ? 1 : 0;
+			}
+
+			for (int p = 1; p <= bursts; p++) {
+				Vec3 at = last.lerp(now, p / (double) bursts);
+				for (int f = 0; f < exhaust.flames(); f++) {
+					double s = exhaust.spread();
+					ship.level().addParticle(ParticleTypes.FLAME, at.x + (random.nextDouble() - 0.5D) * 2D * s, at.y + (random.nextDouble() - 0.5D) * 2D * s, at.z + (random.nextDouble() - 0.5D) * 2D * s, 0, 0, 0);
+				}
+			}
+
+			if (bursts > 0) {
+				cached.lastExhaust[e] = now;
+			}
+		}
+
+		cached.lastBurstTick = tick;
 	}
 
 	@Override
