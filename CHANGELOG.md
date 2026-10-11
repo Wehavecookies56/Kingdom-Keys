@@ -1,5 +1,5 @@
 ## Added:
-* Mob griefing property for gummi worlds (default or true = whatever the gamerule does).
+* Mob-griefing property for gummi worlds (default or true = whatever the gamerule does).
 * Hologram display for HP and Fuel in the hangar, unless if two ships are in the same hangar (they can still refuel but data won't be shown).
 * Particles to show ship refueling.
 * Ability to refuel ships while in edit mode.
