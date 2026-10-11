@@ -687,6 +687,7 @@ public class MenuBackground extends Screen {
 		String mp = "MP: N/A";
 
 		LivingEntity member;
+		int levelColour = 0xFFD900;
 
 		if (isPlayer) {
 			Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
@@ -694,6 +695,15 @@ public class MenuBackground extends Screen {
 			if(player == null) {
 				GameProfile profile = new GameProfile(memberUUID, memberUsername);
 				player = new RemotePlayer(Minecraft.getInstance().level, profile);
+
+				// Not around: the level the party last knew, greyed out if they are not even connected
+				if (memberLevel > 0) {
+					level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ memberLevel;
+					boolean online = minecraft.getConnection() != null && minecraft.getConnection().getPlayerInfo(memberUUID) != null;
+					if (!online) {
+						levelColour = 0x808080;
+					}
+				}
 			} else {
 				PlayerData playerData = PlayerData.get(player);
 				if(playerData != null) {
@@ -774,7 +784,7 @@ public class MenuBackground extends Screen {
 				}
 				matrixStack.popPose();
 
-				gui.drawString(minecraft.font, level, infoBoxPosX + 5, infoBoxPosY + 26, 0xFFD900);
+				gui.drawString(minecraft.font, level, infoBoxPosX + 5, infoBoxPosY + 26, levelColour);
 				gui.drawString(minecraft.font, hp, infoBoxPosX + 5, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
 				gui.drawString(minecraft.font, mp, infoBoxPosX + 5, infoBoxPosY + 26 + minecraft.font.lineHeight * 2, 0x4444FF);
 			}

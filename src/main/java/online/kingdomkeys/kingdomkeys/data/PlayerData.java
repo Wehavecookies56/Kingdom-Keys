@@ -1038,8 +1038,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.getMessages().clear();
 		LevelStats.applyStatsForLevel(this.level, player, this);
 
-		Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
+		WorldData worldData = WorldData.get(player.getServer());
+		Party party = worldData.getPartyFromMember(player.getUUID());
 		if(party != null) {
+			// Kept on the party too, so the menu can still show it while this player is offline
+			Member self = party.getMember(player.getUUID());
+			if (self != null && self.getLevel() != this.level) {
+				self.setLevel(this.level);
+				worldData.setDirty();
+			}
 			for(Member member : party.getMembers()) {
 				if(!member.isPlayer()) { //Nobody to show an overlay to
 					continue;

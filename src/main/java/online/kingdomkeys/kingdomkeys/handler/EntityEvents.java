@@ -354,6 +354,25 @@ public class EntityEvents {
 		}
 	}
 
+	// The party remembers the level a member logged off at, so the menu shows it greyed out instead of N/A
+	@SubscribeEvent
+	public void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent e) {
+		Player player = e.getEntity();
+		if (player.getServer() == null) {
+			return;
+		}
+		WorldData worldData = WorldData.get(player.getServer());
+		Party party = worldData.getPartyFromMember(player.getUUID());
+		PlayerData playerData = PlayerData.get(player);
+		Member member = party.getMember(player.getUUID());
+
+		if (party != null && playerData != null && member != null) {
+			member.setLevel(playerData.getLevel());
+			worldData.setDirty();
+			PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
+		}
+	}
+
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent e) {
 		checkRecipeMaterials(e.getEntity());
