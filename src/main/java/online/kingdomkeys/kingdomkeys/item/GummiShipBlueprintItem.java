@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ public class GummiShipBlueprintItem extends Item implements IItemCategory, ICrea
             for (int x = 0; x < structure.getWidth(); x++) {
                 for (int y = 0; y < structure.getHeight(); y++) {
                     for (int z = 0; z < structure.getDepth(); z++) {
-                        if (structure.getBlocks()[x][y][z] != null) {
+                        if (structure.getBlocks()[x][y][z] != null && Utils.isGummiOrigin(structure.getBlocks()[x][y][z])) {
                             Block block = structure.getBlocks()[x][y][z].getBlock();
                             if (block != Blocks.AIR) {
                                 if (blocks.containsKey(block)) {

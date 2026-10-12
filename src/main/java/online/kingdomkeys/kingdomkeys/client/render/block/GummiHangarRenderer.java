@@ -87,7 +87,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 				for (int z = 0; z < size; z++) {
 					BlockState expected = struct.getBlocks()[x][y][z];
 
-					if (expected == null || expected.isAir()) {
+					if (expected == null || expected.isAir() || !Utils.isGummiOrigin(expected)) {
 						continue;
 					}
 

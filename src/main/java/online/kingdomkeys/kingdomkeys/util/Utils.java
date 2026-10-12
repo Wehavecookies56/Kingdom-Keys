@@ -664,7 +664,7 @@ public class Utils {
 	private static final float HORSEPOWER_FOR_TOP_SPEED = 1F / 1.5F;
 
 	// The part of a big gummi that stands for all of it, so it is only counted once
-	private static boolean isGummiOrigin(BlockState state) {
+	public static boolean isGummiOrigin(BlockState state) {
 		if (!(state.getBlock() instanceof GummiBlockBase gummi) || !gummi.isMultiBlock()) {
 			return true;
 		}

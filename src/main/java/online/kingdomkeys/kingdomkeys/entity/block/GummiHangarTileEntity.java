@@ -436,6 +436,19 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         return new Vec3(Mth.lerp(random.nextDouble(), hull.minX, hull.maxX), Mth.lerp(random.nextDouble(), hull.minY, hull.maxY), Mth.lerp(random.nextDouble(), hull.minZ, hull.maxZ));
     }
 
+    private static boolean originLaid(Level level, BlockPos target, BlockState part, Set<BlockPos> pending) {
+        if (!(part.getBlock() instanceof GummiBlockBase gummi)) {
+            return false;
+        }
+
+        for (BlockPos other : gummi.getMultiBlockPositions(target, part)) {
+            if (!other.equals(target) && (pending.contains(other) || level.getBlockState(other).is(part.getBlock()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private GummiStructure fitted;
     private GummiStructure fittedSource;
     private int fittedSize;
@@ -568,7 +581,12 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                         return;
                     }
 
-                    if (!takePiece(containers, wanted)) {
+                    // A multiblock costs one item, taken for its origin; the other parts follow for free once the origin is down or on its way
+                    if (Utils.isGummiOrigin(wanted)) {
+                        if (!takePiece(containers, wanted)) {
+                            continue;
+                        }
+                    } else if (!originLaid(level, target, wanted, pending)) {
                         continue;
                     }
 
