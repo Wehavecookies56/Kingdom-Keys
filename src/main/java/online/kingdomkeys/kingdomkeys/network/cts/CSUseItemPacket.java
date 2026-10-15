@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public record CSUseItemPacket(int slot, String target) implements Packet {
 

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -15,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 import java.util.ArrayList;
 import java.util.List;

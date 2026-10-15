@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -23,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 import java.util.UUID;
 

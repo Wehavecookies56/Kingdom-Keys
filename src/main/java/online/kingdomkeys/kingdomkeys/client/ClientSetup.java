@@ -2,9 +2,6 @@ package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import online.kingdomkeys.kingdomkeys.client.gui.RODTransitionScreen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
@@ -17,6 +14,8 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
@@ -35,6 +34,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.RODTransitionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.particles.KeybladeHitParticle;
 import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;

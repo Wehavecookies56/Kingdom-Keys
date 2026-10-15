@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public record CSSpawnOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 

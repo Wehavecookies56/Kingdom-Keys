@@ -11,9 +11,9 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSConsumeCard(BlockPos doorTE, int slot) implements Packet {

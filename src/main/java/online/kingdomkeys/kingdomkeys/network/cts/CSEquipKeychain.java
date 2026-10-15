@@ -15,13 +15,13 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipKeychain(ResourceLocation slotToEquipTo, int slotToEquipFrom) implements Packet {

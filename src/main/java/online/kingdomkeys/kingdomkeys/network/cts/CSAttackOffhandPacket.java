@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -35,6 +34,7 @@ import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public record CSAttackOffhandPacket(int entityId) implements Packet {
 

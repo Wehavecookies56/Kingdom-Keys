@@ -30,8 +30,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSGummiThrottlePacket;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -40,6 +38,8 @@ import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGummiThrottlePacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 

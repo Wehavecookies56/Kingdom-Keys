@@ -48,8 +48,8 @@ import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 import java.awt.*;
 import java.util.*;

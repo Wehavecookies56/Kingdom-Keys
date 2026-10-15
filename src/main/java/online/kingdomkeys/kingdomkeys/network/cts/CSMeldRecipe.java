@@ -12,6 +12,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -20,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowRareMeld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2) implements Packet {
