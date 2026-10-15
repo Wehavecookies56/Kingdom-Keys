@@ -98,7 +98,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().mobSpawnRate, "Probabilidad de aparición por tipo");
         addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartless, "Spawnear Sincorazón e Incorpóreo de jugador");
         addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemigos suben de nivel");
-        addConfigKey(ModConfigs.getCommonConfig().mobLevelName, "Nivel del mob en el nombre");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "Escala de nivel de Sincorazón en RoD");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "Máximo nivel de Sincorazón en RoD");
         addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Estadísticas de Sincorazón e Incorpóreo de jugador");
@@ -126,6 +125,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
+        addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Distancia de la luz del Sincorazón");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");
@@ -3024,6 +3024,14 @@ public class LanguageESES extends KKLanguageProvider {
         // Entities
         add("kingdomkeys.entity.heartless_of", "Sincorazón de %s");
         add("kingdomkeys.entity.nobody_of", "Incorpóreo de %s");
+        add("kingdomkeys.command.heartless.turned", "%s ha caído en la oscuridad");
+        add("kingdomkeys.command.heartless.restored", "%s ha recuperado su corazón");
+        add("kingdomkeys.command.heartless.already", "%s ya es un Sincorazón");
+        add("kingdomkeys.command.heartless.not", "%s no es un Sincorazón");
+        add("kingdomkeys.heartless_form.fell.intro", "Tu corazón ha caído en la oscuridad");
+        add("kingdomkeys.heartless_form.fell.sub", "Encuentra su luz...");
+        add("kingdomkeys.heartless_form.restored.intro", "Has recuperado tu corazón");
+        add("kingdomkeys.heartless_form.restored.sub", "Pero tu Incorpóreo sigue en algún lugar...");
         add("kingdomkeys.entity.training_dummy.iframes", "Fotogramas de invencibilidad %s");
 
         // Generic GUI

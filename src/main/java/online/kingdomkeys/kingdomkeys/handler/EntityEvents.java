@@ -284,12 +284,10 @@ public class EntityEvents {
 				Utils.applyMobLevel(mob, lvl);
 
 				mob.setHealth(mob.getMaxHealth());
-				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
-					if (ModConfigs.mobLevelName) {
-						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
-					}
-					PacketHandler.sendTo(new SCSyncGlobalData(mob), (ServerPlayer) player);
-				}
+
+				// The level used to be in the custom name //TODO remove in a few versions
+				Utils.stripLevelFromCustomName(mob);
+				PacketHandler.syncToAllAround(mob, mobData);
 			}
 		}
 	}
@@ -1637,34 +1635,8 @@ public class EntityEvents {
 
 			if (event.getSource().getEntity() instanceof IKHMob killerMob && ModConfigs.playerSpawnHeartless) {
 				if (!event.getSource().getEntity().hasCustomName() && (killerMob.getKHMobType() == MobType.HEARTLESS_EMBLEM || killerMob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD)) {
-					if (event.getEntity() instanceof Player) { // If a player gets killed by a heartless
-						PlayerData playerData = PlayerData.get((Player) event.getEntity());
-
-						String[] heartless = ModConfigs.playerSpawnHeartlessData.get(0).split(",");
-						String[] nobody = ModConfigs.playerSpawnHeartlessData.get(1).split(",");
-
-						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getEntity().level());
-						newDusk.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newDusk.setCustomName(Component.translatable("kingdomkeys.entity.nobody_of", event.getEntity().getDisplayName().getString()));
-						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
-						newDusk.heal(newDusk.getMaxHealth());
-						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						event.getSource().getEntity().level().addFreshEntity(newDusk);
-
-						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level());
-						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newShadow.setCustomName(Component.translatable("kingdomkeys.entity.heartless_of", event.getEntity().getDisplayName().getString()));
-						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
-						newShadow.heal(newShadow.getMaxHealth());
-
-						newShadow.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(heartless[2]) / 100, newShadow.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-						event.getSource().getEntity().level().addFreshEntity(newShadow);
-
-						HeartEntity heart = new HeartEntity(event.getEntity().level());
-						heart.setPos(event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ());
-						event.getEntity().level().addFreshEntity(heart);
-
-					} else if (event.getEntity() instanceof Villager) {
+					// Players struck down by a Heartless are handled by HeartlessForm, which prevents them from dying
+					if (event.getEntity() instanceof Villager) {
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level());
 						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
 						event.getSource().getEntity().level().addFreshEntity(newShadow);
@@ -1844,6 +1816,14 @@ public class EntityEvents {
 		PlayerData playerData = PlayerData.get(localPlayer);
 		GlobalData globalData = GlobalData.get(localPlayer);
 		if (localPlayer == null || playerData == null || globalData == null) return;
+
+		// Whoever starts seeing a levelled mob is told its level, for the tag beside its name
+		if (!(e.getTarget() instanceof Player) && e.getTarget() instanceof LivingEntity tracked && localPlayer instanceof ServerPlayer watcher) {
+			GlobalData trackedData = GlobalData.get(tracked);
+			if (trackedData != null && trackedData.getLevel() > 0) {
+				PacketHandler.sendTo(new SCSyncGlobalData(tracked), watcher);
+			}
+		}
 
 		if (e.getTarget() instanceof Player targetPlayer) {
 			PacketHandler.syncToAllAround(localPlayer, playerData);

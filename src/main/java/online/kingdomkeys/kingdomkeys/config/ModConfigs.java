@@ -348,7 +348,7 @@ public class ModConfigs {
         hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -370,7 +370,6 @@ public class ModConfigs {
         keybladeOpenDoors = COMMON.keybladeOpenDoors.get();
         mobSpawnRate = (List<String>) COMMON.mobSpawnRate.get();
         mobLevelingUp = COMMON.mobLevelingUp.get();
-        mobLevelName = COMMON.mobLevelName.get();
 
         driveHeal = COMMON.driveHeal.get();
 

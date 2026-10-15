@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance;
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
@@ -153,6 +153,11 @@ public class ServerConfig {
                 .comment("If true, the story moves on by itself, like the master showing up one morning")
                 .translation(KingdomKeys.MODID + ".config.story_progress")
                 .define("storyProgress", true);
+
+        heartlessLightDistance = builder
+                .comment("Roughly how many blocks away the heart of a player turned Heartless drifts off to wait for them")
+                .translation(KingdomKeys.MODID + ".config.heartless_light_distance")
+                .defineInRange("heartlessLightDistance", 128, 4, 1024);
 
         builder.pop();
 

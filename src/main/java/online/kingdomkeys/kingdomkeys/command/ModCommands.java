@@ -14,6 +14,7 @@ public class ModCommands {
                 .then(DimensionCommand.register())
                 .then(DriveLevelCommand.register())
                 .then(StoryCommand.register())
+                .then(HeartlessCommand.register())
                 .then(SynthLevelCommand.register())
                 .then(DrivePointsCommand.register())
                 .then(ExpCommand.register())

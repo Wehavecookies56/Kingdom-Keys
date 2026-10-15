@@ -46,7 +46,10 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 				float rgb = 1;
 
 				float ticks = entity.tickCount + partialTicks;
-				if (ticks < 10) // Growing
+				// A lost heart never fades on a timer
+				if (entity.isGuide())
+					matrixStackIn.scale(Math.min(ticks, 10F) * 0.0005f, Math.min(ticks, 10F) * 0.0005f, Math.min(ticks, 10F) * 0.0005f);
+				else if (ticks < 10) // Growing
 					matrixStackIn.scale(ticks * 0.0005f, ticks * 0.0005f, ticks * 0.0005f);
 				else if (ticks > HeartEntity.MAX_TICKS - 10) // Disappearing
 					matrixStackIn.scale((HeartEntity.MAX_TICKS - ticks) * 0.0005f, (HeartEntity.MAX_TICKS - ticks) * 0.0005f, (HeartEntity.MAX_TICKS - ticks) * 0.0005f);

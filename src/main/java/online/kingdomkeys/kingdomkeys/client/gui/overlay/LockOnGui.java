@@ -78,7 +78,7 @@ public class LockOnGui extends OverlayBase {
 		Player player = minecraft.player;
 		PlayerData playerData = PlayerData.get(player);
 		if (playerData != null) {
-			Entity target = InputHandler.lockOn;
+			LivingEntity target = InputHandler.lockOn;
 			if (target == null) {
 				missingHpBarWidth = 0;
             } else {
@@ -118,11 +118,9 @@ public class LockOnGui extends OverlayBase {
 					ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 					RenderSystem.enableBlend();
 					Component targetName = target.getName();
-					if (!ModConfigs.mobLevelName) {
-						GlobalData targetData = GlobalData.getClient((LivingEntity) target);
-						if (targetData != null && targetData.getLevel() > 0) {
-							targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
-						}
+					GlobalData targetData = GlobalData.getClient(target);
+					if (targetData != null && targetData.getLevel() > 0) {
+						targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
 					}
 					float scale = 1.42F;
 					guiGraphics.pose().pushPose();
@@ -131,7 +129,7 @@ public class LockOnGui extends OverlayBase {
 						drawString(guiGraphics, minecraft.font, targetName, ClientUtils.LOCKON_ELEMENT.width - minecraft.font.width(targetName) - 50, 19, 0xFFFFFF);
 					}
 					guiGraphics.pose().popPose();
-					drawHPBar(guiGraphics, (LivingEntity) target);
+					drawHPBar(guiGraphics, target);
 					RenderSystem.disableBlend();
 					ClientUtils.LOCKON_ELEMENT.endTransform(guiGraphics);
 				}

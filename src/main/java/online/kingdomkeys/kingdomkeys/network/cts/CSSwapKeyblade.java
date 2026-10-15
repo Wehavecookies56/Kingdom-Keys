@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public record CSSwapKeyblade() implements Packet {
 
@@ -24,6 +25,9 @@ public record CSSwapKeyblade() implements Packet {
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
+        if (HeartlessForm.isHeartless(player)) {
+            return;
+        }
         PlayerData playerData = PlayerData.get(player);
         Utils.summonKeyblade(player, true, DriveForm.NONE);
 

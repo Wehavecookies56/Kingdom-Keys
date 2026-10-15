@@ -98,7 +98,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().mobSpawnRate, "Mob type spawn rate");
         addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartless, "Spawn player Heartless and Nobody");
         addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemies level up");
-        addConfigKey(ModConfigs.getCommonConfig().mobLevelName, "Mob level in name");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "RoD heartless level scale");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "RoD heartless max level");
         addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Player Heartless and Nobody stats");
@@ -126,6 +125,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
+        addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Heartless light distance");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
@@ -3013,6 +3013,14 @@ public class LanguageENUS extends KKLanguageProvider {
         // Entities
         add("kingdomkeys.entity.heartless_of", "%s's Heartless");
         add("kingdomkeys.entity.nobody_of", "%s's Nobody");
+        add("kingdomkeys.command.heartless.turned", "%s has fallen to darkness");
+        add("kingdomkeys.command.heartless.restored", "%s has found their heart again");
+        add("kingdomkeys.command.heartless.already", "%s is already a Heartless");
+        add("kingdomkeys.command.heartless.not", "%s is not a Heartless");
+        add("kingdomkeys.heartless_form.fell.intro", "Your heart has fallen to darkness");
+        add("kingdomkeys.heartless_form.fell.sub", "Find its light...");
+        add("kingdomkeys.heartless_form.restored.intro", "You found your heart");
+        add("kingdomkeys.heartless_form.restored.sub", "But your Nobody still walks somewhere...");
         add("kingdomkeys.entity.training_dummy.iframes", "Invincibility frames %s");
 
         // Generic GUI

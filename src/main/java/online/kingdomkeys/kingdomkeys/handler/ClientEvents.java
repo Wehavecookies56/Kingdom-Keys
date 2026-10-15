@@ -52,6 +52,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -77,6 +78,7 @@ import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -128,6 +130,28 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void onKeychainHolderPost(RenderLivingEvent.Post<?, ?> event) {
 		KeychainRenderer.drawn();
+	}
+
+	@SubscribeEvent
+	public void onNameTagRender(RenderNameTagEvent event) {
+		if (!(event.getEntity() instanceof LivingEntity mob) || mob instanceof Player) {
+			return;
+		}
+
+		GlobalData data = GlobalData.getClient(mob);
+		Minecraft mc = Minecraft.getInstance();
+		if (data == null || data.getLevel() <= 0 || mc.player == null || mob.isInvisible()) {
+			return;
+		}
+
+		boolean lookedAt = mc.crosshairPickEntity == mob;
+		boolean alwaysShown = mob.hasCustomName() && mob.isCustomNameVisible();
+		if (!lookedAt && !alwaysShown) {
+			return;
+		}
+
+		event.setContent(Component.empty().append(mob.getDisplayName()).append(" Lv." + Utils.getLevelColor(mc.player, data.getLevel()) + data.getLevel()));
+		event.setCanRender(TriState.TRUE);
 	}
 
 	@SubscribeEvent

@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.util.Mth;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
@@ -153,6 +154,26 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 			LegLeft3.xRot = LegRight3.xRot = 0;
 		}
 
+		clawSwipe();
+	}
+
+	// Rest angles of the parts the swipe moves, put back every frame before it is applied
+	private static final float ARM_1 = -0.409F, ARM_2 = 0.4461F, UPPER_BODY = 0.7064F;
+	private static final float ARM_RAISE = 1.6F, HEAD_DIP = 0.35F, BODY_LEAN = 0.3F;
+
+	// A swipe with both claws: they come up and forward while the head and body dip into the blow
+	private void clawSwipe() {
+		float swing = Mth.sin(attackTime * Mth.PI);
+		float right = Mth.sin(Math.min(attackTime * 1.4F, 1F) * Mth.PI);
+
+		ArmRight1.xRot = ARM_1 - right * ARM_RAISE;
+		ArmRight2.xRot = ARM_2 - right * ARM_RAISE;
+		ArmLeft1.xRot = ARM_1 - swing * ARM_RAISE * 0.8F;
+		ArmLeft2.xRot = ARM_2 - swing * ARM_RAISE * 0.8F;
+
+		float dip = swing * HEAD_DIP;
+		Head.xRot = LowerHead.xRot = AntenaLeft1.xRot = AntenaLeft2.xRot = AntenaRight1.xRot = AntenaRight2.xRot = dip;
+		UpperBody.xRot = UPPER_BODY + swing * BODY_LEAN;
 	}
 
 	protected float degToRad(double degrees) {

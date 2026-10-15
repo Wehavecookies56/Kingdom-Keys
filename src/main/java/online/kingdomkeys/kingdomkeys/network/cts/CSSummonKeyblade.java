@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -58,6 +59,11 @@ public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceD
 
 	@Override
 	public void handle(IPayloadContext context) {
+		// A Heartless has no keyblade, magic, forms or items
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		Player player = context.player();
 		Utils.summonKeyblade(player, forceDesummon, formToSummonFrom);
 	}

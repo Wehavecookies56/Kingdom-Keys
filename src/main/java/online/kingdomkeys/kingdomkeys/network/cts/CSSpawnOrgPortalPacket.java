@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,6 +35,11 @@ public record CSSpawnOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey
 
 	@Override
 	public void handle(IPayloadContext context) {
+		// A Heartless has no keyblade, magic, forms or items
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		if (!(context.player() instanceof ServerPlayer player)) {
 			return;
 		}

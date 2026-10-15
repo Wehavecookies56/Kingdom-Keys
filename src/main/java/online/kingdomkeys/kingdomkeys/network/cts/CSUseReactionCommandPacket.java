@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -37,6 +38,11 @@ public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implemen
 
 	@Override
 	public void handle(IPayloadContext context) {
+		// A Heartless has no keyblade, magic, forms or items
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		Player player = context.player();
 		ResourceLocation reactionName = Utils.getRCNameFromIndex(player, index);
 		if(reactionName == null) {

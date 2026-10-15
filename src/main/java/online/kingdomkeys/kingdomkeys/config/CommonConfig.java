@@ -18,7 +18,7 @@ public class CommonConfig {
 	public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
 	public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate, playerSpawnHeartlessData, startingRecipes, starterKeyblades;
 	public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats, coEntranceChunkX, coEntranceChunkZ;
-	public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames, generateCOEntrance;
+	public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames, generateCOEntrance;
 	public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
     CommonConfig(final ModConfigSpec.Builder builder) {
@@ -158,10 +158,6 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.player_mob_leveling_up")
                 .define("mobLevelingUp", true);
 
-        mobLevelName = builder
-                .comment("Add the level to the name of mobs, when this is enabled the name will not be removed from mobs that have already spawned in your world")
-                .translation(KingdomKeys.MODID + ".config.mob_level_name")
-                .define("mobLevelName", true);
         
         rodHeartlessLevelScale = builder
                 .comment("Heartless spawning in the ROD will increase 1 level every X blocks")

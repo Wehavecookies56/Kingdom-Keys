@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -244,6 +245,10 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 
 	@Override
 	public void handle(IPayloadContext context) {
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		Player player = context.player();
 		Entity entity = player.level().getEntity(entityId);
 		if (entity != null) {

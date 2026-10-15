@@ -90,6 +90,7 @@ import online.kingdomkeys.kingdomkeys.world.MiniCO;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -225,6 +226,7 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new TrainingHandler());
 		NeoForge.EVENT_BUS.register(new DialogueHandler());
 		NeoForge.EVENT_BUS.register(new ForetellerVisit());
+		NeoForge.EVENT_BUS.register(new HeartlessForm());
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

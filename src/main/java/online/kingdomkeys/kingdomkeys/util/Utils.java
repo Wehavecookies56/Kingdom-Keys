@@ -2547,6 +2547,21 @@ public class Utils {
 		return bare == null ? "" : bare.trim();
 	}
 
+	/** TODO remove in a few versions */
+	public static void stripLevelFromCustomName(LivingEntity entity) {
+		Component custom = entity.getCustomName();
+		if (custom == null || !LEVEL_SUFFIX.matcher(custom.getString()).find()) {
+			return;
+		}
+
+		String bare = stripLevel(custom.getString());
+		if (bare.isBlank() || bare.equals(entity.getType().getDescription().getString())) {
+			entity.setCustomName(null);
+		} else {
+			entity.setCustomName(Component.literal(bare));
+		}
+	}
+
 	public static int getEntityLevel(LivingEntity entity) {
 		if (entity instanceof Player player) {
 			PlayerData data = PlayerData.get(player);

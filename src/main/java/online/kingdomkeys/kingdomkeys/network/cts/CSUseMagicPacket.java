@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -41,6 +42,11 @@ public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) im
 
 	@Override
 	public void handle(IPayloadContext context) {
+		// A Heartless has no keyblade, magic, forms or items
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
         if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, KingdomKeys.rl(name))).isCanceled())

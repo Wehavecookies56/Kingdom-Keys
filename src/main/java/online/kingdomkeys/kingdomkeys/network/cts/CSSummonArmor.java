@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -76,6 +77,11 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 
 	@Override
 	public void handle(IPayloadContext context) {
+		// A Heartless has no keyblade, magic, forms or items
+		if (HeartlessForm.isHeartless(context.player())) {
+			return;
+		}
+
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 

@@ -278,6 +278,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("armor_glint", armorGlint);
 		
 		storage.putBoolean("respawn_rod", respawnROD);
+		storage.putBoolean("heartless_form", heartlessForm);
+		storage.putBoolean("nobody_owed", nobodyOwed);
+		if (lightDimension != null && lightPos != null) {
+			storage.putString("light_dimension", lightDimension.location().toString());
+			storage.putLong("light_pos", lightPos.asLong());
+		}
 		storage.putBoolean("met_moogle", metMoogle);
 
 		storage.putInt("notif_color", notifColor);
@@ -565,6 +571,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
+		this.heartlessForm = nbt.getBoolean("heartless_form");
+		this.nobodyOwed = nbt.getBoolean("nobody_owed");
+		if (nbt.contains("light_dimension") && nbt.contains("light_pos")) {
+			ResourceLocation lightDim = ResourceLocation.tryParse(nbt.getString("light_dimension"));
+			this.lightDimension = lightDim == null ? null : ResourceKey.create(Registries.DIMENSION, lightDim);
+			this.lightPos = BlockPos.of(nbt.getLong("light_pos"));
+		} else {
+			this.lightDimension = null;
+			this.lightPos = null;
+		}
 		this.setMetMoogle(nbt.getBoolean("met_moogle"));
 		this.setNotifColor(nbt.getInt("notif_color"));
 		this.setCrown(nbt.getString("crown"));
@@ -2841,6 +2857,41 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setRespawnROD(boolean respawn) {
 		this.respawnROD = respawn;
+	}
+
+	// Turned into a Heartless instead of dying: stays so until it reaches its own heart, the light at lightPos
+	private boolean heartlessForm, nobodyOwed;
+	private ResourceKey<Level> lightDimension;
+	private BlockPos lightPos;
+
+	public boolean isHeartless() {
+		return heartlessForm;
+	}
+
+	public void setHeartless(boolean heartless) {
+		this.heartlessForm = heartless;
+	}
+
+	// Their Nobody is still out there, waiting to take the place of the next Dusk that turns up near them
+	public boolean isNobodyOwed() {
+		return nobodyOwed;
+	}
+
+	public void setNobodyOwed(boolean owed) {
+		this.nobodyOwed = owed;
+	}
+
+	public ResourceKey<Level> getLightDimension() {
+		return lightDimension;
+	}
+
+	public BlockPos getLightPos() {
+		return lightPos;
+	}
+
+	public void setLight(ResourceKey<Level> dimension, BlockPos pos) {
+		this.lightDimension = dimension;
+		this.lightPos = pos;
 	}
 
 	public boolean hasMetMoogle() {

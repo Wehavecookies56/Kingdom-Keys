@@ -48,6 +48,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
 import java.awt.*;
@@ -339,7 +340,7 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	public void onCancel(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
-		if (item.getId().equals(attack)) {
+		if (item.getId().equals(attack) && !HeartlessForm.isHeartless(minecraft.player)) {
 			PacketHandler.sendToServer(new CSSwapKeyblade());
 		}
 	}
@@ -360,6 +361,12 @@ public class CommandMenuGui extends OverlayBase {
 		} else if (item.getId().equals(portals) || item.getId().equals(limit)) {
 			item.setVisible(isOrgMode());
 		}
+		// A Heartless has nothing to command
+		if (submenu != null && HeartlessForm.isHeartless(minecraft.player)) {
+			item.setActive(false);
+			return;
+		}
+
 		if (submenu == null) {
 			item.setActive(true);
 			return;
