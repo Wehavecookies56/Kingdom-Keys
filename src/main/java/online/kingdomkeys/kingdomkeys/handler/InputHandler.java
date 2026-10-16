@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -726,12 +727,17 @@ public class InputHandler {
         SHOW_GUI("key.kingdomkeys.showgui", GLFW.GLFW_KEY_O),
         ACTION("key.kingdomkeys.action",GLFW.GLFW_KEY_X),
         SUMMON_ARMOR("key.kingdomkeys.summonarmor",GLFW.GLFW_KEY_H),
-    	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R);
+    	REACTION_COMMAND("key.kingdomkeys.reactioncommand", GLFW.GLFW_KEY_R),
+        SHOTLOCK("key.kingdomkeys.shotlock", InputConstants.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
 
         public final KeyMapping keybinding;
         public final String translationKey;
         Keybinds(String name, int defaultKey) {
-            keybinding = new KeyMapping(name, defaultKey, "key.categories.kingdomkeys");
+            this(name, InputConstants.Type.KEYSYM, defaultKey);
+        }
+
+        Keybinds(String name, InputConstants.Type type, int defaultKey) {
+            keybinding = new KeyMapping(name, type, defaultKey, "key.categories.kingdomkeys");
             translationKey = name;
         }
 

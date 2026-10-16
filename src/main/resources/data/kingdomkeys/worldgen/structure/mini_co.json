@@ -1,0 +1,8 @@
+{
+  "type": "kingdomkeys:mini_co",
+  "step": "surface_structures",
+  "start_pool": "kingdomkeys:castle_oblivion/mini_co",
+  "biomes": "#kingdomkeys:has_structure/mini_co_biomes",
+  "terrain_adaptation": "beard_thin",
+  "spawn_overrides": {}
+}

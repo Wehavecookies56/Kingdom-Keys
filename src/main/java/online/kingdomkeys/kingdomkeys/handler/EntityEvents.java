@@ -361,10 +361,13 @@ public class EntityEvents {
 		}
 		WorldData worldData = WorldData.get(player.getServer());
 		Party party = worldData.getPartyFromMember(player.getUUID());
+		if (party == null) {
+			return;
+		}
 		PlayerData playerData = PlayerData.get(player);
 		Member member = party.getMember(player.getUUID());
 
-		if (party != null && playerData != null && member != null) {
+		if (playerData != null && member != null) {
 			member.setLevel(playerData.getLevel());
 			worldData.setDirty();
 			PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));

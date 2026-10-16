@@ -184,7 +184,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("hint.kingdomkeys.visit_moogle", "Visita un moguri para sintetizar tu Kingdom Key");
 
         //Keybinds
-        add("key.categories.kingdomkeys", "Kingdom Keys");
+        add("key.categories.kingdomkeys", "§6§l§nKingdom§f §7§l§nKeys§f §7§l§n2");
         add(InputHandler.Keybinds.ACTION, "Tecla de Acción");
         add(InputHandler.Keybinds.BACK, "Menú de Comandos: Atrás");
         add(InputHandler.Keybinds.ENTER, "Menú de Comandos: Acceder");
@@ -194,6 +194,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(InputHandler.Keybinds.SUMMON_KEYBLADE, "Invocar Llave Espada");
         add(InputHandler.Keybinds.SUMMON_ARMOR, "Invocar Armadura");
         add(InputHandler.Keybinds.REACTION_COMMAND, "Comando de Reacción");
+        add(InputHandler.Keybinds.SHOTLOCK, "Tiro Certero");
         add(InputHandler.Keybinds.LOCK_ON, "Fijar");
         add(InputHandler.Keybinds.OPENMENU, "Abrir Menú");
         add(InputHandler.Keybinds.SHOW_GUI, "Mostrar HUD");

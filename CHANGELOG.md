@@ -11,6 +11,7 @@
 * ServerConfig to set the xp level curve factor, higher number the less steep is the xp increase.
 * ClientConfig to hide the second layer of the skin when wearing clothes/armor to prevent clipping or z-fighting.
 * Command /kingdomkeys heartless <turn/restore> to become a Shadow or back to Human.
+* MiniCO as a proper structure (/locate and /place works).
 ## Changed:
 * Leveling paths now can go past lvl 100.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.

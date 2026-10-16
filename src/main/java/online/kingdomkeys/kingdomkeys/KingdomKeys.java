@@ -157,6 +157,7 @@ public class KingdomKeys {
 		ModFeatures.FEATURES.register(modEventBus);
 		ModDimensions.CHUNK_GENERATORS.register(modEventBus);
 		ModStructures.STRUCTURES.register(modEventBus);
+		ModStructures.PLACEMENTS.register(modEventBus);
 
 		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
 		ModRoomModifiers.ROOM_MODIFIERS.register(modEventBus);

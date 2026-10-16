@@ -1404,7 +1404,7 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Player player = event.getEntity();
 		if (player == mc.player && player.getControlledVehicle() == null && cooldownTicks <= 0) { // Only run this for the local client player
-			focusing = mc.options.keyPickItem.isDown() && player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon);
+			focusing = InputHandler.Keybinds.SHOTLOCK.getKeybind().isDown() && player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon);
 			PlayerData playerData = PlayerData.get(player);
 			if(playerData == null)
 				return;

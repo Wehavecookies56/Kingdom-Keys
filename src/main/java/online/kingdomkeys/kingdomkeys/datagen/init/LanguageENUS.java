@@ -2736,7 +2736,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle + ".ffa", "Free For All");
 
         //Controls
-        add("key.categories.kingdomkeys", "Kingdom Keys");
+        add("key.categories.kingdomkeys", "§6§l§nKingdom§f §7§l§nKeys§f §7§l§n2");
         add(InputHandler.Keybinds.ACTION, "Action key");
         add(InputHandler.Keybinds.BACK, "Command menu back");
         add(InputHandler.Keybinds.ENTER, "Command menu enter");
@@ -2746,6 +2746,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.SUMMON_KEYBLADE, "Summon weapon");
         add(InputHandler.Keybinds.SUMMON_ARMOR, "Summon armor");
         add(InputHandler.Keybinds.REACTION_COMMAND, "Reaction Command");
+        add(InputHandler.Keybinds.SHOTLOCK, "Shotlock");
         add(InputHandler.Keybinds.LOCK_ON, "Lock-on");
         add(InputHandler.Keybinds.OPENMENU, "Open Menu");
         add(InputHandler.Keybinds.SHOW_GUI, "Toggle HUD");
