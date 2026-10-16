@@ -24,8 +24,6 @@ import java.util.Map;
  */
 public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> {
 
-	// TODO read the ability array
-
 	@Override
 	public KeybladeData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		KeybladeData out = new KeybladeData();
@@ -35,15 +33,8 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			List<ResourceLocation> abilities = new ArrayList<>();
 
 			switch (entry.getKey()) {
-			case "ability":
-				// Get item from the registry using the supplied resource location
-				if(!element.getAsString().equals("")) {
-					Ability ability = ModAbilities.registry.get(KingdomKeys.rl(element.getAsString()));
-					// Make sure the item is valid
-					if (ability != null) {
-						out.setBaseAbility(ability.getRegistryName());
-					}
-				}
+			case "ability", "abilities":
+				out.setBaseAbilities(readAbilities(element, out));
 				break;
 			case "keychain":
 				// Get item from the registry using the supplied resource location
@@ -140,18 +131,38 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 						level.setMaterials(recipe);
 					});
 					break;
-				case "ability":
-					String name = levelElement.getAsString();
-					if(ModAbilities.registry.containsKey(KingdomKeys.rl(name))) {
-						level.setAbility(KingdomKeys.rl(levelElement.getAsString()));
-					} else {
-						KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+ out.keychain);
-					}
+				case "ability", "abilities":
+					level.setAbilities(readAbilities(levelElement, out));
 					break;
 				}
 			});
 			levels.add(level);
 		});
 		return levels;
+	}
+
+	/** Takes either a single ability name or an array of them, leaving out empty and unknown ones */
+	private static List<ResourceLocation> readAbilities(JsonElement element, KeybladeData out) {
+		List<ResourceLocation> abilities = new ArrayList<>();
+		List<JsonElement> names = new ArrayList<>();
+		if (element.isJsonArray()) {
+			element.getAsJsonArray().forEach(names::add);
+		} else {
+			names.add(element);
+		}
+
+		for (JsonElement nameElement : names) {
+			String name = nameElement.getAsString();
+			if (name.isEmpty()) {
+				continue;
+			}
+			Ability ability = ModAbilities.registry.get(KingdomKeys.rl(name));
+			if (ability != null) {
+				abilities.add(ability.getRegistryName());
+			} else {
+				KingdomKeys.LOGGER.error("Ability " + name + " does not exist for keyblade " + out.keychain);
+			}
+		}
+		return abilities;
 	}
 }

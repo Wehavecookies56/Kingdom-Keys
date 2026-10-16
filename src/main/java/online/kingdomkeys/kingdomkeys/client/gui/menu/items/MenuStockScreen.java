@@ -1,22 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSTakeOverflowItem;
@@ -85,66 +80,18 @@ public class MenuStockScreen extends MenuFilterable {
         takeItem.active = canTakeItem();
     }
 
-    private void clearSelectionIfGone(List<ItemStack> overflow) {
-        if (selectedItemStack == null || selectedItemStack.isEmpty()) {
-            return;
-        }
-
-        for (ItemStack stack : overflow) {
-            if (ItemStack.matches(stack, selectedItemStack)) {
-                return;
-            }
-        }
-
-        selectedItemStack = ItemStack.EMPTY;
-    }
-
     private boolean canTakeItem() {
         return playerData.checkNextOverflow() != null && Utils.tryToAddItem(player, playerData.checkNextOverflow(), true);
     }
     
+    // Stock items are only listed, never selected
+    @Override
+    public void action(ResourceLocation loc, ItemStack stack) {
+    }
+
     @Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-        PoseStack matrixStack = gui.pose();
-        float iconPosX = bottomRightBar.getPosX() + 8;
-        float iconPosY = height * 0.8283F;
-        float iconWidth = width * 0.1015F;
-        float iconHeight = height * 0.1537F;
-        
-        matrixStack.pushPose();
-        {
-            matrixStack.translate(iconPosX, iconPosY, 0);
-            matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
-            ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 1, -1, 16);
-        }
-        matrixStack.popPose();
-
-        gui.drawString(minecraft.font, selectedItemStack.getHoverName().getString(), (int) tooltipPosX + 45, (int) tooltipPosY + (0), 0xFFFFFF);
-
-        if (selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KeychainItem) {
-            KeybladeItem kb = selectedItemStack.getItem() instanceof KeychainItem ? ((KeychainItem) selectedItemStack.getItem()).getKeyblade() : (KeybladeItem) selectedItemStack.getItem();
-            if (kb != null && kb.data != null) {
-                ClientUtils.drawSplitString(gui, kb.getDesc(), (int) tooltipPosX + 55, (int) tooltipPosY + 10, (int) (width * 0.38F), 0xAAAAAA);
-                gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + ": " + kb.getStrength(0), (int) (width * 0.85F), (int) (tooltipPosY), 0xFF0000);
-                gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + ": " + kb.getMagic(0), (int) (width * 0.85F), (int) tooltipPosY + 10, 0x4444FF);
-            } else {
-                drawTooltipText(gui, selectedItemStack);
-            }
-        } else {
-            drawTooltipText(gui, selectedItemStack);
-        }
-        
 	}
-
-    public void drawTooltipText(GuiGraphics gui, ItemStack selectedItemstack) {
-        List<Component> tooltip = selectedItemstack.getTooltipLines(Item.TooltipContext.of(minecraft.level), minecraft.player, TooltipFlag.Default.NORMAL);
-        for (int i = 1; i < Math.min(tooltip.size(), 3); i++) {
-            gui.drawString(minecraft.font, tooltip.get(i).getString(), (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * i) + 5, 0xFFFFFF);
-        }
-        if (tooltip.size() > 3) {
-            gui.drawString(minecraft.font, "...", (int) tooltipPosX + 60, (int) tooltipPosY + (minecraft.font.lineHeight * 3) + 5, 0xFFFFFF);
-        }
-    }
 
     @Override
     public void init() {
@@ -194,7 +141,6 @@ public class MenuStockScreen extends MenuFilterable {
 		    }
 	    }
 
-        clearSelectionIfGone(overflow);
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
         int itemWidth = box.getWidth() / 2 - 10;
         for (int i = 0; i < items.size(); i += 2) {

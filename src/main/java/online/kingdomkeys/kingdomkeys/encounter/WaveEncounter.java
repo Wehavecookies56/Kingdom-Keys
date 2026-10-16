@@ -124,10 +124,20 @@ public class WaveEncounter implements Encounter {
 
             trickle(encounter, state, context, level);
 
-            //TODO interval ticks
-
             if (state.getMobsRemaining() > 0 || state.currentWave < encounter.getWaves().size()) {
                 if (state.getCurrentlySpawned() <= 0) {
+                    // A breather of interval_ticks between waves, though not after the last one
+                    if (encounter.getIntervalTicks() > 0 && state.currentWave + 1 < encounter.getWaves().size()) {
+                        long now = level.getGameTime();
+                        if (state.waveEndTime <= 0) {
+                            state.waveEndTime = now + encounter.getIntervalTicks();
+                            CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
+                        }
+                        if (now < state.waveEndTime) {
+                            return;
+                        }
+                        state.waveEndTime = 0;
+                    }
                     state.nextWave();
                     spawnWave(instance, encounter, state, context, level);
                 }

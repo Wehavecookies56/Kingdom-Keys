@@ -1711,6 +1711,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.illusory_crystal, "Cristal Ilusorio");
 
         addItem(ModItems.gummiMeteorFragment, "Fragmento de Gummi");
+        addItem(ModItems.memoryFromAnotherSelf, "Recuerdo de otro yo");
         addItem(ModItems.gummiShipBlueprint, "Planos de Gummi");
         addItem(ModItems.gummiShipBlueprintCreative, "Planos de Gummi (Creativo)");
         addItem(ModItems.gummiPhone, "Gumífono");

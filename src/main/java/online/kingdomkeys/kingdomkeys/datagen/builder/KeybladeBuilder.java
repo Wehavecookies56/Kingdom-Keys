@@ -151,8 +151,14 @@ public class KeybladeBuilder extends ModelFile {
                    recipe.add(matObj);
                });
             obj1.add("recipe", recipe);
-            if (k.getAbility() != null)
+            // A single ability stays a plain string, so the generated files only change when a level grants more
+            if (k.getAbilities().size() == 1) {
                 obj1.addProperty("ability", k.getAbility().toString());
+            } else if (k.getAbilities().size() > 1) {
+                JsonArray abilities = new JsonArray();
+                k.getAbilities().forEach(a -> abilities.add(a.toString()));
+                obj1.add("ability", abilities);
+            }
 
         }
         root.add("levels", levels);

@@ -2632,10 +2632,7 @@ public class Utils {
 
 		if (keyblade != null) {
 			for (int i = 0; i <= level; i++) {
-				ResourceLocation a = keyblade.data.getLevelAbility(i);
-				if (a != null) {
-					abilities.add(a);
-				}
+				abilities.addAll(keyblade.data.getLevelAbilities(i));
 			}
 		}
 		return abilities;

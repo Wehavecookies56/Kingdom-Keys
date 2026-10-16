@@ -4,6 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,24 +18,27 @@ public class KeybladeLevel {
     private int magic;
     //The materials required to upgrade to this level, key is the material, value is the quantity
     private Map<Item, Integer> materials;
-    //The ability gained when upgrading to this level
-    
-    //TODO ability system and potentially multiple abilities here
-    private ResourceLocation ability;
+    //The abilities gained when upgrading to this level, in the order the file lists them
+    private List<ResourceLocation> abilities = new ArrayList<>();
 
     public KeybladeLevel() { }
 
     public KeybladeLevel(KeybladeLevelBuilder keybladeLevelBuilder)
     {
-        if(keybladeLevelBuilder.ability != null)
-            this.ability = keybladeLevelBuilder.ability;
+        this.abilities = new ArrayList<>(keybladeLevelBuilder.abilities);
         this.magic = keybladeLevelBuilder.magic;
         this.strength = keybladeLevelBuilder.strength;
         this.materials = keybladeLevelBuilder.materials;
     }
 
     public void setAbility(ResourceLocation ability) {
-        this.ability = ability;
+        this.abilities = new ArrayList<>();
+        if (ability != null)
+            this.abilities.add(ability);
+    }
+
+    public void setAbilities(List<ResourceLocation> abilities) {
+        this.abilities = new ArrayList<>(abilities);
     }
 
     public void setMagic(int magic) {
@@ -48,8 +53,13 @@ public class KeybladeLevel {
         this.strength = strength;
     }
 
+	/** The first of this level's abilities, or null if it grants none */
 	public ResourceLocation getAbility() {
-		return this.ability;
+		return abilities.isEmpty() ? null : abilities.getFirst();
+	}
+
+	public List<ResourceLocation> getAbilities() {
+		return abilities;
 	}
 
     public int getMagic() {
@@ -68,7 +78,7 @@ public class KeybladeLevel {
         this.strength = strength;
         this.magic = magic;
         this.materials = materials;
-        this.ability = ability;
+        setAbility(ability);
     }
 
     @Override
@@ -80,7 +90,7 @@ public class KeybladeLevel {
         private int strength;
         private int magic;
         private Map<Item, Integer> materials;
-        private ResourceLocation ability;
+        private final List<ResourceLocation> abilities = new ArrayList<>();
 
         public KeybladeLevelBuilder() { }
 
@@ -91,7 +101,8 @@ public class KeybladeLevel {
 		}
 
 		public KeybladeLevelBuilder withAbility(ResourceLocation ability) {
-			this.ability = ability;
+			if (ability != null)
+				this.abilities.add(ability);
 			return this;
 		}
 

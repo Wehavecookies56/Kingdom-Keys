@@ -1256,6 +1256,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.illusory_crystal, "Illusory Crystal");
 
         addItem(ModItems.gummiMeteorFragment, "Gummi Fragment");
+        addItem(ModItems.memoryFromAnotherSelf, "Memory from Another Self");
         addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
         addItem(ModItems.gummiShipBlueprintCreative, "Gummi Blueprint (Creative)");
         addItem(ModItems.gummiPhone, "Gummiphone");

@@ -8,6 +8,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class KeybladeData {
 	public KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
-    ResourceLocation baseAbility;
+    List<ResourceLocation> baseAbilities = new ArrayList<>();
     float reach;
     SoundEvent sound = ModSounds.generic_hit.get();
     float critChance;
@@ -58,9 +59,15 @@ public class KeybladeData {
         return level == 0 ? baseMagic : levels.get(level-1).getMagic();
     }
     
-    //Returns the base ability if level is 0
+    //Returns the first base ability if level is 0
     public ResourceLocation getLevelAbility(int level) {
-        return level == 0 ? baseAbility : levels.get(level-1).getAbility();
+        List<ResourceLocation> abilities = getLevelAbilities(level);
+        return abilities.isEmpty() ? null : abilities.getFirst();
+    }
+
+    //Every ability gained at that level, the base ones if level is 0
+    public List<ResourceLocation> getLevelAbilities(int level) {
+        return level == 0 ? baseAbilities : levels.get(level-1).getAbilities();
     }
     
     public String getDescription() {
@@ -80,11 +87,17 @@ public class KeybladeData {
     }
     
     public void setBaseAbility(ResourceLocation ability) {
-    	this.baseAbility = ability;
+    	this.baseAbilities = new ArrayList<>();
+    	if (ability != null)
+    		this.baseAbilities.add(ability);
+    }
+
+    public void setBaseAbilities(List<ResourceLocation> abilities) {
+    	this.baseAbilities = new ArrayList<>(abilities);
     }
     
     public ResourceLocation getBaseAbility() {
-    	return baseAbility;
+    	return baseAbilities.isEmpty() ? null : baseAbilities.getFirst();
     }
 
     public KeychainItem getKeychain() {

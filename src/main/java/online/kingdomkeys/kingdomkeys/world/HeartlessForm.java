@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,6 +13,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -40,6 +44,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.drops.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.util.OpenSpot;
@@ -286,12 +291,12 @@ public class HeartlessForm {
 			}
 		}
 
-		/*if (entity.getPersistentData().hasUUID(NOBODY_TAG)) {
+		if (entity.getPersistentData().hasUUID(NOBODY_TAG)) {
 			String name = entity.getPersistentData().getString(NOBODY_NAME_TAG);
-			ItemStack memory = new ItemStack(ModItems.memoryOfDarkness.get());
+			ItemStack memory = new ItemStack(ModItems.memoryFromAnotherSelf.get());
 			memory.set(DataComponents.LORE, new ItemLore(List.of(Component.translatable(NOBODY_OF, name))));
 			entity.level().addFreshEntity(new ItemEntity(entity.level(), entity.getX(), entity.getY() + 0.5D, entity.getZ(), memory));
-		}*/
+		}
 	}
 
 	private static final double SUNK_JUMP = 1.8D;

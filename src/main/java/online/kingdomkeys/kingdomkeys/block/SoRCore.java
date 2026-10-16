@@ -29,12 +29,4 @@ public class SoRCore extends BaseBlock implements EntityBlock, INoDataGen {
 		return ModEntities.TYPE_SOR_CORE_TE.get().create(pPos, pState);
 	}
 
-	@Override
-	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-		SoRCoreTileEntity te = (SoRCoreTileEntity) worldIn.getBlockEntity(pos);
-		//TODO te.removeSoR();
-		te.setRemoved();
-	}
-
-
 }
