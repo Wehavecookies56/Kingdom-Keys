@@ -59,6 +59,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
         addConfigKey(ModConfigs.getClientConfig().seasonalEvents, "Enable Seasonal Events");
+        addConfigKey(ModConfigs.getClientConfig().hideSkinLayerUnderArmor, "Hide skin layer under armor");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().bakeDisplayedModels, "Cache large displayed item models on the GPU");

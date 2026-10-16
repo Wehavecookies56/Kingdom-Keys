@@ -2793,6 +2793,7 @@
   "kingdomkeys.config.heart_multiplier": "Multiplicador de Corazones",
   "kingdomkeys.config.heartless_light_distance": "Distancia de la luz del Sincorazón",
   "kingdomkeys.config.heartless_spawning_mode": "Modo de aparición de Sincorazón",
+  "kingdomkeys.config.hide_skin_layer_under_armor": "Ocultar capa de la skin bajo la armadura",
   "kingdomkeys.config.hostile_mobs_level": "Mobs hostiles suben de nivel (no enemigos de KK)",
   "kingdomkeys.config.hp_alarm": "Volumen de alarma de vida baja",
   "kingdomkeys.config.hp_drop_probability": "Probabilidad de soltar VT",

@@ -8,11 +8,14 @@
 * Amount text box to buy screen.
 * ServerConfig to set the distance the heart will travel from the turning point (default 128).
 * ServerConfig to set the lock on range (previously hardcoded to 35 blocks).
+* ClientConfig to hide the second layer of the skin when wearing clothes/armor to prevent clipping or z-fighting.
 * Command /kingdomkeys heartless <turn/restore> to become a Shadow or back to Human.
 ## Changed:
 * Leveling paths now can go past lvl 100.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
 * Keyblade Forge can now give multiple abilities per level.
+* All drive forms besides limit can no longer guard.
+* Robes and Organization armor are now tighter to the player's body.
 ## Fixed:
 * Tracking of a player level for the party screen when they are online.
 * Multiblocks like Bubble Helm or Gummi weapons on lists and hologram.

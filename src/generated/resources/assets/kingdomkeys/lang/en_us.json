@@ -2848,6 +2848,7 @@
   "kingdomkeys.config.heart_multiplier": "Hearts Multiplier",
   "kingdomkeys.config.heartless_light_distance": "Heartless light distance",
   "kingdomkeys.config.heartless_spawning_mode": "Heartless spawning mode",
+  "kingdomkeys.config.hide_skin_layer_under_armor": "Hide skin layer under armor",
   "kingdomkeys.config.hostile_mobs_level": "Hostile mobs level up (non KK enemies)",
   "kingdomkeys.config.hp_alarm": "Low HP alarm volume",
   "kingdomkeys.config.hp_drop_probability": "HP Drops Probability",

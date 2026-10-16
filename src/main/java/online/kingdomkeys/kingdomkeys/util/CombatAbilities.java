@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.GuardEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -69,7 +70,14 @@ public class CombatAbilities {
                 && data.isAbilityEquipped(ModAbilities.GUARD)
                 && data.getGuardCooldown() == 0
                 && player.getMainHandItem().getItem() instanceof KeybladeItem
-                && !EpicFightUtils.isInEpicFightMode(player);
+                && !EpicFightUtils.isInEpicFightMode(player)
+                && !isInNoGuardForm(data);
+    }
+
+    private static boolean isInNoGuardForm(PlayerData data) {
+        return data.isFormActive(ModDriveForms.VALOR) || data.isFormActive(ModDriveForms.WISDOM)
+                || data.isFormActive(ModDriveForms.MASTER) || data.isFormActive(ModDriveForms.FINAL)
+                || data.isFormActive(ModDriveForms.ANTI);
     }
 
     public static boolean startGuard(Player player, PlayerData data) {

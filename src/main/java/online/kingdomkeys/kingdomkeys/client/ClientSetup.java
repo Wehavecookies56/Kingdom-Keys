@@ -72,17 +72,7 @@ public class ClientSetup {
 	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		ModEntities.registerLayers(event);
 
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.BASE_OUTER_LAYER, ClothArmorOverlayRenderer::createBaseOuterLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.BASE_LEGGINGS_LAYER, ClothArmorOverlayRenderer::createBaseLeggingsLayer);
-
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.OUTER_LAYER, ClothArmorOverlayRenderer::createOuterLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.LEGGINGS_LAYER, ClothArmorOverlayRenderer::createLeggingsLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer::createApprenticeOuterLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER, ClothArmorOverlayRenderer::createApprenticeLeggingsLayer);
-
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_BASE_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimBaseOuterLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimOuterLayer);
-		event.registerLayerDefinition(ClothArmorOverlayRenderer.SLIM_APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer::createSlimApprenticeOuterLayer);
+		ClothArmorOverlayRenderer.registerLayers(event::registerLayerDefinition);
 	}
 
 	@SubscribeEvent
@@ -180,7 +170,7 @@ public class ClientSetup {
 		IClientItemExtensions clothArmor = new IClientItemExtensions() {
 			@Override
 			public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> original) {
-				return ClothArmorOverlayRenderer.baseModel(slot, ClothArmorOverlayRenderer.ownFirstPersonBody(entity), ClothArmorOverlayRenderer.isSlim(entity));
+				return ClothArmorOverlayRenderer.baseModel(entity, slot);
 			}
 		};
 

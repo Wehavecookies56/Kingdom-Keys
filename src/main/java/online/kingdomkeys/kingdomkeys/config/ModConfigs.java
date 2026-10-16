@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<? extends Integer> hiddenMagic;
-    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D, hideSkinLayerUnderArmor;
 
     public static boolean bakeDisplayedModels, bakeHeldModels;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -345,6 +345,7 @@ public class ModConfigs {
             shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
         }
         seasonalEvents = CLIENT.seasonalEvents.get();
+        hideSkinLayerUnderArmor = CLIENT.hideSkinLayerUnderArmor.get();
         hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
