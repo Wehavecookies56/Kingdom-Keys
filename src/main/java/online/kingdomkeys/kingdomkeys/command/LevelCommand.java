@@ -26,7 +26,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("level").requires(source -> source.hasPermission(2));
 		
 		builder.then(Commands.literal("set")
-			.then(Commands.argument("level", IntegerArgumentType.integer(1,100))
+			.then(Commands.argument("level", IntegerArgumentType.integer(1))
 				.then(Commands.argument("targets", EntityArgument.players())
 					.executes(LevelCommand::setValue)
 				)
@@ -34,34 +34,17 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 			)
 		);
 		
-		/*builder.then(Commands.literal("give")
-			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
-				.then(Commands.argument("targets", EntityArgument.players())
-					.executes(KKLevelCommand::addValue)
-				)
-				.executes(KKLevelCommand::addValue)
-			)
-		);
-		
-		builder.then(Commands.literal("take")
-			.then(Commands.argument("value", IntegerArgumentType.integer(1,Integer.MAX_VALUE))
-				.then(Commands.argument("targets", EntityArgument.players())
-					.executes(KKLevelCommand::removeValue)
-				)
-				.executes(KKLevelCommand::removeValue)
-			)
-		);*/
-		
 		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
 		return builder;
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context);
-		int level = IntegerArgumentType.getInteger(context, "level");
+		int requested = IntegerArgumentType.getInteger(context, "level");
 		
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
+			int level = Math.min(requested, playerData.getMaxLevel());
             Utils.restartLevel(playerData, player);
 			
             // Set the level

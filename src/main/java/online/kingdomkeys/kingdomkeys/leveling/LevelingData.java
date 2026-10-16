@@ -4,28 +4,43 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class LevelingData {
-	public static final int MAX_LEVEL = 100;
+	public static final int DEFAULT_MAX_LEVEL = 100;
 
-	private static final int LEVELS = MAX_LEVEL + 1;
+	final int maxLevel;
 
-	int[] str = new int[LEVELS];
-	int[] mag = new int[LEVELS];
-	int[] def = new int[LEVELS];
-	int[] ap = new int[LEVELS];
-	int[] maxhp = new int[LEVELS];
-	int[] maxmp = new int[LEVELS];
-	ResourceLocation[][] abilities = new ResourceLocation[LEVELS][5];
-	ItemStack[][] items = new ItemStack[LEVELS][];
-	int[] maxAccessories = new int[LEVELS];
-	int[] maxArmors = new int[LEVELS];
-	int[] maxMagics = new int[LEVELS];
-	int[] maxItems = new int[LEVELS];
+	int[] str, mag, def, ap, maxhp, maxmp;
+	ResourceLocation[][] abilities;
+	ItemStack[][] items;
+	int[] maxAccessories, maxArmors, maxMagics, maxItems;
 	int version;
 
-	public LevelingData() {}
+	public LevelingData(int maxLevel) {
+		this.maxLevel = maxLevel;
+		int levels = maxLevel + 1;
+		str = new int[levels];
+		mag = new int[levels];
+		def = new int[levels];
+		ap = new int[levels];
+		maxhp = new int[levels];
+		maxmp = new int[levels];
+		abilities = new ResourceLocation[levels][5];
+		items = new ItemStack[levels][];
+		maxAccessories = new int[levels];
+		maxArmors = new int[levels];
+		maxMagics = new int[levels];
+		maxItems = new int[levels];
+	}
+
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+
+	private boolean has(int lvl) {
+		return lvl >= 0 && lvl <= maxLevel;
+	}
 
 	public int getStr(int lvl) {
-		return str[lvl];
+		return has(lvl) ? str[lvl] : 0;
 	}
 
 	public void setStr(int lvl, int amount) {
@@ -33,7 +48,7 @@ public class LevelingData {
 	}
 
 	public int getMag(int lvl) {
-		return mag[lvl];
+		return has(lvl) ? mag[lvl] : 0;
 	}
 
 	public void setMag(int lvl, int amount) {
@@ -41,7 +56,7 @@ public class LevelingData {
 	}
 
 	public int getDef(int lvl) {
-		return def[lvl];
+		return has(lvl) ? def[lvl] : 0;
 	}
 
 	public void setDef(int lvl, int amount) {
@@ -49,7 +64,7 @@ public class LevelingData {
 	}
 
 	public int getMaxAP(int lvl) {
-		return ap[lvl];
+		return has(lvl) ? ap[lvl] : 0;
 	}
 
 	public void setAP(int lvl, int amount) {
@@ -57,7 +72,7 @@ public class LevelingData {
 	}
 
 	public int getMaxHp(int lvl) {
-		return maxhp[lvl];
+		return has(lvl) ? maxhp[lvl] : 0;
 	}
 
 	public void setMaxHp(int lvl, int amount) {
@@ -65,7 +80,7 @@ public class LevelingData {
 	}
 
 	public int getMaxMp(int lvl) {
-		return maxmp[lvl];
+		return has(lvl) ? maxmp[lvl] : 0;
 	}
 
 	public void setMaxMp(int lvl, int amount) {
@@ -73,7 +88,7 @@ public class LevelingData {
 	}
 
 	public ResourceLocation[] getAbilities(int lvl) {
-		return abilities[lvl];
+		return has(lvl) ? abilities[lvl] : new ResourceLocation[0];
 	}
 
 	public void setAbilities(int lvl, ResourceLocation[] abilities) {
@@ -81,7 +96,7 @@ public class LevelingData {
 	}
 
 	public ItemStack[] getItems(int lvl) {
-		return items[lvl] == null ? new ItemStack[0] : items[lvl];
+		return !has(lvl) || items[lvl] == null ? new ItemStack[0] : items[lvl];
 	}
 
 	public void setItems(int lvl, ItemStack[] items) {
@@ -89,7 +104,7 @@ public class LevelingData {
 	}
 
 	public int getMaxAccessories(int lvl) {
-		return maxAccessories[lvl];
+		return has(lvl) ? maxAccessories[lvl] : 0;
 	}
 
 	public void setMaxAccessories(int lvl, int amount) {
@@ -97,7 +112,7 @@ public class LevelingData {
 	}
 
 	public int getMaxArmors(int lvl) {
-		return maxArmors[lvl];
+		return has(lvl) ? maxArmors[lvl] : 0;
 	}
 
 	public void setMaxArmors(int lvl, int amount) {
@@ -105,7 +120,7 @@ public class LevelingData {
 	}
 
 	public int getMaxMagics(int lvl) {
-		return maxMagics[lvl];
+		return has(lvl) ? maxMagics[lvl] : 0;
 	}
 
 	public void setMaxMagics(int lvl, int amount) {
@@ -113,7 +128,7 @@ public class LevelingData {
 	}
 
 	public int getMaxItems(int lvl) {
-		return maxItems[lvl];
+		return has(lvl) ? maxItems[lvl] : 0;
 	}
 
 	public void setMaxItems(int lvl, int amount) {

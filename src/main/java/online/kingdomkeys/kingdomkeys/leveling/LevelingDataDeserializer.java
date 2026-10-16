@@ -20,7 +20,6 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 
 	@Override
 	public LevelingData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		LevelingData out = new LevelingData();
 		JsonObject root = json.getAsJsonObject();
 
 		if(!root.has("version"))
@@ -28,13 +27,29 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 
 		//Get version
 		int version = root.has("version") ? root.get("version").getAsInt() : 0;
-		out.setVersion(version);
 
 		//This should allow for old datapacks to still be compatible
 		JsonObject levelsObj = root.has("levels") ? root.getAsJsonObject("levels") : root;
 
+		// The file decides how far the path goes: its highest level is the cap
+		int maxLevel = 0;
+		for (String key : levelsObj.keySet()) {
+			try {
+				maxLevel = Math.max(maxLevel, Integer.parseInt(key));
+			} catch (NumberFormatException ignored) {
+				// "version" when the levels are at the root of an old file, shouldn't happen amymore in theory
+				KingdomKeys.LOGGER.warn("This is an old file, it's recommended to update it with the version key");
+			}
+		}
+
+		LevelingData out = new LevelingData(maxLevel);
+		out.setVersion(version);
+
 		//Levels
 		for (Map.Entry<String,JsonElement> entry : levelsObj.entrySet()) {
+			if (!entry.getValue().isJsonObject()) {
+				continue;
+			}
 			int level = Integer.parseInt(entry.getKey());
 			JsonObject levelData = entry.getValue().getAsJsonObject();
 

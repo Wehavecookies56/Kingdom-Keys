@@ -8,13 +8,11 @@ import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 public class Level implements KKRegistryObject {
 
 	ResourceLocation name;
-	int maxLevel;
 
 	private LevelingData data;
 
 	public Level(ResourceLocation registryName) {
 		this.name = registryName;
-		this.maxLevel = 100;
 	}
 
 	public void setLevelingData(LevelingData data) {
@@ -23,6 +21,10 @@ public class Level implements KKRegistryObject {
 
 	public LevelingData getLevelingData() {
 		return data;
+	}
+
+	public int getMaxLevel() {
+		return data == null ? LevelingData.DEFAULT_MAX_LEVEL : data.getMaxLevel();
 	}
 
 	public int getStr(int level) {

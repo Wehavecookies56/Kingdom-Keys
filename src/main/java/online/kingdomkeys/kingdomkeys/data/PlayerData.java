@@ -834,7 +834,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
-			if (this.level < LevelingData.MAX_LEVEL) {
+			if (this.level < getMaxLevel()) {
 				Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.SERVER.partyXPShare.get() / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
@@ -867,7 +867,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
                 }
                 this.exp += exp;
 
-                while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
+                while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() < getMaxLevel()) {
 					setLevel(this.getLevel() + 1);
 					if(player instanceof ServerPlayer svPlayer) {
 				       ModAdvancements.levelUp.trigger(svPlayer, this.getLevel());
@@ -912,8 +912,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.defense.set(level);
 	}
 
+	/** As far as the chosen path's leveling file goes */
+	public int getMaxLevel() {
+		online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(getChosen().getSerializedName()));
+		return levelData == null ? LevelingData.DEFAULT_MAX_LEVEL : levelData.getMaxLevel();
+	}
+
 	public int getExpNeeded(int level, int currentExp) {
-		if (level >= LevelingData.MAX_LEVEL)
+		if (level >= getMaxLevel())
 			return 0;
 		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25);
 		this.remainingExp = ((int) nextLevel - currentExp);
