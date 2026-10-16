@@ -12,7 +12,7 @@ public class ServerConfig {
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
+    public ModConfigSpec.DoubleValue xpMultiplier, xpCurveFactor, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
     public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
@@ -203,6 +203,11 @@ public class ServerConfig {
                 .comment("XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.xp_multiplier")
                 .defineInRange("xpMultiplier", 1F, 0, 1000);
+
+        xpCurveFactor = builder
+                .comment("How steeply the XP needed to level up grows, higher values make high levels cheaper")
+                .translation(KingdomKeys.MODID + ".config.xp_curve_factor")
+                .defineInRange("xpCurveFactor", 7F, 1F, 1000F);
 
         magicXPMultiplier = builder
                 .comment("Magic spells XP Multiplier")

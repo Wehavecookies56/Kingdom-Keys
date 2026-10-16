@@ -921,7 +921,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public int getExpNeeded(int level, int currentExp) {
 		if (level >= getMaxLevel())
 			return 0;
-		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25);
+		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / ModConfigs.SERVER.xpCurveFactor.get())))) * (level * 0.25);
 		this.remainingExp = ((int) nextLevel - currentExp);
 		return remainingExp;
 	}

@@ -2888,6 +2888,7 @@
   "kingdomkeys.config.story_progress": "Story progress",
   "kingdomkeys.config.summon_together": "Summon weapon and armor together",
   "kingdomkeys.config.wayfinder_party": "Restrict Wayfinder to party",
+  "kingdomkeys.config.xp_curve_factor": "XP curve factor",
   "kingdomkeys.config.xp_multiplier": "XP Multiplier",
   "kingdomkeys.configuration.command_menu": "Command Menu settings",
   "kingdomkeys.configuration.dp_bar": "Drive Bar settings",

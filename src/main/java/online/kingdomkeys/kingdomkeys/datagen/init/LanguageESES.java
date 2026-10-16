@@ -135,6 +135,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Mobs hostiles suben de nivel (no enemigos de KK)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Distancia máxima de Tiro Certero");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "Multiplicador de XP");
+        addConfigKey(ModConfigs.getServerConfig().xpCurveFactor, "Factor de la curva de XP");
         addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Multiplicador de Corazones");
         addConfigKey(ModConfigs.getServerConfig().partyXPShare, "Compartir XP en grupo");
         addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Multiplicador de Estadísticas");

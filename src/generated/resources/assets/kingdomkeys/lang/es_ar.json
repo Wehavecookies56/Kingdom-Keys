@@ -2831,6 +2831,7 @@
   "kingdomkeys.config.story_progress": "Progreso de la historia",
   "kingdomkeys.config.summon_together": "Invoca simultáneamente arma y armadura",
   "kingdomkeys.config.wayfinder_party": "Restringir Siemprejuntos a grupo",
+  "kingdomkeys.config.xp_curve_factor": "Factor de la curva de XP",
   "kingdomkeys.config.xp_multiplier": "Multiplicador de XP",
   "kingdomkeys.configuration.command_menu": "Ajustes de Menú de Comandos",
   "kingdomkeys.configuration.dp_bar": "Ajustes de Indicador de Fusión",

@@ -135,6 +135,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Hostile mobs level up (non KK enemies)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
+        addConfigKey(ModConfigs.getServerConfig().xpCurveFactor, "XP curve factor");
         addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Hearts Multiplier");
         addConfigKey(ModConfigs.getServerConfig().partyXPShare, "XP Share in party");
         addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Stats multiplier");

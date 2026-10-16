@@ -24,9 +24,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 import javax.annotation.Nullable;
 
 public class MoogleProjectorBlock extends BaseBlock implements EntityBlock, INoDataGen {
-
-	//TODO add facing
-
 	public MoogleProjectorBlock(Properties properties) {
 		super(properties);
 	}
