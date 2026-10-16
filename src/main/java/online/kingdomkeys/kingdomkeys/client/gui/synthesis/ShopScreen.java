@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -43,6 +44,9 @@ public class ShopScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
 
 	MenuButton create;
+	EditBox amountBox;
+	// Kept apart from the box, which is rebuilt every time the list is
+	int quantity = 1;
 	private MenuButton sell, back;
 	
 	// null if opened from outside a moogle, like a foreteller
@@ -75,12 +79,27 @@ public class ShopScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 		case "create":
-			PacketHandler.sendToServer(new CSShopBuy(KingdomKeys.rl(invFile), selectedItemStack));
+			PacketHandler.sendToServer(new CSShopBuy(KingdomKeys.rl(invFile), selectedItemStack, quantity));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
 	}
 	
+	private ShopItem getSelectedShopItem() {
+		for (ShopItem shopItem : getShopList().getList()) {
+			Item it = shopItem.getResult();
+
+			if (it instanceof KeychainItem) {
+				it = ((KeychainItem) it).getKeyblade();
+			}
+
+			if (ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
+				return shopItem;
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public void init() {
 		float boxPosX = (float) width * 0.2F;
@@ -156,7 +175,29 @@ public class ShopScreen extends MenuFilterable {
 		
 		super.init();
 
-		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Buy, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
+		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+5, (int) (height * 0.67) + 2, minecraft.font.width("#####"), 16, Component.translatable(Strings.Gui_Shop_Buy_Quantity)) {
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (!Utils.isNumber(c)) {
+					return false;
+				}
+				String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+				if (Integer.parseInt(text) > CSShopBuy.MAX_QUANTITY) {
+					return false;
+				}
+				return super.charTyped(c, i);
+			}
+		});
+		amountBox.setValue("" + quantity);
+		amountBox.setResponder(text -> {
+			try {
+				quantity = Math.max(0, Integer.parseInt(text));
+			} catch (NumberFormatException e) {
+				quantity = 0;
+			}
+		});
+
+		create = new MenuButton(amountBox.getX() + amountBox.getWidth(), amountBox.getY()-2, boxM.getWidth() - amountBox.getWidth()*2, Strings.Gui_Shop_Buy, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
 			action("create");
 		});
 		create.setCenterText(true);
@@ -194,28 +235,15 @@ public class ShopScreen extends MenuFilterable {
 		if (selectedItemStack != ItemStack.EMPTY) {
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(KingdomKeys.rl(invFile)).getList();
-			ShopItem item = null;
-			for(ShopItem shopItem : list) {
-				Item it = shopItem.getResult();
-
-				if (it instanceof KeychainItem) {
-					it = ((KeychainItem) it).getKeyblade();
-				}
-
-				if (ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
-					item = shopItem;
-					break;
-				}
-			}
+			ShopItem item = getSelectedShopItem();
 			if (item != null) {
-				enoughMunny = item.getCurrency().held(playerData) >= ForetellerShop.priceFor(item, playerData, KingdomKeys.rl(invFile));
+				enoughMunny = item.getCurrency().held(playerData) >= ForetellerShop.priceFor(item, playerData, KingdomKeys.rl(invFile)) * quantity;
 				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || playerData.getSynthLevel() >= item.getTier();
 				boolean matsOk = item.getMatReq() <= playerData.getTotalMaterialAmount(item.getResult());
 
 				enoughTier = item.requireAll() ? (enoughTier && matsOk) : (enoughTier || matsOk);
 				create.visible = true;
-				create.active = enoughMunny && enoughTier && matsOk;
+				create.active = quantity > 0 && enoughMunny && enoughTier && matsOk;
 
 				if (minecraft.player.getInventory().getFreeSlot() == -1) {
 					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
@@ -225,6 +253,7 @@ public class ShopScreen extends MenuFilterable {
 		} else {
 			create.visible = false;
 		}
+		amountBox.visible = create.visible;
 
 		for(Renderable renderable : this.inventory){
 			if(renderable instanceof MenuStockItem menuStockItem){
@@ -237,6 +266,7 @@ public class ShopScreen extends MenuFilterable {
 			}
 		}
 		create.render(gui, mouseX,  mouseY,  partialTicks);
+		amountBox.render(gui, mouseX, mouseY, partialTicks);
 		if (sell != null) {
 			sell.render(gui, mouseX, mouseY, partialTicks);
 		}
@@ -258,24 +288,10 @@ public class ShopScreen extends MenuFilterable {
 			double offset = boxM.getWidth() * 0.1F;
 			matrixStack.translate(boxM.getX() + offset / 2, iconPosY, 1);
 			
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(KingdomKeys.rl(invFile)).getList();
-			ShopItem item = null;
-			for(ShopItem shopItem : list) {
-				Item it = shopItem.getResult();
-
-				if(it instanceof KeychainItem) {
-					it = ((KeychainItem)it).getKeyblade();
-				}
-
-				if(ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
-					item = shopItem;
-					break;
-				}
-
-			}
+			ShopItem item = getSelectedShopItem();
 			if(item != null) {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
-				int price = ForetellerShop.priceFor(item, playerData, KingdomKeys.rl(invFile));
+				int price = Math.min(Integer.MAX_VALUE, ForetellerShop.priceFor(item, playerData, KingdomKeys.rl(invFile)) * Math.max(1, quantity));
 				String line = Utils.getFormattedNumber(price)+" "+Utils.translateToLocal(item.getCurrency().getTranslationKey());
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, price > item.getCurrency().held(playerData) ? Color.RED.getRGB() : Color.GREEN.getRGB());
 

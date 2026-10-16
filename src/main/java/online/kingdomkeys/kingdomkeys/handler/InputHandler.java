@@ -226,7 +226,9 @@ public class InputHandler {
         PacketHandler.sendToServer(new CSSummonArmor());
     }
 
-    public static int LOCK_ON_REACH = 35;
+    public static int lockOnReach() {
+        return ModConfigs.SERVER.lockOnReach.get();
+    }
 
     public static boolean canLockOn(Entity entity) {
         if (!(entity instanceof LivingEntity) || entity instanceof SpawningOrbEntity) {
@@ -239,11 +241,11 @@ public class InputHandler {
 
     public void lockOn() {
         if (lockOn == null) {
-            HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
+            HitResult rtr = getMouseOverExtended(lockOnReach());
             if (rtr instanceof EntityHitResult ertr) {
                 double distance = player.distanceTo(ertr.getEntity());
 
-                if (LOCK_ON_REACH >= distance) {
+                if (lockOnReach() >= distance) {
                     if (canLockOn(ertr.getEntity())) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
@@ -274,7 +276,7 @@ public class InputHandler {
 
         LivingEntity currentTarget = InputHandler.lockOn;
         //Get all entities in a radius (25% of the lock on reach)
-        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(LOCK_ON_REACH / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive() && canLockOn(e));
+        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(lockOnReach() / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive() && canLockOn(e));
 
         if (candidates.size() <= 1)
             return;

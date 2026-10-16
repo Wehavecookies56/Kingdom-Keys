@@ -490,6 +490,7 @@ public class Strings {
             Gui_Menu_Accept = Gui_Menu + ".accept",
 			Gui_Menu_Cancel = Gui_Menu + ".cancel",
             Gui_Menu_Back = Gui_Menu + ".back",
+            Gui_Menu_Search = Gui_Menu + ".search",
 
             Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
             Gui_Menu_Main_Button_Items = Gui_Menu_Main_Button + ".items",

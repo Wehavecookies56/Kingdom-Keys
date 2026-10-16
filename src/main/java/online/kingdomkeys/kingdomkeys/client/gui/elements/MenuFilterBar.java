@@ -2,11 +2,15 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuFilterButton;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,8 @@ public class MenuFilterBar {
     MenuFilterable parent;
 
     public MenuFilterButton all, consumable, tool, building, equipment, accessories, misc;
-    public List<Button> buttons = new ArrayList<>();
+    public EditBox search;
+    public List<AbstractWidget> buttons = new ArrayList<>();
 
     int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, accessoriesX, miscX, endX;
 
@@ -51,6 +56,22 @@ public class MenuFilterBar {
         buttons.add(equipment = new MenuFilterButton(this, equipmentX, y, ItemCategory.EQUIPMENT));
         buttons.add(accessories = new MenuFilterButton(this, accessoriesX, y, ItemCategory.ACCESSORIES));
         buttons.add(misc = new MenuFilterButton(this, miscX, y, ItemCategory.MISC));
+
+        Minecraft mc = Minecraft.getInstance();
+        Component hint = Component.translatable(Strings.Gui_Menu_Search);
+
+        search = new EditBox(mc.font, allX, y + 17, endX - allX, 12, hint);
+        search.setHint(hint);
+        search.setMaxLength(50);
+        search.setValue(parent.searchText);
+        search.setResponder(text -> {
+            if (!text.equals(parent.searchText)) {
+                parent.searchText = text;
+                parent.selectedRL = null;
+                parent.initItems();
+            }
+        });
+        buttons.add(search);
     }
 
     public void onClickFilter(ItemCategory category) {
@@ -64,7 +85,10 @@ public class MenuFilterBar {
         ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, startX, y, 118, 0, 48, 30, 0.5F);
         buttons.forEach(b -> b.render(gui, mouseX, mouseY, partialTicks));
         ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, endX, y, 166, 0, 48, 30, 0.5F);
-        buttons.forEach(b -> renderSelectionBox(gui, (MenuFilterButton) b));
+        buttons.forEach(b -> {
+            if (b instanceof MenuFilterButton filterButton)
+                renderSelectionBox(gui, filterButton);
+        });
     }
 
 }

@@ -126,6 +126,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Heartless light distance");
+        addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Lock on reach");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
@@ -294,6 +295,7 @@ public class LanguageENUS extends KKLanguageProvider {
         //Menu
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
+        add(Gui_Menu_Search, "Search...");
         add(Gui_Menu_Accept, "Accept");
         add(Gui_Menu_Cancel, "Cancel");
         add(Gui_Menu_Main_Title, "Menu");
@@ -588,6 +590,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Shop_Tier, "Tier:");
         add(Gui_Shop_Main_Title, "Shop");
         add(Gui_Shop_Buy_Cost, "Cost:");
+        add(Gui_Shop_Buy_Quantity, "Quantity");
         add(Gui_Synthesis_Moogle_Name, "%s's Moogle Shop");
 
         //Command Menu

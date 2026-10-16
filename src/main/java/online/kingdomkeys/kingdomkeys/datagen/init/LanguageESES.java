@@ -126,6 +126,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Distancia de la luz del Sincorazón");
+        addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Alcance de fijar enemigo");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");
@@ -342,6 +343,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Main Menu
         add(Gui_Menu_Back, "Atrás");
         add(Gui_Menu_Back + ".desc", "Vuelve al menú anterior.");
+        add(Gui_Menu_Search, "Buscar...");
         add(Gui_Menu_Accept, "Aceptar");
         add(Gui_Menu_Cancel, "Cancelar");
         add(Gui_Menu_Main_Title, "Menú");
@@ -648,6 +650,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Shop_Tier, "Clase");
         add(Gui_Shop_Main_Title, "Tienda");
         add(Gui_Shop_Buy_Cost, "Coste");
+        add(Gui_Shop_Buy_Quantity, "Cantidad");
         add(Gui_Synthesis_Moogle_Name, "Tienda Moguri de %s");
 
         //Command Menu

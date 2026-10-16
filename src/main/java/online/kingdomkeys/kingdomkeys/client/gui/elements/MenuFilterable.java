@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,10 +11,12 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public abstract class MenuFilterable extends MenuBackground {
 
@@ -23,7 +26,7 @@ public abstract class MenuFilterable extends MenuBackground {
     protected MenuScrollBar scrollBar, scrollBar2;
     public ResourceLocation selectedRL = null;
     public ItemStack selectedItemStack;
-    int itemsX = 100, itemsY = 100, itemWidth = 140, itemHeight = 10;
+    public String searchText = "";
 
     public MenuFilterable(String name, Color color) {
         super(name, color);
@@ -60,6 +63,20 @@ public abstract class MenuFilterable extends MenuBackground {
     	super.init();
     }
     
+    public boolean matchesSearch(ItemStack item) {
+        String query = searchText.trim();
+        return query.isEmpty() || item.getHoverName().getString().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT));
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (getFocused() instanceof EditBox box && box.isFocused() && keyCode != GLFW.GLFW_KEY_ESCAPE) {
+            box.keyPressed(keyCode, scanCode, modifiers);
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     protected abstract void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks);
 
 	public abstract void initItems();
@@ -71,6 +88,8 @@ public abstract class MenuFilterable extends MenuBackground {
      */
     public boolean filterItem(ItemStack item) {
         if (ItemStack.matches(item, ItemStack.EMPTY)) { //If no item
+            return false;
+        } else if (!matchesSearch(item)) {
             return false;
         } else {//If there's item
             if (filterBar.currentFilter == null) { //If the filter is null (ALL)

@@ -81,7 +81,7 @@ public class LockOnGui extends OverlayBase {
 			if (target == null) {
 				missingHpBarWidth = 0;
             } else {
-				if(player.distanceTo(target) > InputHandler.LOCK_ON_REACH || player.hasEffect(ModMobEffects.KO)){
+				if(player.distanceTo(target) > InputHandler.lockOnReach() || player.hasEffect(ModMobEffects.KO)){
 					InputHandler.lockOn = null;
 					return;
 				}

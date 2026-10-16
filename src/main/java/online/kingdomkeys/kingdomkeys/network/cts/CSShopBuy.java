@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,13 +29,16 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Packet {
+public record CSShopBuy(ResourceLocation inv, ItemStack itemStack, int quantity) implements Packet {
+
+	public static final int MAX_QUANTITY = 99;
 
 	public static final Type<CSShopBuy> TYPE = new Type<>(KingdomKeys.rl("cs_shop_buy"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSShopBuy> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC, CSShopBuy::inv,
 			ItemStack.STREAM_CODEC, CSShopBuy::itemStack,
+			ByteBufCodecs.VAR_INT, CSShopBuy::quantity,
 			CSShopBuy::new
 	);
 
@@ -59,6 +64,10 @@ public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Pa
 
 			}
 
+			if (item == null) {
+				return;
+			}
+
 			boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
 			int synthLevel = playerData.getSynthLevel();
 
@@ -67,21 +76,29 @@ public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Pa
 
 			boolean validItem = item.requireAll() ? (tierOk && matsOk) : (tierOk || matsOk);
 
-			Currency currency = item.getCurrency();
-			int price = ForetellerShop.priceFor(item, playerData, inv);
-			boolean canAfford = currency.held(playerData) >= price;
-			if (validItem && canAfford) {
-				currency.charge(playerData, price, (ServerPlayer) player);
-
-				if(ModConfigs.SERVER.getExpFromShop.get())
-					playerData.addSynthExperience(10 + item.getTier()*2);
-
+			if (validItem) {
+				Currency currency = item.getCurrency();
+				int price = ForetellerShop.priceFor(item, playerData, inv);
 				Item i = item.getResult();
+				int bought = 0;
 
-				int amount = item.getAmount();
-				Utils.addToBagOrInventory(player, new ItemStack(i, amount));
+				// One at a time, stopping as soon as they run out of currency or room
+				for (int n = Mth.clamp(quantity, 1, MAX_QUANTITY); n > 0; n--) {
+					ItemStack stack = new ItemStack(i, item.getAmount());
+					if (currency.held(playerData) < price || !Utils.hasRoomFor(player, stack)) {
+						break;
+					}
 
-				if(i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
+					currency.charge(playerData, price, (ServerPlayer) player);
+
+					if(ModConfigs.SERVER.getExpFromShop.get())
+						playerData.addSynthExperience(10 + item.getTier()*2);
+
+					Utils.addToBagOrInventory(player, stack);
+					bought++;
+				}
+
+				if(bought > 0 && i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 					WorldData worldData = WorldData.get(player.getServer());
 					worldData.setHeartlessSpawnLevel(1);
 					PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));

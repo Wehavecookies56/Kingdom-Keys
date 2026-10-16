@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance, lockOnReach;
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
@@ -22,6 +22,11 @@ public class ServerConfig {
                 .comment("Soft lock on allows some camera movement while locked on")
                 .translation(KingdomKeys.MODID + ".config.soft_lock_on_mode")
                 .define("softLockOnMode", true);
+
+        lockOnReach = builder
+                .comment("Range in blocks where a target can be locked on")
+                .translation(KingdomKeys.MODID + ".config.lock_on_reach")
+                .defineInRange("lockOnReach", 35, 4, 128);
 
         struggleArenaRange = builder
                 .comment("How far from its board a struggle's arena corners and spectator spot may be set, in blocks")
