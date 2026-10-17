@@ -116,18 +116,20 @@ public class LockOnGui extends OverlayBase {
 				if(target != null && playerData.isAbilityEquipped(ModAbilities.SCAN)) {
 					ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 					RenderSystem.enableBlend();
-					Component targetName = target.getName();
-					GlobalData targetData = GlobalData.getClient(target);
-					if (targetData != null && targetData.getLevel() > 0) {
-						targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
+					if (!ModConfigs.lockOnHideLabels) {
+						Component targetName = target.getName();
+						GlobalData targetData = GlobalData.getClient(target);
+						if (targetData != null && targetData.getLevel() > 0) {
+							targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
+						}
+						float scale = 1.42F;
+						guiGraphics.pose().pushPose();
+						{
+							guiGraphics.pose().scale(scale, scale, scale);
+							drawString(guiGraphics, minecraft.font, targetName, ClientUtils.LOCKON_ELEMENT.width - minecraft.font.width(targetName) - 50, 19, 0xFFFFFF);
+						}
+						guiGraphics.pose().popPose();
 					}
-					float scale = 1.42F;
-					guiGraphics.pose().pushPose();
-					{
-						guiGraphics.pose().scale(scale, scale, scale);
-						drawString(guiGraphics, minecraft.font, targetName, ClientUtils.LOCKON_ELEMENT.width - minecraft.font.width(targetName) - 50, 19, 0xFFFFFF);
-					}
-					guiGraphics.pose().popPose();
 					drawHPBar(guiGraphics, target);
 					RenderSystem.disableBlend();
 					ClientUtils.LOCKON_ELEMENT.endTransform(guiGraphics);
@@ -257,12 +259,14 @@ public class LockOnGui extends OverlayBase {
 			}
 			matrixStack.popPose();
 
-			matrixStack.pushPose();
-			{
-				matrixStack.translate(fullWidth - 20, 12, 0);
-				blit(gui, texture, 1, 0, 0, 32, 23, 12);
+			if (!ModConfigs.lockOnHideLabels) {
+				matrixStack.pushPose();
+				{
+					matrixStack.translate(fullWidth - 20, 12, 0);
+					blit(gui, texture, 1, 0, 0, 32, 23, 12);
+				}
+				matrixStack.popPose();
 			}
-			matrixStack.popPose();
 		}
 		matrixStack.popPose();
 
@@ -372,13 +376,15 @@ public class LockOnGui extends OverlayBase {
 			matrixStack.popPose();
 			
 			// HP Icon
-			matrixStack.pushPose();
-			{
-				matrixStack.translate(width - 20*scale, 12*scale, 0);
-				matrixStack.scale(scale, scale, 0);
-				blit(gui, texture, 1, 0, 0, 32, 23, 12);
+			if (!ModConfigs.lockOnHideLabels) {
+				matrixStack.pushPose();
+				{
+					matrixStack.translate(width - 20*scale, 12*scale, 0);
+					matrixStack.scale(scale, scale, 0);
+					blit(gui, texture, 1, 0, 0, 32, 23, 12);
+				}
+				matrixStack.popPose();
 			}
-			matrixStack.popPose();
 
 			// HP Bars
 			for (int i = 0; i < hpBars - 1; i++) {

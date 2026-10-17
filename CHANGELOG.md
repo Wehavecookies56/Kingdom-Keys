@@ -16,6 +16,7 @@
 * Command /kingdomkeys heartless <turn/restore> to become a Shadow or back to Human.
 * MiniCO as a proper structure (/locate and /place works).
 * KH1 Scan HP Bar.
+* Config menu option to hide the "HP" label and enemy name.
 ## Changed:
 * Leveling paths now can go past lvl 100.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
