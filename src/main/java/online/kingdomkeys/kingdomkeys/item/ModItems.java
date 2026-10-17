@@ -1175,7 +1175,7 @@ public class ModItems {
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
 			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
 			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
-			memoryFromAnotherSelf = createNewItem("memory_from_another_self", new Item.Properties().rarity(Rarity.UNCOMMON)),
+			memoryFromAnotherSelf = createNewItem("memory_from_another_self", () -> new MemoryFromAnotherSelfItem(new Item.Properties().rarity(Rarity.UNCOMMON))),
 			struggle_poster = createNewItem("struggle_poster", () -> new PosterItem(new Item.Properties().stacksTo(1)));
 	//endregion
 

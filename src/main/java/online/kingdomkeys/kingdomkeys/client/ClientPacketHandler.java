@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.player.RemotePlayer;
@@ -448,6 +449,11 @@ public class ClientPacketHandler {
 
     public static void openCODoorGui(SCOpenCODoorGui message) {
         Minecraft.getInstance().setScreen(new RoomSynthesisScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
+    }
+
+    // The same darkness effect as falling into the Realm of Darkness
+    public static void heartlessTransition() {
+        Minecraft.getInstance().setScreen(new RODTransitionScreen(() -> true, ReceivingLevelScreen.Reason.OTHER));
     }
 
     public static void openStruggleMenu(SCOpenStruggleMenu message) {

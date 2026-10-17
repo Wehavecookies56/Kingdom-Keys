@@ -127,6 +127,17 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Heartless light distance");
+        add("gui.menu.config.nobody", "Nobody Name");
+        add("gui.menu.config.nobody.save", "Save");
+        add("gui.menu.config.nobody.rule", "Must be an anagram of:");
+        add("gui.menu.config.nobody.valid", "Valid name");
+        add("gui.menu.config.nobody.invalid", "Not an anagram of your name + X");
+        add("kingdomkeys.memory_from_another_self.not_yours", "This memory belongs to someone else");
+        add("kingdomkeys.memory_from_another_self.nothing_lost", "You have nothing left to recover");
+        add("kingdomkeys.memory_from_another_self.recovered", "You take back what your Nobody carried");
+        add("kingdomkeys.memory_from_another_self.use", "Right click to take back what you lost");
+        addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Heartless stat loss (%)");
+        addConfigKey(ModConfigs.getServerConfig().nobodyLostMinutes, "Minutes before a lost Nobody is replaced");
         addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Lock on reach");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
@@ -550,6 +561,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".notif", "Notification");
         add(Gui_Menu_Config + ".armor.glint", "Armor glint");
         add(Gui_Menu_Config + ".armor.glint.enabled", "Glint enabled");
+        add(Gui_Menu_Config + ".armor.glint.short", "Glint");
         add(Gui_Menu_Config + ".armor.glint.disabled", "Glint disabled");
         add(Gui_Menu_Config + ".armor", "Armor");
 

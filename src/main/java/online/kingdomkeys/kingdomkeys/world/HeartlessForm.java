@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -15,6 +16,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,6 +34,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -45,13 +48,17 @@ import online.kingdomkeys.kingdomkeys.entity.drops.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCHeartlessTransition;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.util.OpenSpot;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
@@ -62,7 +69,8 @@ public class HeartlessForm {
 	public static final String NOBODY_OF = "kingdomkeys.entity.nobody_of";
 
 	private static final String NOBODY_TAG = KingdomKeys.MODID + ":nobody_of";
-	private static final String NOBODY_NAME_TAG = KingdomKeys.MODID + ":nobody_name";
+	public static final String MEMORY_OWNER = "owner";
+	private static final String STAT_LOSS = "heartless";
 
 	private static final ResourceLocation SINK_SPEED = KingdomKeys.rl("heartless_sink");
 	private static final double SINK_BONUS = 0.9D;
@@ -74,6 +82,7 @@ public class HeartlessForm {
 	private static final double HEART_WATCH = 96D;
 	private static final int UPKEEP = 40;
 	private static final double NOBODY_RANGE = 48D;
+	private static final int NOBODY_CHECK = 20, STALE_CHECK = 100;
 
 	private static final EntityDimensions SHADOW_SIZE = EntityDimensions.scalable(0.6F, 0.9F).withEyeHeight(0.7F);
 	private static final EntityDimensions SUNK_SIZE = EntityDimensions.scalable(0.6F, 0.3F).withEyeHeight(0.2F);
@@ -114,6 +123,8 @@ public class HeartlessForm {
 			}
 		}
 
+		Utils.summonKeyblade(player, true, DriveForm.NONE);
+
 		ServerLevel level = player.serverLevel();
 		Vec3 fell = player.position();
 		double distance = ModConfigs.SERVER.heartlessLightDistance.get();
@@ -132,6 +143,7 @@ public class HeartlessForm {
 
 		data.setHeartless(true);
 		data.setLight(level.dimension(), BlockPos.containing(light));
+		loseStats(data);
 		level.addFreshEntity(HeartEntity.guide(level, fell.add(0D, 1D, 0D), light, player.getUUID()));
 
 		// The Heartless that did it forget about them: one of their own now
@@ -142,6 +154,7 @@ public class HeartlessForm {
 		level.sendParticles(ParticleTypes.LARGE_SMOKE, player.getX(), player.getY() + 1D, player.getZ(), 40, 0.4D, 0.8D, 0.4D, 0.02D);
 		level.playSound(null, player.blockPosition(), SoundEvents.WITHER_SPAWN, SoundSource.PLAYERS, 0.4F, 1.6F);
 
+		PacketHandler.sendTo(new SCHeartlessTransition(), player);
 		PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title(FELL, FELL_SUB, 10, 70, 20))), player);
 		PacketHandler.syncToAllAround(player, data);
 		return true;
@@ -152,6 +165,8 @@ public class HeartlessForm {
 		data.setHeartless(false);
 		data.setLight(null, null);
 		data.setNobodyOwed(true);
+		data.setNobodyId(null);
+		data.setNobodyMissingTicks(0);
 	}
 
 	/** Makes them human again, as reaching their heart would. Returns false if they were not a Heartless */
@@ -208,6 +223,10 @@ public class HeartlessForm {
 					removeSink(player);
 				}
 			}
+		}
+
+		if (!heartless && player instanceof ServerPlayer owner && player.tickCount % NOBODY_CHECK == 0) {
+			watchNobody(owner);
 		}
 
 		if (!heartless || !(player instanceof ServerPlayer serverPlayer)) {
@@ -291,11 +310,28 @@ public class HeartlessForm {
 			}
 		}
 
-		if (entity.getPersistentData().hasUUID(NOBODY_TAG)) {
-			String name = entity.getPersistentData().getString(NOBODY_NAME_TAG);
+		UUID owner = nobodyOwner(entity);
+		if (owner != null) {
 			ItemStack memory = new ItemStack(ModItems.memoryFromAnotherSelf.get());
-			memory.set(DataComponents.LORE, new ItemLore(List.of(Component.translatable(NOBODY_OF, name))));
-			entity.level().addFreshEntity(new ItemEntity(entity.level(), entity.getX(), entity.getY() + 0.5D, entity.getZ(), memory));
+			if (entity.getCustomName() != null) {
+				memory.set(DataComponents.LORE, new ItemLore(List.of(entity.getCustomName())));
+			}
+			CompoundTag ownerTag = new CompoundTag();
+			ownerTag.putUUID(MEMORY_OWNER, owner);
+			memory.set(DataComponents.CUSTOM_DATA, CustomData.of(ownerTag));
+
+			// Whoever or whatever brings it down, the memory finds its way back to them
+			ServerPlayer ownerPlayer = entity.getServer() == null ? null : entity.getServer().getPlayerList().getPlayer(owner);
+			if (ownerPlayer != null) {
+				PlayerData ownerData = PlayerData.get(ownerPlayer);
+				if (ownerData != null && entity.getUUID().equals(ownerData.getNobodyId())) {
+					ownerData.setNobodyId(null);
+					ownerData.setNobodyMissingTicks(0);
+				}
+				Utils.giveItems(ownerPlayer, false, memory);
+			} else {
+				entity.level().addFreshEntity(new ItemEntity(entity.level(), entity.getX(), entity.getY() + 0.5D, entity.getZ(), memory));
+			}
 		}
 	}
 
@@ -386,8 +422,9 @@ public class HeartlessForm {
 	}
 
 	private static void becomeNobodyOf(DuskEntity dusk, ServerPlayer player, PlayerData data) {
-		String name = player.getDisplayName().getString();
-		dusk.setCustomName(Component.translatable(NOBODY_OF, name));
+		String chosen = data.getNobodyName();
+		String playerName = player.getGameProfile().getName();
+		dusk.setCustomName(isValidNobodyName(playerName, chosen) ? Component.literal(chosen) : Component.translatable(NOBODY_OF, player.getDisplayName().getString()));
 		dusk.setPersistenceRequired();
 
 		String[] nobody = ModConfigs.playerSpawnHeartlessData.get(1).split(",");
@@ -402,7 +439,110 @@ public class HeartlessForm {
 
 		CompoundTag tag = dusk.getPersistentData();
 		tag.putUUID(NOBODY_TAG, player.getUUID());
-		tag.putString(NOBODY_NAME_TAG, name);
+		data.setNobodyId(dusk.getUUID());
+		data.setNobodyMissingTicks(0);
+	}
+
+	// A Nobody that stays out of reach long enough is given up on: the next Dusk to turn up near them takes its place
+	private static void watchNobody(ServerPlayer owner) {
+		PlayerData data = PlayerData.get(owner);
+		if (data == null || data.getNobodyId() == null) {
+			return;
+		}
+
+		if (findLoaded(owner.server, data.getNobodyId()) != null) {
+			data.setNobodyMissingTicks(0);
+			return;
+		}
+
+		data.setNobodyMissingTicks(data.getNobodyMissingTicks() + NOBODY_CHECK);
+		if (data.getNobodyMissingTicks() >= ModConfigs.SERVER.nobodyLostMinutes.get() * 1200) {
+			data.setNobodyId(null);
+			data.setNobodyMissingTicks(0);
+			data.setNobodyOwed(true);
+			PacketHandler.syncToAllAround(owner, data);
+		}
+	}
+
+	private static Entity findLoaded(MinecraftServer server, UUID id) {
+		for (ServerLevel level : server.getAllLevels()) {
+			Entity entity = level.getEntity(id);
+			if (entity != null) {
+				return entity;
+			}
+		}
+		return null;
+	}
+
+	// One given up on, or left over from an earlier fall. Only told apart while its owner is online
+	private static boolean isStaleNobody(Entity entity) {
+		UUID owner = nobodyOwner(entity);
+		if (owner == null || entity.getServer() == null) {
+			return false;
+		}
+		ServerPlayer player = entity.getServer().getPlayerList().getPlayer(owner);
+		PlayerData data = player == null ? null : PlayerData.get(player);
+		if (data == null) {
+			return false;
+		}
+		// Made before they were tracked: it is the one they have
+		if (data.getNobodyId() == null && !data.isNobodyOwed()) {
+			data.setNobodyId(entity.getUUID());
+			return false;
+		}
+		return !entity.getUUID().equals(data.getNobodyId());
+	}
+
+	@SubscribeEvent
+	public void staleNobodyLoaded(EntityJoinLevelEvent event) {
+		if (!event.getLevel().isClientSide() && event.loadedFromDisk() && event.getEntity() instanceof DuskEntity && isStaleNobody(event.getEntity())) {
+			event.setCanceled(true);
+		}
+	}
+
+	@SubscribeEvent
+	public void staleNobodyTick(EntityTickEvent.Post event) {
+		Entity entity = event.getEntity();
+		if (entity instanceof DuskEntity && entity.tickCount % STALE_CHECK == 0 && entity.level() instanceof ServerLevel level && isStaleNobody(entity)) {
+			level.sendParticles(ParticleTypes.LARGE_SMOKE, entity.getX(), entity.getY() + 1D, entity.getZ(), 30, 0.3D, 0.6D, 0.3D, 0.02D);
+			entity.discard();
+		}
+	}
+
+	/** Organization style */
+	public static boolean isValidNobodyName(String playerName, String nobodyName) {
+		if (playerName == null || nobodyName == null || nobodyName.isEmpty()) {
+			return false;
+		}
+		char[] expected = (playerName + "x").toLowerCase(Locale.ROOT).toCharArray();
+		char[] given = nobodyName.toLowerCase(Locale.ROOT).toCharArray();
+		Arrays.sort(expected);
+		Arrays.sort(given);
+		return Arrays.equals(expected, given);
+	}
+
+	private static void loseStats(PlayerData data) {
+		int percent = ModConfigs.SERVER.heartlessStatLoss.get();
+		addLoss(data.getStrengthStat(), percent);
+		addLoss(data.getMagicStat(), percent);
+		addLoss(data.getDefenseStat(), percent);
+	}
+
+	private static void addLoss(Stat stat, int percent) {
+		if (percent <= 0 || stat.hasModifier(STAT_LOSS)) {
+			return;
+		}
+		stat.addModifier(STAT_LOSS, -percent, false, true);
+	}
+
+	public static boolean hasLostStats(PlayerData data) {
+		return data.getStrengthStat().hasModifier(STAT_LOSS) || data.getMagicStat().hasModifier(STAT_LOSS) || data.getDefenseStat().hasModifier(STAT_LOSS);
+	}
+
+	public static void recoverStats(PlayerData data) {
+		data.getStrengthStat().removeModifier(STAT_LOSS);
+		data.getMagicStat().removeModifier(STAT_LOSS);
+		data.getDefenseStat().removeModifier(STAT_LOSS);
 	}
 
 	public static UUID nobodyOwner(Entity entity) {

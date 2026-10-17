@@ -2407,27 +2407,19 @@ public class Utils {
 		return team;
 	}
 
-	public static void updateOrgRobesTeam(ServerPlayer player) {
+	public static void hidePlayerName(ServerPlayer player) {
 		ServerLevel level = player.serverLevel();
 		Scoreboard sb = level.getScoreboard();
 		PlayerTeam team = getOrCreateTeam(level);
 
 		String name = player.getScoreboardName();
-		if(ModConfigs.hideOrgNames){
-			if (Utils.isWearingOrgRobes(player)) {
-				if (sb.getPlayersTeam(name) != team) {
-					sb.addPlayerToTeam(name, team);
-				}
-			} else {
-				if (sb.getPlayersTeam(name) == team) {
-					sb.removePlayerFromTeam(name, team);
-				}
+		boolean hidden = ModConfigs.hideOrgNames && Utils.isWearingOrgRobes(player);
+		if (hidden) {
+			if (sb.getPlayersTeam(name) != team) {
+				sb.addPlayerToTeam(name, team);
 			}
-		} else {
-			//If config is false make sure everyone invisible is visible again
-			if (sb.getPlayersTeam(name) == team) {
-				sb.removePlayerFromTeam(name, team);
-			}
+		} else if (sb.getPlayersTeam(name) == team) {
+			sb.removePlayerFromTeam(name, team);
 		}
 	}
 

@@ -11,11 +11,13 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.*;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CheckboxButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -27,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -48,7 +51,7 @@ public class MenuConfigScreen extends MenuBackground {
 	MenuBox box;
 
 	//PlayerSkin
-	Button glintButton;
+	CheckboxButton glintButton;
 	boolean glint;
 
 	//Font
@@ -70,6 +73,11 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Party
 	EditBox partyYDistanceBox;
+
+	//Nobody
+	EditBox nobodyNameBox;
+	Button saveNobodyName;
+	int nobodyX, nobodyY, nobodyWidth;
 
 	//Import Export
 	Button export, Import;
@@ -129,8 +137,7 @@ public class MenuConfigScreen extends MenuBackground {
 			ModConfigs.setShowHearts(hpShowHearts);
 			break;
 		case "glint":
-			glint = !glint;
-			glintButton.setMessage(glintLabel());
+			glint = glintButton.isChecked();
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 			break;
 		}
@@ -158,6 +165,7 @@ public class MenuConfigScreen extends MenuBackground {
 		initPlayerSkin();
 		initLockOn();
 		initParty();
+		initNobody();
 		initImpExp();
 		int y = 0;
 		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER_SKIN; }));
@@ -417,11 +425,14 @@ public class MenuConfigScreen extends MenuBackground {
 
 		addRenderableWidget(crownVariant = Button.builder(crownVariantLabel(), (e) -> cycleCrown()).bounds(crownPosition.getX(), crownPosition.getY() + crownPosition.getHeight() + 2, crownPosition.getWidth() + 86, 16).build());
 
-		// Beside the armour colour swatch, filling the empty strip under the hue bar. The label says what
-		// the state is instead of "true"/"false" next to a caption, so it reads on its own.
-		addRenderableWidget(glintButton = Button.builder(glintLabel(), (e) -> action("glint"))
-				.bounds(armorColorPicker.getSwatchRight() + 4, armorColorPicker.getSwatchTop() - 3, glintButtonWidth(), 15)
-				.build());
+		// Beside the armour colour swatch, filling the empty strip under the hue bar
+		addRenderableWidget(glintButton = new CheckboxButton(armorColorPicker.getSwatchRight() + 3, armorColorPicker.getSwatchTop()-1, "gui.menu.config.armor.glint.short", glint, null, 0xFF9900) {
+			@Override
+			public void onPress() {
+				super.onPress();
+				action("glint");
+			}
+		});
 
 		playerSkinList.add(armorColorPicker);
 		playerSkinList.add(glintButton);
@@ -455,17 +466,6 @@ public class MenuConfigScreen extends MenuBackground {
 		data().setCrown(next);
 		crownVariant.setMessage(crownVariantLabel());
 		PacketHandler.sendToServer(new CSSetCrown(next));
-	}
-
-	private Component glintLabel() {
-		return Component.translatable("gui.menu.config.armor.glint." + (glint ? "enabled" : "disabled"));
-	}
-
-
-	private int glintButtonWidth() {
-		int enabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.enabled"));
-		int disabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.disabled"));
-		return Math.max(enabled, disabled) + 10;
 	}
 
 	private Component crownVariantLabel() {
@@ -676,6 +676,85 @@ public class MenuConfigScreen extends MenuBackground {
 		partyList.add(partyYDistanceBox);
 	}
 
+	private void initNobody() {
+		int left = notifColorPicker.getX() + notifColorPicker.getWidth() + 6;
+		int right = crownHeight.getX() - 6;
+		nobodyWidth = Math.clamp(right - left, 60, 180);
+		nobodyX = left + Math.max(0, right - left - nobodyWidth) / 2;
+		nobodyY = box.getY() + 6;
+
+		addRenderableWidget(nobodyNameBox = new EditBox(minecraft.font, nobodyX, nobodyY + 12, nobodyWidth, 16, Component.translatable("gui.menu.config.nobody")) {
+			@Override
+			public boolean charTyped(char c, int i) {
+				return (Character.isLetterOrDigit(c) || c == '_') && super.charTyped(c, i);
+			}
+
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				return true;
+			}
+		});
+		nobodyNameBox.setMaxLength(17);
+		nobodyNameBox.setValue(data().getNobodyName());
+
+		addRenderableWidget(saveNobodyName = Button.builder(Component.translatable("gui.menu.config.nobody.save"), (e) -> {
+			PacketHandler.sendToServer(new CSSetNobodyName(nobodyNameBox.getValue()));
+		}).bounds(nobodyX, nobodyY + 30, nobodyWidth, 16).build());
+
+		playerSkinList.add(nobodyNameBox);
+		playerSkinList.add(saveNobodyName);
+	}
+
+	private void drawNobody(GuiGraphics gui) {
+		int x = nobodyX - buttonsX;
+		int top = nobodyY - (box.getY() + 4);
+		String title = Utils.translateToLocal("gui.menu.config.nobody");
+		gui.drawString(minecraft.font, title, x + (nobodyWidth - minecraft.font.width(title)) / 2, top, 0xFF9900);
+
+		String playerName = minecraft.player.getGameProfile().getName();
+		String value = nobodyNameBox.getValue();
+		boolean valid = HeartlessForm.isValidNobodyName(playerName, value);
+		saveNobodyName.active = (value.isEmpty() || valid) && !value.equals(data().getNobodyName());
+
+		int y = top + 50;
+		for (FormattedCharSequence line : minecraft.font.split(Component.translatable("gui.menu.config.nobody.rule"), nobodyWidth)) {
+			gui.drawString(minecraft.font, line, x, y, 0xFF9900);
+			y += minecraft.font.lineHeight + 1;
+		}
+
+		// Every letter it needs, green once the name uses it
+		Map<Character, Integer> typed = new HashMap<>();
+		for (char c : value.toLowerCase().toCharArray()) {
+			typed.merge(c, 1, Integer::sum);
+		}
+		int letterX = 0;
+		y += 2;
+		for (char c : (playerName + "X").toCharArray()) {
+			char key = Character.toLowerCase(c);
+			boolean used = typed.getOrDefault(key, 0) > 0;
+			if (used) {
+				typed.merge(key, -1, Integer::sum);
+			}
+			String letter = String.valueOf(c);
+			int letterWidth = minecraft.font.width(letter) + 4;
+			if (letterX + letterWidth > nobodyWidth) {
+				letterX = 0;
+				y += minecraft.font.lineHeight + 1;
+			}
+			gui.drawString(minecraft.font, letter, x + letterX, y, used ? 0x55FF55 : 0xFF5555);
+			letterX += letterWidth;
+		}
+
+		if (!value.isEmpty()) {
+			y += minecraft.font.lineHeight + 3;
+			for (FormattedCharSequence line : minecraft.font.split(Component.translatable(valid ? "gui.menu.config.nobody.valid" : "gui.menu.config.nobody.invalid"), nobodyWidth)) {
+				gui.drawString(minecraft.font, line, x, y, valid ? 0x55FF55 : 0xFF5555);
+				y += minecraft.font.lineHeight + 1;
+			}
+		}
+	}
+
 	private void initImpExp() {
 		int pos = 0;
 
@@ -866,6 +945,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 					drawCentredOverSwatch(gui, "gui.menu.config.notif", notifColorPicker);
 					drawCentredOverSwatch(gui, "gui.menu.config.armor", armorColorPicker);
+					drawNobody(gui);
 				}
 				case LOCK_ON_HP -> {
 					for (AbstractWidget b : lockOnList) {

@@ -127,6 +127,17 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Distancia de la luz del Sincorazón");
+        add("gui.menu.config.nobody", "Nombre de Incorpóreo");
+        add("gui.menu.config.nobody.save", "Guardar");
+        add("gui.menu.config.nobody.rule", "Debe ser un anagrama de:");
+        add("gui.menu.config.nobody.valid", "Nombre válido");
+        add("gui.menu.config.nobody.invalid", "No es un anagrama de tu nombre + X");
+        add("kingdomkeys.memory_from_another_self.not_yours", "Este recuerdo pertenece a otra persona");
+        add("kingdomkeys.memory_from_another_self.nothing_lost", "No tienes nada que recuperar");
+        add("kingdomkeys.memory_from_another_self.recovered", "Recuperas lo que tu Incorpóreo se llevó");
+        add("kingdomkeys.memory_from_another_self.use", "Clic derecho para recuperar lo que perdiste");
+        addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Stats perdidos como Sincorazón (%)");
+        addConfigKey(ModConfigs.getServerConfig().nobodyLostMinutes, "Minutos antes de reemplazar un Incorpóreo perdido");
         addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Alcance de fijar enemigo");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
         addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
@@ -608,6 +619,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".notif", "Notificación");
         add(Gui_Menu_Config + ".armor.glint", "Brillo de Armadura");
         add(Gui_Menu_Config + ".armor.glint.enabled", "Brillo activado");
+        add(Gui_Menu_Config + ".armor.glint.short", "Brillo");
         add(Gui_Menu_Config + ".armor.glint.disabled", "Brillo desactivado");
         add(Gui_Menu_Config + ".armor", "Armadura");
 

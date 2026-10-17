@@ -35,6 +35,7 @@ public class PacketHandler {
 		client(SCOpenForetellerScreen.TYPE, SCOpenForetellerScreen.STREAM_CODEC);
 		client(SCOpenDialogue.TYPE, SCOpenDialogue.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
+		client(SCHeartlessTransition.TYPE, SCHeartlessTransition.STREAM_CODEC);
 		client(SCOpenStruggleMenu.TYPE, SCOpenStruggleMenu.STREAM_CODEC);
 		client(SCCloseScreen.TYPE, SCCloseScreen.STREAM_CODEC);
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
@@ -145,6 +146,7 @@ public class PacketHandler {
 		server(CSSummonKeyblade.TYPE, CSSummonKeyblade.STREAM_CODEC);
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
+		server(CSSetNobodyName.TYPE, CSSetNobodyName.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
 		server(CSTrackRecipe.TYPE, CSTrackRecipe.STREAM_CODEC);
 		server(CSMeldRecipe.TYPE, CSMeldRecipe.STREAM_CODEC);

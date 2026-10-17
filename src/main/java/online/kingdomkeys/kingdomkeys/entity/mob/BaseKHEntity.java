@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 import org.jetbrains.annotations.Nullable;
 
 public class BaseKHEntity extends Monster implements IKHMob, RaysOnDefeat {
@@ -106,6 +107,10 @@ public class BaseKHEntity extends Monster implements IKHMob, RaysOnDefeat {
 	public boolean skipAttackInteraction(Entity pEntity) {
 		if (getKHMobType() != MobType.NPC) {
 			if(pEntity instanceof Player player) {
+				// A Shadow strikes with its claws
+				if(HeartlessForm.isHeartless(player)) {
+					return false;
+				}
 				if(ItemStack.isSameItem(player.getMainHandItem(),ItemStack.EMPTY)) {
 					return true;
 				}

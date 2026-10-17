@@ -66,10 +66,8 @@ public class HeartlessFormRenderer {
 		shadow.hurtDuration = player.hurtDuration;
 		shadow.tickCount = player.tickCount;
 
-		// Someone else's shadow carries their name; your own does not, as with your name tag
-		boolean own = player == Minecraft.getInstance().player;
-		shadow.setCustomName(own ? null : player.getDisplayName());
-		shadow.setCustomNameVisible(!own);
+		shadow.setCustomName(null);
+		shadow.setCustomNameVisible(false);
 
 		PoseStack poseStack = event.getPoseStack();
 		poseStack.pushPose();

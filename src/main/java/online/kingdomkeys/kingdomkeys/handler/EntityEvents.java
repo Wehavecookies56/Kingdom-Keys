@@ -393,7 +393,7 @@ public class EntityEvents {
 			}
 
 			if (!player.level().isClientSide) { // Sync from server to client
-				Utils.updateOrgRobesTeam((ServerPlayer) player);
+				Utils.hidePlayerName((ServerPlayer) player);
 				LevelStats.seekGrantedItems(playerData);
 				// TODO remove in the future, union for old players
 				if (playerData.getSoAState() == SoAState.COMPLETE && !playerData.hasUnion() && !playerData.isOrgMember()) {
@@ -1305,7 +1305,7 @@ public class EntityEvents {
 	public void onLivingEquipArmor(LivingEquipmentChangeEvent event) {
 		if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
 			if (event.getSlot().isArmor()) {
-				Utils.updateOrgRobesTeam(player);
+				Utils.hidePlayerName(player);
 			}
 			if (event.getSlot() == EquipmentSlot.MAINHAND || event.getSlot() == EquipmentSlot.OFFHAND) {
 				ModAdvancements.triggerDualWield(player, player.getMainHandItem().getItem(), player.getOffhandItem().getItem());

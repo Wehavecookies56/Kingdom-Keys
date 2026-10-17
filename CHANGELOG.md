@@ -1,14 +1,17 @@
 ## Added:
 * Reworked the player Heartless and Nobody mechanic:
-  * When killed by a heartless you will then become a Shadow and your heart will fly away from you.
+  * When killed by a heartless you will then become a Shadow and your heart will fly away from you, it reduces your STR, MAG and DEF stats by a %.
   * You must chase it to return to your normal self.
   * As a shadow you cannot use the Command Menu or consume items like food.
-  * The next Dusk that spawns nearby will become your Nobody, defeating it will drop a "Memory from another self" item.
+  * The next Dusk that spawns nearby will become your Nobody, defeating it will drop a "Memory from another self" item, which will allow you to restore your full power.
+* Text box in the config menu to set your nobody name.
 * Search bar for filtered screens.
 * Amount text box to buy screen.
 * ServerConfig to set the distance the heart will travel from the turning point (default 128).
 * ServerConfig to set the lock on range (previously hardcoded to 35 blocks).
 * ServerConfig to set the xp level curve factor, higher number the less steep is the xp increase.
+* ServerConfig to set the % of lost attributes when becoming a heartless.
+* ServerConfig to set the minutes that can pass when someone's nobody can be in non loaded chunks, therefore despawning them and adding them to the queue again.
 * ClientConfig to hide the second layer of the skin when wearing clothes/armor to prevent clipping or z-fighting.
 * Command /kingdomkeys heartless <turn/restore> to become a Shadow or back to Human.
 * MiniCO as a proper structure (/locate and /place works).

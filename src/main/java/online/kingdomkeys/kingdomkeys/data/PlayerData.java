@@ -280,6 +280,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("respawn_rod", respawnROD);
 		storage.putBoolean("heartless_form", heartlessForm);
 		storage.putBoolean("nobody_owed", nobodyOwed);
+		storage.putString("nobody_name", nobodyName);
+		if (nobodyId != null) {
+			storage.putUUID("nobody_id", nobodyId);
+		}
+		storage.putInt("nobody_missing", nobodyMissingTicks);
 		if (lightDimension != null && lightPos != null) {
 			storage.putString("light_dimension", lightDimension.location().toString());
 			storage.putLong("light_pos", lightPos.asLong());
@@ -573,6 +578,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 		this.heartlessForm = nbt.getBoolean("heartless_form");
 		this.nobodyOwed = nbt.getBoolean("nobody_owed");
+		this.nobodyName = nbt.getString("nobody_name");
+		this.nobodyId = nbt.hasUUID("nobody_id") ? nbt.getUUID("nobody_id") : null;
+		this.nobodyMissingTicks = nbt.getInt("nobody_missing");
 		if (nbt.contains("light_dimension") && nbt.contains("light_pos")) {
 			ResourceLocation lightDim = ResourceLocation.tryParse(nbt.getString("light_dimension"));
 			this.lightDimension = lightDim == null ? null : ResourceKey.create(Registries.DIMENSION, lightDim);
@@ -2867,6 +2875,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	// Turned into a Heartless instead of dying: stays so until it reaches its own heart, the light at lightPos
 	private boolean heartlessForm, nobodyOwed;
+	private String nobodyName = "";
+	private UUID nobodyId;
+	private int nobodyMissingTicks;
 	private ResourceKey<Level> lightDimension;
 	private BlockPos lightPos;
 
@@ -2885,6 +2896,30 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setNobodyOwed(boolean owed) {
 		this.nobodyOwed = owed;
+	}
+
+	public UUID getNobodyId() {
+		return nobodyId;
+	}
+
+	public void setNobodyId(UUID nobodyId) {
+		this.nobodyId = nobodyId;
+	}
+
+	public int getNobodyMissingTicks() {
+		return nobodyMissingTicks;
+	}
+
+	public void setNobodyMissingTicks(int ticks) {
+		this.nobodyMissingTicks = ticks;
+	}
+
+	public String getNobodyName() {
+		return nobodyName;
+	}
+
+	public void setNobodyName(String nobodyName) {
+		this.nobodyName = nobodyName == null ? "" : nobodyName;
 	}
 
 	public ResourceKey<Level> getLightDimension() {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance, lockOnReach;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance, lockOnReach, heartlessStatLoss, nobodyLostMinutes;
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
@@ -163,6 +163,16 @@ public class ServerConfig {
                 .comment("Roughly how many blocks away the heart of a player turned Heartless drifts off to wait for them")
                 .translation(KingdomKeys.MODID + ".config.heartless_light_distance")
                 .defineInRange("heartlessLightDistance", 128, 4, 1024);
+
+        heartlessStatLoss = builder
+                .comment("Percentage of Strength, Magic and Defense a player loses when turned into a Heartless, given back by the memory their Nobody drops")
+                .translation(KingdomKeys.MODID + ".config.heartless_stat_loss")
+                .defineInRange("heartlessStatLoss", 20, 0, 100);
+
+        nobodyLostMinutes = builder
+                .comment("Minutes a player's Nobody can go without being loaded anywhere before it is given up on, and the next Dusk that turns up near them takes its place")
+                .translation(KingdomKeys.MODID + ".config.nobody_lost_minutes")
+                .defineInRange("nobodyLostMinutes", 10, 1, 1440);
 
         builder.pop();
 
