@@ -5,8 +5,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 public class Strings {
     // Records
     public static final String
-		    Disc_Duration_Desc = "disc.duration.desc",
-		    Disc_DurationUnits_Desc = "disc.durationunits.desc";
+		    Disc_Duration_Desc = "disc.duration.desc";
     
     //Dimensions
     public static final String
@@ -504,12 +503,6 @@ public class Strings {
             Gui_Menu_Main_Synthesis_Tier = Gui_Menu_Main + ".synthesis_tier",
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Lux = Gui_Menu_Main + ".lux",
-            Gui_Foreteller_Redeem = "gui.foreteller.redeem",
-            Gui_Foreteller_Train = "gui.foreteller.train",
-            Gui_Foreteller_Duel = "gui.foreteller.duel",
-            Gui_Duel_Level = "gui.duel.level",
-            Gui_Training_Reward = "gui.training.reward",
-            Gui_Level_Dynamic = "gui.level.dynamic",
             Duel_Begin = "kingdomkeys.duel.begin",
             Duel_Lost = "kingdomkeys.duel.lost",
             Duel_Lost_Sub = "kingdomkeys.duel.lost.sub",
@@ -579,7 +572,6 @@ public class Strings {
             Gui_Menu_Struggle_Starting_Score = Gui_Menu_Struggle + ".starting_score",
             Gui_Menu_Struggle_Corners_Pos = Gui_Menu_Struggle + ".corners_pos",
             Gui_Menu_Struggle_Spectator_Pos = Gui_Menu_Struggle + ".spectator_pos",
-            Gui_Menu_Struggle_Mode = Gui_Menu_Struggle + ".mode",
             
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
@@ -611,7 +603,6 @@ public class Strings {
 			Gui_Menu_Status_FormLevel = Gui_Menu_Status + ".formlevel",
 			Gui_Menu_Status_FormGauge = Gui_Menu_Status + ".formgauge",
 			Gui_Menu_Status_Abilities = Gui_Menu_Status + ".abilities",
-			Gui_Menu_Status_Ability = Gui_Menu_Status + ".ability",
 			Gui_Menu_Status_Button = Gui_Menu_Status + ".button",
 
 			Gui_Menu_Journal = Gui_Menu + ".journal",
@@ -715,7 +706,6 @@ public class Strings {
 
 			//Item get
 			Gui_ItemGet_Obtained = "gui.itemget.obtained",
-			Gui_ItemGet_Dismiss = "gui.itemget.dismiss",
 
 			//Org
 			Gui_Org = "gui.org",
@@ -1628,12 +1618,12 @@ public class Strings {
             UnionChoicePick = "soa.chat.union.pick"
     ;
     
-    public static String
+    public static final String
     		HeartlessIntro1 = "heartless.intro.1", //This world has been connected
     		HeartlessIntro2 = "heartless.intro.2", //Tied to the darkness...
     		HeartlessIntro3 = "heartless.intro.3"; //Soon to be completely eclipsed
 
-	public static String
+	public static final String
 			COIntro1 = "co.intro.1", //In this place, to find is to lose
 			COIntro2 = "co.intro.2", //and to lose is to find.
 			COIntro3 = "co.intro.3", //That is the way in Castle Oblivion
@@ -1645,7 +1635,7 @@ public class Strings {
 
 
 	//Map Cards
-	public static String
+	public static final String
 			TranquilDarkness = "tranquil_darkness",
 			TeemingDarkness = "teeming_darkness",
 			FeebleDarkness = "feeble_darkness",
@@ -1685,9 +1675,9 @@ public class Strings {
 			RouletteBonus = "roulette_bonus";
 
 	//World Cards
-	public static String EmptyCard = "empty_card";
+	public static final String EmptyCard = "empty_card";
 
-	public static String
+	public static final String
 			PlainsCard = "plains_card",
 			TheNetherCard = "the_nether_card",
 			TheEndCard = "the_end_card",
@@ -1703,7 +1693,7 @@ public class Strings {
 			BadlandsCard = "badlands_card";
 
 	//Biome Memories
-	public static String
+	public static final String
 			PlainsMemory = "plains_memory",
 			TheNetherMemory = "the_nether_memory",
 			TheEndMemory = "the_end_memory",
@@ -1719,7 +1709,7 @@ public class Strings {
 			BadlandsMemory = "badlands_memory";
 
 	//Warning
-	public static String
+	public static final String
 			WarningInformation = "warning.information",
 			WarningAP = "warning.ap",
 			WarningSell = "warning.sell",
@@ -1740,7 +1730,7 @@ public class Strings {
 			WarningStockFull = "warning.stock.full";
 
 	//Gummi Stuff
-	public static String
+	public static final String
 		Gummi = KingdomKeys.MODID + ".gummi",
 		Gummi_Block = Gummi + ".block",
 		Gummi_Blueprint = Gummi + ".blueprint",
@@ -1748,7 +1738,7 @@ public class Strings {
 		Gummi_Phone = Gummi + ".phone";
 
 	//Dialogue
-	public static String
+	public static final String
 		Dialogue = KingdomKeys.MODID + ".dialogue",
 		Dialogue_FirstMeeting = Dialogue + ".first_meeting",
 		Dialogue_FirstMeeting_Answer = Dialogue_FirstMeeting + ".answer",
@@ -1759,20 +1749,20 @@ public class Strings {
 		Dialogue_Apprentice_Answer = Dialogue_Apprentice + ".answer";
 
 	//Misc
-	public static String
+	public static final String
 		Information = KingdomKeys.MODID + ".information",
 		Poster = KingdomKeys.MODID + ".poster",
 		Struggle = KingdomKeys.MODID + ".struggle",
 		StruggleTournament = Struggle + ".tournament";
 
 	//Savepoint
-	public static String
+	public static final String
 		Savepoint = "savepoint",
 		Savepoint_Tooltip = Savepoint + ".tooltip",
 		Savepoint_Stat = Savepoint + ".stat";
 
 	//Commands
-	public static String
+	public static final String
 		Command = KingdomKeys.MODID + ".command",
 		Command_Ability = Command + ".ability",
 		Command_Check = Command + ".check",
@@ -1795,7 +1785,7 @@ public class Strings {
 		Command_Recipe = Command + ".recipe";
 
 	//Messages
-	public static String
+	public static final String
 		Message = "message",
 		Message_MagnetBlox = Message + ".magnet_blox",
 		Message_Chest = Message + ".chest",

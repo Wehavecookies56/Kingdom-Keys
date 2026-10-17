@@ -37,12 +37,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.hud_data", "Ajustes de HUD, NO los edites desde aquí");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Ajustes de Menú de Comandos");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Ajustes de Indicador de Vida");
-        add(KingdomKeys.MODID + ".configuration.mp_bar", "Ajustes de Indicador de Magia");
-        add(KingdomKeys.MODID + ".configuration.dp_bar", "Ajustes de Indicador de Fusión");
-        add(KingdomKeys.MODID + ".configuration.player_skin", "Ajustes de indicador del jugador");
         add(KingdomKeys.MODID + ".configuration.lock_on", "Ajustes de Fijar Enemigo");
         add(KingdomKeys.MODID + ".configuration.party", "Ajustes de Grupo");
-        add(KingdomKeys.MODID + ".configuration.focus", "Ajustes de Indicador de Tino");
 
         //COMMON
         add(KingdomKeys.MODID + ".configuration.general", "Ajustes generales");
@@ -51,7 +47,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.drops", "Ajustes de drops");
         add(KingdomKeys.MODID + ".configuration.shotlock", "Ajustes de Tiro Certero");
         add(KingdomKeys.MODID + ".configuration.synthesis", "Ajustes de síntesis");
-        add(KingdomKeys.MODID + ".configuration.savepoint", "Ajustes de Punto de Guardado");
 
         //SERVER
         add(KingdomKeys.MODID + ".configuration.leveling", "Ajustes de niveles");
@@ -191,8 +186,6 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("all_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de todos los creadores");
 
         //Onboarding hints (texto persistente en pantalla, ver HintGui - no son toasts de logros)
-        add("hint.kingdomkeys.press_m", "Pulsa M para comenzar tu viaje");
-        add("hint.kingdomkeys.visit_moogle", "Visita un moguri para sintetizar tu Kingdom Key");
 
         //Keybinds
         add("key.categories.kingdomkeys", "§6§l§nKingdom§f §7§l§nKeys§f §7§l§n2");
@@ -319,16 +312,11 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Gummi Ship HUD
         add("container.gummi_ship.movement", "Movimiento");
-        add("container.gummi_ship.forward", "Acelerar");
-        add("container.gummi_ship.backwards", "Marcha atrás");
-        add("container.gummi_ship.left", "Izquierda");
-        add("container.gummi_ship.right", "Derecha");
         add("container.gummi_ship.up", "Subir");
         add("container.gummi_ship.down", "Bajar");
         add("container.gummi_ship.boost", "Turbo");
         add("container.gummi_ship.3d_flight", "Vuelo 3D");
 
-        add("container.gummi_ship.coords", "Coords");
         add("container.gummi_ship.facing", "Orientación");
 
         add("container.gummi_ship.fuel", "Combustible");
@@ -384,10 +372,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Main_Synthesis_Tier, "Síntesis");
         add(Gui_Menu_Main_Munny, "Platines");
         add(Gui_Menu_Main_Lux, "Lux");
-        add(Gui_Foreteller_Redeem, "Canjear");
-        add(Gui_Foreteller_Train, "Entrenar");
-        add(Gui_Foreteller_Duel, "Enfrentarse");
-        add(Gui_Duel_Level, "Nv. %s");
         add(Duel_Begin, "¡Ya!");
         add(Duel_Lost, "Basta");
         add(Duel_Lost_Sub, "Descansa y vuelve cuando estés listo");
@@ -446,8 +430,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.dialogue.foreteller.theory_lux.3", "Tu unión cuenta lo que traes. Las otras cuatro también, por lo que tómalo como una competición amistosa.");
 
 
-        add(Gui_Level_Dynamic, "Tu nivel");
-        add(Gui_Training_Reward, "%s EXP, %s Lux");
         add("kingdomkeys.information.title", "INFORMACIÓN");
         add("kingdomkeys.information.training", "Acaba con todos los orbes");
         add("kingdomkeys.information.duel", "Derrota a tu maestro");
@@ -563,7 +545,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Status_FormLevel, "Niv. de Forma");
         add(Gui_Menu_Status_FormGauge, "Indicador de Forma");
         add(Gui_Menu_Status_Abilities, "Habilidades");
-        add(Gui_Menu_Status_Ability, "Habilidad");
 
         //Config Sub-menu
         add(Gui_Menu_Config, "Preferencias");
@@ -589,38 +570,25 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".font", "Fuente");
         add(Gui_Menu_Config + ".command_menu", "Menú Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");
-        add(Gui_Menu_Config + ".mp", "Barra PM");
-        add(Gui_Menu_Config + ".dp", "Barra Fusión");
         add(Gui_Menu_Config + ".player_skin", "Jugador");
         add(Gui_Menu_Config + ".lock_on_hp", "Fijar mob");
         add(Gui_Menu_Config + ".party", "Grupo");
-        add(Gui_Menu_Config + ".focus", "Barra Tino");
         add(Gui_Menu_Config + ".custom_font", "Fuente personalizada");
         add(Gui_Menu_Config + ".classic_colors", "Colores clásicos");
-        add(Gui_Menu_Config + ".x_scale", "Escala X");
-        add(Gui_Menu_Config + ".y_scale", "Escala Y");
-        add(Gui_Menu_Config + ".x_pos", "Posición X");
         add(Gui_Menu_Config + ".selected_x_pos", "Margen X Seleccionado");
-        add(Gui_Menu_Config + ".y_pos", "Posición Y");
         add(Gui_Menu_Config + ".y_dist", "Distancia Y");
         add(Gui_Menu_Config + ".sub_x_offset", "Pos. X extra Submenu");
         add(Gui_Menu_Config + ".header_title", "Título de Cabecera");
         add(Gui_Menu_Config + ".text_x_offset", "Pos. X del Texto extra");
         add(Gui_Menu_Config + ".snap_chat", "Chat sobre el menú");
-        add(Gui_Menu_Config + ".hp_scale", "Escala de Barra de VT");
         add(Gui_Menu_Config + ".icon_scale", "Escala del ícono fijación");
         add(Gui_Menu_Config + ".icon_rotation", "Velocidad de Rotación del ícono fijación");
         add(Gui_Menu_Config + ".hp_per_bar", "VT por barra");
         add(Gui_Menu_Config + ".show_hearts", "Mostrar corazones");
         add(Gui_Menu_Config + ".hp_alarm", "Volumen de Alarma de VT Baja");
         add(Gui_Menu_Config + ".import_export", "Importar/Exportar");
-        add(Gui_Menu_Config + ".import_export.import", "Importar");
-        add(Gui_Menu_Config + ".import_export.export", "Exportar al portapapeles");
         add(Gui_Menu_Config + ".notif", "Notificación");
-        add(Gui_Menu_Config + ".armor.glint", "Brillo de Armadura");
-        add(Gui_Menu_Config + ".armor.glint.enabled", "Brillo activado");
         add(Gui_Menu_Config + ".armor.glint.short", "Brillo");
-        add(Gui_Menu_Config + ".armor.glint.disabled", "Brillo desactivado");
         add(Gui_Menu_Config + ".armor", "Armadura");
 
         //Journal
@@ -1445,7 +1413,6 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Music discs
         add("disc.duration.desc", "Duración");
-        add("disc.durationunits.desc", "(mins:secs)");
         add("disc.composedby", "Compuesta por");
         addMusicDisc(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future, "Birth by Sleep -A Link to the Future-", "Yoko Shimomura & Kaoru Wada");
         addMusicDisc(ModItems.disc_Dream_Drop_Distance_The_Next_Awakening, "Dream Drop Distance -The Next Awakening-", "Yoko Shimomura & Kaoru Wada");
@@ -2610,14 +2577,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.chest.unlocked", "El Cofre ha sido desbloqueado");
         add("message.chest.reward_set", "%s establecido como recompensa del cofre");
         add("message.pedestal.placed", "%s colocado en el pedestal");
-        add("message.magic_max_level", "%s ya está en el máximo nivel");
-        add("message.magic_upgrade", "%s ha mejorado a %s");
-        add("message.unlocked", "Desbloqueado %s");
         add("message.wayfinder.player_not_found", "Jugador %s no encontrado");
         add("message.wayfinder.in_your_party", "de tu grupo");
         add("message.wayfinder.not_in_party", "No estás en un grupo");
         add("message.wayfinder.player_not_in_party", "El jugador %s no está en tu grupo");
-        add("message.wayfinder.player_not_online", "El jugador %s no está en línea");
         add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, dáselo a otro jugador");
         add("message.wayfinder.owner","Propietario: %s");
         add("message.wayfinder.cooldown","Recarga: %s%%");
@@ -2776,7 +2739,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Round_Time, "Duración de la ronda (segundos)");
         add(Strings.Gui_Menu_Struggle_Starting_Score, "Orbes iniciales");
         add(Strings.Gui_Menu_Struggle_Spectator_Pos, "Zona de espectadores (x,y,z)");
-        add(Strings.Gui_Menu_Struggle_Mode, "Modo");
         add(Strings.Gui_Menu_Struggle + ".duel", "Duelo");
         add(Strings.Gui_Menu_Struggle + ".tournament", "Torneo");
         add(Strings.Gui_Menu_Struggle + ".ffa", "Todos contra todos");
@@ -3041,7 +3003,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.org_portal.yours_named", "Este es tu portal %s: %s");
 
         // Entities
-        add("kingdomkeys.entity.heartless_of", "Sincorazón de %s");
         add("kingdomkeys.entity.nobody_of", "Incorpóreo de %s");
         add("kingdomkeys.command.heartless.turned", "%s ha caído en la oscuridad");
         add("kingdomkeys.command.heartless.restored", "%s ha recuperado su corazón");
@@ -3057,9 +3018,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.gui.hud_editor.title", "Editor de HUD");
         add("kingdomkeys.gui.config.color_picker", "Selector de color");
         add("kingdomkeys.gui.config.crown_height", "Altura de la corona");
-        add("kingdomkeys.gui.config.reset", "Reiniciar");
         add("kingdomkeys.gui.config.crown_position", "Posición de corona");
-        add("kingdomkeys.gui.config.crown_rotation", "Rotación de corona");
         add("kingdomkeys.gui.no_options", "Sin opciones");
         add("kingdomkeys.gui.pedestal.reset", "Restablecer");
         add("kingdomkeys.gui.weapon_unlock.equip", "Equipar");

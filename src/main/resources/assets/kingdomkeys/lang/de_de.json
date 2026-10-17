@@ -1078,20 +1078,15 @@
 	//Gumi-Jet
 	"container.gummi_ship.3d_flight": "3D-Flug",
 	"container.gummi_ship.armor": "Rüstung",
-	"container.gummi_ship.backwards": "Rückwärts",
 	"container.gummi_ship.boost": "Antrieb",
-	"container.gummi_ship.coords": "Koordinaten",
 	"container.gummi_ship.down": "Unten",
 	"container.gummi_ship.eng_power": "Motorkraft",
 	"container.gummi_ship.facing": "Ausrichtung",
-	"container.gummi_ship.forward": "Vorwärts",
 	"container.gummi_ship.fuel": "Treibstoff",
-	"container.gummi_ship.left": "Links",
 	"container.gummi_ship.movement": "Bewegung",
 	"container.gummi_ship.not_ready": "Nicht bereit",
 	"container.gummi_ship.numofweapons": "Waffenanzahl",
 	"container.gummi_ship.ready": "Bereit",
-	"container.gummi_ship.right": "Rechts",
 	"container.gummi_ship.speed": "Tempo",
 	"container.gummi_ship.up": "Oben",
 
@@ -1118,7 +1113,6 @@
 	//DISC
 
 	"disc.duration.desc": "Dauer",
-	"disc.durationunits.desc": "(min:sek)",
 	"disc.composedby": "Komponiert von",
 
 	//EFFECTS
@@ -1300,9 +1294,6 @@
 
 	// GUI
 
-	"gui.level.dynamic": "Dein Level",
-	"gui.duel.level": "Lv. %s",
-	"gui.training.reward": "%s Erf, %s Lux",
 
 	"gui.cardpacks.title": "Kartenpackung",
 
@@ -1321,7 +1312,6 @@
 	"gui.commandmenu.revert": "Zurück",
 	"gui.commandmenu.target": "GRUPPE",
 
-	"gui.itemget.dismiss": "<Drücke eine beliebige Taste zum verstecken>",
 	"gui.itemget.obtained": "ERHALTEN",
 
 	"gui.consumables_bag.complain": "Du darfst nur einen einzigen Verbrauchsgegenstände-Beutel im Inventar haben",
@@ -1335,9 +1325,6 @@
 	"gui.crownproof.desc2": "Choose which crown to wear in the menu configuration",
 	"gui.crownproof.unlocked": "Du hast die %s-Krone freigeschalten",
 
-	"gui.foreteller.duel": "Kämpfen",
-	"gui.foreteller.redeem": "Einlösen",
-	"gui.foreteller.train": "Trainieren",
 
 	"gui.driveformorb.tooltip": "Verbessert die %s",
 	"gui.driveformorb.upgrade": "%s hat %s Erf erhalten",
@@ -1367,9 +1354,6 @@
 
 	"gui.menu.config": "Konfiguration",
 	"gui.menu.config.armor": "Rüstung",
-	"gui.menu.config.armor.glint": "Rüstungsschimmern",
-	"gui.menu.config.armor.glint.disabled": "Schimmern deaktiviert",
-	"gui.menu.config.armor.glint.enabled": "Schimmern aktiviert",
 
 	"gui.menu.config.armor.blue": "Rüstung Blau",
 	"gui.menu.config.armor.green": "Rüstung Grün",
@@ -1379,20 +1363,16 @@
 	"gui.menu.config.classic_colors": "Klassische Farben",
 	"gui.menu.config.command_menu": "Kommando-Menü",
 	"gui.menu.config.custom_font": "Spielgetreue-Schriftart",
-	"gui.menu.config.dp": "Drive-Balken",
-	"gui.menu.config.focus": "Fokus-Balken",
 	"gui.menu.config.header_title": "Überschrift",
 	"gui.menu.config.hp": "HP-Balken",
 	"gui.menu.config.hp_alarm": "HP-Alarm Lautstärke",
 	"gui.menu.config.hp_per_bar": "HP pro Balken",
-	"gui.menu.config.hp_scale": "HP-Balken Größe",
 	"gui.menu.config.icon_rotation": "Anvisiersymbol-Rotationsgeschwindigkeit",
 	"gui.menu.config.icon_scale": "Anvisiersymbol-Größe",
 	"gui.menu.config.impexp": "Im-/Exportieren",
 	"gui.menu.config.impexp.export": "In Zwischenablage einfügen",
 	"gui.menu.config.impexp.import": "Importieren",
 	"gui.menu.config.lock_on_hp": "Anvisieren",
-	"gui.menu.config.mp": "MP-Balken",
 	"gui.menu.config.notif": "Benachrichtigung",
 
 	"gui.menu.config.reset_defaults": "Zurücksetzen zum Standard",
@@ -1405,11 +1385,7 @@
 	"gui.menu.config.snap_chat": "Chat über dem Kommandomenu",
 	"gui.menu.config.sub_x_offset": "Untermenü X-Versatz",
 	"gui.menu.config.text_x_offset": "Text X-Versatz",
-	"gui.menu.config.x_pos": "X-Position",
-	"gui.menu.config.x_scale": "X-Größe",
 	"gui.menu.config.y_dist": "Y-Abstand",
-	"gui.menu.config.y_pos": "Y-Position",
-	"gui.menu.config.y_scale": "Y-Größe",
 
 
 	"gui.menu.config.hud": "HUD Anpassen",
@@ -1498,7 +1474,6 @@
 	//stats
 	"gui.menu.status": "Status",
 	"gui.menu.status.abilities": "Abilitys",
-	"gui.menu.status.ability": "Ability",
 	"gui.menu.status.level": "Level",
 	"gui.menu.status.totalexp": "Erfahrung",
 	"gui.menu.status.nextlevel": "Nächstes Level", // Nächst. LV
@@ -1548,7 +1523,6 @@
 	"gui.menu.struggle.leave_button": "Wettkampf verlassen",
 	"gui.menu.struggle.leave_button.desc": "Verlasse den Wettkampf, ohne dass es für alle anderen beendet wird.",
 	"gui.menu.struggle.menu_title": "Struggle",
-	"gui.menu.struggle.mode": "Modus",
 	"gui.menu.struggle.name": "Struggle-Name",
 	"gui.menu.struggle.name_and_size": "Struggle-Name und Größe",
 	"gui.menu.struggle.ready": "Bereit",
@@ -3506,9 +3480,6 @@
 	"message.chest.unlocked": "Die Truhe ist aufgeschlossen",
 
 	"message.form_unlocked": "%s Freigeschaltet",
-	"message.unlocked": "%s Freigeschaltet", //magic
-	"message.magic_max_level": "%s ist bereits die höchste Stufe",
-	"message.magic_upgrade": "%s wurde aufgewertet zu %s",
 
 	"message.kingdomkeys.gui_toggle": "GUI-Anzeige wurde auf %s gesetzt",
 
@@ -3528,7 +3499,6 @@
 	"message.wayfinder.player_not_in_party": "Der Spieler %s ist nicht in deiner Gruppe",
 	"message.wayfinder.cooldown": "Abklingzeit: %s%%",
 	"message.wayfinder.in_your_party": "in deiner Gruppe",
-	"message.wayfinder.player_not_online": "Der Spieler %s ist nicht online",
 
 	"potion.desc.beginning": "Stellt %s%s %s wiederher ",
 	"potion.desc.drive": "§eDrive§r",

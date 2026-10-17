@@ -35,12 +35,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.hud_data", "HUD data related settings, do NOT edit them from here");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
-        add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
-        add(KingdomKeys.MODID + ".configuration.dp_bar", "Drive Bar settings");
-        add(KingdomKeys.MODID + ".configuration.player_skin", "Player settings");
         add(KingdomKeys.MODID + ".configuration.lock_on", "Lock-On settings");
         add(KingdomKeys.MODID + ".configuration.party", "Party HUD settings");
-        add(KingdomKeys.MODID + ".configuration.focus", "Focus HUD settings");
 
         //COMMON
         add(KingdomKeys.MODID + ".configuration.general", "General settings");
@@ -49,7 +45,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.drops", "Drops settings");
         add(KingdomKeys.MODID + ".configuration.shotlock", "Shotlock settings");
         add(KingdomKeys.MODID + ".configuration.synthesis", "Synthesis settings");
-        add(KingdomKeys.MODID + ".configuration.savepoint", "Savepoint settings");
 
         //SERVER
         add(KingdomKeys.MODID + ".configuration.leveling", "Leveling settings");
@@ -192,8 +187,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
 
         //Onboarding hints (persistent HUD text, see HintGui - not advancement toasts)
-        add("hint.kingdomkeys.press_m", "Press M to begin your journey");
-        add("hint.kingdomkeys.visit_moogle", "Visit a Moogle to synthesize your Kingdom Key");
 
         /**GUIS**/
         //Containers
@@ -271,16 +264,11 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Gummi Ship HUD
         add(Container_GummiShip + ".movement", "Movement");
-        add(Container_GummiShip + ".forward", "Forward");
-        add(Container_GummiShip + ".backwards", "Backwards");
-        add(Container_GummiShip + ".left", "Left");
-        add(Container_GummiShip + ".right", "Right");
         add(Container_GummiShip + ".up", "Up");
         add(Container_GummiShip + ".down", "Down");
         add(Container_GummiShip + ".boost", "Boost");
         add(Container_GummiShip + ".3d_flight", "3D flight");
 
-        add(Container_GummiShip + ".coords", "Coords");
         add(Container_GummiShip + ".facing", "Facing");
 
         add(Container_GummiShip + ".fuel", "Fuel");
@@ -333,10 +321,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Lux, "Lux");
-        add(Gui_Foreteller_Redeem, "Redeem");
-        add(Gui_Foreteller_Train, "Train");
-        add(Gui_Foreteller_Duel, "Spar");
-        add(Gui_Duel_Level, "Lv. %s");
         add(Duel_Begin, "Begin");
         add(Duel_Lost, "Enough");
         add(Duel_Lost_Sub, "Rest, and come back when you are ready");
@@ -395,8 +379,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Dialogue_Foreteller + ".theory_lux.3", "Your union counts what you bring in, but so do the other four, take it as a friendly competition.");
 
 
-        add(Gui_Level_Dynamic, "Your level");
-        add(Gui_Training_Reward, "%s EXP, %s Lux");
         add(Information + ".title", "INFORMATION");
         add(Information + ".training", "Defeat all the orbs");
         add(Information + ".duel", "Defeat your master");
@@ -506,7 +488,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FormLevel, "Form Level");
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
-        add(Gui_Menu_Status_Ability, "Ability");
 
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
@@ -531,38 +512,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
-        add(Gui_Menu_Config + ".mp", "MP Bar");
-        add(Gui_Menu_Config + ".dp", "DP Bar");
         add(Gui_Menu_Config + ".player_skin", "Player");
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
-        add(Gui_Menu_Config + ".focus", "Focus Bar");
         add(Gui_Menu_Config + ".custom_font", "Custom Font");
         add(Gui_Menu_Config + ".classic_colors", "Classic colors");
-        add(Gui_Menu_Config + ".x_scale", "X Scale");
-        add(Gui_Menu_Config + ".y_scale", "Y Scale");
-        add(Gui_Menu_Config + ".x_pos", "X Position");
         add(Gui_Menu_Config + ".selected_x_pos", "Selected X Offset");
-        add(Gui_Menu_Config + ".y_pos", "Y Position");
         add(Gui_Menu_Config + ".y_dist", "Y Distance");
         add(Gui_Menu_Config + ".sub_x_offset", "Submenu X Offset");
         add(Gui_Menu_Config + ".header_title", "Header Title");
         add(Gui_Menu_Config + ".text_x_offset", "Text X Offset");
         add(Gui_Menu_Config + ".snap_chat", "Chat above menu");
-        add(Gui_Menu_Config + ".hp_scale", "HP Bar Scale");
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
         add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
         add(Gui_Menu_Config + ".hp_alarm", "Low HP Alarm volume");
         add(Gui_Menu_Config + ".import_export", "Import/Export");
-        add(Gui_Menu_Config + ".import_export.import", "Import");
-        add(Gui_Menu_Config + ".import_export.export", "Export to clipboard");
         add(Gui_Menu_Config + ".notif", "Notification");
-        add(Gui_Menu_Config + ".armor.glint", "Armor glint");
-        add(Gui_Menu_Config + ".armor.glint.enabled", "Glint enabled");
         add(Gui_Menu_Config + ".armor.glint.short", "Glint");
-        add(Gui_Menu_Config + ".armor.glint.disabled", "Glint disabled");
         add(Gui_Menu_Config + ".armor", "Armor");
 
         add(Gui_Menu_Journal, "Journal");
@@ -705,7 +673,6 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Item Get screen
         add(Gui_ItemGet_Obtained, "OBTAINED");
-        add(Gui_ItemGet_Dismiss, "<Press anything to hide>");
 
         //Level up messages
         add(Stats_LevelUp_Str, "Strength increased!");
@@ -2246,7 +2213,6 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Discs
         add("disc.duration.desc", "Duration");
-        add("disc.durationunits.desc", "(mins:secs)");
         add("disc.composedby", "Composed by");
         addMusicDisc(ModItems.disc_Birth_by_Sleep_A_Link_to_the_Future, "Birth by Sleep -A Link to the Future-", "Yoko Shimomura & Kaoru Wada");
         addMusicDisc(ModItems.disc_Dream_Drop_Distance_The_Next_Awakening, "Dream Drop Distance -The Next Awakening-", "Yoko Shimomura & Kaoru Wada");
@@ -2581,7 +2547,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Message_Wayfinder + ".in_your_party","in your party");
         add(Message_Wayfinder + ".not_in_party","You are not in a party");
         add(Message_Wayfinder + ".player_not_in_party","Player %s is not in your party");
-        add(Message_Wayfinder + ".player_not_online","Player %s is not online");
         add(Message_Wayfinder + ".owner","Owner: %s");
         add(Message_Wayfinder + ".cooldown","Cooldown: %s%%");
         add(Message_Wayfinder + ".calling_for_help","%s is calling you, use their wayfinder!");
@@ -2590,9 +2555,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Message_Wayfinder + ".none", "<Empty>");
         add(Message_Wayfinder + ".tooltip1", "Right click to teleport");
         add(Message_Wayfinder + ".tooltip2", "Shift + right click to call");
-        add(Message + ".unlocked","Unlocked %s");
-        add(Message + ".magic_upgrade","%s has been upgraded to %s");
-        add(Message + ".magic_max_level","%s is already at the max level");
         add(Message_Recipe + ".no_more_to_learn","No more recipes to learn");
         add(Message_Recipe + ".cant_learn_yet","You can't learn that recipe yet");
         add(Message_Recipe + ".already_learnt", "Recipe for %s already learnt");
@@ -2742,7 +2704,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Starting_Score, "Starting orbs");
         add(Strings.Gui_Menu_Struggle_Corners_Pos, "Corners (x,y,z)");
         add(Strings.Gui_Menu_Struggle_Spectator_Pos, "Spectators (x,y,z)");
-        add(Strings.Gui_Menu_Struggle_Mode, "Mode");
         add(Strings.Gui_Menu_Struggle + ".duel", "Duel");
         add(Strings.Gui_Menu_Struggle + ".tournament", "Tournament");
         add(Strings.Gui_Menu_Struggle + ".ffa", "Free For All");
@@ -3030,7 +2991,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.org_portal.yours_named", "This is your portal %s: %s");
 
         // Entities
-        add("kingdomkeys.entity.heartless_of", "%s's Heartless");
         add("kingdomkeys.entity.nobody_of", "%s's Nobody");
         add("kingdomkeys.command.heartless.turned", "%s has fallen to darkness");
         add("kingdomkeys.command.heartless.restored", "%s has found their heart again");
@@ -3046,9 +3006,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.gui.hud_editor.title", "HUD Editor");
         add("kingdomkeys.gui.config.color_picker", "Colour picker");
         add("kingdomkeys.gui.config.crown_height", "Crown height");
-        add("kingdomkeys.gui.config.reset", "Reset");
         add("kingdomkeys.gui.config.crown_position", "Crown position");
-        add("kingdomkeys.gui.config.crown_rotation", "Crown rotation");
         add("kingdomkeys.gui.no_options", "No options");
         add("kingdomkeys.gui.pedestal.reset", "Reset");
         add("kingdomkeys.gui.weapon_unlock.equip", "Equip");
