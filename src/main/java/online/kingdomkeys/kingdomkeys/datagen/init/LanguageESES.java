@@ -124,15 +124,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Distancia de la luz del Sincorazón");
-        add("gui.menu.config.nobody", "Nombre de Incorpóreo");
-        add("gui.menu.config.nobody.save", "Guardar");
-        add("gui.menu.config.nobody.rule", "Debe ser un anagrama de:");
-        add("gui.menu.config.nobody.valid", "Nombre válido");
-        add("gui.menu.config.nobody.invalid", "No es un anagrama de tu nombre + X");
-        add("kingdomkeys.memory_from_another_self.not_yours", "Este recuerdo pertenece a otra persona");
-        add("kingdomkeys.memory_from_another_self.nothing_lost", "No tienes nada que recuperar");
-        add("kingdomkeys.memory_from_another_self.recovered", "Recuperas lo que tu Incorpóreo se llevó");
-        add("kingdomkeys.memory_from_another_self.use", "Clic derecho para recuperar lo que perdiste");
         addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Stats perdidos como Sincorazón (%)");
         addConfigKey(ModConfigs.getServerConfig().nobodyLostMinutes, "Minutos antes de reemplazar un Incorpóreo perdido");
         addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Alcance de fijar enemigo");
@@ -592,6 +583,11 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".notif", "Notificación");
         add(Gui_Menu_Config + ".armor.glint.short", "Brillo");
         add(Gui_Menu_Config + ".armor", "Armadura");
+        add(Gui_Menu_Config + ".nobody", "Nombre de Incorpóreo");
+        add(Gui_Menu_Config + ".nobody.save", "Guardar");
+        add(Gui_Menu_Config + ".nobody.rule", "Debe ser un anagrama de:");
+        add(Gui_Menu_Config + ".nobody.valid", "Nombre válido");
+        add(Gui_Menu_Config + ".nobody.invalid", "No es un anagrama de tu nombre + X");
 
         //Journal
         add(Gui_Menu_Journal, "Diario");
@@ -735,6 +731,9 @@ public class LanguageESES extends KKLanguageProvider {
         //K.O. Screen
         add(Gui_KO_Die, "Rendirse");
         add(Gui_KO_Quit, "Salir");
+
+        //Item Get screen
+        add(Gui_ItemGet_Obtained, "OBTENIDO");
 
         //Level up messages
         add(Stats_LevelUp_Str, "¡Fuerza aumentada!");
@@ -1549,6 +1548,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ira_Boots, "Botas de Ira");
 
         //Cards
+        add("item.mapcard.prefix", "(%s) %s");
         addItem(ModItems.tranquilDarkness, "Oscuridad Tenue", "Una sala donde solo aparecen unos pocos Sincorazón.");
         addItem(ModItems.teemingDarkness, "Oscuridad Total", "Una sala donde aparecen muchos Sincorazón. Los enemigos suelen soltar cartas de enemigo en esta sala.");
         addItem(ModItems.feebleDarkness, "Oscuridad Lánguida", "Una sala donde aparecen Sincorazón con cartas débiles.");
@@ -2741,16 +2741,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Reason_Waiting, "Esperando a que se una al menos un jugador más.");
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancelar listo");
         add(Strings.Gui_Menu_Struggle_Corners_Pos, "Esquinas (x,y,z)");
-        add(Gui_ItemGet_Obtained, "OBTENIDO");
-        add("item.mapcard.prefix", "(%s) %s");
-        add("epicfight.style.sora", "Sora");
-        add("epicfight.style.roxas", "Roxas");
-        add("epicfight.style.riku", "Riku");
-        add("epicfight.style.terra", "Terra");
-        add("epicfight.style.aqua", "Aqua");
-        add("epicfight.style.ventus", "Ventus");
-        add("epicfight.style.kh2_roxas_dual", "Roxas (KH2)");
-        add("epicfight.style.days_roxas_dual", "Roxas (358/2 Days)");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Nombre y tamaño del Struggle");
         add(Strings.Gui_Menu_Struggle_Name, "Nombre del Struggle");
         add(Strings.Gui_Menu_Struggle_Damage_Mult, "Multiplicador de orbes (%)");
@@ -2841,6 +2831,18 @@ public class LanguageESES extends KKLanguageProvider {
         add("jei.info.kingdomkeys.limit_orb", "Utilizado para desbloquear la Forma Suma. Activarla requiere 4 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.");
         add("jei.info.kingdomkeys.master_orb", "Utilizado para desbloquear la Forma Maestra. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 4 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.");
         add("jei.info.kingdomkeys.final_orb", "Utilizado para desbloquear la Forma Final. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 5 Barras de Fusión. Obtenido como recompensa de los Bloques de Premio Raro.");
+
+        // Epic Fight
+        add("epicfight.style.sora", "Sora");
+        add("epicfight.style.roxas", "Roxas");
+        add("epicfight.style.riku", "Riku");
+        add("epicfight.style.terra", "Terra");
+        add("epicfight.style.aqua", "Aqua");
+        add("epicfight.style.ventus", "Ventus");
+
+        add("epicfight.style.kh2_roxas_dual", "Roxas (KH2)");
+        add("epicfight.style.days_roxas_dual", "Roxas (358/2 Days)");
+
         // Commands
         // general
         add("kingdomkeys.command.no_choice", "%s tiene que hacer una elección primero");
@@ -3033,6 +3035,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.heartless_form.fell.sub", "Encuentra su luz...");
         add("kingdomkeys.heartless_form.restored.intro", "Has recuperado tu corazón");
         add("kingdomkeys.heartless_form.restored.sub", "Pero tu Incorpóreo sigue en algún lugar...");
+        add("kingdomkeys.memory_from_another_self.not_yours", "Este recuerdo pertenece a otra persona");
+        add("kingdomkeys.memory_from_another_self.nothing_lost", "No tienes nada que recuperar");
+        add("kingdomkeys.memory_from_another_self.recovered", "Recuperas lo que tu Incorpóreo se llevó");
+        add("kingdomkeys.memory_from_another_self.use", "Clic derecho para recuperar lo que perdiste");
         add("kingdomkeys.entity.training_dummy.iframes", "Fotogramas de invencibilidad %s");
 
         // Generic GUI

@@ -122,15 +122,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Heartless light distance");
-        add("gui.menu.config.nobody", "Nobody Name");
-        add("gui.menu.config.nobody.save", "Save");
-        add("gui.menu.config.nobody.rule", "Must be an anagram of:");
-        add("gui.menu.config.nobody.valid", "Valid name");
-        add("gui.menu.config.nobody.invalid", "Not an anagram of your name + X");
-        add("kingdomkeys.memory_from_another_self.not_yours", "This memory belongs to someone else");
-        add("kingdomkeys.memory_from_another_self.nothing_lost", "You have nothing left to recover");
-        add("kingdomkeys.memory_from_another_self.recovered", "You take back what your Nobody carried");
-        add("kingdomkeys.memory_from_another_self.use", "Right click to take back what you lost");
         addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Heartless stat loss (%)");
         addConfigKey(ModConfigs.getServerConfig().nobodyLostMinutes, "Minutes before a lost Nobody is replaced");
         addConfigKey(ModConfigs.getServerConfig().lockOnReach, "Lock on reach");
@@ -532,6 +523,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".notif", "Notification");
         add(Gui_Menu_Config + ".armor.glint.short", "Glint");
         add(Gui_Menu_Config + ".armor", "Armor");
+        add(Gui_Menu_Config + ".nobody", "Nobody Name");
+        add(Gui_Menu_Config + ".nobody.save", "Save");
+        add(Gui_Menu_Config + ".nobody.rule", "Must be an anagram of:");
+        add(Gui_Menu_Config + ".nobody.valid", "Valid name");
+        add(Gui_Menu_Config + ".nobody.invalid", "Not an anagram of your name + X");
 
         add(Gui_Menu_Journal, "Journal");
         add(Gui_Menu_Style, "Combat Style");
@@ -2517,7 +2513,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("jei.info.kingdomkeys.master_orb", "Use to unlock Master Form. Master has a 2nd Keyblade slot. Activation requires 4 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.");
         add("jei.info.kingdomkeys.final_orb", "Use to unlock Final Form. Final has a 2nd Keyblade slot. Activation requires 5 bars of the Drive Gauge. Dropped from breaking Rare Prize Blox.");
 
-        /**Epic Fight**/
+        // Epic Fight
         add("epicfight.style.sora", "Sora");
         add("epicfight.style.roxas", "Roxas");
         add("epicfight.style.riku", "Riku");
@@ -3000,6 +2996,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.heartless_form.fell.sub", "Find its light...");
         add("kingdomkeys.heartless_form.restored.intro", "You found your heart");
         add("kingdomkeys.heartless_form.restored.sub", "But your Nobody still walks somewhere...");
+        add("kingdomkeys.memory_from_another_self.not_yours", "This memory belongs to someone else");
+        add("kingdomkeys.memory_from_another_self.nothing_lost", "You have nothing left to recover");
+        add("kingdomkeys.memory_from_another_self.recovered", "You take back what your Nobody carried");
+        add("kingdomkeys.memory_from_another_self.use", "Right click to take back what you lost");
         add("kingdomkeys.entity.training_dummy.iframes", "Invincibility frames %s");
 
         // Generic GUI
