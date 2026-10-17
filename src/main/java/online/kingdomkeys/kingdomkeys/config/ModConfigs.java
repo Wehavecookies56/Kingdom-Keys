@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<? extends Integer> hiddenMagic;
-    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D, hideSkinLayerUnderArmor;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D, hideSkinLayerUnderArmor, lockOnKH1Bar;
 
     public static boolean bakeDisplayedModels, bakeHeldModels;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -253,6 +253,12 @@ public class ModConfigs {
         bakeClient();
     }
 
+    public static void setLockOnKH1Bar(boolean value) {
+        CLIENT.lockOnKH1Bar.set(value);
+        CLIENT.lockOnKH1Bar.save();
+        bakeClient();
+    }
+
     //Party
     public static void setPartyYDistance(int value) {
         CLIENT.partyYDistance.set(value);
@@ -326,6 +332,7 @@ public class ModConfigs {
         lockOnIconScale = CLIENT.lockOnIconScale.get();
         lockOnIconRotation = CLIENT.lockOnIconRotation.get();
         lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
+        lockOnKH1Bar = CLIENT.lockOnKH1Bar.get();
 
         partyYDistance = CLIENT.partyYDistance.get();
         summonTogether = CLIENT.summonTogether.get();

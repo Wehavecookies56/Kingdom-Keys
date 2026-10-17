@@ -55,21 +55,23 @@ public class MenuConfigScreen extends MenuBackground {
 	boolean glint;
 
 	//Font
-	Button customFontButton;
+	CheckboxButton customFontButton;
 	boolean customFont = true;
 
 	//Command Menu
 	EditBox cmTextXOffsetBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
-	Button cmHeaderTextVisibleButton, cmClassicColorsButton, snapChatButton;
+	CheckboxButton cmHeaderTextVisibleButton, cmClassicColorsButton, snapChatButton;
 	boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu;
 	
 	//HP
 	EditBox hpAlarmBox;
-	Button hpShowHeartsButton;
+	CheckboxButton hpShowHeartsButton;
 	boolean hpShowHearts;
 
 	//Lock On
 	EditBox lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
+	CheckboxButton lockOnKH1BarButton;
+	boolean lockOnKH1Bar;
 
 	//Party
 	EditBox partyYDistanceBox;
@@ -112,28 +114,27 @@ public class MenuConfigScreen extends MenuBackground {
 			PacketHandler.sendToServer(new CSOpenMenu());
 			break;
 		case "customFont":
-			customFont = !customFont;
-			customFontButton.setMessage(Component.literal(customFont+""));
+			customFont = customFontButton.isChecked();
 			ModConfigs.setCustomFont(customFont);
 			break;
 		case "textHeaderVisibility":
-			cmHeaderTextVisible = !cmHeaderTextVisible;
-			cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
+			cmHeaderTextVisible = cmHeaderTextVisibleButton.isChecked();
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
 		case "snapChat":
-			snapChatToCommandMenu = !snapChatToCommandMenu;
-			snapChatButton.setMessage(Component.literal(snapChatToCommandMenu+""));
+			snapChatToCommandMenu = snapChatButton.isChecked();
 			ModConfigs.setSnapChatToCommandMenu(snapChatToCommandMenu);
 			break;
 		case "classicColors":
-			cmClassicColors = !cmClassicColors;
-			cmClassicColorsButton.setMessage(Component.literal(cmClassicColors+""));
+			cmClassicColors = cmClassicColorsButton.isChecked();
 			ModConfigs.setCmClassicColors(cmClassicColors);
 			break;
+		case "lockOnKH1Bar":
+			lockOnKH1Bar = lockOnKH1BarButton.isChecked();
+			ModConfigs.setLockOnKH1Bar(lockOnKH1Bar);
+			break;
 		case "hpShowHearts":
-			hpShowHearts = !hpShowHearts;
-			hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
+			hpShowHearts = hpShowHeartsButton.isChecked();
 			ModConfigs.setShowHearts(hpShowHearts);
 			break;
 		case "glint":
@@ -181,15 +182,23 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(adjustHUDButton = new MenuButton((int)(scaledWidth/2F * 1.3F), (int) topBarHeight - 24, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
 	}
 
+	// A config switch: a checkbox lined up with the label drawn beside it
+	private CheckboxButton toggle(int row, boolean checked, String actionName) {
+		return new CheckboxButton(buttonsX, (int) topBarHeight + 20 * row + 3, "", checked) {
+			@Override
+			public void onPress() {
+				super.onPress();
+				action(actionName);
+			}
+		};
+	}
+
 	private void initFont(){
 		customFont = ModConfigs.customFont;
 
 		int pos = 0;
-		addRenderableWidget(customFontButton = Button.builder(Component.literal(customFont+""), (e) -> {
-			action("customFont");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		addRenderableWidget(customFontButton = toggle(++pos, customFont, "customFont"));
 
-		customFontButton.setMessage(Component.literal(customFont+""));
 		fontList.add(customFontButton);
 	}
 
@@ -199,9 +208,7 @@ public class MenuConfigScreen extends MenuBackground {
 		snapChatToCommandMenu = ModConfigs.snapChatToCommandMenu;
 		int pos = 0;
 
-		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.literal(cmClassicColors+""), (e) -> {
-			 action("classicColors");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		addRenderableWidget(cmClassicColorsButton = toggle(++pos, cmClassicColors, "classicColors"));
 		
 		addRenderableWidget(cmSelectedXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
@@ -255,9 +262,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.literal(cmHeaderTextVisible+""), (e) -> {
-			 action("textHeaderVisibility");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		addRenderableWidget(cmHeaderTextVisibleButton = toggle(++pos, cmHeaderTextVisible, "textHeaderVisibility"));
 		
 
 		addRenderableWidget(cmTextXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
@@ -286,13 +291,9 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(snapChatButton = Button.builder(Component.literal(snapChatToCommandMenu+""), (e) -> {
-			 action("snapChat");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		addRenderableWidget(snapChatButton = toggle(++pos, snapChatToCommandMenu, "snapChat"));
 
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
-		cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
-		cmClassicColorsButton.setMessage(Component.literal(cmClassicColors+""));
 
 		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
 		cmSubXOffsetBox.setValue(""+ModConfigs.cmSubXOffset);
@@ -311,9 +312,7 @@ public class MenuConfigScreen extends MenuBackground {
 		hpShowHearts = ModConfigs.hpShowHearts;
 		int pos = 0;
 		
-		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.literal(hpShowHearts+""), (e) -> {
-			 action("hpShowHearts");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		addRenderableWidget(hpShowHeartsButton = toggle(++pos, hpShowHearts, "hpShowHearts"));
 		
 		addRenderableWidget(hpAlarmBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("")){
 			@Override
@@ -341,7 +340,6 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 
-		hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
 		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
 
 
@@ -641,6 +639,10 @@ public class MenuConfigScreen extends MenuBackground {
 		lockOnList.add(lockOnIconScaleBox);
 		lockOnList.add(lockOnIconRotationBox);
 		lockOnList.add(lockOnHpPerBarBox);
+
+		lockOnKH1Bar = ModConfigs.lockOnKH1Bar;
+		addRenderableWidget(lockOnKH1BarButton = toggle(4, lockOnKH1Bar, "lockOnKH1Bar"));
+		lockOnList.add(lockOnKH1BarButton);
 	}
 	
 	private void initParty() {
@@ -956,6 +958,7 @@ public class MenuConfigScreen extends MenuBackground {
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.kh1_hp_bar"), 40, 20 * ++pos, 0xFF9900);
 
 				}
 				case PARTY -> {
@@ -1138,7 +1141,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'E' -> {
 				ModConfigs.setCmHeaderTextVisible(value == 1);
 				cmHeaderTextVisible = value == 1;
-				cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
+				cmHeaderTextVisibleButton.setChecked(cmHeaderTextVisible);
 			}
 			case 'F' -> {
 				ModConfigs.setCmTextXOffset(value);
@@ -1151,7 +1154,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'I' -> {
 				ModConfigs.setShowHearts(value == 1);
 				hpShowHearts = value == 1;
-				hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
+				hpShowHeartsButton.setChecked(hpShowHearts);
 			}
 			case 'J' -> {
 			}

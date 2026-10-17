@@ -185,6 +185,11 @@ public class LockOnGui extends OverlayBase {
 
 		//Basically get the Max of the hp bar or 0 (so weird values don't show up) and then out of that a max of that and the missing hp of the bar(so it doesn't go above the limit)
 		missingHpBarWidth = targetHealth % hpPerBar == 0 ? 0 : Math.min(Math.max(((lastTargetHealth - targetHealth)),0), hpPerBar - targetHealth % hpPerBar) % hpPerBar * widthMultiplier;
+		if (ModConfigs.lockOnKH1Bar) {
+			drawKH1HPBar(gui, offset, oneBar * widthMultiplier, target);
+			return;
+		}
+
 		float hpBarMaxWidth, bgHPBarMaxWidth = 0;
 
 		// Background HP width
@@ -212,6 +217,93 @@ public class LockOnGui extends OverlayBase {
 			drawDamagedHPBars(gui, (offset - hpBarMaxWidth - 4 ), 0 , hpBarMaxWidth, 1, target);
 		}
 		gui.pose().popPose();
+	}
+
+	// Kingdom Hearts 1: green is the last bar, the ones before it go up through these and then start over without it
+	private static final int[] KH1_BAR_COLOURS = {0xFF3FC23F, 0xFFD8C21E, 0xFFE07A16, 0xFFE04AB8, 0xFF8A3FD8, 0xFF3C64E0, 0xFF2EC4D8};
+
+	private static int kh1BarColour(int bar) {
+		return bar <= 1 ? KH1_BAR_COLOURS[0] : KH1_BAR_COLOURS[1 + (bar - 2) % (KH1_BAR_COLOURS.length - 1)];
+	}
+
+	private static int shade(int colour, float factor) {
+		int r = Math.min(255, (int) (((colour >> 16) & 0xFF) * factor));
+		int g = Math.min(255, (int) (((colour >> 8) & 0xFF) * factor));
+		int b = Math.min(255, (int) ((colour & 0xFF) * factor));
+		return 0xFF000000 | (r << 16) | (g << 8) | b;
+	}
+
+	// Every bar is the same length and stacked on the next one, whose colour shows through as the current one drains
+	private void drawKH1HPBar(GuiGraphics gui, int offset, float fullWidth, LivingEntity target) {
+		PoseStack matrixStack = gui.pose();
+		float left = offset - fullWidth - 4;
+
+		matrixStack.pushPose();
+		{
+			matrixStack.translate(left, 0, 0);
+			blit(gui, texture, 0, 0, 0, 0, 2, 12);
+			// Black like the border, which is all that is left once the green bar runs out
+			matrixStack.pushPose();
+			{
+				matrixStack.translate(2, 0, 0);
+				matrixStack.scale(fullWidth, 1, 1);
+				gui.fill(0, 0, 1, 12, 0xFF000000);
+			}
+			matrixStack.popPose();
+			matrixStack.pushPose();
+			{
+				matrixStack.translate(2 + fullWidth, 0, 0);
+				blit(gui, texture, 0, 0, 3, 0, 2, 12);
+			}
+			matrixStack.popPose();
+
+			matrixStack.pushPose();
+			{
+				matrixStack.translate(fullWidth - 20, 12, 0);
+				blit(gui, texture, 1, 0, 0, 32, 23, 12);
+			}
+			matrixStack.popPose();
+		}
+		matrixStack.popPose();
+
+		if (!target.isAlive() || currentBar <= 0) {
+			return;
+		}
+
+		float fillLeft = left + 2;
+		if (currentBar > 1) {
+			drawKH1Fill(gui, fillLeft, fullWidth, kh1BarColour(currentBar - 1));
+		}
+		float width = Math.min(hpBarWidth, fullWidth);
+		float healthLeft = fillLeft + fullWidth - width;
+		drawKH1Fill(gui, healthLeft, width, kh1BarColour(currentBar));
+		float missing = Math.min(missingHpBarWidth, fullWidth - width);
+		drawDamagedHPBarTop(gui, healthLeft - missing, 2, missing, 1, target);
+
+		// A black notch where the current health ends
+		if (width > 0 && width < fullWidth) {
+			PoseStack pose = gui.pose();
+			pose.pushPose();
+			{
+				pose.translate(healthLeft - 2, 2, 0);
+				gui.fill(0, 0, 2, 8, 0xFF000000);
+			}
+			pose.popPose();
+		}
+	}
+
+	private void drawKH1Fill(GuiGraphics gui, float x, float width, int colour) {
+		if (width <= 0) {
+			return;
+		}
+		PoseStack matrixStack = gui.pose();
+		matrixStack.pushPose();
+		{
+			matrixStack.translate(x, 2, 0);
+			matrixStack.scale(width, 1, 1);
+			gui.fillGradient(0, 0, 1, 8, shade(colour, 1.25F), shade(colour, 0.7F));
+		}
+		matrixStack.popPose();
 	}
 
 	public void drawHPBarBack(GuiGraphics gui, float posX, float posY, float width, float scale, float bgPosX, float bgHPBarMaxWidth) {

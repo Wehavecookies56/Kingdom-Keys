@@ -76,6 +76,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Lock-On icon scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
+        addConfigKey(ModConfigs.getClientConfig().lockOnKH1Bar, "Lock-On KH1 style HP bar");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
         addConfigKey(ModConfigs.getClientConfig().shoulderSurfingDecoupled, "Shoulder Surfing Mod: Use decoupled camera when not locked on");
 
@@ -517,6 +518,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
         add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
+        add(Gui_Menu_Config + ".kh1_hp_bar", "KH1 style HP bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
         add(Gui_Menu_Config + ".hp_alarm", "Low HP Alarm volume");
         add(Gui_Menu_Config + ".import_export", "Import/Export");

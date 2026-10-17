@@ -79,6 +79,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Ícono de fijación escala (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Ícono de fijación vel. rot.");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Vida de objetivo hp por barra");
+        addConfigKey(ModConfigs.getClientConfig().lockOnKH1Bar, "Barra de vida del objetivo estilo KH1");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
 
         //COMMON
@@ -577,6 +578,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".icon_scale", "Escala del ícono fijación");
         add(Gui_Menu_Config + ".icon_rotation", "Velocidad de Rotación del ícono fijación");
         add(Gui_Menu_Config + ".hp_per_bar", "VT por barra");
+        add(Gui_Menu_Config + ".kh1_hp_bar", "Barra de VT estilo KH1");
         add(Gui_Menu_Config + ".show_hearts", "Mostrar corazones");
         add(Gui_Menu_Config + ".hp_alarm", "Volumen de Alarma de VT Baja");
         add(Gui_Menu_Config + ".import_export", "Importar/Exportar");

@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData, gummiInfoHUDData, gummiReadoutHUDData, gummiControlsHUDData, synthesisTrackerHUDData;
 	public ModConfigSpec.ConfigValue<List<? extends Integer>> hiddenMagic;
-	public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D, hpShowHearts, summonTogether, bakeDisplayedModels, bakeHeldModels, shoulderSurfingDecoupled, seasonalEvents, hideSkinLayerUnderArmor;
+	public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D, hpShowHearts, summonTogether, bakeDisplayedModels, bakeHeldModels, shoulderSurfingDecoupled, seasonalEvents, hideSkinLayerUnderArmor, lockOnKH1Bar;
 	public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance;
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
@@ -80,6 +80,7 @@ public class ClientConfig {
 				lockOnIconScale = builder.comment("Lock On Icon Scale").translation(KingdomKeys.MODID + ".config.lock_on_icon_scale").defineInRange("lockOnIconScale", 75, -1000, 1000);
 				lockOnIconRotation = builder.comment("Lock On Icon Rotation Speed").translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation").defineInRange("lockOnIconRotation", 16, -1000, 1000);
 				lockOnHpPerBar = builder.comment("Lock On HP per bar").translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar").defineInRange("lockOnHpPerBar", 40, 10, 100);
+				lockOnKH1Bar = builder.comment("Show the target's HP bars stacked in colours, Kingdom Hearts 1 style").translation(KingdomKeys.MODID + ".config.lock_on_kh1_bar").define("lockOnKH1Bar", false);
 				if (KingdomKeys.shoulderSurfingLoaded) {
 					shoulderSurfingDecoupled = builder.comment("Shoulder Surfing mod: Decoupled camera while not locked on").translation(KingdomKeys.MODID + ".config.shoulder_surfing_decoupled").define("shoulderSurfingDecoupled", true);
 				}
