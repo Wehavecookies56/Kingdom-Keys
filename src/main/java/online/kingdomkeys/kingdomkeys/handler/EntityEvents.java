@@ -1081,9 +1081,6 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
-		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !TrainingHandler.isTraining(hurt)) {
-			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
-		}
 		/*if(event.getEntity() instanceof LivingEntity khmob){
 			if(event.getSource().getDirectEntity() instanceof Player player){
 				WorldData worldData = WorldData.get(player.getServer());
@@ -1249,16 +1246,9 @@ public class EntityEvents {
 				damage -= protectReduction;
 			}
 
-			// Has to evaluate last
-			// Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more)
-			if (playerData.isAbilityEquipped(ModAbilities.SECOND_CHANCE)) {
-				if (damage >= player.getHealth() && player.getHealth() > 1) {
-					if (player.hasEffect(MobEffects.REGENERATION)) {
-						player.removeEffect(MobEffects.REGENERATION);
-						player.effectsDirty = true;
-					}
-					damage = player.getHealth() - 1;
-				}
+			// Has to evaluate last: Second Chance and Once More
+			if (!TrainingHandler.isTraining(player)) {
+				damage = CombatAbilities.survive(player, playerData, event.getSource(), damage);
 			}
 
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -1327,7 +1317,9 @@ public class EntityEvents {
 
 				// Anything that gets through is a hit to remember, both for the combo Once More watches and for the moment of flight Aerial Recovery can be caught in
 				if (playerData != null) {
-					CombatAbilities.noteHit(guardingPlayer, playerData);
+					if (event.getSource().getEntity() != null) {
+						CombatAbilities.noteHit(guardingPlayer, playerData);
+					}
 					CombatAbilities.noteKnockback(guardingPlayer, playerData);
 				}
 			}

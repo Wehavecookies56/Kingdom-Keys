@@ -11,7 +11,7 @@
 * ServerConfig to set the lock on range (previously hardcoded to 35 blocks).
 * ServerConfig to set the xp level curve factor, higher number the less steep is the xp increase.
 * ServerConfig to set the % of lost attributes when becoming a heartless.
-* ServerConfig to set the minutes that can pass when someone's nobody can be in non loaded chunks, therefore despawning them and adding them to the queue again.
+* ServerConfig to set the minutes that can pass when someone's nobody can be in non-loaded chunks, therefore despawning them and adding them to the queue again.
 * ClientConfig to hide the second layer of the skin when wearing clothes/armor to prevent clipping or z-fighting.
 * Command /kingdomkeys heartless <turn/restore> to become a Shadow or back to Human.
 * MiniCO as a proper structure (/locate and /place works).
@@ -25,6 +25,7 @@
 * Robes and Organization armor are now tighter to the player's body, fixing the issue where second skin layer would clip on the legs.
 * All boolean buttons in the Config Menu are now checkboxes.
 ## Fixed:
+* Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.
 * Multiblocks like Bubble Helm or Gummi weapons on lists and hologram.
 * Items in stock screen being selectable.

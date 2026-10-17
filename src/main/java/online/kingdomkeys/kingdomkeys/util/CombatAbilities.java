@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
@@ -197,18 +198,22 @@ public class CombatAbilities {
         data.setComboTicks(COMBO_TICKS);
     }
 
-    public static float survive(Player player, PlayerData data, float damage) {
+    public static float survive(Player player, PlayerData data, DamageSource source, float damage) {
         float health = player.getHealth() + player.getAbsorptionAmount();
 
-        if (data == null || damage < health) {
+        if (data == null || damage < health || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return damage;
         }
 
         boolean secondChance = data.isAbilityEquipped(ModAbilities.SECOND_CHANCE) && health > 1;
-        boolean onceMore = data.isAbilityEquipped(ModAbilities.ONCE_MORE) && data.getComboTicks() > 0 && data.getComboStartHealth() > 1;
+        boolean onceMore = data.isAbilityEquipped(ModAbilities.ONCE_MORE) && source.getEntity() != null && data.getComboTicks() > 0 && data.getComboStartHealth() > 1;
 
         if (!secondChance && !onceMore) {
             return damage;
+        }
+
+        if (secondChance && player.hasEffect(MobEffects.REGENERATION)) {
+            player.removeEffect(MobEffects.REGENERATION);
         }
 
         playSound(player, ModSounds.invincible_hit.get(), 0.7F, 1.6F);
