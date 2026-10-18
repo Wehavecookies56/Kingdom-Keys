@@ -32,7 +32,7 @@ public class UnionCommand extends BaseCommand {
 			);
 		}
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

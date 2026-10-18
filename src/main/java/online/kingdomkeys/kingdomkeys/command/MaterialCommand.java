@@ -45,21 +45,11 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("material").requires(source -> source.hasPermission(2));
 
-		builder.then(Commands.literal("give")
+		builder.then(Commands.literal("give").then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::addMaterial)).executes(MaterialCommand::addMaterial))).then(Commands.literal("all").then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::addAllMaterials)).executes(MaterialCommand::addAllMaterials))));
+		builder.then(Commands.literal("take").then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::takeMaterial)).executes(MaterialCommand::takeMaterial))).then(Commands.literal("all").then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::takeAllMaterials)).executes(MaterialCommand::takeAllMaterials)));
+		builder.then(Commands.literal("set").then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::setMaterial)).executes(MaterialCommand::setMaterial))).then(Commands.literal("all").then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::setAllMaterials)).executes(MaterialCommand::setAllMaterials))));
 
-				.then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::addMaterial)).executes(MaterialCommand::addMaterial))).then(Commands.literal("all").then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::addAllMaterials)).executes(MaterialCommand::addAllMaterials))));
-
-		builder.then(Commands.literal("take")
-
-				.then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::takeMaterial)).executes(MaterialCommand::takeMaterial))).then(Commands.literal("all").then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::takeAllMaterials)).executes(MaterialCommand::takeAllMaterials))
-
-		);
-
-		builder.then(Commands.literal("set")
-
-				.then(Commands.argument("material", StringArgumentType.string()).suggests(SUGGEST_MATERIALS).then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::setMaterial)).executes(MaterialCommand::setMaterial))).then(Commands.literal("all").then(Commands.argument("amount", IntegerArgumentType.integer(1)).then(Commands.argument("targets", EntityArgument.players()).executes(MaterialCommand::setAllMaterials)).executes(MaterialCommand::setAllMaterials))));
-
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

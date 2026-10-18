@@ -45,7 +45,7 @@ public class DimensionCommand extends BaseCommand {
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("dimension").requires(source -> source.hasPermission(2));
 		builder.then(Commands.argument("dim", StringArgumentType.string()).suggests(SUGGEST_DIMENSIONS).then(Commands.argument("targets", EntityArgument.players()).executes(DimensionCommand::changeDim)).executes(DimensionCommand::changeDim));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

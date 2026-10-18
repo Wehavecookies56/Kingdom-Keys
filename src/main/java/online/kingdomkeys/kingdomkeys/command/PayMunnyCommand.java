@@ -26,7 +26,7 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 				.then(Commands.argument("value", IntegerArgumentType.integer(1, Integer.MAX_VALUE))
 					.executes(PayMunnyCommand::payValue)));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

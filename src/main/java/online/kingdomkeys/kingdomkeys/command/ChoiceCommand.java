@@ -50,7 +50,7 @@ public class ChoiceCommand extends BaseCommand {
                 .then(Commands.argument("targets", EntityArgument.players())
                     .executes(ChoiceCommand::resetChoice))
                 .executes(ChoiceCommand::resetChoice));
-        KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+        KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
         return builder;
     }
 

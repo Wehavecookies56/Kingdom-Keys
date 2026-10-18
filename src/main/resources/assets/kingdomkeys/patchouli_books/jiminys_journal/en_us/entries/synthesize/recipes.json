@@ -14,12 +14,12 @@
 		},
 		{
 			"type":"crafting",
-			"recipe":"kingdomkeys:recipe_c",
-			"recipe2":"kingdomkeys:recipe_d2"
+			"recipe":"kingdomkeys:recipe_d2",
+			"recipe2":"kingdomkeys:recipe_d4"
 		},
 		{
 			"type":"crafting",
-			"recipe2":"kingdomkeys:recipe_c3"
+			"recipe":"kingdomkeys:recipe_c1"
 		}
 	]
 }

@@ -46,7 +46,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 			)
 		);
 		
-		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

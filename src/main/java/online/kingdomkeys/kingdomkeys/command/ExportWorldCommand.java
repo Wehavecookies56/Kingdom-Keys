@@ -80,7 +80,7 @@ public class ExportWorldCommand extends BaseCommand {
 								.then(Commands.argument("entities", BoolArgumentType.bool())
 										.executes(context -> export(context, BoolArgumentType.getBool(context, "entities")))))));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

@@ -32,7 +32,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 
 		builder.then(Commands.literal("fix").then(Commands.argument("targets", EntityArgument.players()).executes(ExpCommand::fixValue)).executes(ExpCommand::fixValue));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

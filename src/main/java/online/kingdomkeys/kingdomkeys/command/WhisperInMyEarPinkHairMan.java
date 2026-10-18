@@ -26,7 +26,7 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("whisperinmyearpinkhairman").requires(source -> source.hasPermission(2));
 
 		builder.executes(WhisperInMyEarPinkHairMan::spawn);
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

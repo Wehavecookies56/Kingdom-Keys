@@ -48,7 +48,7 @@ public class FocusPointsCommand extends BaseCommand{ //kingdomkeys focus <give/t
 			)
 		);
 		
-		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

@@ -58,3 +58,7 @@
   * Ice Barrage and the shotlock minigame aiming at party members.
   * Spell, Organization weapon and shotlock projectiles jittering while they fly.
 * A spell's cooldown bar not showing in the Command Menu when the spell right above it was selected (individual cooldowns only).
+* Station of Sorrow Core block having no model.
+* Recipe tier pages in the journal showing recipes that do not exist.
+* Removed leftover files that were being loaded and logged as errors.
+* Command registration no longer logs warnings.

@@ -48,7 +48,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 			)
 		);
 		
-		KingdomKeys.LOGGER.warn("Registered command "+builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

@@ -26,7 +26,7 @@ public class HeartlessCommand extends BaseCommand {
 				.then(Commands.argument("targets", EntityArgument.players()).executes(context -> change(context, false)))
 				.executes(context -> change(context, false)));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

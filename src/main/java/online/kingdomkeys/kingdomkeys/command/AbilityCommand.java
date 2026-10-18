@@ -62,7 +62,7 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 				.executes(AbilityCommand::removeAllAbilities))
 		);
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

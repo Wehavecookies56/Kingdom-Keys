@@ -76,7 +76,7 @@ public class RecipeCommand extends BaseCommand { // kk_recipe <give/take> <recip
 
 		);
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

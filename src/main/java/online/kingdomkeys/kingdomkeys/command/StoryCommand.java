@@ -37,7 +37,7 @@ public class StoryCommand extends BaseCommand {
 				.then(Commands.argument("targets", EntityArgument.players()).executes(StoryCommand::reset))
 				.executes(StoryCommand::reset));
 
-		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+		KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
 		return builder;
 	}
 

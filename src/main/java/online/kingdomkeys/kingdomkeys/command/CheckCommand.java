@@ -24,7 +24,7 @@ public class CheckCommand extends BaseCommand {
         builder.then(Commands.argument("targets", EntityArgument.players())
                         .executes(CheckCommand::checkPlayer))
                 .executes(CheckCommand::checkPlayer);
-        KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
+        KingdomKeys.LOGGER.info("Registered command {}", builder.getLiteral());
         return builder;
     }
 
