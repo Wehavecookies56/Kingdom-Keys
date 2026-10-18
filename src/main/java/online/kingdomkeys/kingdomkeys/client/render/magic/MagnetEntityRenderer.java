@@ -15,8 +15,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MagnetModel;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 import javax.annotation.Nullable;
@@ -41,21 +39,9 @@ public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			float scale = 0;
 			int maxTicks = 0;
 
-			switch (entity) {
-				case MagnetEntity magnet -> {
-					scale = 2;
-					maxTicks = magnet.getMaxTicks();
-				}
-				case MagneraEntity magnera -> {
-					scale = 3;
-					maxTicks = magnera.getMaxTicks();
-				}
-				case MagnegaEntity magnega -> {
-					scale = 4;
-					maxTicks = magnega.getMaxTicks();
-				}
-				default -> {
-				}
+			if (entity instanceof MagnetEntity magnet) {
+				scale = magnet.tier.renderScale;
+				maxTicks = magnet.getMaxTicks();
 			}
 
 			if (entity.tickCount < scale * 10) {

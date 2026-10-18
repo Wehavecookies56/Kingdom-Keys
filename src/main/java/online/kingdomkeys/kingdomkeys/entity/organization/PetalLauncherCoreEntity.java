@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,9 +18,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -103,21 +101,11 @@ public class PetalLauncherCoreEntity extends ThrowableProjectile {
 	private void checkForSteppers(Player caster) {
 		float radius = getRadius();
 		AABB box = new AABB(getX() - radius, getY() - 0.5D, getZ() - radius, getX() + radius, getY() + 1.0D, getZ() + radius);
-		Party party = Utils.getParty(caster);
 
-		for (Entity entity : level().getEntities(this, box, Entity::isAlive)) {
-			if (!(entity instanceof LivingEntity target))
-				continue;
-			if (target == caster)
-				continue;
-
+		for (LivingEntity target : ProjectileHits.in(level(), box, caster)) {
 			Integer last = lastTriggeredTick.get(target.getUUID());
 			if (last != null && tickCount - last < TRIGGER_COOLDOWN_TICKS)
 				continue;
-
-			if (!Utils.canHarm(party, target)) {
-				continue;
-			}
 
 			target.setDeltaMovement(target.getDeltaMovement().x, LAUNCH_STRENGTH, target.getDeltaMovement().z);
 			target.hurtMarked = true;

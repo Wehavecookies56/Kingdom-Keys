@@ -13,7 +13,10 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.magic.*;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkFiragaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FiragaBurstControllerEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 
 @OnlyIn(Dist.CLIENT)
@@ -33,10 +36,7 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 	@Override
 	public void render(ThrowableProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 		float targetScale = switch (entity) {
-			case FireEntity fire -> 0.5F;
-			case FiraEntity fira -> 0.8F;
-			case FiragaEntity firaga -> 1.2F;
-			case FirazaEntity firaza -> 2.0F;
+			case FireEntity fire -> fire.tier.renderScale;
 			case FiragaBurstControllerEntity firagaBurstController -> 4.0F;
 			case ThundagaShotEntity thundagaShotEntity -> 0.8F;
 			case UltimaCannonShotEntity ultimaCannonShotEntity -> 5F;

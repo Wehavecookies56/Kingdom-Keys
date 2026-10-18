@@ -34,7 +34,7 @@ public class TripleFiragaControllerEntity extends BaseMagicProjectile {
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount % 4 == 0) {
 				if(getOwner() instanceof LivingEntity player) {
-					FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult, lockOnEntity);
+					FireEntity firaga = new FireEntity(level(), player, dmgMult, lockOnEntity, FireEntity.Tier.FIRAGA);
 					firaga.setMagic(getMagic());
 					player.level().addFreshEntity(firaga);
 					firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);

@@ -14,10 +14,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 
@@ -115,7 +115,7 @@ public class MinigameShotEntity extends BaseShotlockShotEntity {
 		double bestDot = AIM_COS;
 
 		AABB box = new AABB(eye, eye).inflate(AIM_RANGE);
-		List<LivingEntity> candidates = level().getEntitiesOfClass(LivingEntity.class, box, e -> e.isAlive() && e != owner);
+		List<LivingEntity> candidates = ProjectileHits.in(level(), box, owner);
 
 		for (LivingEntity candidate : candidates) {
 			Vec3 toCandidate = candidate.getBoundingBox().getCenter().subtract(eye);
@@ -156,14 +156,15 @@ public class MinigameShotEntity extends BaseShotlockShotEntity {
 
 	@Override
 	protected void onHit(HitResult result) {
-		if (spent) {
+		if (spent || ProjectileHits.hitOwner(result, getOwner())) {
 			return;
 		}
 		spent = true;
 
 		super.onHit(result);
 
-		if (!level().isClientSide && result instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity target && target != getOwner()) {
+		LivingEntity target = level().isClientSide ? null : ProjectileHits.target(result, getOwner());
+		if (target != null) {
 			target.invulnerableTime = 0;
 			target.hurt(buildDamageSource(target), dmg);
 

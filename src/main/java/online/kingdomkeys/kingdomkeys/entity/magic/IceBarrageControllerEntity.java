@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public class IceBarrageControllerEntity extends BaseMagicProjectile {
 	}
 
 	private LivingEntity findTarget(LivingEntity player) {
-		List<LivingEntity> entities = level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(5), e -> e != player && Utils.isHostile(e));
+		// Only aims at the hostile among those the caster may hurt
+		List<LivingEntity> entities = ProjectileHits.around(player, player, 5, null).stream().filter(Utils::isHostile).toList();
 
 		double closest = Double.MAX_VALUE;
 		LivingEntity result = null;

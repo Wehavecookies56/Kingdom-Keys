@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class FlameRingCoreEntity extends ThrowableProjectile {
 	}
 
 	private void damageEntitiesInBand(Player caster, float radius) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, radius + RING_BAND);
+		List<LivingEntity> nearby = ProjectileHits.around(caster, caster, radius + RING_BAND, null);
 		for (LivingEntity target : nearby) {
 			double distance = target.distanceTo(caster);
 			// Only hit things currently within the moving ring band, not everything inside the max radius

@@ -21,8 +21,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -79,12 +79,7 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 				this.level().setSkyFlashTime(2);
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
-				List<LivingEntity> list;
-				if(getOwner() instanceof LivingEntity player) {
-					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius, 10F,radius);
-				} else {
-					list = Utils.getLivingEntitiesInRadius(this, radius);
-				}
+				List<LivingEntity> list = ProjectileHits.around(this, getOwner(), radius, 10F, radius, null);
 
 				for (LivingEntity entity : list) {
 					float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) * 0.02F : 2;

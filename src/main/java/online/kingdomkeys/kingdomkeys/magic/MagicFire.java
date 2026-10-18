@@ -5,7 +5,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.magic.*;
+import online.kingdomkeys.kingdomkeys.entity.magic.BaseMagicProjectile;
+import online.kingdomkeys.kingdomkeys.entity.magic.DarkFiragaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicFire extends Magic {
@@ -35,31 +37,12 @@ public class MagicFire extends Magic {
 			return;
 		}
 
-		switch (getTier()) {
-			case 0:
-				BaseMagicProjectile fire = new FireEntity(player.level(), player, dmgMult, lockOnEntity);
-				fire.setMagic(this);
-				player.level().addFreshEntity(fire);
-				fire.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-				break;
-			case 1:
-				BaseMagicProjectile fira = new FiraEntity(player.level(), player, dmgMult, lockOnEntity);
-				fira.setMagic(this);
-				player.level().addFreshEntity(fira);
-				fira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-				break;
-			case 2:
-				BaseMagicProjectile firaga = new FiragaEntity(player.level(), player, dmgMult, lockOnEntity);
-				firaga.setMagic(this);
-				player.level().addFreshEntity(firaga);
-				firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-				break;
-			case 3:
-				BaseMagicProjectile firaza = new FirazaEntity(player.level(), player, dmgMult, lockOnEntity);
-				firaza.setMagic(this);
-				player.level().addFreshEntity(firaza);
-				firaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-				break;
+		FireEntity.Tier[] tiers = FireEntity.Tier.values();
+		if (getTier() >= 0 && getTier() < tiers.length) {
+			BaseMagicProjectile fire = new FireEntity(player.level(), player, dmgMult, lockOnEntity, tiers[getTier()]);
+			fire.setMagic(this);
+			player.level().addFreshEntity(fire);
+			fire.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 		}
 
 	}

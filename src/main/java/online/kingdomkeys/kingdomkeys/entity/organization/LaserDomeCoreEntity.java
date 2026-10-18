@@ -7,17 +7,14 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.*;
 
@@ -114,15 +111,9 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 	private void updateList() {
 		if(level().isClientSide())
 			return;
-		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Utils.removeAllies(getCaster(), tempList);
-
+		// Only the living the caster may hurt, so no items, orbs or its own shots
 		targetList.clear();
-		for (Entity t : tempList) {
-			if (!(t instanceof LaserDomeShotEntity || t instanceof ItemDropEntity || t instanceof ItemEntity || t instanceof ExperienceOrb)) {
-				targetList.add(t);
-			}
-		}
+		targetList.addAll(ProjectileHits.around(this, getCaster(), radius, null));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 
@@ -106,7 +106,7 @@ public class FallingSpearCoreEntity extends ThrowableProjectile {
 	}
 
 	private LivingEntity findNearestTarget(Player caster) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, SEARCH_RADIUS);
+		List<LivingEntity> nearby = ProjectileHits.around(caster, caster, SEARCH_RADIUS, null);
 		LivingEntity closest = null;
 		double closestDistSqr = Double.MAX_VALUE;
 		for (LivingEntity candidate : nearby) {
@@ -120,7 +120,7 @@ public class FallingSpearCoreEntity extends ThrowableProjectile {
 	}
 
 	private void slam(Player caster, LivingEntity primaryTarget) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, SLAM_RADIUS);
+		List<LivingEntity> nearby = ProjectileHits.around(caster, caster, SLAM_RADIUS, null);
 		for (LivingEntity target : nearby) {
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, this, caster), dmg);
 			target.invulnerableTime = 0;

@@ -15,11 +15,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.CardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.ChakramItem;
@@ -175,40 +176,28 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		if (!level().isClientSide) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity target) {
-
-                if (target != getProjOwner() && !hitSet.contains(target)) { // prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
-					//TODO card absorbing entity?
-					hitSet.add(target);
-					target.invulnerableTime = 0;
-					target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
-					setDeltaMovement(getDeltaMovement().scale(0.8));
-					dmg *= 1.2F;
-					
-				}
-			} else { // Block (not ERTR)
-				if (brtResult != null) {
-					if (level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS_BLOCK || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.VINE) {
-					} else {
-						setReturn();
-					}
-				}
-			}
+	protected void onHit(HitResult hit) {
+		if (level().isClientSide || ProjectileHits.hitOwner(hit, getProjOwner())) {
+			return;
 		}
 
+		LivingEntity target = ProjectileHits.target(hit, getProjOwner());
+		if (target != null) {
+			// prevent hitting entities twice before it's returning since it removes invulnerable ticks from hit entities
+			if (!hitSet.contains(target)) {
+				//TODO card absorbing entity?
+				hitSet.add(target);
+				target.invulnerableTime = 0;
+				target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+				setDeltaMovement(getDeltaMovement().scale(0.8));
+				dmg *= 1.2F;
+			}
+		} else if (hit instanceof BlockHitResult block) {
+			Block hitBlock = level().getBlockState(block.getBlockPos()).getBlock();
+			if (hitBlock != Blocks.TALL_GRASS && hitBlock != Blocks.GRASS_BLOCK && hitBlock != Blocks.SUGAR_CANE && hitBlock != Blocks.VINE) {
+				setReturn();
+			}
+		}
 	}
 
 	public int getMaxTicks() {

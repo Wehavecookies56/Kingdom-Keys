@@ -10,9 +10,9 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -44,11 +44,11 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 			}
 			if (tickCount > 10 && tickCount % 3 == 0 && tickCount < maxTicks - 10) {
 				float radius = 6F;
-				List<LivingEntity> targets = Utils.getLivingEntitiesInRadiusExcludingParty(player, this, radius, radius, radius);
+				List<LivingEntity> targets = ProjectileHits.around(this, player, radius, null);
 
 				if (!targets.isEmpty()) {// Random enemies target
 					LivingEntity target = targets.get(random.nextInt(targets.size()));
-					FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult, target);
+					FireEntity firaga = new FireEntity(level(), player, dmgMult, target, FireEntity.Tier.FIRAGA);
 					firaga.setMagic(getMagic());
 					firaga.setPos(getX(), getY() + 1.5F, getZ());
 					Vec3 direction = target.position().add(0, target.getBbHeight() * 0.5D, 0).subtract(firaga.position()).normalize();
@@ -64,7 +64,7 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 
 					BlockPos groundPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, BlockPos.containing(targetX, getY(), targetZ));
 					Vec3 targetPos = new Vec3(targetX, groundPos.getY() + 0.5D, targetZ);
-					FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult * 0.4F, null);
+					FireEntity firaga = new FireEntity(level(), player, dmgMult * 0.4F, null, FireEntity.Tier.FIRAGA);
 					firaga.setMagic(getMagic());
 					firaga.setPos(getX(), getY() + 1.5F, getZ());
 					Vec3 direction = targetPos.subtract(firaga.position()).normalize();

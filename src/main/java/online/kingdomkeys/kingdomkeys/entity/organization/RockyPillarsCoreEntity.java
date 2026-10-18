@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,8 +20,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,17 +137,12 @@ public class RockyPillarsCoreEntity extends ThrowableProjectile {
 	}
 
 	private void launchNearbyEntities(Player caster) {
-		Party casterParty = Utils.getParty(caster);
 
 		for (Vec3 base : pillarBases) {
 			AABB box = new AABB(base, base).inflate(HIT_RADIUS, PILLAR_HEIGHT, HIT_RADIUS).move(0, PILLAR_HEIGHT * 0.5, 0);
-			List<Entity> nearby = level().getEntities(this, box, Entity::isAlive);
+			List<LivingEntity> nearby = ProjectileHits.in(level(), box, caster);
 
-			for (Entity entity : nearby) {
-				if (!(entity instanceof LivingEntity target)) continue;
-				if (target == caster) continue;
-				if (!Utils.canHarm(casterParty, target)) continue;
-
+			for (LivingEntity target : nearby) {
 				target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS, this, caster), dmg);
 				target.invulnerableTime = 0;
 				target.setDeltaMovement(target.getDeltaMovement().x, LAUNCH_STRENGTH, target.getDeltaMovement().z);

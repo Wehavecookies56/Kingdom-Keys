@@ -8,9 +8,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Vector3f;
@@ -96,9 +100,7 @@ public class MineEntity extends ThrowableProjectile {
 		// Seeker Mines
 		if (seeker && settled) {
 			int searchRadius = 6;
-			List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(searchRadius), e -> e != getOwner() && e.isAlive());
-
-			Utils.removeAllies(getOwner(), targets);
+			List<LivingEntity> targets = ProjectileHits.around(this, getOwner(), searchRadius, null);
 
 			LivingEntity closest = null;
 			double minDist = Double.MAX_VALUE;
@@ -150,7 +152,7 @@ public class MineEntity extends ThrowableProjectile {
 			// Step-on trigger
 			AABB triggerBox = new AABB(getX() - TRIGGER_RADIUS, getY(), getZ() - TRIGGER_RADIUS, getX() + TRIGGER_RADIUS, getY() + 0.5, getZ() + TRIGGER_RADIUS);
 
-			List<LivingEntity> entities = level().getEntitiesOfClass(LivingEntity.class, triggerBox, e -> e != getOwner() && e.isAlive());
+			List<LivingEntity> entities = ProjectileHits.in(level(), triggerBox, getOwner());
 
 			for (LivingEntity target : entities) {
 				if (canDamage(target)) {
@@ -194,7 +196,7 @@ public class MineEntity extends ThrowableProjectile {
 
 		float damage = DamageCalculation.getMagicDamage(player);
 
-		List<LivingEntity> targets = Utils.getLivingEntitiesInRadiusExcludingParty(player, this, DAMAGE_RADIUS, DAMAGE_RADIUS, DAMAGE_RADIUS);
+		List<LivingEntity> targets = ProjectileHits.around(this, player, DAMAGE_RADIUS, null);
 
 		for (LivingEntity target : targets) {
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, getOwner()), damage);
@@ -207,47 +209,27 @@ public class MineEntity extends ThrowableProjectile {
 
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		if (!level().isClientSide && getOwner() != null) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			int radius = 3;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity) {
-				LivingEntity target = (LivingEntity) ertResult.getEntity();
-
-				if (target != getOwner()) {
-					if (Utils.canHarm(getOwner(), target)) { //The one place that decides who may be hit
-						float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
-						//target.hurt(DarknessDamageSource.getDarknessDamage(this, this.getOwner()), dmg * dmgMult);
-						if (this.getOwner() != null) {
-							List<LivingEntity> targetList = Utils.getLivingEntitiesInRadiusExcludingParty(this.getOwner(), this, radius, radius, radius);
-							for (LivingEntity e : targetList) {
-								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, this.getOwner()), dmg);
-								e.invulnerableTime = 0;
-							}
-						}
-						level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY() + (double) (this.getBbHeight() / 16.0F), this.blockPosition().getZ(), radius, false, Level.ExplosionInteraction.NONE);
-						remove(RemovalReason.KILLED);
-
-					}
-				}
-			}
-
-			if (brtResult != null) {
-				setDeltaMovement(0, 0, 0);
-			}
+	protected void onHit(HitResult hit) {
+		if (level().isClientSide || getOwner() == null || ProjectileHits.hitOwner(hit, getOwner())) {
+			return;
 		}
 
+		int radius = 3;
+
+		// It goes off when someone it may hurt steps on it, and catches everyone nearby the caster may hurt
+		if (ProjectileHits.target(hit, getOwner()) != null) {
+			float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
+			for (LivingEntity e : ProjectileHits.around(this, getOwner(), radius, null)) {
+				e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, this.getOwner()), dmg);
+				e.invulnerableTime = 0;
+			}
+			level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY() + (double) (this.getBbHeight() / 16.0F), this.blockPosition().getZ(), radius, false, Level.ExplosionInteraction.NONE);
+			remove(RemovalReason.KILLED);
+		}
+
+		if (hit instanceof BlockHitResult) {
+			setDeltaMovement(0, 0, 0);
+		}
 	}
 
 	@Override

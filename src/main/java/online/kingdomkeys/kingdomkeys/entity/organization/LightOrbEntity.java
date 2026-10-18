@@ -7,10 +7,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class LightOrbEntity extends ThrowableProjectile {
 
@@ -49,11 +49,12 @@ public class LightOrbEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult result) {
-		if (level().isClientSide)
+		if (level().isClientSide || ProjectileHits.hitOwner(result, getOwner()))
 			return;
 
-		if (result instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity target && getOwner() instanceof Player caster) {
-			if (target != caster) {
+		if (getOwner() instanceof Player caster) {
+			LivingEntity target = ProjectileHits.target(result, caster);
+			if (target != null) {
 				target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.LIGHT, this, caster), dmg);
 				target.invulnerableTime = 0;
 			}

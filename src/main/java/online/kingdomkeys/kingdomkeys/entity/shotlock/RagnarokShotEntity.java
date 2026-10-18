@@ -8,10 +8,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class RagnarokShotEntity extends BaseShotlockShotEntity {
 
@@ -68,24 +68,21 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		if (ProjectileHits.hitOwner(rtRes, getOwner())) {
+			return;
+		}
 		super.onHit(rtRes);
 
-		if (!level().isClientSide) {
-			if (rtRes instanceof EntityHitResult ertResult) {
-				if (ertResult.getEntity() instanceof LivingEntity target) {
-					if (target != getOwner()) {
-						target.invulnerableTime = 0;
-						target.hurt(buildDamageSource(target), dmg);
+		LivingEntity target = level().isClientSide ? null : ProjectileHits.target(rtRes, getOwner());
+		if (target != null) {
+			target.invulnerableTime = 0;
+			target.hurt(buildDamageSource(target), dmg);
 
-						if (applyPoison) {
-							target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, false, true, true));
-						}
-
-						super.remove(RemovalReason.KILLED);
-					}
-				}
-
+			if (applyPoison) {
+				target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, false, true, true));
 			}
+
+			super.remove(RemovalReason.KILLED);
 		}
 		remove(RemovalReason.KILLED);
 

@@ -148,7 +148,7 @@ public class DefenderGoal extends TargetGoal {
 		double dy = target.getBoundingBox().minY + target.getBbHeight() / 2.0 - (mob.getY() + mob.getBbHeight() / 2.0);
 		double dz = target.getZ() - mob.getZ();
 
-		ThrowableProjectile shot = castingFire ? new FireEntity(mob.level(), mob, damage, null) : new BlizzardEntity(mob.level(), mob, damage, 100);
+		ThrowableProjectile shot = castingFire ? new FireEntity(mob.level(), mob, damage, null, FireEntity.Tier.FIRE) : new BlizzardEntity(mob.level(), mob, damage, 100);
 
 		shot.shoot(dx, dy, dz, 1, 0);
 

@@ -5,8 +5,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 public class MagicMagnet extends Magic {
@@ -21,38 +19,16 @@ public class MagicMagnet extends Magic {
 		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
-		switch (getTier()) {
-			case 0:
-				MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg);
-				if (lockOnEntity != null) {
-					magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
-					magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
-				} else {
-					magnet.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-				}
-				player.level().addFreshEntity(magnet);
-
-				break;
-			case 1:
-				MagneraEntity magnera = new MagneraEntity(player.level(), player, dmg);
-				if (lockOnEntity != null) {
-					magnera.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
-					magnera.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
-				} else {
-					magnera.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-				}
-				player.level().addFreshEntity(magnera);
-				break;
-			case 2:
-				MagnegaEntity magnega = new MagnegaEntity(player.level(), player, dmg);
-				if (lockOnEntity != null) {
-					magnega.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
-					magnega.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
-				} else {
-					magnega.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-				}
-				player.level().addFreshEntity(magnega);
-				break;
+		MagnetEntity.Tier[] tiers = MagnetEntity.Tier.values();
+		if (getTier() >= 0 && getTier() < tiers.length) {
+			MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg, tiers[getTier()]);
+			if (lockOnEntity != null) {
+				magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
+				magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
+			} else {
+				magnet.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+			}
+			player.level().addFreshEntity(magnet);
 		}
 
 		player.swing(InteractionHand.MAIN_HAND);

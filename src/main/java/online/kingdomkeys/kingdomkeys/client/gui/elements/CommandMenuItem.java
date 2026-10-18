@@ -283,22 +283,24 @@ public class CommandMenuItem {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? textColour.getRGB() : textColour.darker().darker().getRGB());
         guiGraphics.flush();
-        //System.out.println(this.getId()+"'s parent "+parent.isActive());
-        if (this.hasIcon && this.getParent().getSelected().equals(this)) {
-           float speed = 0.15f;
-           float amplitude = 2f;
-           float time = Minecraft.getInstance().player.tickCount + partialTick;
-           float offsetY = (float) Math.sin(time * speed) * amplitude + 2.5F;
-           guiGraphics.pose().pushPose();
-           {
-               guiGraphics.pose().translate(0, offsetY, 0);
-               RenderSystem.setShaderColor(1,1,1, 1);
-               guiGraphics.blit(iconTextureRL, x + ModConfigs.cmSelectedXOffset + getWidth() - ModConfigs.cmEndRWidth - 6, y, iconU, iconV, 10, 10);
-           }
-           guiGraphics.pose().popPose();
-        }
+    }
 
-        //System.out.println("Took "+(System.nanoTime() - ns)+" ns");
+    // The bobbing icon of the selected row. The submenu draws it once every row is done, so nothing drawn after it goes missing
+    public void renderSelectedIcon(GuiGraphics guiGraphics, int x, int y, float partialTick) {
+        if (!this.hasIcon || iconTextureRL == null) {
+            return;
+        }
+        float speed = 0.15f;
+        float amplitude = 2f;
+        float time = Minecraft.getInstance().player.tickCount + partialTick;
+        float offsetY = (float) Math.sin(time * speed) * amplitude + 2.5F;
+        guiGraphics.pose().pushPose();
+        {
+            guiGraphics.pose().translate(0, offsetY, 0);
+            RenderSystem.setShaderColor(1,1,1, 1);
+            guiGraphics.blit(iconTextureRL, x + ModConfigs.cmSelectedXOffset + getWidth() - ModConfigs.cmEndRWidth - 6, y, iconU, iconV, 10, 10);
+        }
+        guiGraphics.pose().popPose();
     }
 
     public float getCooldownProgress() {

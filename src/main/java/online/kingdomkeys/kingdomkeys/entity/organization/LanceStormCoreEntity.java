@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,8 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.*;
 
@@ -129,21 +127,14 @@ public class LanceStormCoreEntity extends ThrowableProjectile {
 	}
 
 	private void damageAlongFormation(Player caster, float travelled) {
-		Party casterParty = Utils.getParty(caster);
 
 		for (int i = 0; i < LANCE_COUNT; i++) {
 			Vec3 p = hexPoint(i, travelled);
 			AABB box = new AABB(p.x - HIT_RADIUS, p.y - HIT_RADIUS, p.z - HIT_RADIUS, p.x + HIT_RADIUS, p.y + HIT_RADIUS, p.z + HIT_RADIUS);
-			List<Entity> nearby = level().getEntities(this, box, Entity::isAlive);
+			List<LivingEntity> nearby = ProjectileHits.in(level(), box, caster);
 
-			for (Entity entity : nearby) {
-				if (!(entity instanceof LivingEntity target))
-					continue;
-				if (target == caster)
-					continue;
+			for (LivingEntity target : nearby) {
 				if (alreadyHit.contains(target.getUUID()))
-					continue;
-				if (!Utils.canHarm(casterParty, target))
 					continue;
 
 				target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, this, caster), dmg);

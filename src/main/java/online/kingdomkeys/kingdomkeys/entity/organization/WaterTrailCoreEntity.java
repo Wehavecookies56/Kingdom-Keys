@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +74,7 @@ public class WaterTrailCoreEntity extends ThrowableProjectile {
 	}
 
 	private void damageNearby(Player caster) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, this, 1.1F, 1.6F, 1.1F);
+		List<LivingEntity> nearby = ProjectileHits.around(this, caster, 1.1F, 1.6F, 1.1F, null);
 		for (LivingEntity target : nearby) {
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER, this, caster), dmg);
 			target.invulnerableTime = 0;

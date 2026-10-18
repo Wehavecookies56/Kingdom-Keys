@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -28,7 +28,7 @@ public class SitarItem extends OrgSwordItem implements IOrgWeapon {
             cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
             playerData.remMP(Math.max(1, cost));
 
-            WatergaEntity shot = new WatergaEntity(player.level(), player, 0.75f);
+            WaterEntity shot = new WaterEntity(player.level(), player, 0.75f, WaterEntity.Tier.WATERGA);
             shot.setMagic(ModMagic.WATERGA.get());
             shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
             world.addFreshEntity(shot);

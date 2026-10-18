@@ -12,8 +12,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class SparkEntity extends BaseMagicProjectile {
 
@@ -144,12 +143,8 @@ public class SparkEntity extends BaseMagicProjectile {
 
 	private void damageNearbyEntities() {
 		AABB area = getBoundingBox().inflate(0.5D);
-		Party party = Utils.getParty(getOwner());
 
-		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e != getOwner() && e.isAlive())) {
-			if (!Utils.canHarm(party, target)) {
-				continue;
-			}
+		for (LivingEntity target : ProjectileHits.in(level(), area, getOwner())) {
 			damageEntity(target);
 
 			target.invulnerableTime = 11;

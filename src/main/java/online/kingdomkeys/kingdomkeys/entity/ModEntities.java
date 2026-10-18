@@ -71,64 +71,64 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<LuxOrbEntity>> TYPE_LUXORB = createEntityType(LuxOrbEntity::new, MobCategory.MISC,"entity_lux_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = ENTITIES.register("entity_card_drop", () -> EntityType.Builder.<CardItemEntity>of(CardItemEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(20).build("entity_card_drop"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, MobCategory.MISC,"entity_fire", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
-    public static final DeferredHolder<EntityType<?>, EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, MobCategory.MISC,"entity_firaga", 1.2F, 1.2F);
-    public static final DeferredHolder<EntityType<?>, EntityType<FirazaEntity>> TYPE_FIRAZA = createEntityType(FirazaEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
-    public static final DeferredHolder<EntityType<?>, EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createEntityType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRE = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_fire", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRAGA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_firaga", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRAZA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createProjectileType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<TripleFiragaControllerEntity>> TYPE_TRIPLE_FIRAGA_CONTROLLER = createEntityType(TripleFiragaControllerEntity::new, MobCategory.MISC,"entity_triple_firaga_controller", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<CrawlingFiragaEntity>> TYPE_CRAWLINGFIRAGA = createEntityType(CrawlingFiragaEntity::new, MobCategory.MISC,"entity_crawlingfiraga", 1.2F, 1.2F);
-    public static final DeferredHolder<EntityType<?>, EntityType<FissionFiragaEntity>> TYPE_FISSIONFIRAGA = createEntityType(FissionFiragaEntity::new, MobCategory.MISC,"entity_fissionfiraga", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CrawlingFiragaEntity>> TYPE_CRAWLINGFIRAGA = createProjectileType(CrawlingFiragaEntity::new, MobCategory.MISC,"entity_crawlingfiraga", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FissionFiragaEntity>> TYPE_FISSIONFIRAGA = createProjectileType(FissionFiragaEntity::new, MobCategory.MISC,"entity_fissionfiraga", 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<FiragaBurstControllerEntity>> TYPE_FIRAGABURST = createEntityType(FiragaBurstControllerEntity::new, MobCategory.MISC,"entity_firagaburst", 2F, 2F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<TripleBlizzagaControllerEntity>> TYPE_TRIPLE_BLIZZAGA_CONTROLLER = createEntityType(TripleBlizzagaControllerEntity::new, MobCategory.MISC,"entity_triple_blizzaga_controller", 0.5F, 0.5F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<ThundagaShotEntity>> TYPE_THUNDAGASHOT = createEntityType(ThundagaShotEntity::new, MobCategory.MISC,"entity_thundagashot", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ThundagaShotEntity>> TYPE_THUNDAGASHOT = createProjectileType(ThundagaShotEntity::new, MobCategory.MISC,"entity_thundagashot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<TriplePlasmaControllerEntity>> TYPE_TRIPLE_PLASMA_CONTROLLER = createEntityType(TriplePlasmaControllerEntity::new, MobCategory.MISC,"entity_triple_plasma_controller", 0.5F, 0.5F);
 
 
-    public static final DeferredHolder<EntityType<?>, EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<BlizzardEntity>> TYPE_BLIZZARD = createProjectileType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createProjectileType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<IceBarrageControllerEntity>> TYPE_ICEBARRAGE = createEntityType(IceBarrageControllerEntity::new, MobCategory.MISC,"entity_icebarrage", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<IceSpikeEntity>> TYPE_ICESPIKE = createEntityType(IceSpikeEntity::new, MobCategory.MISC,"entity_icespike", 2F, 3F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, MobCategory.MISC,"entity_water", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, MobCategory.MISC,"entity_watera", 0.8F, 0.8F);
-    public static final DeferredHolder<EntityType<?>, EntityType<WatergaEntity>> TYPE_WATERGA = createEntityType(WatergaEntity::new, MobCategory.MISC,"entity_waterga", 1F, 1F);
-    public static final DeferredHolder<EntityType<?>, EntityType<WaterzaEntity>> TYPE_WATERZA = createEntityType(WaterzaEntity::new, MobCategory.MISC,"entity_waterza", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterEntity>> TYPE_WATER = createProjectileType(WaterEntity::new, MobCategory.MISC,"entity_water", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterEntity>> TYPE_WATERA = createProjectileType(WaterEntity::new, MobCategory.MISC,"entity_watera", 0.8F, 0.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterEntity>> TYPE_WATERGA = createProjectileType(WaterEntity::new, MobCategory.MISC,"entity_waterga", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterEntity>> TYPE_WATERZA = createProjectileType(WaterEntity::new, MobCategory.MISC,"entity_waterza", 1F, 1F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thunder", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, MobCategory.MISC,"entity_thundara", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, MobCategory.MISC,"entity_thundaga", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ThundazaEntity>> TYPE_THUNDAZA = createEntityType(ThundazaEntity::new, MobCategory.MISC,"entity_thundaza", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDARA = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thundara", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDAGA = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thundaga", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDAZA = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thundaza", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, MobCategory.MISC,"entity_thunderbolt", 0.5F, 0.5F);
 
     // The column itself is drawn with particles, so the entity only needs to be somewhere for them to come from
-    public static final DeferredHolder<EntityType<?>, EntityType<AeroTornadoEntity>> TYPE_AERO_TORNADO = createEntityType(AeroTornadoEntity::new, MobCategory.MISC,"entity_aero_tornado", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AeroTornadoEntity>> TYPE_AERO_TORNADO = createProjectileType(AeroTornadoEntity::new, MobCategory.MISC,"entity_aero_tornado", 1F, 1F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MobCategory.MISC,"entity_magnet", 1F, 1F);
-    public static final DeferredHolder<EntityType<?>, EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MobCategory.MISC,"entity_magnera", 1.5F, 1.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MobCategory.MISC,"entity_magnega", 2F, 2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNET = createProjectileType(MagnetEntity::new, MobCategory.MISC,"entity_magnet", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNERA = createProjectileType(MagnetEntity::new, MobCategory.MISC,"entity_magnera", 1.5F, 1.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNEGA = createProjectileType(MagnetEntity::new, MobCategory.MISC,"entity_magnega", 2F, 2F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, MobCategory.MISC,"entity_gravity", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, MobCategory.MISC,"entity_gravira", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, MobCategory.MISC,"entity_graviga", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVITY = createProjectileType(GravityEntity::new, MobCategory.MISC,"entity_gravity", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVIRA = createProjectileType(GravityEntity::new, MobCategory.MISC,"entity_gravira", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVIGA = createProjectileType(GravityEntity::new, MobCategory.MISC,"entity_graviga", 0.5F, 0.5F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<BalloonEntity>> TYPE_BALLOON = createEntityType(BalloonEntity::new, MobCategory.MISC, "entity_balloon", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<BalloongaEntity>> TYPE_BALLOONGA = createEntityType(BalloongaEntity::new, MobCategory.MISC, "entity_balloonga", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<BalloonEntity>> TYPE_BALLOON = createProjectileType(BalloonEntity::new, MobCategory.MISC, "entity_balloon", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<BalloongaEntity>> TYPE_BALLOONGA = createProjectileType(BalloongaEntity::new, MobCategory.MISC, "entity_balloonga", 1F, 1F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<WarpEntity>> TYPE_WARP = createEntityType(WarpEntity::new, MobCategory.MISC,"entity_warp", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WarpEntity>> TYPE_WARP = createProjectileType(WarpEntity::new, MobCategory.MISC,"entity_warp", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<MeteorEntity>> TYPE_METEOR = createEntityType(MeteorEntity::new, MobCategory.MISC,"entity_meteor", 1.5F, 1.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<SparkEntity>> TYPE_SPARK = createEntityType(SparkEntity::new, MobCategory.MISC,"entity_spark", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<MineEntity>> TYPE_MINE = createEntityType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 0.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SparkEntity>> TYPE_SPARK = createProjectileType(SparkEntity::new, MobCategory.MISC,"entity_spark", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MineEntity>> TYPE_MINE = createProjectileType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 0.2F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FaithEntityController>> TYPE_FAITH = createEntityType(FaithEntityController::new, MobCategory.MISC,"entity_faith", 1.0F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<FaithBeamEntity>> TYPE_FAITHBEAM = createEntityType(FaithBeamEntity::new, MobCategory.MISC,"entity_faithbeam", 1F, 2F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, MobCategory.MISC,"seed_bullet", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, MobCategory.MISC,"arrowgun_shot", 0.1F, 0.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createProjectileType(ArrowgunShotEntity::new, MobCategory.MISC,"arrowgun_shot", 0.1F, 0.1F);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createProjectileType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LightPortalEntity>> TYPE_LIGHT_PORTAL = createEntityType(LightPortalEntity::new, MobCategory.MISC,"entity_light_portal", 1F, 3.5F);
@@ -138,7 +138,7 @@ public class ModEntities {
     		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
                     .build("entity_chakram"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LanceEntity>> TYPE_LANCE = createProjectileType(LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
@@ -258,17 +258,17 @@ public class ModEntities {
     //Limits
     public static final DeferredHolder<EntityType<?>, EntityType<LaserCircleCoreEntity>> TYPE_LASER_CIRCLE = createEntityType(LaserCircleCoreEntity::new, MobCategory.MISC,"entity_laser_circle_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, MobCategory.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createProjectileType(LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createProjectileType(ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<WaterTrailCoreEntity>> TYPE_WATER_TRAIL = createEntityType(WaterTrailCoreEntity::new, MobCategory.MISC,"entity_water_trail_core", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<FallingSpearCoreEntity>> TYPE_FALLING_SPEAR = createEntityType(FallingSpearCoreEntity::new, MobCategory.MISC,"entity_falling_spear_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FallingSpearCoreEntity>> TYPE_FALLING_SPEAR = createProjectileType(FallingSpearCoreEntity::new, MobCategory.MISC,"entity_falling_spear_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<WaterWallCoreEntity>> TYPE_WATER_WALL = createEntityType(WaterWallCoreEntity::new, MobCategory.MISC,"entity_water_wall_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<CardRingCoreEntity>> TYPE_CARD_RING = createEntityType(CardRingCoreEntity::new, MobCategory.MISC,"entity_card_ring_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<IcePillarsCoreEntity>> TYPE_ICE_PILLARS = createEntityType(IcePillarsCoreEntity::new, MobCategory.MISC,"entity_ice_pillars_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<RockyPillarsCoreEntity>> TYPE_ROCKY_PILLARS = createEntityType(RockyPillarsCoreEntity::new, MobCategory.MISC,"entity_rocky_pillars_core", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<LightOrbEntity>> TYPE_LIGHT_ORB = createEntityType(LightOrbEntity::new, MobCategory.MISC,"entity_light_orb", 0.25F, 0.25F);
-    public static final DeferredHolder<EntityType<?>, EntityType<LightBarrageCoreEntity>> TYPE_LIGHT_BARRAGE = createEntityType(LightBarrageCoreEntity::new, MobCategory.MISC,"entity_light_barrage_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightOrbEntity>> TYPE_LIGHT_ORB = createProjectileType(LightOrbEntity::new, MobCategory.MISC,"entity_light_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightBarrageCoreEntity>> TYPE_LIGHT_BARRAGE = createProjectileType(LightBarrageCoreEntity::new, MobCategory.MISC,"entity_light_barrage_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<PillarEntity>> TYPE_PILLAR = createEntityType(PillarEntity::new, MobCategory.MISC,"entity_pillar", 1.0F, 4.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
@@ -279,19 +279,19 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<IllusoryMeteorCoreEntity>> TYPE_ILLUSORY_METEOR = createEntityType(IllusoryMeteorCoreEntity::new, MobCategory.MISC,"entity_illusory_meteor_core", 1.0F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LanceStormCoreEntity>> TYPE_LANCE_STORM = createEntityType(LanceStormCoreEntity::new, MobCategory.MISC,"entity_lance_storm_core", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<ClaymoreDropCoreEntity>> TYPE_CLAYMORE_DROP = createEntityType(ClaymoreDropCoreEntity::new, MobCategory.MISC,"entity_claymore_drop_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ClaymoreDropCoreEntity>> TYPE_CLAYMORE_DROP = createProjectileType(ClaymoreDropCoreEntity::new, MobCategory.MISC,"entity_claymore_drop_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameWallCoreEntity>> TYPE_FLAME_WALL = createEntityType(FlameWallCoreEntity::new, MobCategory.MISC,"entity_flame_wall_core", 0.5F, 0.5F);
 
 
     public static final DeferredHolder<EntityType<?>, EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, MobCategory.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
-	public static final DeferredHolder<EntityType<?>, EntityType<SonicBladeCoreEntity>> TYPE_SHOTLOCK_SONIC_BLADE = createEntityType(SonicBladeCoreEntity::new, MobCategory.MISC, "entity_shotlock_sonic_blade_core", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<SonicBladeCoreEntity>> TYPE_SHOTLOCK_SONIC_BLADE = createProjectileType(SonicBladeCoreEntity::new, MobCategory.MISC, "entity_shotlock_sonic_blade_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<PrismRainCoreEntity>> TYPE_PRISM_RAIN = createEntityType(PrismRainCoreEntity::new, MobCategory.MISC, "entity_shotlock_prism_rain", 0.5F, 0.5F);
 
-	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, MobCategory.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
-	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
-	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_SHOTLOCK_MINIGAME_SHOT = createEntityType(MinigameShotEntity::new, MobCategory.MISC, "entity_shotlock_minigame_shot", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createProjectileType(VolleyShotEntity::new, MobCategory.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createProjectileType(RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createProjectileType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_SHOTLOCK_MINIGAME_SHOT = createProjectileType(MinigameShotEntity::new, MobCategory.MISC, "entity_shotlock_minigame_shot", 0.5F, 0.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<GummiShotEntity>> TYPE_GUMMI_SHOT = ENTITIES.register("entity_gummi_shot", () -> EntityType.Builder.<GummiShotEntity>of(GummiShotEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1).setShouldReceiveVelocityUpdates(true).build("entity_gummi_shot"));
     public static final DeferredHolder<EntityType<?>, EntityType<GummiImpactEntity>> TYPE_GUMMI_IMPACT = createEntityType(GummiImpactEntity::new, MobCategory.MISC, "entity_gummi_impact", 0.5F, 0.5F);
@@ -311,6 +311,11 @@ public class ModEntities {
      */
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityType(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(false).setUpdateInterval(1).setTrackingRange(8).sized(sizeX, sizeY).build(name));
+    }
+
+    // Anything that flies: the client gets the velocity along with the position, or it keeps going its own way between corrections and jitters
+    public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createProjectileType(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).setTrackingRange(8).sized(sizeX, sizeY).build(name));
     }
 
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityTypeImmuneToFire(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {

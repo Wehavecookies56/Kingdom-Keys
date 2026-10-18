@@ -17,7 +17,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class WaterWallCoreEntity extends ThrowableProjectile {
 	}
 
 	private void containEntities(Player caster, boolean doDamagePulse) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, this, RADIUS + 2F, HALF_HEIGHT, RADIUS + 2F);
+		List<LivingEntity> nearby = ProjectileHits.around(this, caster, RADIUS + 2F, HALF_HEIGHT, RADIUS + 2F, null);
 
 		for (LivingEntity target : nearby) {
 			double dx = target.getX() - getX();

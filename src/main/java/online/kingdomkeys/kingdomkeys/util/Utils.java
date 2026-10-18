@@ -2605,16 +2605,18 @@ public class Utils {
 	}
 
 	public static boolean canHarm(@Nullable Party party, @Nullable Entity target) {
-		if (target == null) {
-			return false;
-		}
-
-		if (target instanceof ForetellerEntity master && !master.isSparring()) {
-			return false;
-		}
-
-		if (target instanceof ApprenticeEntity apprentice && !apprentice.isSparring()) {
-			return false;
+		switch (target) {
+			case null -> {
+				return false;
+			}
+			case ForetellerEntity master when !master.isSparring() -> {
+				return false;
+			}
+			case ApprenticeEntity apprentice when !apprentice.isSparring() -> {
+				return false;
+			}
+			default -> {
+			}
 		}
 
 		// Anyone outside a party has no allies to spare, and a party with friendly fire on has decided it has none either

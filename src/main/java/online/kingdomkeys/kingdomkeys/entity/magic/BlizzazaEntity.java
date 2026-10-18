@@ -9,16 +9,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
-
-import java.util.List;
 
 public class BlizzazaEntity extends BaseMagicProjectile {
 	int freezeTime;
@@ -73,79 +68,61 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		super.onHit(rtRes);
-		if (!level().isClientSide) {
-			if (rtRes instanceof EntityHitResult ertResult && ertResult.getEntity() instanceof LivingEntity target) {
-				if (target != getOwner()) {
-					if (Utils.canHarm(getOwner(), target)) {
-						damageEntity(target);
-
-						if (!target.isOnFire() && !wasGuarded(target)) {
-							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
-							int duration = freezeTime;
-							if (freeze != null) {
-								duration += freeze.getDuration();
-							}
-							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
-						}
-					}
-				}
+	protected void onImpact(HitResult hit) {
+		LivingEntity struck = struck(hit);
+		if (struck != null && canHarm(struck)) {
+			damageEntity(struck);
+			if (!struck.isOnFire() && !wasGuarded(struck)) {
+				freeze(struck);
 			}
-
-			interactWithBlocks(rtRes, radius);
-
-			if (getOwner() != null) {
-				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
-				int r = 2;
-				for (int t = 1; t < 360; t += 20) {
-					double radT = Math.toRadians(t);
-					double sinT = Math.sin(radT);
-					double y = getY() + (r * Math.cos(radT));
-					for (int s = 1; s < 360 ; s += 20) {
-						double radS = Math.toRadians(s);
-						double x = getX() + (r * Math.cos(radS) * sinT);
-						double z = getZ() + (r * Math.sin(radS) * sinT);
-						((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, x, y+1, z, 1, 0,0,0, 0);
-					}
-				}
-
-				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY()+i, getZ(), 3, 0,0,0, 0.2);
-				}
-
-				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX()+i, getY(), getZ(), 3, 0,0,0, 0.2);
-				}
-
-				for(float i = -5; i <= 5; i+=0.5F) {
-					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
-				}
-
-				Party casterParty = Utils.getParty(getOwner());
-
-				if (!list.isEmpty()) {
-					for (LivingEntity e : list) {
-						if (e.isOnFire()) {
-							e.clearFire();
-						} else {
-							if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
-								damageEntity(e);
-
-								MobEffectInstance freeze = e.getEffect(ModMobEffects.FREEZE);
-								int duration = freezeTime;
-								if (freeze != null) {
-									duration += freeze.getDuration();
-								}
-
-								e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
-							}
-						}
-					}
-				}
-			}
-			remove(RemovalReason.KILLED);
 		}
 
+		interactWithBlocks(hit, radius);
+
+		int r = 2;
+		for (int t = 1; t < 360; t += 20) {
+			double radT = Math.toRadians(t);
+			double sinT = Math.sin(radT);
+			double y = getY() + (r * Math.cos(radT));
+			for (int s = 1; s < 360 ; s += 20) {
+				double radS = Math.toRadians(s);
+				double x = getX() + (r * Math.cos(radS) * sinT);
+				double z = getZ() + (r * Math.sin(radS) * sinT);
+				((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, x, y+1, z, 1, 0,0,0, 0);
+			}
+		}
+
+		for(float i = -5; i <= 5; i+=0.5F) {
+			((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY()+i, getZ(), 3, 0,0,0, 0.2);
+		}
+
+		for(float i = -5; i <= 5; i+=0.5F) {
+			((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX()+i, getY(), getZ(), 3, 0,0,0, 0.2);
+		}
+
+		for(float i = -5; i <= 5; i+=0.5F) {
+			((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
+		}
+
+		// Fire around is put out whoever it is on, the cold itself only reaches those the caster may hurt
+		for (LivingEntity e : everyoneAround(radius, struck)) {
+			if (e.isOnFire()) {
+				e.clearFire();
+			} else if (canHarm(e)) {
+				damageEntity(e);
+				freeze(e);
+			}
+		}
+
+		remove(RemovalReason.KILLED);
+	}
+
+	private void freeze(LivingEntity e) {
+		MobEffectInstance freeze = e.getEffect(ModMobEffects.FREEZE);
+		int duration = freezeTime;
+		if (freeze != null) {
+			duration += freeze.getDuration();
+		}
+		e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
 	}
 }

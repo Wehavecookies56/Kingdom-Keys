@@ -93,49 +93,44 @@ public class GummiShotEntity extends ThrowableProjectile{
 
     @Override
     protected void onHit(HitResult rtRes) {
+        if (ProjectileHits.hitOwner(rtRes, getOwner())) {
+            return;
+        }
         super.onHit(rtRes);
         if (!level().isClientSide) {
-            if (rtRes instanceof EntityHitResult ertResult) {
-                if (ertResult.getEntity() instanceof LivingEntity target) {
-                    if (target != getOwner()) {
-                        target.invulnerableTime = 0;
-                        if(this.getOwner() != null)
-                            target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-                        else
-                            target.hurt(target.damageSources().magic(), dmg);
+            GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
+            LivingEntity target = ProjectileHits.target(rtRes, getOwner());
+            if (target != null) {
+                target.invulnerableTime = 0;
+                if(this.getOwner() != null)
+                    target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+                else
+                    target.hurt(target.damageSources().magic(), dmg);
 
-                        GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
-                        if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
-                            gravityExplosion();
-                        } else {
-                            super.remove(RemovalReason.KILLED);
-                        }
-                    }
-                } else if(ertResult.getEntity() instanceof GummiShipEntity ship) {
-                    GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
-                    if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
-                        gravityExplosion();
-                    } else {
-                        if(this.getOwner() != null)
-                            ship.hurt(ship.damageSources().thrown(this, this.getOwner()), dmg);
-                        else
-                            ship.hurt(ship.damageSources().magic(), dmg);
-
-                    }
+                if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
+                    gravityExplosion();
+                } else {
+                    super.remove(RemovalReason.KILLED);
+                }
+            } else if (rtRes instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof GummiShipEntity ship) {
+                if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
+                    gravityExplosion();
+                } else {
+                    if(this.getOwner() != null)
+                        ship.hurt(ship.damageSources().thrown(this, this.getOwner()), dmg);
+                    else
+                        ship.hurt(ship.damageSources().magic(), dmg);
                 }
             }
             if (rtRes instanceof BlockHitResult hitResult) {
                 if(getTicks() > 1){
                     mineMeteorite(hitResult.getBlockPos());
-                //if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
-                    GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
                     if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
                         gravityExplosion();
                     } else {
                         super.remove(RemovalReason.KILLED);
                     }
                 }
-
             }
             remove(RemovalReason.KILLED);
         }

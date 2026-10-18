@@ -6,9 +6,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
 
 public class MagicWater extends Magic {
 
@@ -22,27 +19,11 @@ public class MagicWater extends Magic {
 		float dmgMult = getRealDamageMult(caster) + abilityStacks(caster, ModAbilities.WATER_BOOST) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
-		switch (getTier()) {
-			case 0 -> {
-				WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
-				water.setMagic(this);
-				player.level().addFreshEntity(water);
-			}
-			case 1 -> {
-				WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
-				watera.setMagic(this);
-				player.level().addFreshEntity(watera);
-			}
-			case 2 -> {
-				WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
-				waterga.setMagic(this);
-				player.level().addFreshEntity(waterga);
-			}
-			case 3 -> {
-				WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
-				waterza.setMagic(this);
-				player.level().addFreshEntity(waterza);
-			}
+		WaterEntity.Tier[] tiers = WaterEntity.Tier.values();
+		if (getTier() >= 0 && getTier() < tiers.length) {
+			WaterEntity water = new WaterEntity(player.level(), player, dmgMult, tiers[getTier()]);
+			water.setMagic(this);
+			player.level().addFreshEntity(water);
 		}
 
 		if (player.isOnFire()) {

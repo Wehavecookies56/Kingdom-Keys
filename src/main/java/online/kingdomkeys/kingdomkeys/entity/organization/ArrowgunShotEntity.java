@@ -10,12 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class ArrowgunShotEntity extends ThrowableProjectile {
 
@@ -80,31 +79,17 @@ public class ArrowgunShotEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		if (!level().isClientSide) {
-
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-
-                if (target != getOwner()) {
-					target.invulnerableTime = 0;
-					target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-					remove(RemovalReason.KILLED);
-				}
-			} else { // Block (not ERTR)
-				remove(RemovalReason.KILLED);
-			}
+	protected void onHit(HitResult hit) {
+		if (level().isClientSide || ProjectileHits.hitOwner(hit, getOwner())) {
+			return;
 		}
+
+		LivingEntity target = ProjectileHits.target(hit, getOwner());
+		if (target != null) {
+			target.invulnerableTime = 0;
+			target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+		}
+		remove(RemovalReason.KILLED);
 	}
 
 	public int getMaxTicks() {

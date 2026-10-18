@@ -10,7 +10,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,8 +20,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.*;
 
@@ -83,18 +81,10 @@ public class IllusoryMeteorCoreEntity extends ThrowableProjectile {
 	}
 
 	private void damageZone(Player caster) {
-		Party casterParty = Utils.getParty(caster);
 		AABB box = new AABB(center.x - RADIUS, center.y - 2D, center.z - RADIUS, center.x + RADIUS, center.y + 4D, center.z + RADIUS);
-		List<Entity> nearby = level().getEntities(this, box, Entity::isAlive);
+		List<LivingEntity> nearby = ProjectileHits.in(level(), box, caster);
 
-		for (Entity entity : nearby) {
-			if (!(entity instanceof LivingEntity target))
-				continue;
-			if (target == caster)
-				continue;
-			if (!Utils.canHarm(casterParty, target))
-				continue;
-
+		for (LivingEntity target : nearby) {
 			double dx = target.getX() - center.x;
 			double dz = target.getZ() - center.z;
 			if (dx * dx + dz * dz > RADIUS * RADIUS)
@@ -158,15 +148,10 @@ public class IllusoryMeteorCoreEntity extends ThrowableProjectile {
 	private void impact(Player caster, double x, double y, double z) {
 		if (!(level() instanceof ServerLevel serverLevel)) return;
 
-		Party casterParty = Utils.getParty(caster);
 		AABB box = new AABB(x - METEOR_IMPACT_RADIUS, y - 1D, z - METEOR_IMPACT_RADIUS, x + METEOR_IMPACT_RADIUS, y + 2D, z + METEOR_IMPACT_RADIUS);
-		List<Entity> nearby = level().getEntities(this, box, Entity::isAlive);
+		List<LivingEntity> nearby = ProjectileHits.in(level(), box, caster);
 
-		for (Entity entity : nearby) {
-			if (!(entity instanceof LivingEntity target)) continue;
-			if (target == caster) continue;
-			if (!Utils.canHarm(casterParty, target)) continue;
-
+		for (LivingEntity target : nearby) {
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS, this, caster), dmg);
 			target.invulnerableTime = 0;
 			target.setDeltaMovement(target.getDeltaMovement().x, 0.25D, target.getDeltaMovement().z);

@@ -574,11 +574,19 @@ public class CommandMenuSubMenu {
 
     protected void renderChildren(GuiGraphics guiGraphics, int screenWidth, int screenHeight, float partialTick) {
         int totalHeight = 0;
+        int selectedY = -1;
         for (CommandMenuItem child : getChildren()) {
             if (child.isVisible()) {
-                child.render(guiGraphics, getX(), getY() + getHeight() + totalHeight, screenWidth, screenHeight, partialTick);
+                int childY = getY() + getHeight() + totalHeight;
+                child.render(guiGraphics, getX(), childY, screenWidth, screenHeight, partialTick);
+                if (child.equals(getSelected())) {
+                    selectedY = childY;
+                }
                 totalHeight+=child.getHeight();
             }
+        }
+        if (selectedY >= 0) {
+            getSelected().renderSelectedIcon(guiGraphics, getX(), selectedY, partialTick);
         }
     }
 

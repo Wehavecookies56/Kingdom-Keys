@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class IceSpikeEntity extends BaseMagicProjectile {
 
@@ -126,7 +127,7 @@ public class IceSpikeEntity extends BaseMagicProjectile {
 		}
 
 		AABB area = getBoundingBox().inflate(1.0D, 1.5D, 1.0D);
-		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e != owner && e.isAlive())) {
+		for (LivingEntity target : ProjectileHits.in(level(), area, owner)) {
 			damageEntity(target);
 			damaged = true;
 		}

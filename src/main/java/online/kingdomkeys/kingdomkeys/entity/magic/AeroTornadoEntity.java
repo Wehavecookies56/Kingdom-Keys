@@ -20,8 +20,8 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -255,7 +255,6 @@ public class AeroTornadoEntity extends BaseMagicProjectile {
 
 	// Everything the tornado holds except owner and party
 	private List<Entity> caught(float reach) {
-		List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(reach, getHeight(), reach));
-		return Utils.removePartyMembersFromList(getOwner(), list);
+		return ProjectileHits.entitiesAround(this, getOwner(), reach, getHeight(), reach);
 	}
 }

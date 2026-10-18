@@ -11,7 +11,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -97,12 +97,8 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			return;
 		}
 		AABB area = getBoundingBox().inflate(1.0D);
-		Party party = Utils.getParty(getOwner());
 
-		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e.isAlive() && e != getOwner())) {
-			if (!Utils.canHarm(party, target)) {
-				continue;
-			}
+		for (LivingEntity target : ProjectileHits.in(level(), area, getOwner())) {
 
 			if (hitTargets.isEmpty()) { //We heal here so it's not OP
 				if (getOwner() instanceof LivingEntity owner) {

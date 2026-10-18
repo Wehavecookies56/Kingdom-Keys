@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import java.util.List;
 
-public class DarkFiragaEntity extends FiragaEntity {
+public class DarkFiragaEntity extends FireEntity {
 
 	public DarkFiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -18,7 +18,7 @@ public class DarkFiragaEntity extends FiragaEntity {
 	}
 
 	public DarkFiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		super(ModEntities.TYPE_DARKFIRAGA.get(), world, player, dmgMult, lockOnEntity);
+		super(ModEntities.TYPE_DARKFIRAGA.get(), world, player, dmgMult, lockOnEntity, Tier.FIRAGA);
 	}
 
 	@Override

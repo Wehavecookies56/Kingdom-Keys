@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class SeedBulletEntity extends ThrowableProjectile {
 
@@ -28,12 +27,12 @@ public class SeedBulletEntity extends ThrowableProjectile {
     
     @Override
     protected void onHit(HitResult result) {
-    	if(!level().isClientSide) {
-	        if (getOwner() != null && getOwner() instanceof LivingEntity && result instanceof EntityHitResult){
-	        	Entity target = ((EntityHitResult) result).getEntity();
-	            ((LivingEntity)getOwner()).doHurtTarget(target);
-	        }
-    	}
+        if (!level().isClientSide && getOwner() instanceof LivingEntity shooter) {
+            LivingEntity target = ProjectileHits.target(result, shooter);
+            if (target != null) {
+                shooter.doHurtTarget(target);
+            }
+        }
         remove(RemovalReason.KILLED);
     }
 

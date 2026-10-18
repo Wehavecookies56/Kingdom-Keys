@@ -10,14 +10,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import org.joml.Vector3f;
 
 import java.awt.*;
-import java.util.List;
 
 public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 
@@ -102,14 +100,14 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		if (ProjectileHits.hitOwner(rtRes, getOwner())) {
+			return;
+		}
 		super.onHit(rtRes);
 		if (!level().isClientSide && getOwner() != null) {
-			if (rtRes instanceof EntityHitResult ertResult) {
-				if (ertResult.getEntity() instanceof LivingEntity target) {
-					if (target != getOwner()) {
-						target.hurt(buildDamageSource(target), dmg);
-					}
-				}
+			LivingEntity target = ProjectileHits.target(rtRes, getOwner());
+			if (target != null) {
+				target.hurt(buildDamageSource(target), dmg);
 			}
 
 			if (level() instanceof ServerLevel serverLevel) {
@@ -130,15 +128,10 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 			level().playSound(null, getX(), getY(), getZ(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 1F, 0.5F);
 			level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.3F, 0.8F);
 
-			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(8));
-			list = Utils.removePartyMembersFromList(getOwner(), list);
-
-			if (!list.isEmpty()) {
-				for (Entity e : list) {
-					if (e instanceof LivingEntity livingEntity) { //If distance is 3 or less do full damage otherwise scale it down
-						livingEntity.hurt(buildDamageSource(livingEntity), dmg / e.distanceTo(this) > 5 ? e.distanceTo(this):1F);
-					}
-				}
+			// Full damage within 3 blocks, less the further out
+			for (LivingEntity e : ProjectileHits.around(this, getOwner(), 8, target)) {
+				float distance = e.distanceTo(this);
+				e.hurt(buildDamageSource(e), distance <= 3 ? dmg : dmg * 3 / distance);
 			}
 
 		}

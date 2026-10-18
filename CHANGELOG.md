@@ -26,6 +26,7 @@
 * Robes and Organization armor are now tighter to the player's body, fixing the issue where second skin layer would clip on the legs.
 * All boolean buttons in the Config Menu are now checkboxes.
 * Casting magic from the Command Menu now goes through the same server checks as the shortcuts (except MP Safety).
+* Unified all projectiles code.
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.
@@ -44,3 +45,15 @@
 * Player data not being sent to the client right after respawning.
 * Keyblade tooltip will no longer show the vanilla value.
 * Keyblade and Organization weapon tooltips showing 0.5 more strength than they deal without sharpness.
+* Various magic projectile issues:
+  * Firaga's explosion not damaging anything around it.
+  * Firaza's explosion being centred on the caster instead of where it landed.
+  * Watera, Waterga, Waterza and Blizzaza hitting their direct target twice.
+  * Ultima Cannon's explosion dealing almost no damage to anything but the target.
+  * Organization weapons, shotlocks and Gummi shots hurting party members with friendly fire off.
+  * Thunder, Thundara, Thundaga and Thundaza never striking the locked-on target, only those around it.
+  * Water, Watera and Waterga's spinning shield hurting allies.
+  * Ice Spike hurting allies.
+  * Ice Barrage and the shotlock minigame aiming at party members.
+  * Spell, Organization weapon and shotlock projectiles jittering while they fly.
+* A spell's cooldown bar not showing in the Command Menu when the spell right above it was selected (individual cooldowns only).

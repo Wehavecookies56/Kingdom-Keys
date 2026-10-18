@@ -8,14 +8,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class BlizzardEntity extends BaseMagicProjectile {
 	int freezeTime;
@@ -44,43 +41,25 @@ public class BlizzardEntity extends BaseMagicProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		super.onHit(rtRes);
-		if (!level().isClientSide) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
+	protected void onImpact(HitResult hit) {
+		LivingEntity target = target(hit);
+		if (target != null) {
+			float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
+			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
 
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-				if (target != getOwner()) {
-					if (Utils.canHarm(getOwner(), target)) {
-						float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
-						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
-
-						if (!target.isOnFire() && !wasGuarded(target)) {
-							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
-							int duration = freezeTime;
-							if (freeze != null) {
-								duration += freeze.getDuration();
-							}
-							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false, false));
-							target.invulnerableTime = 0;
-						}
-					}
+			if (!target.isOnFire() && !wasGuarded(target)) {
+				MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
+				int duration = freezeTime;
+				if (freeze != null) {
+					duration += freeze.getDuration();
 				}
+				target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false, false));
+				target.invulnerableTime = 0;
 			}
-			
-			interactWithBlocks(rtRes, 0);
-			remove(RemovalReason.KILLED);
 		}
 
+		interactWithBlocks(hit, 0);
+		remove(RemovalReason.KILLED);
 	}
 
 	public int getMaxTicks() {

@@ -11,15 +11,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class LanceEntity extends KKThrowableEntity{
 
@@ -107,37 +108,21 @@ public class LanceEntity extends KKThrowableEntity{
 	}
 	
 	@Override
-	protected void onHit(HitResult rtRes) {
-		if (!level().isClientSide) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
-					dmg *= 0.9F;
-				}
-			} else { // Block (not ERTR)
-				if(brtResult != null) {
-					
-					if(level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.TALL_GRASS || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.GRASS_BLOCK || level().getBlockState(brtResult.getBlockPos()).getBlock() == Blocks.SUGAR_CANE) {
-					
-					} else {
-						stopLance();	
-					}
-				}
-			}
+	protected void onHit(HitResult hit) {
+		if (level().isClientSide || ProjectileHits.hitOwner(hit, getProjOwner())) {
+			return;
 		}
 
-
+		LivingEntity target = ProjectileHits.target(hit, getProjOwner());
+		if (target != null) {
+			target.hurt(target.damageSources().thrown(this, this.getProjOwner()), dmg < 4 ? 4 : dmg);
+			dmg *= 0.9F;
+		} else if (hit instanceof BlockHitResult block) {
+			Block hitBlock = level().getBlockState(block.getBlockPos()).getBlock();
+			if (hitBlock != Blocks.TALL_GRASS && hitBlock != Blocks.GRASS_BLOCK && hitBlock != Blocks.SUGAR_CANE) {
+				stopLance();
+			}
+		}
 	}
 
 	public int getMaxTicks() {

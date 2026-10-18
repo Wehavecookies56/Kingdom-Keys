@@ -12,8 +12,8 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,10 +86,9 @@ public class MeteorEntity extends ThrowableProjectile {
         if (!level().isClientSide && getCaster() != null) { // Only calculate and spawn lightning bolts server side
             if (tickCount == 1) {
                 if (lockedOnEntity != null) {
-                    list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), lockedOnEntity, radius,radius,radius); //This method removes the second param entity from the list returned, so we add it back
-                    list.add(lockedOnEntity);
+                    list = ProjectileHits.around(lockedOnEntity, getCaster(), radius, null);
                 } else {
-                    list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
+                    list = ProjectileHits.around(getCaster(), getCaster(), radius, null);
                 }
                 list.remove(this);
             }

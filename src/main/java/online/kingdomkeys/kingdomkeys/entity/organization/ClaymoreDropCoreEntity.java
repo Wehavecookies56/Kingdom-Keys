@@ -17,7 +17,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +95,7 @@ public class ClaymoreDropCoreEntity extends ThrowableProjectile {
 	 * but only once each, so it doesn't rack up several hits just from lingering in its path for a
 	 * couple of ticks. */
 	private void damageAnythingInThePath(Player caster) {
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, this, 1.2F, 1.2F, 1.2F);
+		List<LivingEntity> nearby = ProjectileHits.around(this, caster, 1.2F, 1.2F, 1.2F, null);
 		for (LivingEntity target : nearby) {
 			if (hitDuringFlight.contains(target.getUUID())) continue;
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS, this, caster), dmg);
@@ -119,7 +119,7 @@ public class ClaymoreDropCoreEntity extends ThrowableProjectile {
 		spawnPlantParticles();
 		level().playSound(null, blockPosition(), SoundEvents.BEACON_AMBIENT, SoundSource.PLAYERS, 0.6F, 1.8F);
 
-		List<LivingEntity> nearby = Utils.getLivingEntitiesInRadiusExcludingParty(caster, this, PULSE_RADIUS, PULSE_RADIUS, PULSE_RADIUS);
+		List<LivingEntity> nearby = ProjectileHits.around(this, caster, PULSE_RADIUS, PULSE_RADIUS, PULSE_RADIUS, null);
 		for (LivingEntity target : nearby) {
 			target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS, this, caster), dmg);
 			target.invulnerableTime = 0;

@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 
 public class LaserDomeShotEntity extends ThrowableProjectile {
 
@@ -86,34 +87,21 @@ public class LaserDomeShotEntity extends ThrowableProjectile {
 	}
 
 	@Override
-	protected void onHit(HitResult rtRes) {
-		if (!level().isClientSide) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target != getOwner()) {
-	            	target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
-					remove(RemovalReason.KILLED);
-				}
-			}
-
-			//Gummi
-			if(ertResult != null && ertResult.getEntity() instanceof GummiShipEntity gummi){
-				if(!gummi.getPassengers().contains(this.getOwner())){
-					gummi.hurt(gummi.damageSources().thrown(this, this.getOwner()), dmg);
-				}
-			}
-			remove(RemovalReason.KILLED);
+	protected void onHit(HitResult hit) {
+		if (level().isClientSide || ProjectileHits.hitOwner(hit, getOwner())) {
+			return;
 		}
+
+		LivingEntity target = ProjectileHits.target(hit, getOwner());
+		if (target != null) {
+			target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+		}
+
+		//Gummi
+		if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof GummiShipEntity gummi && !gummi.getPassengers().contains(this.getOwner())) {
+			gummi.hurt(gummi.damageSources().thrown(this, this.getOwner()), dmg);
+		}
+		remove(RemovalReason.KILLED);
 	}
 
 	public int getMaxTicks() {

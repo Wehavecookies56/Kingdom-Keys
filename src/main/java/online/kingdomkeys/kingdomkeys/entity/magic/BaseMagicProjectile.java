@@ -21,12 +21,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.entity.ProjectileHits;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class BaseMagicProjectile extends ThrowableProjectile {
 	int maxTicks = 100;
@@ -79,6 +82,47 @@ public abstract class BaseMagicProjectile extends ThrowableProjectile {
 
 	public boolean wasGuarded(LivingEntity target) {
 		return damageType != null && CombatAbilities.guarded(target, getDamageSource());
+	}
+
+	// Every hit comes through here: touching its own caster is ignored, and what the spell then does is up to onImpact, on the server
+	@Override
+	protected void onHit(HitResult hit) {
+		if (ProjectileHits.hitOwner(hit, getOwner())) {
+			return;
+		}
+		super.onHit(hit);
+		if (!level().isClientSide) {
+			onImpact(hit);
+		}
+	}
+
+	protected void onImpact(HitResult hit) {
+	}
+
+	/** The living entity the spell landed on, ally or not */
+	@Nullable
+	protected LivingEntity struck(HitResult hit) {
+		return ProjectileHits.struck(hit, getOwner());
+	}
+
+	/** The living entity the spell landed on, if the caster may hurt it */
+	@Nullable
+	protected LivingEntity target(HitResult hit) {
+		return ProjectileHits.target(hit, getOwner());
+	}
+
+	protected boolean canHarm(LivingEntity entity) {
+		return Utils.canHarm(getOwner(), entity);
+	}
+
+	/** Everyone around the projectile the caster may hurt, leaving out whoever it hit directly */
+	protected List<LivingEntity> targetsAround(double radius, @Nullable LivingEntity directHit) {
+		return ProjectileHits.around(this, getOwner(), radius, directHit);
+	}
+
+	/** Everyone around the projectile, allies included */
+	protected List<LivingEntity> everyoneAround(double radius, @Nullable LivingEntity directHit) {
+		return ProjectileHits.everyoneAround(this, getOwner(), radius, directHit);
 	}
 
 	public void interactWithBlocks(HitResult hit, float radius) {
