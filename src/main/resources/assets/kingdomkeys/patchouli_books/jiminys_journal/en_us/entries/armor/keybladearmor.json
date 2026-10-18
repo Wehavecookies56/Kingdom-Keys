@@ -6,47 +6,95 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "These are $(item)Armor sets$() worn by the $(thing)Guardians of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you own an entire set, you can craft them together, to obtain it's corresponding $(item)Pauldron$(), which you can place into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
+			"text": "These are $(item)Armor sets$() worn by the $(thing)Guardians of light$() in $(lissa)Birth by Sleep$(). The armor once protected its wearer from the $(lissa)darkness$() surrounding the lanes between, now it protects you in combat. If you craft its $(item)Pauldron$(), you can store an entire set inside it and place it into the $(l:kingdomkeys:learning_the_menu/item_tab)Pauldron Slot$(), to then summon your Armor with $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
 		},
 		{
 			"type": "text",
-			"text": "These armor sets can be crafted in the style of $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() and $(#1a1827)Ventus' Nightmare form$(). Get in a Smithing Table and combine some netherite armor and an upgrade template with an $(#cc7a22)orange$(), $(#335cc1)blue$(), $(#80d11d)lime green$(), $(#b6b6c9)white$() or $(#5d5d5d)gray$() and $(#1a1827)black$() dye.$(p)Additionally a Pauldron can be enchanted by holding it and holding down RMB, while wearing a set of armor with the desired enchantments. $(thing)Attention$(): The currently worn armor will be disentchanted in the process!"
+			"text": "These armor sets can be crafted in the style of $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() and $(#1a1827)Ventus' Nightmare form$(). Get in a Smithing Table and combine some netherite armor and an upgrade template with an $(#cc7a22)orange$(), $(#335cc1)blue$(), $(#80d11d)lime green$(), $(#b6b6c9)white$() or $(#5d5d5d)gray$() and $(#1a1827)black$() dye."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:terra_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#cc7a22)orange$() dye to get each piece of the $(thing)Terra$() set. With all 4 pieces you can craft this pauldron."
+			"type": "crafting",
+			"recipe": "kingdomkeys:terra_shoulder",
+			"text": "Right click it to store any armor set inside."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:aqua_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#335cc1)blue$() dye to get each piece of the $(thing)Aqua$() set. With all 4 pieces you can craft this pauldron."
+			"type": "kingdomkeys:armor_set",
+			"title": "Terra Armor",
+			"dye": "minecraft:orange_dye",
+			"helmet": "kingdomkeys:terra_helmet",
+			"chestplate": "kingdomkeys:terra_chestplate",
+			"leggings": "kingdomkeys:terra_leggings",
+			"boots": "kingdomkeys:terra_boots"
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:ventus_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#80d11d)lime green$() dye to get each piece of the $(thing)Ventus$() set. With all 4 pieces you can craft this pauldron."
+			"type": "crafting",
+			"recipe": "kingdomkeys:aqua_shoulder",
+			"text": "Right click it to store any armor set inside."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:eraqus_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#b6b6c9)white$() dye to get each piece of the $(thing)Eraqus$() set. With all 4 pieces you can craft this pauldron."
+			"type": "kingdomkeys:armor_set",
+			"title": "Aqua Armor",
+			"dye": "minecraft:blue_dye",
+			"helmet": "kingdomkeys:aqua_helmet",
+			"chestplate": "kingdomkeys:aqua_chestplate",
+			"leggings": "kingdomkeys:aqua_leggings",
+			"boots": "kingdomkeys:aqua_boots"
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:xehanort_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#5d5d5d)gray$() dye to get each piece of the $(thing)Xehanort$() set. With all 4 pieces you can craft this pauldron."
+			"type": "crafting",
+			"recipe": "kingdomkeys:ventus_shoulder",
+			"text": "Right click it to store any armor set inside."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:nightmareventus_shoulder",
-			"link_recipe": true,
-			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#1a1827)black$() dye to get each piece of the $(thing)Ventus' Nightmare$() set. With all 4 pieces you can craft this pauldron."
+			"type": "kingdomkeys:armor_set",
+			"title": "Ventus Armor",
+			"dye": "minecraft:lime_dye",
+			"helmet": "kingdomkeys:ventus_helmet",
+			"chestplate": "kingdomkeys:ventus_chestplate",
+			"leggings": "kingdomkeys:ventus_leggings",
+			"boots": "kingdomkeys:ventus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:eraqus_shoulder",
+			"text": "Right click it to store any armor set inside."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Eraqus Armor",
+			"dye": "minecraft:white_dye",
+			"helmet": "kingdomkeys:eraqus_helmet",
+			"chestplate": "kingdomkeys:eraqus_chestplate",
+			"leggings": "kingdomkeys:eraqus_leggings",
+			"boots": "kingdomkeys:eraqus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:xehanort_shoulder",
+			"text": "Right click it to store any armor set inside."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Xehanort Armor",
+			"dye": "minecraft:gray_dye",
+			"helmet": "kingdomkeys:xehanort_helmet",
+			"chestplate": "kingdomkeys:xehanort_chestplate",
+			"leggings": "kingdomkeys:xehanort_leggings",
+			"boots": "kingdomkeys:xehanort_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:nightmareventus_shoulder",
+			"text": "Right click it to store any armor set inside."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Ventus' Nightmare Armor",
+			"dye": "minecraft:black_dye",
+			"helmet": "kingdomkeys:nightmareventus_helmet",
+			"chestplate": "kingdomkeys:nightmareventus_chestplate",
+			"leggings": "kingdomkeys:nightmareventus_leggings",
+			"boots": "kingdomkeys:nightmareventus_boots"
 		}
 	]
 }

@@ -10,43 +10,91 @@
 		},
 		{
 			"type": "text",
-			"text": "Estos conjuntos de armadura pueden ser fabricados en el estilo de $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() y $(#1a1827)Ventus Pesadilla$(). Entra en una Mesa de Forja y combina $(thing)armadura de netherita$() con $(thing)molde de herrería de mejora$() con un tinte $(#cc7a22)naranja$(), $(#335cc1)azul$(), $(#80d11d)verde lima$(), $(#b6b6c9)blanco$() o $(#5d5d5d)gris$() y $(#1a1827)negro$(), respectivamente.$(p)Además, una Hombrera puede encantarse agarrándola y presionando clic derecho, mientras llevas un conjunto de armadura con los encantamientos deseados. $(thing)Atención$(): ¡La armadura que llevas actualmente será desencantada en el proceso!"
+			"text": "Estos conjuntos de armadura pueden ser fabricados en el estilo de $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() y $(#1a1827)Ventus Pesadilla$(). Entra en una Mesa de Forja y combina $(thing)armadura de netherita$() con $(thing)molde de herrería de mejora$() con un tinte $(#cc7a22)naranja$(), $(#335cc1)azul$(), $(#80d11d)verde lima$(), $(#b6b6c9)blanco$() o $(#5d5d5d)gris$() y $(#1a1827)negro$(), respectivamente."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:terra_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#cc7a22)naranja$() para obtener cada pieza del set de $(thing)Terra$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "crafting",
+			"recipe": "kingdomkeys:terra_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:aqua_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#335cc1)azul$() para obtener cada pieza del set de $(thing)Aqua$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Terra",
+			"dye": "minecraft:orange_dye",
+			"helmet": "kingdomkeys:terra_helmet",
+			"chestplate": "kingdomkeys:terra_chestplate",
+			"leggings": "kingdomkeys:terra_leggings",
+			"boots": "kingdomkeys:terra_boots"
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:ventus_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#80d11d)verde lima$() para obtener cada pieza del set de $(thing)Ventus$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "crafting",
+			"recipe": "kingdomkeys:aqua_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:eraqus_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#b6b6c9)blanco$() para obtener cada pieza del set de $(thing)Eraqus$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Aqua",
+			"dye": "minecraft:blue_dye",
+			"helmet": "kingdomkeys:aqua_helmet",
+			"chestplate": "kingdomkeys:aqua_chestplate",
+			"leggings": "kingdomkeys:aqua_leggings",
+			"boots": "kingdomkeys:aqua_boots"
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:xehanort_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#5d5d5d)gris$() para obtener cada pieza del set de $(thing)Xehanort$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "crafting",
+			"recipe": "kingdomkeys:ventus_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
 		},
 		{
-			"type": "patchouli:spotlight",
-			"item": "kingdomkeys:nightmareventus_shoulder",
-			"link_recipe": true,
-			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#1a1827)negro$() para obtener cada pieza del set de $(thing)Pesadilla de Ventus$(). Con las 4 piezas puedes fabricar esta hombrera."
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Ventus",
+			"dye": "minecraft:lime_dye",
+			"helmet": "kingdomkeys:ventus_helmet",
+			"chestplate": "kingdomkeys:ventus_chestplate",
+			"leggings": "kingdomkeys:ventus_leggings",
+			"boots": "kingdomkeys:ventus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:eraqus_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Eraqus",
+			"dye": "minecraft:white_dye",
+			"helmet": "kingdomkeys:eraqus_helmet",
+			"chestplate": "kingdomkeys:eraqus_chestplate",
+			"leggings": "kingdomkeys:eraqus_leggings",
+			"boots": "kingdomkeys:eraqus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:xehanort_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Xehanort",
+			"dye": "minecraft:gray_dye",
+			"helmet": "kingdomkeys:xehanort_helmet",
+			"chestplate": "kingdomkeys:xehanort_chestplate",
+			"leggings": "kingdomkeys:xehanort_leggings",
+			"boots": "kingdomkeys:xehanort_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:nightmareventus_shoulder",
+			"text": "Haz clic derecho con ella para guardar dentro cualquier conjunto de armadura."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Armadura de Pesadilla de Ventus",
+			"dye": "minecraft:black_dye",
+			"helmet": "kingdomkeys:nightmareventus_helmet",
+			"chestplate": "kingdomkeys:nightmareventus_chestplate",
+			"leggings": "kingdomkeys:nightmareventus_leggings",
+			"boots": "kingdomkeys:nightmareventus_boots"
 		}
 	]
 }

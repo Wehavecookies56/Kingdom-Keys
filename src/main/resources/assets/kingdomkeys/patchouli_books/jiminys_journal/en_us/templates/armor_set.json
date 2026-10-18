@@ -1,0 +1,174 @@
+{
+	"components": [
+		{
+			"type": "patchouli:header",
+			"text": "#title",
+			"x": -1,
+			"y": -1
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_upgrade_smithing_template",
+			"x": 8,
+			"y": 20,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_helmet",
+			"x": 30,
+			"y": 20,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#dye",
+			"x": 52,
+			"y": 20,
+			"framed": true
+		},
+		{
+			"type": "patchouli:image",
+			"image": "patchouli:textures/gui/crafting.png",
+			"x": 74,
+			"y": 24,
+			"u": 38,
+			"v": 79,
+			"width": 9,
+			"height": 9,
+			"texture_width": 128,
+			"texture_height": 256
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#helmet",
+			"x": 90,
+			"y": 20,
+			"framed": true,
+			"link_recipe": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_upgrade_smithing_template",
+			"x": 8,
+			"y": 52,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_chestplate",
+			"x": 30,
+			"y": 52,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#dye",
+			"x": 52,
+			"y": 52,
+			"framed": true
+		},
+		{
+			"type": "patchouli:image",
+			"image": "patchouli:textures/gui/crafting.png",
+			"x": 74,
+			"y": 56,
+			"u": 38,
+			"v": 79,
+			"width": 9,
+			"height": 9,
+			"texture_width": 128,
+			"texture_height": 256
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#chestplate",
+			"x": 90,
+			"y": 52,
+			"framed": true,
+			"link_recipe": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_upgrade_smithing_template",
+			"x": 8,
+			"y": 84,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_leggings",
+			"x": 30,
+			"y": 84,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#dye",
+			"x": 52,
+			"y": 84,
+			"framed": true
+		},
+		{
+			"type": "patchouli:image",
+			"image": "patchouli:textures/gui/crafting.png",
+			"x": 74,
+			"y": 88,
+			"u": 38,
+			"v": 79,
+			"width": 9,
+			"height": 9,
+			"texture_width": 128,
+			"texture_height": 256
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#leggings",
+			"x": 90,
+			"y": 84,
+			"framed": true,
+			"link_recipe": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_upgrade_smithing_template",
+			"x": 8,
+			"y": 116,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "minecraft:netherite_boots",
+			"x": 30,
+			"y": 116,
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#dye",
+			"x": 52,
+			"y": 116,
+			"framed": true
+		},
+		{
+			"type": "patchouli:image",
+			"image": "patchouli:textures/gui/crafting.png",
+			"x": 74,
+			"y": 120,
+			"u": 38,
+			"v": 79,
+			"width": 9,
+			"height": 9,
+			"texture_width": 128,
+			"texture_height": 256
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#boots",
+			"x": 90,
+			"y": 116,
+			"framed": true,
+			"link_recipe": true
+		}
+	]
+}

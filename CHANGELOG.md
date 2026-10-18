@@ -18,6 +18,7 @@
 * KH1 Scan HP Bar.
 * Config menu option to hide the "HP" label and enemy name.
 * Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
+* Jiminy's Journal entry for the Apprentice Clothes and the Cloth Station.
 * Vanquish enchantment, lets any weapon or tool strike Heartless and Nobodies. Keyblades and Organization weapons can't get it as they already can.
 ## Changed:
 * Leveling paths now can go past lvl 100 if a datapack implements them.
@@ -30,6 +31,7 @@
 * Unified all projectiles code.
 * Damage numbers now move smoothly while they float up.
 * needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
+* Jiminy's Journal now shows the recipe of every Keyblade armor pauldron next to the smithing recipes of its set and no longer mentions enchanting pauldrons.
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.

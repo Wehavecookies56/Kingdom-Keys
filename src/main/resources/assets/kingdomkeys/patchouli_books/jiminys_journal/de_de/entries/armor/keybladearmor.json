@@ -6,11 +6,95 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Diese Rüstungen$() wurden einst von den $(thing)Kriegern des Lichts$() aus $(lissa)Birth by Sleep$() getragen. Einst haben sie die Träger vor der $(lissa)Dunkelheit$(), jetzt schützen sie dich im Kampf. Hast du ein komplettes set zusammen, kannst du sie miteinander kombinieren, um dann den entsprechenden $(item)Schulterschutz$() zu erhalten, welchen du dann in deinen $(l:kingdomkeys:learning_the_menu/item_tab)Schulterschutz-Platz$() legen kannst, um dann mit der $(thing)[$(k:key.kingdomkeys.summonarmor)]$()-Taste die Rüstung zu rufen."
+			"text": "$(item)Diese Rüstungen$() wurden einst von den $(thing)Kriegern des Lichts$() aus $(lissa)Birth by Sleep$() getragen. Einst haben sie die Träger vor der $(lissa)Dunkelheit$(), jetzt schützen sie dich im Kampf. Stellst du den entsprechenden $(item)Schulterschutz$() her, kannst du darin ein komplettes Set aufbewahren und ihn dann in deinen $(l:kingdomkeys:learning_the_menu/item_tab)Schulterschutz-Platz$() legen, um dann mit der $(thing)[$(k:key.kingdomkeys.summonarmor)]$()-Taste die Rüstung zu rufen."
 		},
 		{
 			"type": "text",
-			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AAA)Eraqus$(), $(#999)Xehanort$() und $(#000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(#F70)Orange$(), $(#00F)Blau$(), $(#1F0)Hellgrün$(), $(#000)Schwarz$(), $(#AAA)Weiß$() oder $(#999)Grau$()$(p)Außerdem kann ein Schulterschuttz verzaubt werden, indem man ihn in der Hand gedrückt hält, während man die gewünschte Verzauberungen trägt. $(thing)Vorsicht$(): Die getragene Rüstung wird dabei entzaubert!"
+			"text": "Diese Rüstungen können hersgestellt werden im Stil von $(#F70)Terra$(), $(#1F0)Ventus$(), $(#00F)Aqua$(), $(#AAA)Eraqus$(), $(#999)Xehanort$() und $(#000)Albtraum-Ventus$(). Zum herstellen braucht es nur einen Schmiedetisch, ein Netherit-Upgrade, das entsprechende Rüstungsteil aus Netherit und eine der möglichen Farbstoffen: $(#F70)Orange$(), $(#00F)Blau$(), $(#1F0)Hellgrün$(), $(#000)Schwarz$(), $(#AAA)Weiß$() oder $(#999)Grau$()"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:terra_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Terra-Rüstung",
+			"dye": "minecraft:orange_dye",
+			"helmet": "kingdomkeys:terra_helmet",
+			"chestplate": "kingdomkeys:terra_chestplate",
+			"leggings": "kingdomkeys:terra_leggings",
+			"boots": "kingdomkeys:terra_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:aqua_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Aqua-Rüstung",
+			"dye": "minecraft:blue_dye",
+			"helmet": "kingdomkeys:aqua_helmet",
+			"chestplate": "kingdomkeys:aqua_chestplate",
+			"leggings": "kingdomkeys:aqua_leggings",
+			"boots": "kingdomkeys:aqua_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:ventus_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Ventus-Rüstung",
+			"dye": "minecraft:lime_dye",
+			"helmet": "kingdomkeys:ventus_helmet",
+			"chestplate": "kingdomkeys:ventus_chestplate",
+			"leggings": "kingdomkeys:ventus_leggings",
+			"boots": "kingdomkeys:ventus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:eraqus_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Eraqus-Rüstung",
+			"dye": "minecraft:white_dye",
+			"helmet": "kingdomkeys:eraqus_helmet",
+			"chestplate": "kingdomkeys:eraqus_chestplate",
+			"leggings": "kingdomkeys:eraqus_leggings",
+			"boots": "kingdomkeys:eraqus_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:xehanort_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Xehanort-Rüstung",
+			"dye": "minecraft:gray_dye",
+			"helmet": "kingdomkeys:xehanort_helmet",
+			"chestplate": "kingdomkeys:xehanort_chestplate",
+			"leggings": "kingdomkeys:xehanort_leggings",
+			"boots": "kingdomkeys:xehanort_boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:nightmareventus_shoulder",
+			"text": "Rechtsklicke ihn, um ein beliebiges Rüstungsset darin aufzubewahren."
+		},
+		{
+			"type": "kingdomkeys:armor_set",
+			"title": "Albtraum-Ventus-Rüstung",
+			"dye": "minecraft:black_dye",
+			"helmet": "kingdomkeys:nightmareventus_helmet",
+			"chestplate": "kingdomkeys:nightmareventus_chestplate",
+			"leggings": "kingdomkeys:nightmareventus_leggings",
+			"boots": "kingdomkeys:nightmareventus_boots"
 		}
 	]
 }

@@ -1,0 +1,20 @@
+{
+	"name": "Lehrlingskleidung",
+	"icon": "kingdomkeys:apprentice_chestplate",
+	"sortnum": 5,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Die $(item)Lehrlingskleidung$() besteht aus Tunika, Hose und Stiefeln, die die Schlüsselschwertträger der $(thing)Unionen$() tragen. Sie kann nicht hergestellt werden, aber jeder $(thing)Prophet$() verkauft dir jedes Teil gegen $(thing)Lux$()."
+		},
+		{
+			"type": "text",
+			"text": "Mit einer $(item)Cloth Station$() kannst du ihr Aussehen ändern. Lege ein Teil in den oberen Platz, wähle eines der $(thing)4 Designs$() und füge links Farbstoffe für die Hauptfarbe und rechts für die Zweitfarbe hinzu.$(p)Beim Entnehmen werden das Teil und je ein Farbstoff verbraucht."
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:apprentice_cloth_station"
+		}
+	]
+}

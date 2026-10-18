@@ -1,0 +1,20 @@
+{
+	"name": "Apprentice Clothes",
+	"icon": "kingdomkeys:apprentice_chestplate",
+	"sortnum": 5,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Apprentice Clothes$() are the tunic, leggings and boots worn by the Keyblade wielders of the $(thing)Unions$(). They can't be crafted, but any $(thing)Foreteller$() will sell you each piece in exchange for $(thing)Lux$()."
+		},
+		{
+			"type": "text",
+			"text": "A $(item)Cloth Station$() lets you change their look. Place a piece in the top slot, pick one of the $(thing)4 designs$() and add dyes on the left for the primary colour and on the right for the secondary one.$(p)Taking the result uses up the piece and one of each dye."
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:apprentice_cloth_station"
+		}
+	]
+}

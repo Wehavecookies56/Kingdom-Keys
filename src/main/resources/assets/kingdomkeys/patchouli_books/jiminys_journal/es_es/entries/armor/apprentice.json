@@ -1,0 +1,20 @@
+{
+	"name": "Ropa de Aprendiz",
+	"icon": "kingdomkeys:apprentice_chestplate",
+	"sortnum": 5,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "La $(item)Ropa de Aprendiz$() es la túnica, los pantalones y las botas que visten los portadores de Llave Espada de las $(thing)Uniones$(). No se puede fabricar, pero cualquier $(thing)Augure$() te venderá cada pieza a cambio de $(thing)Lux$()."
+		},
+		{
+			"type": "text",
+			"text": "La $(item)Mesa de Ropajes$() te permite cambiar su aspecto. Coloca una pieza en la casilla de arriba, elige uno de los $(thing)4 diseños$() y añade tintes a la izquierda para el color principal y a la derecha para el secundario.$(p)Al recoger el resultado se gastan la pieza y un tinte de cada uno."
+		},
+		{
+			"type": "crafting",
+			"recipe": "kingdomkeys:apprentice_cloth_station"
+		}
+	]
+}
