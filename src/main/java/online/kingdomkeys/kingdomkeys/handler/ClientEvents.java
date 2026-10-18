@@ -38,6 +38,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -186,6 +187,14 @@ public class ClientEvents {
 		}
 		if(submenu.getId().equals(CommandMenuGui.INSTANCE.attack)) {
 			CommandMenuGui.INSTANCE.createPhysicalSpells(submenu);
+		}
+	}
+
+	// Removes vanilla damage line
+	@SubscribeEvent
+	public void hideKeybladeAttackDamage(GatherSkippedAttributeTooltipsEvent event) {
+		if (event.getStack().getItem() instanceof KeybladeItem) {
+			event.skipId(Item.BASE_ATTACK_DAMAGE_ID);
 		}
 	}
 

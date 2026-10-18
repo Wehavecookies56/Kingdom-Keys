@@ -19,7 +19,7 @@
 * Config menu option to hide the "HP" label and enemy name.
 * Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
 ## Changed:
-* Leveling paths now can go past lvl 100.
+* Leveling paths now can go past lvl 100 if a datapack implements them.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
 * Keyblade Forge can now give multiple abilities per level.
 * All drive forms besides limit can no longer guard.
@@ -29,7 +29,7 @@
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.
-* Multiblocks like Bubble Helm or Gummi weapons on lists and hologram.
+* Multiblocks like Bubble Helm or Gummi weapons reporting the wrong amount on lists and hologram.
 * Items in stock screen being selectable.
 * Missing Spanish translation lines.
 * Leveled mobs healing back to full health when their chunk reloaded.
@@ -42,3 +42,5 @@
 * Players being added twice to the same party, or joining a second party while already in one.
 * Heartless players being able to cast magic through shortcuts.
 * Player data not being sent to the client right after respawning.
+* Keyblade tooltip will no longer show the vanilla value.
+* Keyblade and Organization weapon tooltips showing 0.5 more strength than they deal without sharpness.

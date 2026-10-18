@@ -213,7 +213,7 @@ public class DamageCalculation {
     }
     
     private static float getSharpnessDamageFromLevel(float lvl) {
-		return lvl / 2F + 0.5F;
+		return lvl > 0 ? lvl / 2F + 0.5F : 0;
 	}
 	
 }
