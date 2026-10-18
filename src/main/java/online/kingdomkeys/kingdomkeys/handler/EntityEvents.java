@@ -667,14 +667,9 @@ public class EntityEvents {
 			for (ReactionCommand rc : ModReactionCommands.CONSTANT_CHECK_COMMANDS.get()) {
 				if (rc.conditionsToAppear(player, player)) {
 					// The conditions were just checked and the command is already resolved, so this skips
-					// the two registry lookups and the second conditionsToAppear the name-based overload
-					// would do - per command, per player, per tick.
+					// the two registry lookups and the second conditionsToAppear the name-based overload would do - per command, per player, per tick.
 					playerData.addCheckedReactionCommand(rc);
 				}
-			}
-
-			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
-				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 
 			if (!playerData.noFormActive()) {
@@ -1717,6 +1712,7 @@ public class EntityEvents {
 			nPlayer.setHealth(playerData.getMaxHP());
 			Utils.RefreshAbilityAttributes(nPlayer, playerData);
 
+			PacketHandler.sendTo(new SCSyncPlayerData(nPlayer), (ServerPlayer) nPlayer);
 			PacketHandler.sendTo(new SCSyncWorldData(nPlayer.getServer()), (ServerPlayer) nPlayer);
 
 			if (!event.isEndConquered() && !nPlayer.level().isClientSide()) {

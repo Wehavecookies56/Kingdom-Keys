@@ -25,6 +25,7 @@
 * All drive forms besides limit can no longer guard.
 * Robes and Organization armor are now tighter to the player's body, fixing the issue where second skin layer would clip on the legs.
 * All boolean buttons in the Config Menu are now checkboxes.
+* Casting magic from the Command Menu now goes through the same server checks as the shortcuts (except MP Safety).
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.
@@ -39,3 +40,5 @@
 * Party changes (joining, leaving, promoting and settings) not being saved instantly.
 * Empty parties staying in the save forever after their leader left (existing ones are discarded when the world loads).
 * Players being added twice to the same party, or joining a second party while already in one.
+* Heartless players being able to cast magic through shortcuts.
+* Player data not being sent to the client right after respawning.

@@ -110,6 +110,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -293,6 +294,40 @@ public class Utils {
 
 		ItemStack stack = playerData.getEquippedMagics().get(slot);
 		return stack != null && stack.getItem() instanceof MagicSpellItem spell ? spell.getMagic() : null;
+	}
+
+	// For every spell cast, from the command menu or a shortcut
+	public static boolean canCastMagic(Player player, PlayerData playerData, ResourceLocation magicName) {
+		if (playerData == null || magicName == null || HeartlessForm.isHeartless(player) || player.hasEffect(ModMobEffects.KO) || player.hasEffect(ModMobEffects.STOP)) {
+			return false;
+		}
+
+		Magic magic = ModMagic.registry.get(magicName);
+		if (magic == null || !isMagicEquipped(playerData, magicName)) {
+			return false;
+		}
+
+		DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
+		if (form != null && !form.canUseMagic()) {
+			return false;
+		}
+
+		if (playerData.getMaxMP() == 0 || playerData.getRecharge() || playerData.getMagicCooldownTicks(magicName) > 0) {
+			return false;
+		}
+
+		double cost = magic.getCost(player);
+		boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
+		return ModConfigs.SERVER.allowCastMagicIfTooExpensive.get() || !insufficientMP;
+	}
+
+	public static boolean isMagicEquipped(PlayerData playerData, ResourceLocation magicName) {
+		for (Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
+			if (entry.getKey() < playerData.getMaxMagics() && entry.getValue() != null && entry.getValue().getItem() instanceof MagicSpellItem spell && magicName.equals(spell.getMagic())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean perMagicCooldown() {

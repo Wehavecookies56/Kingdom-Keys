@@ -25,8 +25,8 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
-	float rotation = 0;
-	
+	private final RandomSource random = RandomSource.create();
+
 	public HeartEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 		this.shadowRadius = 0.25F;
@@ -58,7 +58,7 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 						        
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(ticks*20));
 				
-				for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) { //TODO totally made this up in the 1.19.3 port
+				for (BakedQuad quad : model.getQuads(null, null, random, ModelData.EMPTY, RenderType.cutout())) {
 					buffer.putBulkData(matrixStackIn.last(), quad, rgb, rgb, rgb, a, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
 				}
 				
