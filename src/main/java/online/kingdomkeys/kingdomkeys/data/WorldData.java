@@ -95,14 +95,16 @@ public class WorldData extends SavedData {
 
         List<Party> partiesList = data.getParties();
         List<String> partyNames = new ArrayList<>();
-        int dupeCount = 0;
+        int dupeCount = 0, emptyCount = 0;
         ListTag parties = nbt.getList("parties", Tag.TAG_COMPOUND);
 
         for (int i = 0; i < parties.size(); i++) {
             CompoundTag partyNBT = parties.getCompound(i);
             Party party = new Party();
             party.read(partyNBT);
-            if (partyNames.contains(party.getName())) {
+            if (party.getMembers().isEmpty()) {
+                emptyCount++;
+            } else if (partyNames.contains(party.getName())) {
                 dupeCount++;
             } else {
                 partyNames.add(party.getName());
@@ -111,6 +113,9 @@ public class WorldData extends SavedData {
         }
         if (dupeCount > 0) {
             KingdomKeys.LOGGER.warn("Discarded {} duplicate parties while reading", dupeCount);
+        }
+        if (emptyCount > 0) {
+            KingdomKeys.LOGGER.warn("Discarded {} empty parties while reading", emptyCount);
         }
         data.setParties(partiesList);
 
@@ -326,6 +331,9 @@ public class WorldData extends SavedData {
 
     public void removeLeaderMember(Party party, LivingEntity entity) {
         party.removeMember(entity.getUUID());
+        if (party.getMembers().isEmpty()) {
+            removeParty(party);
+        }
 
         if (entity instanceof Mob mob) {
             PartyAllyGoals.removeAI(mob);

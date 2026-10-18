@@ -34,6 +34,10 @@ public record CSPartyLeave(Party party, UUID playerUUID) implements Packet {
 			return;
 		}
 		p.removeMember(playerUUID);
+		// The leader leaving takes everyone with them, and an empty party would just sit in the save forever
+		if (p.getMembers().isEmpty()) {
+			worldData.removeParty(p);
+		}
 		worldData.setDirty();
 
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));

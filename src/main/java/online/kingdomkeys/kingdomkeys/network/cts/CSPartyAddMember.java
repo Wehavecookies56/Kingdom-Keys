@@ -39,7 +39,8 @@ public record CSPartyAddMember(String name, UUID memberUUID, String memberName) 
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
 		Party p = worldData.getPartyFromName(name);
-		if (p == null) {
+		if (p == null || worldData.getPartyFromMember(memberUUID) != null || p.getMembers().size() >= p.getSize()) {
+			PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 			return;
 		}
 		Player target = player.level().getPlayerByUUID(memberUUID);

@@ -17,6 +17,7 @@
 * MiniCO as a proper structure (/locate and /place works).
 * KH1 Scan HP Bar.
 * Config menu option to hide the "HP" label and enemy name.
+* Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
 ## Changed:
 * Leveling paths now can go past lvl 100.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
@@ -34,5 +35,7 @@
 * Leveling up also leveling up and healing other players' tamed animals nearby.
 * Treasure Magnet not pulling more items after a newly dropped one was nearby.
 * Airstep timing being shared between all players.
-* Stop's damage  being assigned to a player name rather than the player's UUID.
+* Stop's damage being assigned to a player name rather than the player's UUID.
 * Party changes (joining, leaving, promoting and settings) not being saved instantly.
+* Empty parties staying in the save forever after their leader left (existing ones are discarded when the world loads).
+* Players being added twice to the same party, or joining a second party while already in one.

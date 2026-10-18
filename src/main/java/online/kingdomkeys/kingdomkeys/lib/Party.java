@@ -70,19 +70,29 @@ public class Party {
 		return this.friendlyFire;
 	}
 
+	// Joining twice (a double click, a lagging packet) hands back who is already there instead of a second copy
 	public Member addMember(LivingEntity entity) {
+		if (hasMember(entity.getUUID())) {
+			return getMember(entity.getUUID());
+		}
 		Member member = new Member(entity);
 		this.members.add(member);
 		return member;
 	}
 
 	public Member addMember(UUID uuid, String username) {
+		if (hasMember(uuid)) {
+			return getMember(uuid);
+		}
 		Member member = new Member(uuid, username, true);
 		this.members.add(member);
 		return member;
 	}
 
 	public Member addMember(UUID uuid, String username, boolean player, int lvl, int hp, int mp) {
+		if (hasMember(uuid)) {
+			return getMember(uuid);
+		}
 		Member member = new Member(uuid, username, player);
 		member.setHP(hp);
 		member.setMP(mp);

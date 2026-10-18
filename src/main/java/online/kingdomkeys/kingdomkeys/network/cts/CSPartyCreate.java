@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -17,8 +18,7 @@ public record CSPartyCreate(Party party) implements Packet {
 	public static final Type<CSPartyCreate> TYPE = new Type<>(KingdomKeys.rl("cs_party_create"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyCreate> STREAM_CODEC = StreamCodec.composite(
-			Party.STREAM_CODEC,
-			CSPartyCreate::party,
+			Party.STREAM_CODEC, CSPartyCreate::party,
 			CSPartyCreate::new
 	);
 
@@ -26,6 +26,12 @@ public record CSPartyCreate(Party party) implements Packet {
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
+		// Nobody in the new party may already be in another one
+		boolean taken = worldData.getPartyFromMember(player.getUUID()) != null || party.getMembers().stream().anyMatch(member -> worldData.getPartyFromMember(member.getUUID()) != null);
+		if (taken) {
+			PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
+			return;
+		}
 		worldData.addParty(party);
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
