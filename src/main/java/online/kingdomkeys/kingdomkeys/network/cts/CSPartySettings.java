@@ -17,8 +17,7 @@ public record CSPartySettings(Party party) implements Packet {
 	public static final Type<CSPartySettings> TYPE = new Type<>(KingdomKeys.rl("cs_party_settings"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartySettings> STREAM_CODEC = StreamCodec.composite(
-			Party.STREAM_CODEC,
-			CSPartySettings::party,
+			Party.STREAM_CODEC, CSPartySettings::party,
 			CSPartySettings::new
 	);
 
@@ -27,9 +26,13 @@ public record CSPartySettings(Party party) implements Packet {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
 		Party p = worldData.getPartyFromName(party.getName());
+		if (p == null) {
+			return;
+		}
 		p.setPriv(party.getPriv());
 		p.setSize(party.getSize());
 		p.setFriendlyFire(party.getFriendlyFire());
+		worldData.setDirty();
 
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}

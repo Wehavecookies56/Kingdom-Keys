@@ -11,6 +11,7 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class GlobalData implements INBTSerializable<CompoundTag> {
 
@@ -50,7 +51,7 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("castle_oblivion_marker", this.getCastleOblivionMarker());
 		storage.putInt("level", this.getLevel());
 		if (this.getStopCaster() != null) {
-			storage.putString("stop_caster", this.getStopCaster());
+			storage.putUUID("stop_caster", this.getStopCaster());
 		}
 		storage.putInt("stop_model_ticks", this.getStopModelTicks());
 		return storage;
@@ -66,15 +67,13 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 		this.setCastleOblivionMarker(nbt.getBoolean("castle_oblivion_marker"));
 		this.setLevel(nbt.getInt("level"));
-		if (nbt.contains("stop_caster")) {
-			this.setStopCaster(nbt.getString("stop_caster"));
-		}
+		this.setStopCaster(nbt.hasUUID("stop_caster") ? nbt.getUUID("stop_caster") : null);
 		this.setStopModelTicks(nbt.getInt("stop_model_ticks"));
 	}
 
 	private int level, stopModelTicks;
 	ArrayList<Float> stopDmg = new ArrayList<>();
-	private String stopCaster;
+	private UUID stopCaster;
 	private boolean castleOblivionMarker;
 
 	public void setLevel(int lvl) {
@@ -102,12 +101,12 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 	}
 
 
-	public void setStopCaster(String name) {
-		this.stopCaster = name;
+	public void setStopCaster(UUID caster) {
+		this.stopCaster = caster;
 	}
 
 
-	public String getStopCaster() {
+	public UUID getStopCaster() {
 		return this.stopCaster;
 	}
 

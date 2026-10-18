@@ -24,12 +24,9 @@ public record CSPartyAddMember(String name, UUID memberUUID, String memberName) 
 	public static final Type<CSPartyAddMember> TYPE = new Type<>(KingdomKeys.rl("cs_party_add_member"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyAddMember> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSPartyAddMember::name,
-			UUIDUtil.STREAM_CODEC,
-			CSPartyAddMember::memberUUID,
-			ByteBufCodecs.STRING_UTF8,
-			CSPartyAddMember::memberName,
+			ByteBufCodecs.STRING_UTF8, CSPartyAddMember::name,
+			UUIDUtil.STREAM_CODEC, CSPartyAddMember::memberUUID,
+			ByteBufCodecs.STRING_UTF8, CSPartyAddMember::memberName,
 			CSPartyAddMember::new
 	);
 
@@ -41,16 +38,17 @@ public record CSPartyAddMember(String name, UUID memberUUID, String memberName) 
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
-		for(Party p : worldData.getParties()) {
-			Player target = player.level().getPlayerByUUID(memberUUID);
-			if(p.getName().equals(name)) {
-				Party.Member newMember = p.addMember(memberUUID, memberName);
-				PlayerData targetData = target == null ? null : PlayerData.get(target);
-				if (targetData != null) {
-					newMember.setLevel(targetData.getLevel());
-				}
-			}
-			PlayerData.get(target).removePartiesInvited(name);
+		Party p = worldData.getPartyFromName(name);
+		if (p == null) {
+			return;
+		}
+		Player target = player.level().getPlayerByUUID(memberUUID);
+		Party.Member newMember = p.addMember(memberUUID, memberName);
+		worldData.setDirty();
+		PlayerData targetData = target == null ? null : PlayerData.get(target);
+		if (targetData != null) {
+			newMember.setLevel(targetData.getLevel());
+			targetData.removePartiesInvited(name);
 			PacketHandler.sendTo(new SCSyncPlayerData(target), (ServerPlayer)target);
 		}
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));

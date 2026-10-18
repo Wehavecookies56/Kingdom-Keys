@@ -147,7 +147,6 @@ public class EntityEvents {
 	private static final int DAYBREAK_MAX_LEVEL = 3;
 	public static ThreatLevel threatLevel = ThreatLevel.NONE;
 	Map<UUID, Boolean> openedAlignment = new HashMap<>();
-	int airstepTicks = -1;
 
 	private static int getMultiplier(LivingDeathEvent event, Player player, PlayerData playerData) {
 		int multiplier = 1;
@@ -281,9 +280,11 @@ public class EntityEvents {
 			//Apply stored level attributes
 			if (mobData.getLevel() > 0) {
 				int lvl = mobData.getLevel();
+				// This also runs when a chunk reloads the mob
+				boolean wasFull = mob.getHealth() >= mob.getMaxHealth();
 				Utils.applyMobLevel(mob, lvl);
 
-				mob.setHealth(mob.getMaxHealth());
+				mob.setHealth(wasFull ? mob.getMaxHealth() : Math.min(mob.getHealth(), mob.getMaxHealth()));
 
 				// The level used to be in the custom name //TODO remove in a few versions
 				Utils.stripLevelFromCustomName(mob);
@@ -762,7 +763,7 @@ public class EntityEvents {
 					int pulled = 0;
 					for (ItemEntity item : items) {
 						if (item.tickCount < 20) {
-							break;
+							continue;
 						}
 						if (pulled > 200) {
 							break;
@@ -901,21 +902,25 @@ public class EntityEvents {
 					}
 
 					if (!playerData.getAirStep().equals(new BlockPos(0, 0, 0))) {
-						airstepTicks++;
+						playerData.setAirStepTicks(playerData.getAirStepTicks() + 1);
 
 						BlockPos pos = playerData.getAirStep();
 						float speedFactor = 0.3F;
 
-						if (pos.distToCenterSqr(player.position()) < 2 || (airstepTicks > 5 && player.getDeltaMovement().x() == 0 && player.getDeltaMovement().z() == 0)) {
+						if (pos.distToCenterSqr(player.position()) < 2 || (playerData.getAirStepTicks() > 5 && player.getDeltaMovement().x() == 0 && player.getDeltaMovement().z() == 0)) {
 							player.setDeltaMovement(0, 0, 0);
 							player.setPos(pos.getCenter().subtract(0, 0.4, 0));
 							//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 							if (player.level().isClientSide) {
 								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0), 0));
-								airstepTicks = -1;
+								playerData.setAirStepTicks(-1);
 							}
 						}
-						if (airstepTicks > -1) player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
+						if (playerData.getAirStepTicks() > -1) {
+							player.setDeltaMovement((pos.getX() - player.getX()) * speedFactor, (pos.getY() - player.getY()) * speedFactor, (pos.getZ() - player.getZ()) * speedFactor);
+						}
+					} else {
+						playerData.setAirStepTicks(-1);
 					}
 				}
 			}
@@ -929,9 +934,9 @@ public class EntityEvents {
 				}
 
 				//Stop effect hitting the entities with the real damage every 5 ticks once it expires
-				if (!entity.hasEffect(ModMobEffects.STOP) && !globalData.getStopDamage().isEmpty()) {
+				if (!entity.level().isClientSide() && !entity.hasEffect(ModMobEffects.STOP) && !globalData.getStopDamage().isEmpty()) {
 					if (globalData.getStopCaster() != null && !entity.hasEffect(ModMobEffects.KO) && entity.tickCount % 4 == 0) {
-						Player player = Utils.getPlayerByName(entity.level(), globalData.getStopCaster().toLowerCase());
+						Player player = entity.level().getServer().getPlayerList().getPlayer(globalData.getStopCaster());
 						if (player != null) {
 							entity.hurt(StopDamageSource.getStopDamage(player), globalData.getStopDamage().getFirst() / 3F);
 							globalData.getStopDamage().removeFirst();
@@ -1320,6 +1325,7 @@ public class EntityEvents {
 					if (event.getSource().getEntity() != null) {
 						CombatAbilities.noteHit(guardingPlayer, playerData);
 					}
+					CombatAbilities.noteSecondChanceDamage(playerData);
 					CombatAbilities.noteKnockback(guardingPlayer, playerData);
 				}
 			}

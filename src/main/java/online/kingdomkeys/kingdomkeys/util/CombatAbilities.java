@@ -58,6 +58,7 @@ public class CombatAbilities {
         data.setGuardCooldown(Math.max(0, data.getGuardCooldown() - 1));
         data.setCounterTicks(Math.max(0, data.getCounterTicks() - 1));
         data.setComboTicks(Math.max(0, data.getComboTicks() - 1));
+        data.setSecondChanceTicks(Math.max(0, data.getSecondChanceTicks() - 1));
         data.setCounterSpinTicks(Math.max(0, data.getCounterSpinTicks() - 1));
         data.setCounterRingTicks(Math.max(0, data.getCounterRingTicks() - 1));
         data.setRecoveryFlashTicks(Math.max(0, data.getRecoveryFlashTicks() - 1));
@@ -198,6 +199,12 @@ public class CombatAbilities {
         data.setComboTicks(COMBO_TICKS);
     }
 
+    public static void noteSecondChanceDamage(PlayerData data) {
+        if (data.getSecondChanceTicks() > 0) {
+            data.setSecondChanceTicks(COMBO_TICKS);
+        }
+    }
+
     public static float survive(Player player, PlayerData data, DamageSource source, float damage) {
         float health = player.getHealth() + player.getAbsorptionAmount();
 
@@ -205,15 +212,18 @@ public class CombatAbilities {
             return damage;
         }
 
-        boolean secondChance = data.isAbilityEquipped(ModAbilities.SECOND_CHANCE) && health > 1;
+        boolean secondChance = data.isAbilityEquipped(ModAbilities.SECOND_CHANCE) && health > 1 && data.getSecondChanceTicks() == 0;
         boolean onceMore = data.isAbilityEquipped(ModAbilities.ONCE_MORE) && source.getEntity() != null && data.getComboTicks() > 0 && data.getComboStartHealth() > 1;
 
         if (!secondChance && !onceMore) {
             return damage;
         }
 
-        if (secondChance && player.hasEffect(MobEffects.REGENERATION)) {
-            player.removeEffect(MobEffects.REGENERATION);
+        if (!onceMore) {
+            data.setSecondChanceTicks(COMBO_TICKS);
+            if (player.hasEffect(MobEffects.REGENERATION)) {
+                player.removeEffect(MobEffects.REGENERATION);
+            }
         }
 
         playSound(player, ModSounds.invincible_hit.get(), 0.7F, 1.6F);

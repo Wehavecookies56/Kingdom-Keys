@@ -20,19 +20,14 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ConcurrentModificationException;
-
 public record CSDepositMaterials(String inv, String name, int moogle) implements Packet {
 
 	public static final Type<CSDepositMaterials> TYPE = new Type<>(KingdomKeys.rl("cs_deposit_materials"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSDepositMaterials> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSDepositMaterials::inv,
-			StreamCodecs.STRING_UTF8,
-			CSDepositMaterials::name,
-			ByteBufCodecs.INT,
-			CSDepositMaterials::moogle,
+			ByteBufCodecs.STRING_UTF8, CSDepositMaterials::inv,
+			StreamCodecs.STRING_UTF8, CSDepositMaterials::name,
+			ByteBufCodecs.INT, CSDepositMaterials::moogle,
 			CSDepositMaterials::new
 	);
 
@@ -54,28 +49,22 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-		try {
-			for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-				ItemStack stack = player.getInventory().getItem(i);
-				if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
-					if (stack.is(ModTags.MATERIALS)) {
-						playerData.addMaterial(stack.getItem(), stack.getCount());
-						playerData.addTotalMaterial(stack.getItem(), stack.getCount());
-						player.getInventory().setItem(i, ItemStack.EMPTY);
-					}
-				}
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			ItemStack stack = player.getInventory().getItem(i);
+			if (!stack.isEmpty() && stack.is(ModTags.MATERIALS)) {
+				playerData.addMaterial(stack.getItem(), stack.getCount());
+				playerData.addTotalMaterial(stack.getItem(), stack.getCount());
+				player.getInventory().setItem(i, ItemStack.EMPTY);
 			}
-
-			for (ItemStack synthesisBag : Utils.getBags(player, BagItem.Type.SYNTHESIS_BAG)) {
-				IItemHandler bag = synthesisBag.getCapability(Capabilities.ItemHandler.ITEM);
-				if (bag != null) {
-					removeMaterial(bag, player);
-				}
-			}
-			PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData, player, inv, name, moogle), (ServerPlayer) player);
-		} catch (ConcurrentModificationException e) {
-			e.printStackTrace();
 		}
+
+		for (ItemStack synthesisBag : Utils.getBags(player, BagItem.Type.SYNTHESIS_BAG)) {
+			IItemHandler bag = synthesisBag.getCapability(Capabilities.ItemHandler.ITEM);
+			if (bag != null) {
+				removeMaterial(bag, player);
+			}
+		}
+		PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData, player, inv, name, moogle), (ServerPlayer) player);
 	}
 
 	@Override

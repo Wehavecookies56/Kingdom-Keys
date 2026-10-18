@@ -51,7 +51,7 @@ public class MagicStop extends Magic {
 						((Mob) e).setNoAi(true);
 					}
 					livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + getDamageMult() * 20 * dmg), getTier(), false, false, false)); // Stop
-					globalData.setStopCaster(caster.getDisplayName().getString());
+					globalData.setStopCaster(caster.getUUID());
 					if (e instanceof ServerPlayer serverPlayer)
 						PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
 				}

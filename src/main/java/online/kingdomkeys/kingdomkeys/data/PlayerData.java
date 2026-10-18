@@ -698,6 +698,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	private int ver = -1, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs, tutorialFlags;
 	private BlockPos airStepPos = new BlockPos(0,0,0);
+	private int airStepTicks = -1;
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
 	Stat defense = new Stat("defense", 1);
@@ -1100,7 +1101,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		AABB radius = new AABB(player.getX(), player.getY(), player.getZ(), player.getX() + 1, player.getY() + 1, player.getZ() + 1).inflate(50, 50, 50);
 		List<TamableAnimal> tamedAnimals = player.level().getNearbyEntities(TamableAnimal.class, TargetingConditions.forNonCombat(), player, radius);
 		if (!tamedAnimals.isEmpty()) {
-			tamedAnimals.forEach(tamableAnimal -> {
+			tamedAnimals.stream().filter(tamableAnimal -> tamableAnimal.isOwnedBy(player)).forEach(tamableAnimal -> {
 				GlobalData animalData = GlobalData.get(tamableAnimal);
 				animalData.setLevel(getLevel());
 				Utils.applyMobLevel(tamableAnimal, level);
@@ -3035,6 +3036,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.airStepPos = pos;
 	}
 
+	public int getAirStepTicks() {
+		return airStepTicks;
+	}
+
+	public void setAirStepTicks(int ticks) {
+		this.airStepTicks = ticks;
+	}
+
 	public Map<UUID, Instant> discoveredSavePoints() {
 		return discoveredSavePoints;
 	}
@@ -3091,7 +3100,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
     // Combat state that only matters for a moment, so none of it is written to disk
-    private int guardTicks, guardCooldown, counterTicks, recoveryTicks, comboTicks, counterSpinTicks, counterRingTicks, recoveryFlashTicks;
+    private int guardTicks, guardCooldown, counterTicks, recoveryTicks, comboTicks, counterSpinTicks, counterRingTicks, recoveryFlashTicks, secondChanceTicks;
     private float comboStartHealth;
 
     /** Ticks of guard left */
@@ -3174,6 +3183,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
     public void setComboStartHealth(float health) {
         this.comboStartHealth = health;
+    }
+
+    /** While above 0 Second Chance has already saved you from this run of damage */
+    public int getSecondChanceTicks() {
+        return secondChanceTicks;
+    }
+
+    public void setSecondChanceTicks(int ticks) {
+        this.secondChanceTicks = ticks;
     }
 
     public void setAirDashed(boolean airDashed) {

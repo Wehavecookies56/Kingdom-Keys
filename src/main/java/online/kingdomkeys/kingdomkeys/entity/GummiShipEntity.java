@@ -86,14 +86,18 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
-		if (getFuel() <= 0)
+		if (getFuel() <= 0 || shipStats == null || shipStats.firepower().isEmpty())
 			return;
+		if (weaponCounter >= shipStats.firepower().size())
+			weaponCounter = 0;
 
 		boolean xEven = Utils.isStructureEven(structure)[0];
 		boolean zEven = Utils.isStructureEven(structure)[1];
 
-		Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
+		Vec3 weaponPos = shipStats.firepower().get(weaponCounter);
 		BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
+		if (!(weapon.getBlock() instanceof GummiWeaponBlock))
+			return;
 
 		Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
 

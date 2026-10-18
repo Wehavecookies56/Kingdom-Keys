@@ -20,10 +20,8 @@ public record CSPartyLeave(Party party, UUID playerUUID) implements Packet {
 	public static final Type<CSPartyLeave> TYPE = new Type<>(KingdomKeys.rl("cs_party_leave"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyLeave> STREAM_CODEC = StreamCodec.composite(
-			Party.STREAM_CODEC,
-			CSPartyLeave::party,
-			UUIDUtil.STREAM_CODEC,
-			CSPartyLeave::playerUUID,
+			Party.STREAM_CODEC, CSPartyLeave::party,
+			UUIDUtil.STREAM_CODEC, CSPartyLeave::playerUUID,
 			CSPartyLeave::new
 	);
 
@@ -32,7 +30,11 @@ public record CSPartyLeave(Party party, UUID playerUUID) implements Packet {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
 		Party p = worldData.getPartyFromName(party().getName());
+		if (p == null) {
+			return;
+		}
 		p.removeMember(playerUUID);
+		worldData.setDirty();
 
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}

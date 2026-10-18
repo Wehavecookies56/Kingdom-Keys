@@ -30,3 +30,9 @@
 * Multiblocks like Bubble Helm or Gummi weapons on lists and hologram.
 * Items in stock screen being selectable.
 * Missing Spanish translation lines.
+* Leveled mobs healing back to full health when their chunk reloaded.
+* Leveling up also leveling up and healing other players' tamed animals nearby.
+* Treasure Magnet not pulling more items after a newly dropped one was nearby.
+* Airstep timing being shared between all players.
+* Stop's damage  being assigned to a player name rather than the player's UUID.
+* Party changes (joining, leaving, promoting and settings) not being saved instantly.

@@ -21,10 +21,8 @@ public record CSPartyPromote(Party party, UUID playerUUID) implements Packet {
 	public static final Type<CSPartyPromote> TYPE = new Type<>(KingdomKeys.rl("cs_party_promote"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyPromote> STREAM_CODEC = StreamCodec.composite(
-			Party.STREAM_CODEC,
-			CSPartyPromote::party,
-			UUIDUtil.STREAM_CODEC,
-			CSPartyPromote::playerUUID,
+			Party.STREAM_CODEC, CSPartyPromote::party,
+			UUIDUtil.STREAM_CODEC, CSPartyPromote::playerUUID,
 			CSPartyPromote::new
 	);
 
@@ -33,6 +31,9 @@ public record CSPartyPromote(Party party, UUID playerUUID) implements Packet {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
 		Party p = worldData.getPartyFromName(party.getName());
+		if (p == null) {
+			return;
+		}
 		Member member = null;
 		for(Member m : p.getMembers()) {
 			if(m.getUUID().equals(playerUUID)){
@@ -41,6 +42,7 @@ public record CSPartyPromote(Party party, UUID playerUUID) implements Packet {
 		}
 		if(member != null) {
 			member.setIsLeader(!member.isLeader());
+			worldData.setDirty();
 		}
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
