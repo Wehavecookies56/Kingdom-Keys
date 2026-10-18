@@ -280,6 +280,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("respawn_rod", respawnROD);
 		storage.putBoolean("heartless_form", heartlessForm);
 		storage.putBoolean("nobody_owed", nobodyOwed);
+		storage.putBoolean("nobody", nobodyForm);
 		storage.putString("nobody_name", nobodyName);
 		if (nobodyId != null) {
 			storage.putUUID("nobody_id", nobodyId);
@@ -578,6 +579,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 		this.heartlessForm = nbt.getBoolean("heartless_form");
 		this.nobodyOwed = nbt.getBoolean("nobody_owed");
+		this.nobodyForm = nbt.getBoolean("nobody");
 		this.nobodyName = nbt.getString("nobody_name");
 		this.nobodyId = nbt.hasUUID("nobody_id") ? nbt.getUUID("nobody_id") : null;
 		this.nobodyMissingTicks = nbt.getInt("nobody_missing");
@@ -2875,7 +2877,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	// Turned into a Heartless instead of dying: stays so until it reaches its own heart, the light at lightPos
-	private boolean heartlessForm, nobodyOwed;
+	private boolean heartlessForm, nobodyOwed, nobodyForm;
 	private String nobodyName = "";
 	private UUID nobodyId;
 	private int nobodyMissingTicks;
@@ -2888,6 +2890,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setHeartless(boolean heartless) {
 		this.heartlessForm = heartless;
+	}
+
+	// Took the place of their own Nobody, which is what lets them join the Organization
+	public boolean isNobody() {
+		return nobodyForm;
+	}
+
+	public void setNobody(boolean nobody) {
+		this.nobodyForm = nobody;
 	}
 
 	// Their Nobody is still out there, waiting to take the place of the next Dusk that turns up near them

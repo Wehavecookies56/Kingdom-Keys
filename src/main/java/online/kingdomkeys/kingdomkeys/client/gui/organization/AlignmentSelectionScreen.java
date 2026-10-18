@@ -51,8 +51,12 @@ public class AlignmentSelectionScreen extends Screen {
 
     private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
-    public AlignmentSelectionScreen() {
+    // Opened by using their Nobody's memory, or just by wearing the robes
+    private final boolean byMemory;
+
+    public AlignmentSelectionScreen(boolean byMemory) {
         super(Component.literal(""));
+        this.byMemory = byMemory;
         minecraft = Minecraft.getInstance();
     }
 
@@ -78,7 +82,7 @@ public class AlignmentSelectionScreen extends Screen {
     public void render(@NotNull GuiGraphics gui, int p_render_1_, int p_render_2_, float p_render_3_) {
     	PoseStack matrixStack = gui.pose();
         renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
-        String line1 = "gui.org.line1";
+        String line1 = byMemory ? "gui.org.line1.nobody" : "gui.org.line1";
         String line2 = "gui.org.line2";
         String line3 = "gui.org.line3";
         if (showWelcome) {

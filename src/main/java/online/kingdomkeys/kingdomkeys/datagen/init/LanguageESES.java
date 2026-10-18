@@ -123,7 +123,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Requerir nivel de síntesis");
         addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Proyector Moguri contiene tienda");
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
-        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
+        addConfigKey(ModConfigs.getServerConfig().orgJoinByRobes, "Unirse a la Organización XIII con su ropa");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Progreso de la historia");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Distancia de la luz del Sincorazón");
         addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Stats perdidos como Sincorazón (%)");
@@ -703,6 +703,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Organization XIII
         add("gui.org.line1", "Al llevar el Ropaje Oscuro te vuelves un miembro de la Organización XIII.");
+        add("gui.org.line1.nobody", "Ahora que eres uno con tu Incorpóreo, puedes ser miembro de la Organización XIII.");
         add("gui.org.line2", "Elige un miembro de la Organización XIII para alinearte con él.");
         add("gui.org.line3", "Tu elección determinará tu arma inicial.");
         add("gui.org.line4", "Deseas alinearte con %1$s?");
@@ -3041,10 +3042,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.heartless_form.fell.sub", "Encuentra su luz...");
         add("kingdomkeys.heartless_form.restored.intro", "Has recuperado tu corazón");
         add("kingdomkeys.heartless_form.restored.sub", "Pero tu Incorpóreo sigue en algún lugar...");
+        add("kingdomkeys.heartless_form.merged.intro", "Te has fundido con tu Incorpóreo");
+        add("kingdomkeys.heartless_form.merged.sub", "Ahora formas parte de la Organización XIII");
         add("kingdomkeys.memory_from_another_self.not_yours", "Este recuerdo pertenece a otra persona");
         add("kingdomkeys.memory_from_another_self.nothing_lost", "No tienes nada que recuperar");
         add("kingdomkeys.memory_from_another_self.recovered", "Recuperas lo que tu Incorpóreo se llevó");
         add("kingdomkeys.memory_from_another_self.use", "Clic derecho para recuperar lo que perdiste");
+        add("kingdomkeys.memory_from_another_self.join", "Si llevas la ropa de la Organización, te convertirás en uno de sus miembros");
         add("kingdomkeys.entity.training_dummy.iframes", "Fotogramas de invencibilidad %s");
 
         // Generic GUI

@@ -9,15 +9,15 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public record SCOpenAlignmentScreen() implements Packet {
+public record SCOpenAlignmentScreen(boolean byMemory) implements Packet {
 
 	public static final Type<SCOpenAlignmentScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_alignment_screen"));
-	public static final StreamCodec<FriendlyByteBuf, SCOpenAlignmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenAlignmentScreen());
+	public static final StreamCodec<FriendlyByteBuf, SCOpenAlignmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> pBuffer.writeBoolean(pValue.byMemory()), pBuffer -> new SCOpenAlignmentScreen(pBuffer.readBoolean()));
 
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			ClientPacketHandler.openAlignment();
+			ClientPacketHandler.openAlignment(byMemory);
 		}
 	}
 

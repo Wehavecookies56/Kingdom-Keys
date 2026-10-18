@@ -20,6 +20,8 @@ public class LanguageENGB extends KKLanguageProvider {
         addItem(ModItems.defenseBoost, "Defence Boost");
 
         add("gui.org.line1", "By donning the Dark Robe you are now a member of Organisation XIII.");
+        add("gui.org.line1.nobody", "Now one with your Nobody, you are a member of Organisation XIII.");
+        add("kingdomkeys.heartless_form.merged.sub", "You are now part of the Organisation XIII");
         add("gui.org.line2", "Choose a member of Organisation XIII you align with.");
 
         add("gui.proofofheart.desc", "Use this to leave Organisation XIII");

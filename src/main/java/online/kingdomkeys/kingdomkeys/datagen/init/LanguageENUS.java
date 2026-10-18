@@ -121,7 +121,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");
         addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Moogle Projector has shop");
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
-        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
+        addConfigKey(ModConfigs.getServerConfig().orgJoinByRobes, "Join Organization XIII by wearing its robes");
         addConfigKey(ModConfigs.getServerConfig().storyProgress, "Story progress");
         addConfigKey(ModConfigs.getServerConfig().heartlessLightDistance, "Heartless light distance");
         addConfigKey(ModConfigs.getServerConfig().heartlessStatLoss, "Heartless stat loss (%)");
@@ -639,6 +639,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Organization XIII
         add(Gui_Org + ".line1", "By donning the Dark Robe you are now a member of Organization XIII.");
+        add(Gui_Org + ".line1.nobody", "Now one with your Nobody, you can become a member of Organization XIII.");
         add(Gui_Org + ".line2", "Choose a member of Organization XIII you align with.");
         add(Gui_Org + ".line3", "Your choice will determine the weapon you start with.");
         add(Gui_Org + ".line4", "You wish to align with %1$s?");
@@ -3002,10 +3003,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.heartless_form.fell.sub", "Find its light...");
         add("kingdomkeys.heartless_form.restored.intro", "You found your heart");
         add("kingdomkeys.heartless_form.restored.sub", "But your Nobody still walks somewhere...");
+        add("kingdomkeys.heartless_form.merged.intro", "You became one with your Nobody");
+        add("kingdomkeys.heartless_form.merged.sub", "You are now part of the Organization XIII");
         add("kingdomkeys.memory_from_another_self.not_yours", "This memory belongs to someone else");
         add("kingdomkeys.memory_from_another_self.nothing_lost", "You have nothing left to recover");
         add("kingdomkeys.memory_from_another_self.recovered", "You take back what your Nobody carried");
         add("kingdomkeys.memory_from_another_self.use", "Right click to take back what you lost");
+        add("kingdomkeys.memory_from_another_self.join", "Wearing the Organization robes, you will become one of its members instead");
         add("kingdomkeys.entity.training_dummy.iframes", "Invincibility frames %s");
 
         // Generic GUI

@@ -734,11 +734,11 @@ public class EntityEvents {
 					if (!openedAlignment.containsKey(player.getUUID())) {
 						openedAlignment.put(player.getUUID(), false);
 					}
-					boolean wearingOrgCloak = Utils.isWearingOrgRobes(player);
+					boolean wearingOrgCloak = Utils.orgJoinsByRobes() && Utils.canJoinOrg(player);
 
 					if (wearingOrgCloak) {
 						if (!openedAlignment.get(player.getUUID())) {
-							PacketHandler.sendTo(new SCOpenAlignmentScreen(), (ServerPlayer) player);
+							PacketHandler.sendTo(new SCOpenAlignmentScreen(false), (ServerPlayer) player);
 							openedAlignment.put(player.getUUID(), true);
 						}
 					} else {

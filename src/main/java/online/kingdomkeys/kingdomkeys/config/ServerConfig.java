@@ -13,7 +13,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, xpCurveFactor, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -83,10 +83,10 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.get_exp_from_shop")
                 .define("getExpFromShop", false);
         
-        orgEnabled = builder
-                .comment("If true the organization system will be enabled, if false will be disabled")
-                .translation(KingdomKeys.MODID + ".config.org_enabled")
-                .define("orgEnabled", true);
+        orgJoinByRobes = builder
+                .comment("If true wearing the full Organization robes is enough to join it. If false players have to become a Nobody first: wearing the robes, kill their Nobody, and use the Memory drop. Robes are always enough when playerSpawnHeartless is off, as no Nobody would ever show up")
+                .translation(KingdomKeys.MODID + ".config.org_join_by_robes")
+                .define("orgJoinByRobes", false);
         
         allowBoosts = builder
                 .comment("If true then boosts like Power Boost, Magic Boost and Defense Boost will be enabled, if false they won't add stats")

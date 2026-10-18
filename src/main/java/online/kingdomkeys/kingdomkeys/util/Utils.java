@@ -2462,10 +2462,29 @@ public class Utils {
 		}
 	}
 
-	public static boolean isWearingOrgRobes(Player player) {
-		if (!ModConfigs.SERVER.orgEnabled.get())
-			return false;
+	// Unless the config says otherwise the robes alone are not enough: it also takes the memory their Nobody left behind
+	public static boolean canJoinOrg(Player player) {
+		PlayerData playerData = PlayerData.get(player);
+		return playerData != null && playerData.getAlignment() == OrgMember.NONE && isWearingOrgRobes(player) && (orgJoinsByRobes() || findOwnMemory(player) != null);
+	}
 
+	@Nullable
+	public static ItemStack findOwnMemory(Player player) {
+		Inventory inventory = player.getInventory();
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
+			if (stack.is(ModItems.memoryFromAnotherSelf.get()) && player.getUUID().equals(MemoryFromAnotherSelfItem.owner(stack))) {
+				return stack;
+			}
+		}
+		return null;
+	}
+
+	public static boolean orgJoinsByRobes() {
+		return ModConfigs.SERVER.orgJoinByRobes.get() || !ModConfigs.playerSpawnHeartless;
+	}
+
+	public static boolean isWearingOrgRobes(Player player) {
 		boolean wearingOrgCloak = true;
 		for (int i = 0; i < player.getInventory().armor.size(); ++i) {
 			ItemStack itemStack = player.getInventory().armor.get(i);

@@ -66,6 +66,7 @@ import java.util.WeakHashMap;
 public class HeartlessForm {
 	public static final String FELL = "kingdomkeys.heartless_form.fell.intro", FELL_SUB = "kingdomkeys.heartless_form.fell.sub";
 	public static final String RESTORED = "kingdomkeys.heartless_form.restored.intro", RESTORED_SUB = "kingdomkeys.heartless_form.restored.sub";
+	public static final String MERGED = "kingdomkeys.heartless_form.merged.intro", MERGED_SUB = "kingdomkeys.heartless_form.merged.sub";
 	public static final String NOBODY_OF = "kingdomkeys.entity.nobody_of";
 
 	private static final String NOBODY_TAG = KingdomKeys.MODID + ":nobody_of";
@@ -98,7 +99,8 @@ public class HeartlessForm {
 
 	/** Called instead of the death. Returns false if this player cannot be taken, and dies as usual */
 	public static boolean fallIntoDarkness(LivingDeathEvent event, ServerPlayer player) {
-		if (isHeartless(player) || player.isCreative() || player.isSpectator()) {
+		// Organization members have no heart left to lose
+		if (isHeartless(player) || player.isCreative() || player.isSpectator() || PlayerData.get(player).getAlignment() != Utils.OrgMember.NONE) {
 			return false;
 		}
 
@@ -484,6 +486,10 @@ public class HeartlessForm {
 		PlayerData data = player == null ? null : PlayerData.get(player);
 		if (data == null) {
 			return false;
+		}
+		// Already one with their Nobody, anything still carrying their name is left over
+		if (data.isNobody()) {
+			return true;
 		}
 		// Made before they were tracked: it is the one they have
 		if (data.getNobodyId() == null && !data.isNobodyOwed()) {

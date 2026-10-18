@@ -1,9 +1,11 @@
 ## Added:
 * Reworked the player Heartless and Nobody mechanic:
-  * When killed by a heartless you will then become a Shadow and your heart will fly away from you, it reduces your STR, MAG and DEF stats by a %.
+  * When killed by a heartless (if you're not an Organization XIII member) you will then become a Shadow and your heart will fly away from you, it reduces your STR, MAG and DEF stats by a %.
   * You must chase it to return to your normal self.
   * As a shadow you cannot use the Command Menu or consume items like food.
   * The next Dusk that spawns nearby will become your Nobody, defeating it will drop a "Memory from another self" item, which will allow you to restore your full power.
+* Joining Organization XIII now requires becoming a Nobody: after recovering your heart, defeat your own Nobody and use the Memory from Another Self it drops while wearing the full Organization robes to choose your member, which also restores your lost stats.
+* Shift + right click on a Memory from Another Self with no owner (from commands or the creative tab) makes it yours, for testing purposes.
 * Text box in the config menu to set your nobody name.
 * Search bar for filtered screens.
 * Amount text box to buy screen.
@@ -20,6 +22,7 @@
 * Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
 * Jiminy's Journal entry for the Apprentice Clothes and the Cloth Station.
 * Vanquish enchantment, lets any weapon or tool strike Heartless and Nobodies. Keyblades and Organization weapons can't get it as they already can.
+
 ## Changed:
 * Leveling paths now can go past lvl 100 if a datapack implements them.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
@@ -32,6 +35,8 @@
 * Damage numbers now move smoothly while they float up.
 * needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
 * Jiminy's Journal now shows the recipe of every Keyblade armor pauldron next to the smithing recipes of its set and no longer mentions enchanting pauldrons.
+* orgEnabled config replaced by orgJoinByRobes, which brings back joining Organization XIII just by wearing its robes (also used when playerSpawnHeartless is off).
+
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.

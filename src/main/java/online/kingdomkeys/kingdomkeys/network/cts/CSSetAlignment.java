@@ -15,8 +15,12 @@ import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
+
+import java.util.List;
 
 public record CSSetAlignment(Utils.OrgMember alignment) implements Packet {
 
@@ -32,50 +36,34 @@ public record CSSetAlignment(Utils.OrgMember alignment) implements Packet {
     public void handle(IPayloadContext context) {
         Player player = context.player();
         PlayerData playerData = PlayerData.get(player);
-        playerData.setAlignment(alignment);
-        Item weapon = null;
-        switch(alignment) {
-            case XEMNAS:
-                weapon = ModItems.malice.get();
-                break;
-            case XIGBAR:
-                weapon = ModItems.standalone.get();
-                break;
-            case XALDIN:
-                weapon = ModItems.zephyr.get();
-                break;
-            case VEXEN:
-                weapon = ModItems.testerZero.get();
-                break;
-            case LEXAEUS:
-                weapon = ModItems.reticence.get();
-                break;
-            case ZEXION:
-                weapon = ModItems.blackPrimer.get();
-                break;
-            case SAIX:
-                weapon = ModItems.newMoon.get();
-                break;
-            case AXEL:
-                weapon = ModItems.ashes.get();
-                break;
-            case DEMYX:
-                weapon = ModItems.basicModel.get();
-                break;
-            case LUXORD:
-                weapon = ModItems.theFool.get();
-                break;
-            case MARLUXIA:
-                weapon = ModItems.fickleErica.get();
-                break;
-            case LARXENE:
-                weapon = ModItems.trancheuse.get();
-                break;
-            case ROXAS:
-                weapon = ModItems.kingdomKey.get();
-                break;
+        if (alignment == Utils.OrgMember.NONE || !Utils.canJoinOrg(player)) {
+            return;
         }
-        if (weapon != null) {
+        // Joining by their Nobody's memory uses it up, giving back what they lost as it always does
+        if (!Utils.orgJoinsByRobes()) {
+            Utils.findOwnMemory(player).shrink(1);
+            HeartlessForm.recoverStats(playerData);
+            playerData.setNobody(true);
+            PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title(HeartlessForm.MERGED, HeartlessForm.MERGED_SUB, 10, 70, 20))), (ServerPlayer) player);
+        }
+        playerData.setAlignment(alignment);
+        Item weapon = switch (alignment) {
+	        case XEMNAS -> ModItems.malice.get();
+	        case XIGBAR -> ModItems.standalone.get();
+	        case XALDIN -> ModItems.zephyr.get();
+	        case VEXEN -> ModItems.testerZero.get();
+	        case LEXAEUS -> ModItems.reticence.get();
+	        case ZEXION -> ModItems.blackPrimer.get();
+	        case SAIX -> ModItems.newMoon.get();
+	        case AXEL -> ModItems.ashes.get();
+	        case DEMYX -> ModItems.basicModel.get();
+	        case LUXORD -> ModItems.theFool.get();
+	        case MARLUXIA -> ModItems.fickleErica.get();
+	        case LARXENE -> ModItems.trancheuse.get();
+	        case ROXAS -> ModItems.kingdomKey.get();
+	        default -> null;
+        };
+	    if (weapon != null) {
             ItemStack stack = new ItemStack(weapon);
             if (playerData.isWeaponUnlocked(weapon)) {
                 playerData.getWeaponsUnlocked().forEach(stack1 -> {

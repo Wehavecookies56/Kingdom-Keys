@@ -18,8 +18,11 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenAlignmentScreen;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 import java.util.List;
@@ -31,6 +34,7 @@ public class MemoryFromAnotherSelfItem extends Item {
 	public static final String NOTHING_LOST = "kingdomkeys.memory_from_another_self.nothing_lost";
 	public static final String RECOVERED = "kingdomkeys.memory_from_another_self.recovered";
 	public static final String USE = "kingdomkeys.memory_from_another_self.use";
+	public static final String JOIN = "kingdomkeys.memory_from_another_self.join";
 
 	public MemoryFromAnotherSelfItem(Properties properties) {
 		super(properties);
@@ -47,6 +51,11 @@ public class MemoryFromAnotherSelfItem extends Item {
 		Player player = Minecraft.getInstance().player;
 		if (player != null && player.getUUID().equals(owner(stack))) {
 			tooltip.add(Component.translatable(USE).withStyle(ChatFormatting.GRAY));
+			// Also their way into the Organization, while they are not in it
+			PlayerData data = PlayerData.get(player);
+			if (data != null && data.getAlignment() == Utils.OrgMember.NONE && !ModConfigs.SERVER.orgJoinByRobes.get()) {
+				tooltip.add(Component.translatable(JOIN).withStyle(ChatFormatting.GRAY));
+			}
 		}
 	}
 
@@ -57,10 +66,21 @@ public class MemoryFromAnotherSelfItem extends Item {
 			return InteractionResultHolder.success(stack);
 		}
 
+		// For testing: one with no owner, from a command or the creative tab, becomes theirs with shift + right click
+		if (owner(stack) == null && player.isShiftKeyDown()) {
+			CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putUUID(HeartlessForm.MEMORY_OWNER, player.getUUID()));
+			return InteractionResultHolder.success(stack);
+		}
+
 		PlayerData data = PlayerData.get(player);
 		if (!player.getUUID().equals(owner(stack))) {
 			player.displayClientMessage(Component.translatable(NOT_YOURS), true);
 			return InteractionResultHolder.fail(stack);
+		}
+		// Wearing the robes it offers a place in the Organization instead, and is only used up once they choose a member
+		if (!Utils.orgJoinsByRobes() && Utils.canJoinOrg(player)) {
+			PacketHandler.sendTo(new SCOpenAlignmentScreen(true), serverPlayer);
+			return InteractionResultHolder.success(stack);
 		}
 		if (data == null || !HeartlessForm.hasLostStats(data)) {
 			player.displayClientMessage(Component.translatable(NOTHING_LOST), true);

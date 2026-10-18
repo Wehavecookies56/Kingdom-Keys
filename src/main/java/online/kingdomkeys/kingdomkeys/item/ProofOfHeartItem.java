@@ -38,12 +38,14 @@ public class ProofOfHeartItem extends Item {
         		if(playerIn.getMainHandItem() != null && playerIn.getMainHandItem().getItem() == this) {
         			playerIn.getMainHandItem().shrink(1);
     	            playerData.setAlignment(Utils.OrgMember.NONE);
+    	            playerData.setNobody(false);
     	            return super.use(worldIn, playerIn, handIn);
         		}
         		
         		if(playerIn.getOffhandItem() != null && playerIn.getOffhandItem().getItem() == this) {
         			playerIn.getOffhandItem().shrink(1);
     	            playerData.setAlignment(Utils.OrgMember.NONE);
+    	            playerData.setNobody(false);
     	            return super.use(worldIn, playerIn, handIn);
         		}
         		

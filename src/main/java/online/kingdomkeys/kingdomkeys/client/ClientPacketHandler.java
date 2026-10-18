@@ -116,8 +116,8 @@ public class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen());
     }
 
-    public static void openAlignment() {
-        Minecraft.getInstance().setScreen(new AlignmentSelectionScreen());
+    public static void openAlignment(boolean byMemory) {
+        Minecraft.getInstance().setScreen(new AlignmentSelectionScreen(byMemory));
     }
 
     public static void openChoice(SCOpenChoiceScreen message) {
