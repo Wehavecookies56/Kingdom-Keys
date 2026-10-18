@@ -27,6 +27,7 @@
 * All boolean buttons in the Config Menu are now checkboxes.
 * Casting magic from the Command Menu now goes through the same server checks as the shortcuts (except MP Safety).
 * Unified all projectiles code.
+* Damage numbers now move smoothly while they float up.
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.

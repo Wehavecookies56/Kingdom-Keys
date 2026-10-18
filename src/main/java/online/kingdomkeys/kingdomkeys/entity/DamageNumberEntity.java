@@ -40,10 +40,11 @@ public class DamageNumberEntity extends Entity {
             return;
         }
 
-        Vec3 motion = this.getDeltaMovement();
-        this.setDeltaMovement(motion.x * 0.98D, motion.y + 0.002D, motion.z * 0.98D);
-
-        this.move(MoverType.SELF, this.getDeltaMovement());
+        if (level().isClientSide) {
+            Vec3 motion = this.getDeltaMovement();
+            this.setDeltaMovement(motion.x * 0.98D, motion.y + 0.004D, motion.z * 0.98D);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+        }
     }
 
     public void setText(String text) {
