@@ -1,0 +1,16 @@
+{
+  "values": [
+    "#minecraft:swords",
+    "#minecraft:axes",
+    "#minecraft:pickaxes",
+    "#minecraft:shovels",
+    "#minecraft:hoes",
+    "#minecraft:enchantable/bow",
+    "#minecraft:enchantable/crossbow",
+    "#minecraft:enchantable/trident",
+    "#minecraft:enchantable/mace",
+    "#c:tools/melee_weapon",
+    "#c:tools/ranged_weapon",
+    "#c:tools/mining_tool"
+  ]
+}
