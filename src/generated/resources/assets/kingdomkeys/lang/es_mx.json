@@ -994,6 +994,8 @@
   "effect.kingdomkeys.underworld_curse.desc": "Impide usar formas de Fusión y Límites.",
   "effect.kingdomkeys.zero_gravity": "Ingravidez",
   "effect.kingdomkeys.zero_gravity.desc": "Te mantiene estacionario en el aire durante un tiempo.",
+  "enchantment.kingdomkeys.vanquish": "Purga",
+  "enchantment.kingdomkeys.vanquish.desc": "Permite al arma golpear a Sincorazón e Incorpóreos, algo que si no solo pueden las llaves espada y las armas de la Organización.",
   "entity.kingdomkeys.air_soldier": "Soldado Aéreo",
   "entity.kingdomkeys.apprentice": "Aprendiz",
   "entity.kingdomkeys.assassin": "Asesino",

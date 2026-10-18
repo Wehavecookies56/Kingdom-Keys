@@ -18,6 +18,7 @@
 * KH1 Scan HP Bar.
 * Config menu option to hide the "HP" label and enemy name.
 * Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
+* Vanquish enchantment, lets any weapon or tool strike Heartless and Nobodies. Keyblades and Organization weapons can't get it as they already can.
 ## Changed:
 * Leveling paths now can go past lvl 100 if a datapack implements them.
 * Removed mobLevelName config as now they no longer use the "Custom Name" to display it.
@@ -28,6 +29,7 @@
 * Casting magic from the Command Menu now goes through the same server checks as the shortcuts (except MP Safety).
 * Unified all projectiles code.
 * Damage numbers now move smoothly while they float up.
+* needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.
 * Tracking of a player level for the party screen when they are online.
@@ -62,3 +64,4 @@
 * Recipe tier pages in the journal showing recipes that do not exist.
 * Removed leftover files that were being loaded and logged as errors.
 * Command registration no longer logs warnings.
+* Dream Staff not being able to hit Heartless and Nobodies when needKeybladeForHeartless was enabled.

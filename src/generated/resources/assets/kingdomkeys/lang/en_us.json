@@ -994,6 +994,8 @@
   "effect.kingdomkeys.underworld_curse.desc": "Prevents the use of drive forms and limits.",
   "effect.kingdomkeys.zero_gravity": "Zero Gravity",
   "effect.kingdomkeys.zero_gravity.desc": "Locks you in the air for a few seconds.",
+  "enchantment.kingdomkeys.vanquish": "Vanquish",
+  "enchantment.kingdomkeys.vanquish.desc": "Lets the weapon strike Heartless and Nobodies, which only keyblades and Organization weapons can otherwise.",
   "entity.kingdomkeys.air_soldier": "Air Soldier",
   "entity.kingdomkeys.apprentice": "Apprentice",
   "entity.kingdomkeys.assassin": "Assassin",

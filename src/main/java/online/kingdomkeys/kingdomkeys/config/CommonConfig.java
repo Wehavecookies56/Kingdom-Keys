@@ -45,9 +45,9 @@ public class CommonConfig {
                 .defineInRange("critMult",1.5,0,100);
         
         needKeybladeForHeartless = builder
-        		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
+        		.comment("Force the player to need a Keyblade, an Organization weapon or a weapon enchanted with Vanquish to hurt Heartless and Nobodies")
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
-                .define("needKeybladeForHeartless", false);
+                .define("needKeybladeForHeartless", true);
 
         hideOrgNames = builder
                 .comment("When enabled players wearing the whole Organization XIII set will not show their playername on their head and in the Tab menu")

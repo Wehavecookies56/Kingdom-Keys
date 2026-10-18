@@ -25,6 +25,7 @@ public class ModTags {
 
     public static final TagKey<Item>
             MATERIALS = item("synthesis/materials"),
+            VANQUISH_ENCHANTABLE = item("enchantable/vanquish"),
 
             XEMNAS = item("organization/xemnas"),
             XIGBAR = item("organization/xigbar"),

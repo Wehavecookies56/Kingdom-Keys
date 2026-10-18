@@ -1328,8 +1328,9 @@ public class EntityEvents {
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
 				LivingEntity target = event.getEntity();
 
-				if (!Utils.canHarm(attacker, target)) {
+				if (!Utils.canHarm(attacker, target) || Utils.invincibleToDamage(target, event.getSource())) {
 					event.setCanceled(true);
+					return;
 				}
 
 				if (target instanceof Player) {

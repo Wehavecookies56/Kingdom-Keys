@@ -7,6 +7,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -141,6 +142,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 			}
 
 		}
+
+		// Any weapon or tool but the mod's own, which already hit Heartless and Nobodies
+		this.tag(VANQUISH_ENCHANTABLE).addTags(ItemTags.SWORDS, ItemTags.AXES, ItemTags.PICKAXES, ItemTags.SHOVELS, ItemTags.HOES,
+				ItemTags.BOW_ENCHANTABLE, ItemTags.CROSSBOW_ENCHANTABLE, ItemTags.TRIDENT_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE,
+				Tags.Items.MELEE_WEAPON_TOOLS, Tags.Items.RANGED_WEAPON_TOOLS, Tags.Items.MINING_TOOL_TOOLS);
 	}
 
 	public void add(TagKey<Item> branch, Item item) {

@@ -1028,6 +1028,8 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.soADoor, "Puerta Misteriosa");
         addBlock(ModBlocks.gummiHangar, "Hangar Gummi");
         addBlock(ModBlocks.sorCore, "Núcleo de Estación del Pesar");
+        add("enchantment." + MODID + ".vanquish", "Purga");
+        add("enchantment." + MODID + ".vanquish.desc", "Permite al arma golpear a Sincorazón e Incorpóreos, algo que si no solo pueden las llaves espada y las armas de la Organización.");
         addBlock(ModBlocks.dataPortal, "Portal de Datos");
         addBlock(ModBlocks.airstepTarget, "Punto de modo ágil");
         addItem(ModItems.struggle_poster, "Póster de Struggle");

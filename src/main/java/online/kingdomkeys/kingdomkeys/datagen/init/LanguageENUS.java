@@ -755,6 +755,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.soADoor, "Mysterious Door");
         addBlock(ModBlocks.gummiHangar, "Gummi Hangar");
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
+        add("enchantment." + MODID + ".vanquish", "Vanquish");
+        add("enchantment." + MODID + ".vanquish.desc", "Lets the weapon strike Heartless and Nobodies, which only keyblades and Organization weapons can otherwise.");
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
         addItem(ModItems.struggle_poster, "Struggle Poster");

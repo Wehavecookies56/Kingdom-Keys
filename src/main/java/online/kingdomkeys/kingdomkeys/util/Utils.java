@@ -41,6 +41,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -88,11 +89,14 @@ import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.enchantment.ModEnchantments;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.integration.curios.CuriosUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -2634,6 +2638,45 @@ public class Utils {
 		list.removeIf(target -> !canHarm(party, target));
 
 		return list;
+	}
+
+	public static boolean hasVanquish(ItemStack stack) {
+		return stack.getTagEnchantments().keySet().stream().anyMatch(enchantment -> enchantment.is(ModEnchantments.VANQUISH));
+	}
+
+	// Keyblades, Organization and dream weapons always reach Heartless and Nobodies, bare hands and struggle weapons never, anything else only with Vanquish if the config asks for it
+	public static boolean canStrike(ItemStack weapon) {
+		if (weapon.isEmpty()) {
+			return false;
+		}
+		Item item = weapon.getItem();
+		if (item instanceof KeybladeItem || item instanceof IOrgWeapon || item == ModItems.dreamSword.get() || item == ModItems.dreamShield.get() || item == ModItems.dreamStaff.get()) {
+			return true;
+		}
+		if (item == ModItems.struggleSword.get() || item == ModItems.struggleWand.get() || item == ModItems.struggleHammer.get() || item == ModItems.woodenStick.get()) {
+			return false;
+		}
+		return !ModConfigs.needKeybladeForHeartless || hasVanquish(weapon);
+	}
+
+	// The same rule for whatever a player swings or shoots at them, magic and everything else gets through
+	public static boolean invincibleToDamage(LivingEntity target, DamageSource source) {
+		if (!(target instanceof IKHMob mob) || mob.getKHMobType() == MobType.NPC || !(source.getEntity() instanceof Player player) || HeartlessForm.isHeartless(player)) {
+			return false;
+		}
+
+		if (source.getDirectEntity() == player) {
+			return switch (source.getMsgId()) {
+				case "player" -> !canStrike(player.getMainHandItem());
+				case "offhand" -> !canStrike(player.getOffhandItem());
+				default -> false;
+			};
+		}
+		if (source.getDirectEntity() instanceof AbstractArrow && ModConfigs.needKeybladeForHeartless) {
+			ItemStack weapon = source.getWeaponItem();
+			return weapon == null || !canStrike(weapon);
+		}
+		return false;
 	}
 
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {

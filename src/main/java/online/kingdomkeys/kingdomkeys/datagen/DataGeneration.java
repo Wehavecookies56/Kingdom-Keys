@@ -13,6 +13,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
+import online.kingdomkeys.kingdomkeys.enchantment.ModEnchantments;
 import online.kingdomkeys.kingdomkeys.datagen.provider.*;
 
 import java.util.List;
@@ -20,8 +21,7 @@ import java.util.Set;
 
 @EventBusSubscriber()
 public class DataGeneration {
-
-	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
+	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap).add(Registries.ENCHANTMENT, ModEnchantments::bootstrap);
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -31,7 +31,9 @@ public class DataGeneration {
         final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         //Datapack Registry providers
-        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
+        DatapackBuiltinEntriesProvider datapackEntries = new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID));
+        generator.addProvider(event.includeServer(), datapackEntries);
+        generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, datapackEntries.getRegistryProvider(), existingFileHelper));
        
         //tags
         BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
