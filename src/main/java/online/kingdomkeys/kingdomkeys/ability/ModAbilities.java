@@ -21,7 +21,6 @@ public class ModAbilities {
 			AUTO_LIMIT = createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
-			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
 			GUARD = createAbility(Strings.guard, 2, AbilityType.ACTION),
 			COUNTERGUARD = createAbility(Strings.counterguard, 3, AbilityType.ACTION),
 			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),

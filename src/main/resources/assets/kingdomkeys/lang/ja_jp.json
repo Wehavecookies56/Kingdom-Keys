@@ -122,8 +122,6 @@
 	"ability.ability_scan.desc": "ターゲットの現在のHPがわかります。",
 	"ability.ability_second_chance.name": "ラストリーヴ",
 	"ability.ability_second_chance.desc": "大きなダメージを受けてもHPが1だけのこります。",
-	"ability.ability_strike_raid.name": "ストライクレイド",
-	"ability.ability_strike_raid.desc": "クリックでキーブレードを投げられます。§e[消費MP10]§r",
   "ability.ability_superjump.desc": "フローモーション中にジャンプすると、勢いよく空へ飛び上がります。連続して行うことで、効果をさらに高めることができます。",
   "ability.ability_superjump.name": "スーパージャンプ",
   "ability.ability_superslide.desc": "フローモーション中にアクションキーを押すと、長距離のエアダッシュが可能です。重ねて使用することで、効果をさらに高めることができます。",

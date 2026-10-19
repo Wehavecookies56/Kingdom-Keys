@@ -39,7 +39,10 @@ public class ModReactionCommands {
 		LAUNCH = register(Strings.launchRC, () -> new ReactionLaunch(KingdomKeys.rl(Strings.launchRC))),
 		LAND = register(Strings.landRC, () -> new ReactionLand(KingdomKeys.rl(Strings.landRC))),
 
-		REVERSAL = register(Strings.reversalRC, () -> new ReactionReversal(KingdomKeys.rl(Strings.reversalRC)));
+		REVERSAL = register(Strings.reversalRC, () -> new ReactionReversal(KingdomKeys.rl(Strings.reversalRC))),
+
+		RAID = register(Strings.raidRC, () -> new ReactionStrikeRaid(KingdomKeys.rl(Strings.raidRC), false)),
+		JUDGMENT = register(Strings.judgmentRC, () -> new ReactionStrikeRaid(KingdomKeys.rl(Strings.judgmentRC), true));
 
 	private static KKSupplier<ReactionCommand> register(String name, Supplier<ReactionCommand> reactionCommandSupplier) {
 		return new KKSupplier<>(KingdomKeys.rl(REACTION_COMMANDS.getNamespace(), name), REACTION_COMMANDS.register(name, reactionCommandSupplier));

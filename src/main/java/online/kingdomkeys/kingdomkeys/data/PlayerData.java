@@ -2073,6 +2073,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void addAbility(ResourceLocation ability, boolean notification) {
 		Ability a = ModAbilities.registry.get(ability);
+		// One a datapack or addon still grants after it was removed
+		if (a == null) {
+			KingdomKeys.LOGGER.warn("Tried to give unknown ability {}", ability);
+			return;
+		}
 		if(notification) {
 			messages.add("A_"+a.getTranslationKey());
 		}

@@ -761,7 +761,6 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto-suma", "En casos de emergencia, si la Forma suma está disponible, el comando de reacción cambia a Suma.");
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto-maestra", "En casos de emergencia, si la Forma maestra está disponible, el comando de reacción cambia a Maestra.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto-final", "En casos de emergencia, si la Forma final está disponible, el comando de reacción cambia a Final.");
-        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mortífero", "Click derecho mientras te agachas para lanzar tu Llave Espada, usa 10PM.");
         addAbilityWithDesc(ModAbilities.FLOWSTEP, "Paso fluido", "Click derecho mientras fijas un tiro certero para usar el modo ágil hacia el último enemigo fijado.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "¡Ahora saltarás más alto!", "Salto de altura 1", "Salto de altura 2", "Salto de altura 3", "Salto de altura MÁX");
@@ -889,6 +888,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
         add(ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
         add(ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+        add(ModMagic.STRIKE_RAID.get(),"Tiro Mortífero");
         add(ModMagic.IGNITE.get(),"Ignición");
 
         add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
@@ -1155,6 +1155,8 @@ public class LanguageESES extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_LIMIT, "Auto-suma");
         addReactionCommand(ModReactionCommands.AUTO_MASTER, "Auto-maestra");
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto-final");
+        addReactionCommand(ModReactionCommands.RAID, "Raid");
+        addReactionCommand(ModReactionCommands.JUDGMENT, "Juicio");
         addReactionCommand(ModReactionCommands.SAVE, "Guardar");
         addReactionCommand(ModReactionCommands.LAUNCH, "Despegar");
         addReactionCommand(ModReactionCommands.LAND, "Aterrizar");
@@ -1331,6 +1333,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Hechizo de Tardo Piro++");
         addItem(ModItems.fissionFiragaSpell, "Hechizo de Lluvia Píro++");
         addItem(ModItems.firagaBurstSpell, "Hechizo de Descarga Ígnea");
+        addItem(ModItems.strikeRaidSpell, "Hechizo de Tiro Mortífero");
         addItem(ModItems.igniteSpell, "Hechizo de Ignición");
 
         addItem(ModItems.tripleBlizzagaSpell, "Hechizo de Triple Hielo++");

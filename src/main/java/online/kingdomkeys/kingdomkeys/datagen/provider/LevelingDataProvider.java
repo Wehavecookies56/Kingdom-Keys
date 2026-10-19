@@ -33,9 +33,9 @@ public class LevelingDataProvider implements DataProvider {
 	@Override
 	public CompletableFuture<?> run(CachedOutput cache) {
 		Map<String, JsonObject> paths = new LinkedHashMap<>();
-		paths.put("warrior", buildWarrior(4));
-		paths.put("mystic", buildMystic(4));
-		paths.put("guardian", buildGuardian(4));
+		paths.put("warrior", buildWarrior(5));
+		paths.put("mystic", buildMystic(5));
+		paths.put("guardian", buildGuardian(5));
 
 		CompletableFuture<?>[] futures = paths.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));
@@ -81,7 +81,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(10).def(1).mag(1).maxHp(5).maxMagics(1).maxAccessories(1).maxItems(1).abilities(ModAbilities.AERIAL_RECOVERY)
 			.level(11).str(1).item(ModItems.ragnarokShotlock, 1)
 			.level(12).mag(1).maxMp(8).ap(1).abilities(ModAbilities.MP_HASTE)
-			.level(13).str(1).abilities(ModAbilities.STRIKE_RAID)
+			.level(13).str(1).item(ModItems.strikeRaidSpell, 1)
 			.level(14).def(1).mag(1).abilities(ModAbilities.MP_SAFETY)
 			.level(15).str(1).maxHp(5).ap(1).maxArmors(1).maxMagics(1).maxItems(1).abilities(ModAbilities.DAMAGE_DRIVE).item(ModItems.meteorShowerShotlock, 1)
 			.level(16).mag(1).maxMp(8).abilities(ModAbilities.MP_RAGE)
@@ -207,7 +207,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(30).def(1).mag(1).maxHp(5).ap(1).maxAccessories(1).maxItems(1).abilities(ModAbilities.WATERZA)
 			.level(31).str(1).abilities(ModAbilities.TREASURE_MAGNET)
 			.level(32).str(1).mag(1).maxMp(4).maxMagics(1).abilities(ModAbilities.ENCOUNTER_PLUS)
-			.level(33).str(1).ap(1).abilities(ModAbilities.STRIKE_RAID).item(ModItems.lightningRayShotlock, 1)
+			.level(33).str(1).ap(1).item(ModItems.strikeRaidSpell, 1).item(ModItems.lightningRayShotlock, 1)
 			.level(34).def(1).mag(1).abilities(ModAbilities.MP_HASTERA)
 			.level(35).str(1).maxHp(5).maxArmors(1)
 			.level(36).mag(1).maxMp(4).ap(1).maxMagics(1).maxItems(1).abilities(ModAbilities.NEGATIVE_COMBO)
@@ -303,7 +303,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(20).mag(1).maxHp(5).maxMp(8).maxAccessories(1).maxItems(1).abilities(ModAbilities.JACKPOT).item(ModItems.chaosSnakeShotlock, 1)
 			.level(21).str(1).ap(1).abilities(ModAbilities.CURAZA,ModAbilities.COUNTERGUARD)
 			.level(22).def(1).mag(1).abilities(ModAbilities.FORM_BOOST)
-			.level(23).str(1).abilities(ModAbilities.STRIKE_RAID, ModAbilities.ONCE_MORE)
+			.level(23).str(1).abilities(ModAbilities.ONCE_MORE).item(ModItems.strikeRaidSpell, 1)
 			.level(24).mag(1).maxMp(4).ap(1).maxMagics(1).maxItems(1).abilities(ModAbilities.DRIVE_CONVERTER, ModAbilities.AIR_SLIDE)
 			.level(25).str(1).maxHp(5).maxArmors(1).abilities(ModAbilities.DRIVE_BOOST).item(ModItems.pulseBombShotlock, 1)
 			.level(26).def(1).mag(1).abilities(ModAbilities.BLIZZAZA)

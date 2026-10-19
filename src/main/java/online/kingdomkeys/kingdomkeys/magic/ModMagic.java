@@ -20,6 +20,8 @@ public class ModMagic {
 
 	public static DeferredRegister<Magic> MAGIC = DeferredRegister.create(KingdomKeys.rl("magics"), KingdomKeys.MODID);
 	public static final KKSupplier<Magic>
+			STRIKE_RAID = register(Strings.Magic_StrikeRaid, () -> new MagicStrikeRaid(KingdomKeys.rl(Strings.Magic_StrikeRaid), 1, null)),
+
 			FIRE = register(Strings.Magic_Fire, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fire), 0, ModAbilities.FIRAZA.location())),
 			FIRA = register(Strings.Magic_Fira, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fira), 1, ModAbilities.FIRAZA.location())),
 			FIRAGA = register(Strings.Magic_Firaga, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Firaga), 2, ModAbilities.FIRAZA.location())),

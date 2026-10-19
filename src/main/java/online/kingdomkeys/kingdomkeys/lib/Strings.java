@@ -22,6 +22,8 @@ public class Strings {
     public static final String
 		Mag_Prefix = "magic_",
 
+		Magic_StrikeRaid = Mag_Prefix + "strikeraid",
+
 		Magic_Fire = Mag_Prefix + "fire",
 		Magic_Fira = Mag_Prefix + "fira",
 		Magic_Firaga = Mag_Prefix + "firaga",
@@ -197,7 +199,9 @@ public class Strings {
        		autoFinalRC = "rc_auto_final",
        		launchRC = "rc_launch",
        		landRC = "rc_land",
-       		reversalRC = "rc_reversal";
+       		reversalRC = "rc_reversal",
+       		raidRC = "rc_raid",
+       		judgmentRC = "rc_judgment";
 
     // Abilities
     public static final String
@@ -208,7 +212,6 @@ public class Strings {
     		autoLimit = AB_Prefix +"auto_limit",
     		autoMaster = AB_Prefix +"auto_master",
     		autoFinal = AB_Prefix +"auto_final",
-    		strikeRaid = AB_Prefix +"strike_raid",
 			flowStep = AB_Prefix +"flowstep",
     		
     		//Growth
@@ -807,6 +810,7 @@ public class Strings {
 
 		SpellThundagaShot = "spellthundagashot",
 		SpellTriplePlasma = "spelltripleplasma",
+		SpellStrikeRaid = "spellstrikeraid",
 
 		SpellBalloon = "spellballoon",
 		SpellBalloonra = "spellballoonra",

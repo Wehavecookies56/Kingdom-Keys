@@ -297,6 +297,11 @@ public abstract class Magic implements KKRegistryObject {
 		return false;
 	}
 
+	/** Anything else the caster needs, checked before the MP is spent */
+	public boolean canCast(Player player) {
+		return true;
+	}
+
 	public abstract void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity);
 
 	public abstract void playMagicCastSound(LivingEntity player, LivingEntity caster);

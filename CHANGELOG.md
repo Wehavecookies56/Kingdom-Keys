@@ -37,6 +37,8 @@
 * needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
 * Jiminy's Journal now shows the recipe of every Keyblade armor pauldron next to the smithing recipes of its set and no longer mentions enchanting pauldrons.
 * orgEnabled config replaced by orgJoinByRobes, which brings back joining Organization XIII just by wearing its robes (also used when playerSpawnHeartless is off).
+* Strike Raid is now a spell cast from the Attack menu instead of an ability (which has been removed), given at the same levels.
+* Organization scythes can now always be thrown, as they needed the Strike Raid ability.
 
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.

@@ -39,7 +39,6 @@ public class AbilityDataProvider implements DataProvider {
 		abilities.put(KingdomKeys.rl(Strings.autoLimit).getPath(), new AbilityBuilder().apCost(1).type(AbilityType.ACTION).order(order++).build());
 		abilities.put(KingdomKeys.rl(Strings.autoMaster).getPath(), new AbilityBuilder().apCost(1).type(AbilityType.ACTION).order(order++).build());
 		abilities.put(KingdomKeys.rl(Strings.autoFinal).getPath(), new AbilityBuilder().apCost(1).type(AbilityType.ACTION).order(order++).build());
-		abilities.put(KingdomKeys.rl(Strings.strikeRaid).getPath(), new AbilityBuilder().apCost(3).type(AbilityType.ACTION).order(order++).build());
 		abilities.put(KingdomKeys.rl(Strings.guard).getPath(), new AbilityBuilder().apCost(2).type(AbilityType.ACTION).order(order++).build());
 		abilities.put(KingdomKeys.rl(Strings.counterguard).getPath(), new AbilityBuilder().apCost(3).type(AbilityType.ACTION).order(order++).build());
 		abilities.put(KingdomKeys.rl(Strings.flowStep).getPath(), new AbilityBuilder().apCost(4).type(AbilityType.ACTION).order(order++).build());

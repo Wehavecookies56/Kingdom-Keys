@@ -47,6 +47,8 @@ public class MagicDataProvider implements DataProvider {
 	public CompletableFuture<?> run(CachedOutput cache) {
 		Map<String, JsonObject> magics = new LinkedHashMap<>();
 
+		magics.put(KingdomKeys.rl(Strings.Magic_StrikeRaid).getPath(), new MagicBuilder().cost(10).castTime(5).cooldown(60).damageMultiplier(1F, 1.3F).lockOn(false).maxExp(4200).maxExpLevel(4).spellType(MagicData.SpellType.PHYSICAL).build());
+
 		magics.put(KingdomKeys.rl(Strings.Magic_Fire).getPath(), new MagicBuilder().cost(8).castTime(10).cooldown(5).damageMultiplier(0.2F, 0.25F).lockOn(true).maxExp(1800).maxExpLevel(3).interactsWithBlocks(FIRE_INTERACTIONS).nextTier(ModMagic.FIRA.get().getRegistryName(), ModMagic.FIRE.get().getRegistryName()).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Fira).getPath(), new MagicBuilder().cost(8).castTime(10).cooldown(5).damageMultiplier(0.3F, 0.35F).lockOn(true).maxExp(2400).maxExpLevel(3).interactsWithBlocks(FIRE_INTERACTIONS).nextTier(ModMagic.FIRAGA.get().getRegistryName(), ModMagic.FIRE.get().getRegistryName()).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Firaga).getPath(), new MagicBuilder().cost(8).castTime(10).cooldown(5).damageMultiplier(0.4F, 0.45F).lockOn(true).maxExp(4200).maxExpLevel(4).interactsWithBlocks(FIRE_INTERACTIONS).nextTier(ModMagic.FIRAZA.get().getRegistryName(), ModMagic.FIRE.get().getRegistryName()).build());

@@ -173,8 +173,13 @@
     "23": {
       "str": 1,
       "abilities": [
-        "kingdomkeys:ability_strike_raid",
         "kingdomkeys:ability_once_more"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:spellstrikeraid",
+          "count": 1
+        }
       ]
     },
     "24": {

@@ -269,10 +269,11 @@
     "33": {
       "str": 1,
       "ap": 1,
-      "abilities": [
-        "kingdomkeys:ability_strike_raid"
-      ],
       "items": [
+        {
+          "id": "kingdomkeys:spellstrikeraid",
+          "count": 1
+        },
         {
           "id": "kingdomkeys:shotlock_lightning_ray",
           "count": 1

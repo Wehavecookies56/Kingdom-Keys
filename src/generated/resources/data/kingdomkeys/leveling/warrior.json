@@ -87,8 +87,11 @@
     },
     "13": {
       "str": 1,
-      "abilities": [
-        "kingdomkeys:ability_strike_raid"
+      "items": [
+        {
+          "id": "kingdomkeys:spellstrikeraid",
+          "count": 1
+        }
       ]
     },
     "14": {

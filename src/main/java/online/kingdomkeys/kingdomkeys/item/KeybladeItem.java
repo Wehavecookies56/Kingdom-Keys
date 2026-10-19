@@ -47,11 +47,9 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
@@ -134,9 +132,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	
 	@Override
 	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (entityIn instanceof Player && !worldIn.isClientSide) {
+		if (entityIn instanceof Player player && !worldIn.isClientSide) {
 			if (Utils.hasKeybladeID(stack)) {
-				Player player = (Player) entityIn;
 				//Stupid workaround for itemSlot being 0 for offhand slot
 				int slot = itemSlot;
 				if (slot == 0) {
@@ -210,74 +207,42 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		ItemStack itemstack = player.getItemInHand(hand);
 		PlayerData playerData = PlayerData.get(player);
 
-		if (player.isCrouching() && playerData.isAbilityEquipped(ModAbilities.STRIKE_RAID)) { //Throw keyblade
-			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
-
-			if (itemstack != null && !playerData.getRecharge()) {
-				int cost = 10;
-	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2);
-				playerData.remMP(Math.max(1, cost));
-				
-				if (!level.isClientSide) {
-					level.playSound(null, player.blockPosition(), ModSounds.strike_raid.get(), SoundSource.PLAYERS, 1, 1);
-
-					KKThrowableEntity entity = new KKThrowableEntity(level);
-					switch (BuiltInRegistries.ITEM.getKey(itemstack.getItem()).getPath()) {
-						case Strings.retribution -> entity.setRotationPoint(0);
-						default -> entity.setRotationPoint(1);
-					}
-					entity.setData(DamageCalculation.getKBStrengthDamage(player, itemstack)*0.7F, player.getUUID(), slot, itemstack);
-					entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
-
-					//entity.setItem(itemstack);
-					entity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 0F);
-					level.addFreshEntity(entity);
-					player.getCooldowns().addCooldown(itemstack.getItem(), 15);
-				} else {
-					player.swing(slot == 40 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-				}
-				return InteractionResultHolder.success(itemstack);
-
-			}
-        } else { //Attack offhand and wisdom attack
-			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
-				if (level.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
-					HitResult rtr = InputHandler.pickExtend(player, ((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange());
-					if (rtr != null) {
-						if (rtr.getType() == Type.ENTITY) {
-							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
-								EntityHitResult ertr = (EntityHitResult) rtr;
-								if (ertr.getEntity() != null) {
-									PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
-									return InteractionResultHolder.success(itemstack);
-								}
-								return InteractionResultHolder.fail(itemstack);
+		// Attack offhand and wisdom attack
+		if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
+			if (level.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+				HitResult rtr = InputHandler.pickExtend(player, ((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange());
+				if (rtr != null) {
+					if (rtr.getType() == Type.ENTITY) {
+						if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
+							EntityHitResult ertr = (EntityHitResult) rtr;
+							if (ertr.getEntity() != null) {
+								PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
+								return InteractionResultHolder.success(itemstack);
 							}
-						} else {
-							player.swing(InteractionHand.OFF_HAND);
+							return InteractionResultHolder.fail(itemstack);
 						}
-					}
-				}
-			} else if (CombatAbilities.canGuard(player, playerData)) { //Guard
-				// Answered here rather than falling through: a cancelled guard should do nothing, not fire the
-				// Wisdom shot below, which would be a nasty surprise for a click that was spent guarding
-				return CombatAbilities.startGuard(player, playerData)
-						? InteractionResultHolder.success(itemstack)
-						: InteractionResultHolder.fail(itemstack);
-			} else { //Wisdom attack
-				if(playerData.isFormActive(ModDriveForms.WISDOM)) {
-					player.swing(hand);
-					if(!level.isClientSide) {
-						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
-						shot.setShotType(1);
-						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
-						level.addFreshEntity(shot);
-						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
-
+					} else {
+						player.swing(InteractionHand.OFF_HAND);
 					}
 				}
 			}
-        }
+		} else if (CombatAbilities.canGuard(player, playerData)) { //Guard
+			// Answered here rather than falling through: a cancelled guard should do nothing, not fire the
+			// Wisdom shot below, which would be a nasty surprise for a click that was spent guarding
+			return CombatAbilities.startGuard(player, playerData) ? InteractionResultHolder.success(itemstack) : InteractionResultHolder.fail(itemstack);
+		} else { //Wisdom attack
+			if(playerData.isFormActive(ModDriveForms.WISDOM)) {
+				player.swing(hand);
+				if(!level.isClientSide) {
+					ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
+					shot.setShotType(1);
+					shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
+					level.addFreshEntity(shot);
+					player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
+
+				}
+			}
+		}
         return super.use(level, player, hand);
     }
 

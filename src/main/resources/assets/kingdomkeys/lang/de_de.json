@@ -157,8 +157,6 @@
 	"ability.ability_once_more.desc": "Versichert, dass 1 LP verbleibt, wenn man Schaden von einer Kombo nimmt.",
 	"ability.ability_once_more.name": "Dickschädel",
 
-	"ability.ability_strike_raid.desc": "Benutze beim Schleichen dein Schlüsselschwert um es zu werfen.\nVerbraucht 10MP.",
-	"ability.ability_strike_raid.name": "Schwertwurf",
 	"ability.ability_synch_blade.desc": "Erlaubt es in jeder Hand eine Waffe auszurüsten. Die Ability der Hauptwaffe wird in der Nebenhand-Waffe ebenfalls verfügbar.",
 	"ability.ability_synch_blade.name": "Synchrone Klingen",
 

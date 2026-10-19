@@ -307,7 +307,7 @@ public class Utils {
 		}
 
 		Magic magic = ModMagic.registry.get(magicName);
-		if (magic == null || !isMagicEquipped(playerData, magicName)) {
+		if (magic == null || !isMagicEquipped(playerData, magicName) || !magic.canCast(player)) {
 			return false;
 		}
 

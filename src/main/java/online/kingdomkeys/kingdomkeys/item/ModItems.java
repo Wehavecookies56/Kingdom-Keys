@@ -860,6 +860,8 @@ public class ModItems {
 
 	//region Spells
 	public static final Supplier<Item>
+			strikeRaidSpell = createNewItem(Strings.SpellStrikeRaid, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_StrikeRaid))),
+
 			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fire))),
 			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fira))),
 			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Firaga))),

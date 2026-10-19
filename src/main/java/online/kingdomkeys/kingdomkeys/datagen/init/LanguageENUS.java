@@ -869,7 +869,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto Limit", "Automatically sets the Reaction Command to Limit in a pinch, if Limit Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
-        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
         addAbilityWithDesc(ModAbilities.FLOWSTEP, "Flowstep", "Right click while using shotlock to airstep to the last targeted entity.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
@@ -1037,6 +1036,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
         add(ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
         add(ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(ModMagic.STRIKE_RAID.get(),"Strike Raid");
         add(ModMagic.IGNITE.get(),"Ignite");
 
         add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
@@ -1084,6 +1084,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_LIMIT, "Auto Limit");
         addReactionCommand(ModReactionCommands.AUTO_MASTER, "Auto Master");
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
+        addReactionCommand(ModReactionCommands.RAID, "Raid");
+        addReactionCommand(ModReactionCommands.JUDGMENT, "Judgment");
         addReactionCommand(ModReactionCommands.SAVE, "Save");
         addReactionCommand(ModReactionCommands.LAUNCH, "Take Off");
         addReactionCommand(ModReactionCommands.LAND, "Land");
@@ -2331,6 +2333,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
         addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
         addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+        addItem(ModItems.strikeRaidSpell, "Strike Raid Spell");
         addItem(ModItems.igniteSpell, "Ignite Spell");
 
         addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");

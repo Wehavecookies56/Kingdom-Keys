@@ -27,9 +27,9 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		PlayerData playerData = PlayerData.get(player);
 
-		if (stack != null && !playerData.getRecharge() && playerData.isAbilityEquipped(ModAbilities.STRIKE_RAID)) {
+		if (stack != null && !playerData.getRecharge()) {
 			int cost = 10;
-    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
+    		cost -= (int)(cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2);
 			playerData.remMP(Math.max(1, cost));
 			player.swing(hand);
 

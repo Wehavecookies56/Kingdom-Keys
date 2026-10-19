@@ -122,8 +122,6 @@
   "ability.ability_scan.name": "Сканирование",
   "ability.ability_second_chance.desc": "Оставляет 1 ОЗ после получения огромного урона.",
   "ability.ability_second_chance.name": "Второй шанс",
-  "ability.ability_strike_raid.desc": "ПКМ при приседании, чтобы бросить клинок, расходует 10 МП.",
-  "ability.ability_strike_raid.name": "Стремительный налёт",
   "ability.ability_superjump.desc": "Во время потокового движения нажмите прыжок, чтобы взлететь в воздух. Повторение усиливает эффект.",
   "ability.ability_superjump.name": "Суперпрыжок",
   "ability.ability_superslide.desc": "Во время потокового движения нажмите кнопку действия, чтобы совершить длинный рывок. Повторение усиливает эффект.",
