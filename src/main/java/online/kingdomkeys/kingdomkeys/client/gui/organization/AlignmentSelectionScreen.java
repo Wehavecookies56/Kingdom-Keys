@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -192,7 +193,10 @@ public class AlignmentSelectionScreen extends Screen {
                 gui.drawString(font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
             }
         }
-        super.render(gui, p_render_1_, p_render_2_, p_render_3_);
+        // Only the buttons: super.render would paint the background again over everything above
+        for (Renderable renderable : this.renderables) {
+            renderable.render(gui, p_render_1_, p_render_2_, p_render_3_);
+        }
     }
 
     @Override

@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.container;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -19,7 +18,6 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestMenu
     public MagicalChestScreen(MagicalChestMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
         this.imageHeight = 186;
-
     }
 
     @Override
@@ -33,12 +31,10 @@ public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestMenu
     protected void renderLabels(GuiGraphics gui, int mouseX, int mouseY) {
     	gui.drawString(font, this.title.getString(), 8.0F, 6.0F, 4210752, false);
         gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 93), 4210752, false);
-        //super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
 	@Override
 	protected void renderBg(GuiGraphics gui, float partialTicks, int x, int y) {
-		Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 

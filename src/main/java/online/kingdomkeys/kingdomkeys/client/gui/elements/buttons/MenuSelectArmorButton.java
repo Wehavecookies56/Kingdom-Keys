@@ -152,7 +152,6 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 				float strPosX = parent.width * 0.57F;
 				float posY = parent.height * 0.55F;
 				float strNumPosX = parent.width * 0.67F;
-				float abiPosX = parent.width * 0.62F;
 				int strength = 0;
 				int magic = 0;
 				int ap = 0;

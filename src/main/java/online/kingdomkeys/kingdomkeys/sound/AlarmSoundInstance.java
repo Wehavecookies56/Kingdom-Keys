@@ -12,47 +12,41 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @OnlyIn(Dist.CLIENT)
 public class AlarmSoundInstance extends AbstractTickableSoundInstance {
-   private static final float VOLUME_MIN = 0.0F;
-   private static final float VOLUME_MAX = 0.7F;
-   private static final float PITCH_MIN = 0.0F;
-   private static final float PITCH_MAX = 1.0F;
-   private static final float PITCH_DELTA = 0.0025F;
-   private final Player player;
-   private float pitch = 0.0F;
-  
-   public AlarmSoundInstance(Player player) {
-      super(ModSounds.alarm.get(), SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
-      this.player = player;
-      this.looping = true;
-      this.delay = 0;
-      this.volume = 0.0F;
-      this.x = (float)player.getX();
-      this.y = (float)player.getY();
-      this.z = (float)player.getZ();
-   }
-	
+	private final Player player;
+
+	public AlarmSoundInstance(Player player) {
+		super(ModSounds.alarm.get(), SoundSource.PLAYERS, SoundInstance.createUnseededRandom());
+		this.player = player;
+		this.looping = true;
+		this.delay = 0;
+		this.volume = 0.0F;
+		this.x = (float) player.getX();
+		this.y = (float) player.getY();
+		this.z = (float) player.getZ();
+	}
+
 	public boolean canPlaySound() {
 		return true;
 	}
 
-   public boolean canStartSilent() {
-      return true;
-   }
+	public boolean canStartSilent() {
+		return true;
+	}
 
-   @Override
-   public void tick() {
-	   if(player.isRemoved()) {
-		   this.stop();
-	   } else {
-	      if (!Utils.isPlayerLowHP(player)) {
-	         this.volume = 0;
-	      } else {
-	         this.x = (float)this.player.getX();
-	         this.y = (float)this.player.getY();
-	         this.z = (float)this.player.getZ();
-	         this.pitch = 1F;
-	         this.volume = ModConfigs.hpAlarm/10F;	
-	      }
-	   }	   
-   }
+	@Override
+	public void tick() {
+		if (player.isRemoved()) {
+			this.stop();
+		} else {
+			if (!Utils.isPlayerLowHP(player)) {
+				this.volume = 0;
+			} else {
+				this.x = (float) this.player.getX();
+				this.y = (float) this.player.getY();
+				this.z = (float) this.player.getZ();
+				this.pitch = 1F;
+				this.volume = ModConfigs.hpAlarm / 10F;
+			}
+		}
+	}
 }

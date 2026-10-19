@@ -73,3 +73,4 @@
 * Removed leftover files that were being loaded and logged as errors.
 * Command registration no longer logs warnings.
 * Dream Staff not being able to hit Heartless and Nobodies when needKeybladeForHeartless was enabled.
+* Several screens (bag, hidden magics, Organization member, weapon tree and weapon unlock) drawing their background twice, which darkened them.

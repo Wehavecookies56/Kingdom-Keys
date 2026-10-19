@@ -27,7 +27,6 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedAeroLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
-	private static final ResourceLocation ICE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/ice.png");
 
 	private final ModelPart box;
 

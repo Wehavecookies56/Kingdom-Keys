@@ -152,7 +152,6 @@ public class ItemGetGui extends OverlayBase {
             int screenWidth = minecraft.getWindow().getGuiScaledWidth();
             int screenHeight = minecraft.getWindow().getGuiScaledHeight();
             int defaultSpacing = 10;
-            int defaultTitleY = 20;
             int currentHeight = titleHeight + spacing + imageBox.getHeight() + spacing + box.getHeight();
             if (currentHeight > screenHeight) {
                 int oldTitleY = titleY;

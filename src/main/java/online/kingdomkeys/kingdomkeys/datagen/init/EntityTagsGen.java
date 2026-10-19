@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
@@ -16,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class EntityTagsGen extends EntityTypeTagsProvider {
@@ -36,7 +34,6 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 	protected void addTags(Provider pProvider) {
 		for (DeferredHolder<EntityType<?>, ? extends EntityType<?>> itemRegistryObject : ModEntities.ENTITIES.getEntries()) {
 			final @NotNull EntityType<?> entityType = itemRegistryObject.get();
-			String name = Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(entityType)).getPath();
 			if (entityType.getBaseClass().isAssignableFrom(BaseKHEntity.class)) {
 				IKHMob khenemy = (IKHMob) entityType;
 				switch (khenemy.getKHMobType()) {

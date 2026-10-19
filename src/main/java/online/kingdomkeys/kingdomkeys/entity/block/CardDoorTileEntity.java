@@ -186,8 +186,7 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     public boolean consumeCard(ItemStack cardStack) {
-        if (cardStack.getItem() instanceof MapCardItem card) {
-            CardCategory category = card.getCategory();
+        if (cardStack.getItem() instanceof MapCardItem) {
             int value = MapCardItem.getCardValue(cardStack);
             if (cardMatchesCriteria(cardStack)) {
                 CardCategory criteriaCategory = getCardCriterionCategory(cardStack);

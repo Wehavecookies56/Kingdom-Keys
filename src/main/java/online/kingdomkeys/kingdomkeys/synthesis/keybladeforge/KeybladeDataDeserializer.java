@@ -30,7 +30,6 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 		JsonObject jsonObject = json.getAsJsonObject();
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
-			List<ResourceLocation> abilities = new ArrayList<>();
 
 			switch (entry.getKey()) {
 			case "ability", "abilities":

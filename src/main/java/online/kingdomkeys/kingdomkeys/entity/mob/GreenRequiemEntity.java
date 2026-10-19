@@ -59,7 +59,6 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     class GreenRequiemGoal extends TargetGoal {
         private boolean canUseAttack = true;
         private int attackTimer = 5, whileAttackTimer;
-        private float initialHealth;
 
         public GreenRequiemGoal(GreenRequiemEntity e) {
         	super(e, true);
@@ -97,7 +96,6 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
             mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;
-            initialHealth = mob.getHealth();
         }
 
         @Override

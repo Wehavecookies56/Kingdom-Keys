@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,8 +46,6 @@ public class WeaponTreeSelectionScreen extends Screen {
             KingdomKeys.rl("textures/gui/org/larxene_icons.png"),
             KingdomKeys.rl("textures/gui/org/roxas_icons.png")
     };
-
-    private final int members = icons.length;
 
     private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
@@ -160,21 +159,26 @@ public class WeaponTreeSelectionScreen extends Screen {
                 weapon_h = 68;
                 break;
         }
-        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         matrixStack.pushPose();
-        RenderSystem.enableBlend();
-        gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        matrixStack.popPose();
-        matrixStack.pushPose();
-        RenderSystem.enableBlend();
-        gui.blit(icons[current.ordinal()-1], (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
-        matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
-        matrixStack.scale(0.5F, 0.5F, 0.5F);
-        gui.blit(icons[current.ordinal()-1], 0, 0, 0, 0, icon_width, icon_height);
+        {
+            RenderSystem.enableBlend();
+            gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+            matrixStack.popPose();
+            matrixStack.pushPose();
+            RenderSystem.enableBlend();
+            gui.blit(icons[current.ordinal() - 1], (width / 2) - (weapon_w / 2), (height / 2) - (weapon_h / 2), 56, 0, weapon_w, weapon_h);
+            matrixStack.translate((width / 2) - (8) - 64, (height / 2) - 110, 0);
+            matrixStack.scale(0.5F, 0.5F, 0.5F);
+            gui.blit(icons[current.ordinal() - 1], 0, 0, 0, 0, icon_width, icon_height);
+        }
         matrixStack.popPose();
         gui.drawString(font, name, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110, 0xFFFFFF);
         gui.drawString(font, weapon, ((width / 2) - (8) - 64) + 2 + icon_width / 2, (height / 2) - 110 + font.lineHeight * 2, 0xFFFFFF);
-        super.render(gui, p_render_1_, p_render_2_, p_render_3_);
+
+        // Only the buttons: super.render would paint the background again over everything above
+        for (Renderable renderable : this.renderables) {
+            renderable.render(gui, p_render_1_, p_render_2_, p_render_3_);
+        }
     }
 
     @Override

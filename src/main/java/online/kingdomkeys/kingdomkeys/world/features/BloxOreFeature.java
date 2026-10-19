@@ -37,7 +37,6 @@ public class BloxOreFeature extends Feature<BloxOreFeatureConfig> {
         double d1 = pos.getX() - Mth.sin(f) * f1;
         double d2 = pos.getZ() + Mth.cos(f) * f1;
         double d3 = pos.getZ() - Mth.cos(f) * f1;
-        int j = 2;
         double d4 = pos.getY() + rand.nextInt(3) - 2;
         double d5 = pos.getY() + rand.nextInt(3) - 2;
         int k = pos.getX() - Mth.ceil(f1) - i;

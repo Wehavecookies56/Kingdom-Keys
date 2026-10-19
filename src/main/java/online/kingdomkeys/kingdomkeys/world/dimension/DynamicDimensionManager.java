@@ -130,7 +130,6 @@ public class DynamicDimensionManager {
         // the dimension registry has five sub-collections that need to be cleaned up
         // we should also eject players from the removed worlds or they could get stuck there
 
-        final WorldOptions worldGenSettings = server.getWorldData().worldGenOptions();
         final Set<ResourceKey<Level>> removedLevelKeys = new HashSet<>();
         final ServerLevel overworld = server.getLevel(Level.OVERWORLD);
 
@@ -192,7 +191,6 @@ public class DynamicDimensionManager {
             // replace the old dimension registry with a new one containing the dimensions that weren't removed, in the same order
 
             LayeredRegistryAccess<RegistryLayer> registries = server.registries();
-            RegistryAccess.ImmutableRegistryAccess composite = (RegistryAccess.ImmutableRegistryAccess)registries.compositeAccess();
 
             // @todo 1.19.3
 //            Map<? extends ResourceKey<?>,? extends Registry<?>> map = composite.registries;

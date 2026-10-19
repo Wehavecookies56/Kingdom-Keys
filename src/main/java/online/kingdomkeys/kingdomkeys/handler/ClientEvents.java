@@ -1769,7 +1769,6 @@ public class ClientEvents {
 				if (room == null) {
 					event.getLeft().add("Floor: N/A, Room: N/A");
 				} else {
-					Floor floor = interiorData.getFloorByID(room.parentFloor);
 					RoomData data = room.getRoomData(interiorData);
 					event.getLeft().add("Floor: " + room.parentFloor + ", Room: " + room + " " + data.pos);
 					if (!room.getType().getModifiers().isEmpty()) {

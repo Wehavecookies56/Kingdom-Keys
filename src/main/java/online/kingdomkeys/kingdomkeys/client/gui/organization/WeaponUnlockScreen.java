@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -74,27 +75,27 @@ public class WeaponUnlockScreen extends Screen {
         PoseStack matrixStack = gui.pose();
         int cost = (int) (startCost + ((0.1 * startCost) * current));
         renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
-        String name = "";
-        String weapon = "";
-        int weapon_w = 128;
-        int weapon_h = 128;
-        renderBackground(gui, p_render_1_, p_render_2_, p_render_3_);
         matrixStack.pushPose();
-        RenderSystem.enableBlend();
-        gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
-        gui.drawString(font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
-        gui.drawString(font, "Hearts Cost: " + Utils.getFormattedNumber(cost), (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
-        gui.drawString(font, "Current Hearts: " + Utils.getFormattedNumber(playerData.getHearts()), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
+        {
+            RenderSystem.enableBlend();
+            gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
+            gui.drawString(font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
+            gui.drawString(font, "Hearts Cost: " + Utils.getFormattedNumber(cost), (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
+            gui.drawString(font, "Current Hearts: " + Utils.getFormattedNumber(playerData.getHearts()), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
+            matrixStack.popPose();
+            matrixStack.pushPose();
+            matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
+            matrixStack.scale(5, 5, 5);
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(0, 0, 0, 1);
+            ClientUtils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0, 0, 16);
+        }
         matrixStack.popPose();
-        matrixStack.pushPose();
-        matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);
-        matrixStack.scale(5, 5, 5);
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(0, 0, 0, 1);
-        ClientUtils.drawItemAsIcon(new ItemStack(weapons.get(current)), matrixStack, 0,0,16);
 
-        matrixStack.popPose();
-        super.render(gui, p_render_1_, p_render_2_, p_render_3_);
+        // Only the buttons: super.render would paint the background again over everything above
+        for (Renderable renderable : this.renderables) {
+            renderable.render(gui, p_render_1_, p_render_2_, p_render_3_);
+        }
     }
 
     @Override

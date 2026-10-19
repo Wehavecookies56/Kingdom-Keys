@@ -27,7 +27,6 @@ import java.util.UUID;
 public class CardRingCoreEntity extends ThrowableProjectile {
 	private static final int CARD_COUNT = 13;
 	private static final int MAX_TICKS = 300;
-	private static final int CARD_INTERVAL_TICKS = 2;
 	private static final int DAMAGE_INTERVAL_TICKS = 10;
 	private static final float RADIUS = 5.2F;
 	private static final float HALF_HEIGHT = 3.0F;

@@ -120,7 +120,6 @@ public class DarkballEntity extends BaseKHEntity {
         private final DarkballEntity theEntity;
         private boolean canUseAttack = true;
         private int attackTimer = 50, whileAttackTimer;
-        private double[] pivotPosToMove;
 
         public DarkCloudGoal(DarkballEntity e) {
             this.theEntity = e;
@@ -182,9 +181,6 @@ public class DarkballEntity extends BaseKHEntity {
                 theEntity.setState(3);
                 LivingEntity target = this.theEntity.getTarget();
                 for (int i = 0; i < 20; i++) {
-                    double offsetX = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D; //3
-                    double offsetY = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
-                    double offsetZ = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
 
                     this.theEntity.getNavigation().moveTo(target.blockPosition().getX(), target.blockPosition().getY(), target.blockPosition().getZ(), 1.5D);
                     //TODO particles
@@ -271,7 +267,6 @@ public class DarkballEntity extends BaseKHEntity {
                     double offsetY = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
                     double offsetZ = (new Random().nextInt(5) + 1.0D + 5.0D) - 5.0D;
 
-                    LivingEntity target = this.theEntity.getTarget();
                     this.theEntity.getNavigation().moveTo(pivotPosToBerserk[0] + offsetX, pivotPosToBerserk[1] + offsetY, pivotPosToBerserk[2] + offsetZ, 5.0D);
                     //TODO particles
                     //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.5F);

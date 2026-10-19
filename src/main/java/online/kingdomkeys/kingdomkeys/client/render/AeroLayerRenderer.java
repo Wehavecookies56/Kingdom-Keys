@@ -31,7 +31,6 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class AeroLayerRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
-	private static final ResourceLocation ICE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/ice.png");
 	private final ModelPart box;
 
 	public AeroLayerRenderer(RenderLayerParent<T, M> renderer, EntityModelSet entityModels) {

@@ -552,14 +552,9 @@ public class InputHandler {
 
         Vec3 vec31 = player.getViewVector(0);
         Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        float f = 1.0F;
         AABB aabb = player.getBoundingBox().expandTowards(vec31.scale(d0)).inflate(1.0, 1.0, 1.0);
-        EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(
-                player, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
-        );
-        return entityhitresult != null && entityhitresult.getLocation().distanceToSqr(vec3) < d2
-                ? filterHitResult(entityhitresult, vec3, range)
-                : filterHitResult(hitresult, vec3, range);
+        EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(player, vec3, vec32, aabb, e -> !e.isSpectator() && e.isPickable(), d1);
+        return entityhitresult != null && entityhitresult.getLocation().distanceToSqr(vec3) < d2 ? filterHitResult(entityhitresult, vec3, range) : filterHitResult(hitresult, vec3, range);
     }
 
     private static HitResult filterHitResult(HitResult hitResult, Vec3 pos, double blockInteractionRange) {

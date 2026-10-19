@@ -28,7 +28,7 @@ public class StylesMenu extends MenuBackground {
 
     ActualWindow window = ActualWindow.SINGLE;
 
-    private MenuButton backButton, singleButton, dualButton;
+    private MenuButton dualButton;
 
     private final Map<MenuButton, KKFightingStyle> styleList = new LinkedHashMap<>();
 
@@ -47,9 +47,9 @@ public class StylesMenu extends MenuBackground {
         initStyles(HandStyle.SINGLE);
         initStyles(HandStyle.DUAL);
 
-        addRenderableWidget(singleButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.single"), MenuButton.ButtonType.BUTTON, e -> window = ActualWindow.SINGLE));
+        addRenderableWidget(new MenuButton((int) buttonPosX, (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.style.single"), MenuButton.ButtonType.BUTTON, e -> window = ActualWindow.SINGLE));
         addRenderableWidget(dualButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (18), (int) buttonWidth, Utils.translateToLocal("gui.menu.style.dual"), MenuButton.ButtonType.BUTTON, e -> window = ActualWindow.DUAL));
-        addRenderableWidget(backButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (36), (int) buttonWidth, Utils.translateToLocal("gui.menu.back"), MenuButton.ButtonType.BUTTON, e -> PacketHandler.sendToServer(new CSOpenMenu())));
+        addRenderableWidget(new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (36), (int) buttonWidth, Utils.translateToLocal("gui.menu.back"), MenuButton.ButtonType.BUTTON, e -> PacketHandler.sendToServer(new CSOpenMenu())));
 
         dualButton.active = true;
     }

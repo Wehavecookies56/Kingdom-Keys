@@ -69,7 +69,6 @@ public class MapCardRouletteScreen extends Screen {
 
     @Override
     protected void init() {
-        int screenWidth = minecraft.screen.width;
         int screenHeight = minecraft.screen.height;
 
         int radius = 180;
@@ -98,7 +97,6 @@ public class MapCardRouletteScreen extends Screen {
         guiGraphics.blit(OUTLINE, 0, 0, 0, 0, 32, 32, 32, 32);
         guiGraphics.pose().popPose();
 
-        int screenWidth = minecraft.screen.width;
         int screenHeight = minecraft.screen.height;
 
         int radius = 180;

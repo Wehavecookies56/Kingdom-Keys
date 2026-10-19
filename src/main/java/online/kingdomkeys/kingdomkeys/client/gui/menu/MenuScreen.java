@@ -144,7 +144,6 @@ public class MenuScreen extends MenuBackground {
 		updateButtons();
 
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
 		mapW = (int)middleHeight;
 		mapH = (int)middleHeight;

@@ -78,7 +78,7 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 			onClose();
 			return;
 		}
-		renderBackground(gui, mouseX, mouseY, partialTicks);
+
 		super.render(gui, mouseX, mouseY, partialTicks);
 
 		renderTooltip(gui, mouseX, mouseY);

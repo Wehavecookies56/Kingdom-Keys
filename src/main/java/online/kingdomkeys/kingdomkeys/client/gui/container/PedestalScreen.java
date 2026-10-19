@@ -94,13 +94,10 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalMenu> {
         gui.drawString(font, "Rotation Speed " + String.format("%.2f", rotationSpeedSlider.getValue()), 60.0F, 55.0F, 4210752, false);
         gui.drawString(font, "Bob Speed " + String.format("%.2f", bobSpeedSlider.getValue()), 60.0F, 67.0F, 4210752, false);
         gui.drawString(font, this.playerInventoryTitle.getString(), 8.0F, (float)(this.imageHeight - 96 + 2), 4210752, false);
-       // super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
     }
 
     @Override
     protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {
-    	Minecraft mc = Minecraft.getInstance();
-       // RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         int xPos = (width - imageWidth) / 2;

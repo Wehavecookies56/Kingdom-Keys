@@ -223,7 +223,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		take.visible = true;
 
-		float iconPosX = boxR.getX();
 		float iconPosY = boxR.getY() + 15;
 
 		matrixStack.pushPose();

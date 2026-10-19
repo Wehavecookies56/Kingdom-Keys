@@ -22,19 +22,10 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 	public final GummiHangarTileEntity TE;
 	private final ContainerLevelAccess canInteractWith;
 
-	private static final int HOTBAR_SLOT_COUNT = 9;
-	private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-	private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-	private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-	private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-
-	private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-	private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 	public static final int COST_SLOT_X = 132, COST_SLOT_Y = 58; // Beside the fuel slot, clear of the ship move buttons
 	private static final int GUMMI_HANGAR_SLOTS = GummiHangarTileEntity.NUMBER_OF_SLOTS; // must match TileEntityInventoryBasic.NUMBER_OF_SLOTS
 
-	public static final int TILE_INVENTORY_YPOS = 20; // the ContainerScreenBasic needs to know these so it can tell where to draw the
-														// Titles
+	public static final int TILE_INVENTORY_YPOS = 20; // the ContainerScreenBasic needs to know these so it can tell where to draw the Titles
 	public static final int PLAYER_INVENTORY_YPOS = 51;
 
 	public GummiHangarMenu(final int windowID, final Inventory playerInventory, final GummiHangarTileEntity tileEntity) {
@@ -115,7 +106,6 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		}
 		throw new IllegalStateException("Tile Entity mismatch with container");
 	}
-
 
 	public GummiHangarMenu(final int windowId, final Inventory playerInventory, final FriendlyByteBuf buf) {
 		this(windowId, playerInventory, getTileEntity(playerInventory, buf));

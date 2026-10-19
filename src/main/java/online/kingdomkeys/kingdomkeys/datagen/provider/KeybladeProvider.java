@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -24,7 +22,6 @@ import java.util.function.Function;
 
 public abstract class KeybladeProvider<T extends KeybladeBuilder> implements DataProvider {
 
-    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
     protected final DataGenerator generator;
     protected final String modid;
     protected final Function<ResourceLocation, T> factory;

@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -109,11 +108,5 @@ public class MenuCustomizeHiddenMagics extends MenuBackground {
 		}
 
 		ModConfigs.setHiddenMagic(list);
-	}
-
-	@Override
-	public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
-		renderBackground(gui, mouseX, mouseY, partialTick);
-		super.render(gui, mouseX, mouseY, partialTick);
 	}
 }
