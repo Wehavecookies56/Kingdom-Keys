@@ -74,3 +74,4 @@
 * Command registration no longer logs warnings.
 * Dream Staff not being able to hit Heartless and Nobodies when needKeybladeForHeartless was enabled.
 * Several screens (bag, hidden magics, Organization member, weapon tree and weapon unlock) drawing their background twice, which darkened them.
+* Hearts cost and current hearts in the Organization weapon unlock screen not being translatable.

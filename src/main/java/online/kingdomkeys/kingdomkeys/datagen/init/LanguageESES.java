@@ -3062,6 +3062,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.gui.weapon_unlock.equipped", "Equipado");
         add("kingdomkeys.gui.weapon_unlock.unlock", "Desbloquear");
         add("kingdomkeys.gui.weapon_unlock.unlock_next", "Desbloquear y siguiente");
+        add("kingdomkeys.gui.weapon_unlock.cost", "Coste en corazones: %s");
+        add("kingdomkeys.gui.weapon_unlock.hearts", "Corazones actuales: %s");
 
         // Datapack, loading and data errors
         add("kingdomkeys.data.version_adjusted", "Tus datos se han ajustado de la versión %s a la %s; se te han corregido todas las habilidades");
