@@ -18,13 +18,14 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public record CSSetEquippedAbilityPacket(ResourceLocation ability, int level) implements Packet {
+public record CSSetEquippedAbilityPacket(ResourceLocation ability, int level, boolean equip) implements Packet {
 
 	public static final Type<CSSetEquippedAbilityPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_equipped_ability"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetEquippedAbilityPacket> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC, CSSetEquippedAbilityPacket::ability,
 			ByteBufCodecs.INT, CSSetEquippedAbilityPacket::level,
+			ByteBufCodecs.BOOL, CSSetEquippedAbilityPacket::equip,
 			CSSetEquippedAbilityPacket::new
 	);
 
@@ -38,21 +39,21 @@ public record CSSetEquippedAbilityPacket(ResourceLocation ability, int level) im
 			return;
 		}
 
-		boolean cancelled;
-		if (playerData.isAbilityEquipped(ability, level)) {
-			cancelled = NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(instance, level, player, false)).isCanceled();
-		} else {
-			if (!Utils.canEquipAbility(playerData, instance)) {
-				PacketHandler.sendTo(new SCSyncPlayerData(player), player);
-				return;
+		if (playerData.hasAbilityCopy(ability, level) && playerData.isAbilityEquipped(ability, level) != equip) {
+			if (equip) {
+				// Same check as the client
+				boolean affordable = Utils.getConsumedAP(playerData) + instance.getAPCost() <= playerData.getMaxAP(true);
+				if (affordable && Utils.canEquipAbility(playerData, instance) && !NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(instance, level, player, false)).isCanceled()) {
+					playerData.equipAbility(ability, level);
+				}
+			} else if (!NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(instance, level, player, false)).isCanceled()) {
+				playerData.unequipAbility(ability, level);
 			}
-
-			cancelled = NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(instance, level, player, false)).isCanceled();
-		}
-		if (!cancelled) {
-			playerData.equipAbilityToggle(ability, level);
 			Utils.RefreshAbilityAttributes(player, playerData);
 		}
+
+		// The menu already shows the change, this puts it right if it did not go through
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 	}
 
 	@Override

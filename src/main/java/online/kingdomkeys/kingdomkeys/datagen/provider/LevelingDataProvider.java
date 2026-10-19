@@ -33,9 +33,9 @@ public class LevelingDataProvider implements DataProvider {
 	@Override
 	public CompletableFuture<?> run(CachedOutput cache) {
 		Map<String, JsonObject> paths = new LinkedHashMap<>();
-		paths.put("warrior", buildWarrior(5));
-		paths.put("mystic", buildMystic(5));
-		paths.put("guardian", buildGuardian(5));
+		paths.put("warrior", buildWarrior(4));
+		paths.put("mystic", buildMystic(4));
+		paths.put("guardian", buildGuardian(4));
 
 		CompletableFuture<?>[] futures = paths.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));

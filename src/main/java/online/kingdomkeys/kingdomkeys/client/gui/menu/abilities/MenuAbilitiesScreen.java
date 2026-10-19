@@ -101,8 +101,9 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			cancelled = NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, index, Minecraft.getInstance().player, true)).isCanceled();
 		}
 		if (!cancelled) {
+			boolean equip = !playerData.isAbilityEquipped(ability.getRegistryName(), index);
 			playerData.equipAbilityToggle(ability.getRegistryName(), index);
-			PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(ability.getRegistryName(), index));
+			PacketHandler.sendToServer(new CSSetEquippedAbilityPacket(ability.getRegistryName(), index, equip));
 		}
 		updateButtons();
 	}

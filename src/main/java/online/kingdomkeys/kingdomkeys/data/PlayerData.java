@@ -2209,42 +2209,31 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 	}
 
+	/** Whether they own the copy at this index. Copies count from 0, and an entry always has at least one */
+	public boolean hasAbilityCopy(ResourceLocation ability, int index) {
+		return abilityMap.containsKey(ability) && index >= 0 && index < Math.clamp(abilityMap.get(ability)[0], 1, 31);
+	}
+
 	public boolean isAbilityEquipped(ResourceLocation ability, int index) {
-		int indexConvert = (int) Math.pow(2, index);
-		if (abilityMap.containsKey(ability)) {
-			if (abilityMap.get(ability)[0] < index) {
-				return false;
-			} else {
-				return (abilityMap.get(ability)[1] & indexConvert) == indexConvert;
-			}
-		}
-		return false;
+		int indexConvert = 1 << index;
+		return hasAbilityCopy(ability, index) && (abilityMap.get(ability)[1] & indexConvert) == indexConvert;
 	}
 
 	public void equipAbilityToggle(ResourceLocation ability, int index) {
-		int indexConvert = (int) Math.pow(2, index);
-		if (abilityMap.containsKey(ability)) {
-			if (abilityMap.get(ability)[0] >= index) {
-				abilityMap.get(ability)[1] ^= indexConvert;
-			}
+		if (hasAbilityCopy(ability, index)) {
+			abilityMap.get(ability)[1] ^= 1 << index;
 		}
 	}
 
 	public void equipAbility(ResourceLocation ability, int index) {
-		int indexConvert = (int) Math.pow(2, index);
-		if (abilityMap.containsKey(ability)) {
-			if (abilityMap.get(ability)[0] >= index) {
-				abilityMap.get(ability)[1] |= indexConvert;
-			}
+		if (hasAbilityCopy(ability, index)) {
+			abilityMap.get(ability)[1] |= 1 << index;
 		}
 	}
 
 	public void unequipAbility(ResourceLocation ability, int index) {
-		int indexConvert = (int) Math.pow(2, index);
-		if (abilityMap.containsKey(ability)) {
-			if (abilityMap.get(ability)[0] >= indexConvert) {
-				abilityMap.get(ability)[1] &= (~indexConvert);
-			}
+		if (hasAbilityCopy(ability, index)) {
+			abilityMap.get(ability)[1] &= ~(1 << index);
 		}
 	}
 

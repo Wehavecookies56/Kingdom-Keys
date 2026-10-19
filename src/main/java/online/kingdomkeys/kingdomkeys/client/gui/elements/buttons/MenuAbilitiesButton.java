@@ -151,6 +151,9 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
+			if (player == minecraft.player) {
+				playerData = PlayerData.get(player);
+			}
 			equipped = playerData.isAbilityEquipped(KingdomKeys.rl(text), index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				ClientUtils.drawCategoryIcon(gui, ItemCategory.ABILITIES, getX()+6, getY()+4, 0.6F);
