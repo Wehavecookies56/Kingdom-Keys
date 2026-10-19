@@ -848,6 +848,14 @@
     "amount": 1,
     "condition": "all",
     "cost": 800,
+    "item": "kingdomkeys:spellstrikeraid",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellfire",
     "mat_req": 1,
     "tier": 2

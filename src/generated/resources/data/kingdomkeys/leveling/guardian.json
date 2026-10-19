@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "levels": {
     "0": {
       "def": -1
@@ -174,12 +174,6 @@
       "str": 1,
       "abilities": [
         "kingdomkeys:ability_once_more"
-      ],
-      "items": [
-        {
-          "id": "kingdomkeys:spellstrikeraid",
-          "count": 1
-        }
       ]
     },
     "24": {

@@ -165,6 +165,9 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.ribbon, 1, 3, 7500));
 		defaultShop.add(shop(Strings.grandRibbon, 1, 5, 9001));
 
+		// Attacks
+		defaultShop.add(shop(Strings.SpellStrikeRaid, 1, 2, TIER_1_MAGIC, 1, "all"));
+
 		// Magics
 		defaultShop.add(shop(Strings.SpellFire, 1, 2, TIER_1_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellFira, 1, 3, TIER_2_MAGIC, 1, "all"));

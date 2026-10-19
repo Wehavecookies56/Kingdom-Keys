@@ -23,6 +23,7 @@
 * Jiminy's Journal entry for the Apprentice Clothes and the Cloth Station.
 * Vanquish enchantment, lets any weapon or tool strike Heartless and Nobodies. Keyblades and Organization weapons can't get it as they already can.
 * "Unlock & Next" button in the Organization weapon unlock screen, to unlock a weapon and move on to the next one.
+* Strike Raid to the shop, same reqs as Tier 1 magic.
 
 ## Changed:
 * Leveling paths now can go past lvl 100 if a datapack implements them.
@@ -37,7 +38,7 @@
 * needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
 * Jiminy's Journal now shows the recipe of every Keyblade armor pauldron next to the smithing recipes of its set and no longer mentions enchanting pauldrons.
 * orgEnabled config replaced by orgJoinByRobes, which brings back joining Organization XIII just by wearing its robes (also used when playerSpawnHeartless is off).
-* Strike Raid is now a spell cast from the Attack menu instead of an ability (which has been removed), given at the same levels.
+* Strike Raid is now a spell cast from the Attack menu instead of an ability (which has been removed).
 * Organization scythes can now always be thrown, as they needed the Strike Raid ability.
 
 ## Fixed:
