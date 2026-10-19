@@ -9,7 +9,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -43,7 +42,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	MenuButton deposit,back;
 	MenuButton take;
 	MenuBox boxL, boxR;
-	EditBox amountBox;
+	EditBox amountBox, searchBox;
 
 	SynthesisScreen parent;
 
@@ -119,6 +118,20 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), boxL.getY(), boxL.getPosY()+boxL.getHeight(), (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 
+		// Made once, as initItems clears every widget and runs again as they type
+		Component hint = Component.translatable(Strings.Gui_Menu_Search);
+		searchBox = new EditBox(minecraft.font, boxL.getX(), boxL.getY() - 14, boxL.getWidth(), 12, hint);
+		searchBox.setHint(hint);
+		searchBox.setMaxLength(50);
+		searchBox.setValue(searchText);
+		searchBox.setResponder(text -> {
+			if (!text.equals(searchText)) {
+				searchText = text;
+				selectedRL = null;
+				initItems();
+			}
+		});
+
 		super.init();
 		initItems();
 	}
@@ -136,13 +149,14 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		inventory.clear();
 		children().clear();
 		renderables.clear();
-		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
 
 		for (Entry<ResourceLocation, Integer> mat : playerData.getMaterialMap().entrySet()) {
-			Item item = BuiltInRegistries.ITEM.get(mat.getKey());
-			items.add(new ItemStack(item, mat.getValue()));
+			ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(mat.getKey()), mat.getValue());
+			if (matchesSearch(stack)) {
+				items.add(stack);
+			}
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(ItemStack::getDescriptionId));
 
@@ -152,6 +166,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			inventory.add(item);
 		}
 		inventory.forEach(this::addWidget);
+		addWidget(searchBox);
 
 		addRenderableWidget(deposit = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Synthesis_Materials_Deposit), ButtonType.BUTTON, (e) -> { action("deposit"); }));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
@@ -213,6 +228,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		deposit.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX,  mouseY,  partialTicks);
+		searchBox.render(gui, mouseX, mouseY, partialTicks);
 	}
 
 	@Override

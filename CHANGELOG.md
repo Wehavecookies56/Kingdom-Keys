@@ -7,7 +7,7 @@
 * Joining Organization XIII now requires becoming a Nobody: after recovering your heart, defeat your own Nobody and use the Memory from Another Self it drops while wearing the full Organization robes to choose your member, which also restores your lost stats.
 * Shift + right click on a Memory from Another Self with no owner (from commands or the creative tab) makes it yours, for testing purposes.
 * Text box in the config menu to set your nobody name.
-* Search bar for filtered screens.
+* Search bar for filtered and the Moogle materials screens.
 * Amount text box to buy screen.
 * ServerConfig to set the distance the heart will travel from the turning point (default 128).
 * ServerConfig to set the lock on range (previously hardcoded to 35 blocks).
@@ -33,13 +33,13 @@
 * Robes and Organization armor are now tighter to the player's body, fixing the issue where second skin layer would clip on the legs.
 * All boolean buttons in the Config Menu are now checkboxes.
 * Casting magic from the Command Menu now goes through the same server checks as the shortcuts (except MP Safety).
-* Unified all projectiles code.
 * Damage numbers now move smoothly while they float up.
 * needKeybladeForHeartless config is now enabled by default and also applies to arrows and tridents.
 * Jiminy's Journal now shows the recipe of every Keyblade armor pauldron next to the smithing recipes of its set and no longer mentions enchanting pauldrons.
 * orgEnabled config replaced by orgJoinByRobes, which brings back joining Organization XIII just by wearing its robes (also used when playerSpawnHeartless is off).
 * Strike Raid is now a spell cast from the Attack menu instead of an ability (which has been removed).
 * Organization scythes can now always be thrown, as they needed the Strike Raid ability.
+* Unified all projectiles code, not like it matters to you but it matters to us <3.
 
 ## Fixed:
 * Second Chance / Once More surviving /kill or void.

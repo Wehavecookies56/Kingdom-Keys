@@ -51,11 +51,6 @@ public abstract class MenuFilterable extends MenuBackground {
 	    if (!ItemStack.matches(selectedItemStack, ItemStack.EMPTY)) {
 	        renderSelectedData(gui, mouseX, mouseY, partialTicks);
 	    }
-        
-        
-       // inventory.forEach(i -> i.render(mouseX, mouseY, partialTicks));
-        
-     //  super.render(mouseX, mouseY, partialTicks);
     }
     
     @Override
