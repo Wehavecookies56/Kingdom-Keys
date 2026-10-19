@@ -47,11 +47,9 @@ public class AlignmentSelectionScreen extends Screen {
             KingdomKeys.rl("textures/gui/org/roxas_icons.png")
     };
 
-    private final int members = icons.length;
-
     private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
-    // Opened by using their Nobody's memory, or just by wearing the robes
+    // Opened by using their Nobody's memory, or just by wearing the robes (for the text)
     private final boolean byMemory;
 
     public AlignmentSelectionScreen(boolean byMemory) {

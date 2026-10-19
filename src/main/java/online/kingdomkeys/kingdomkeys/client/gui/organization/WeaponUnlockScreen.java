@@ -42,8 +42,8 @@ public class WeaponUnlockScreen extends Screen {
         playerData = PlayerData.get(Minecraft.getInstance().player);
     }
 
-    MenuButton cancel, next, prev, select;
-    final int CANCEL = 2, NEXT = 3, PREV = 4, SELECT = 5;
+    MenuButton cancel, next, prev, select, unlockNext;
+    final int CANCEL = 2, NEXT = 3, PREV = 4, SELECT = 5, UNLOCK_NEXT = 6;
 
     List<Item> weapons;
     int current = 0;
@@ -116,6 +116,10 @@ public class WeaponUnlockScreen extends Screen {
         addRenderableWidget(select = new MenuButton(0,0,40,"gui.org.select", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
             actionPerformed(SELECT);
         }).setCenterText());
+
+        addRenderableWidget(unlockNext = new MenuButton(0,0,80,"kingdomkeys.gui.weapon_unlock.unlock_next", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
+            actionPerformed(UNLOCK_NEXT);
+        }).setCenterText());
         updateButtons();
     }
 
@@ -169,6 +173,10 @@ public class WeaponUnlockScreen extends Screen {
                     }
                 }
                 break;
+            case UNLOCK_NEXT:
+                actionPerformed(SELECT);
+                actionPerformed(NEXT);
+                return;
         }
         updateButtons();
     }
@@ -233,8 +241,17 @@ public class WeaponUnlockScreen extends Screen {
         prev.setX((width / 2) - (prev.getWidth() / 2) - 128);
         prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
-        select.setX((width / 2) - (select.getWidth() / 2));
         select.setY((height / 2) - (select.getHeight() / 2) + 80);
+        // Next to Unlock while there is something to unlock
+        unlockNext.visible = unlock;
+        unlockNext.active = select.active;
+        if (unlock) {
+            select.setX((width / 2) - select.getWidth() - 2);
+            unlockNext.setX((width / 2) + 2);
+            unlockNext.setY(select.getY());
+        } else {
+            select.setX((width / 2) - (select.getWidth() / 2));
+        }
         cancel.visible = true;
         cancel.setX((width / 2) - (cancel.getWidth() / 2));
         cancel.setY((height / 2) - (cancel.getHeight() / 2) + 100);

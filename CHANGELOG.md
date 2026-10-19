@@ -22,6 +22,7 @@
 * Some checks to ensure players can't end up in wrong parties and cleanup of empty parties.
 * Jiminy's Journal entry for the Apprentice Clothes and the Cloth Station.
 * Vanquish enchantment, lets any weapon or tool strike Heartless and Nobodies. Keyblades and Organization weapons can't get it as they already can.
+* "Unlock & Next" button in the Organization weapon unlock screen, to unlock a weapon and move on to the next one.
 
 ## Changed:
 * Leveling paths now can go past lvl 100 if a datapack implements them.

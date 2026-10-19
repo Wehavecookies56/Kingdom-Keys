@@ -2996,6 +2996,7 @@
   "kingdomkeys.gui.weapon_unlock.equip": "Equip",
   "kingdomkeys.gui.weapon_unlock.equipped": "Equipped",
   "kingdomkeys.gui.weapon_unlock.unlock": "Unlock",
+  "kingdomkeys.gui.weapon_unlock.unlock_next": "Unlock & Next",
   "kingdomkeys.gummi.block.place_corner": "Place in the bottom-left corner of the area for correct orientation",
   "kingdomkeys.gummi.block.shape_size_1x1x3": "Shape size: 1x1x3",
   "kingdomkeys.gummi.block.shape_size_2x1x2": "Shape size: 2x1x2",

@@ -3022,6 +3022,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.gui.weapon_unlock.equip", "Equip");
         add("kingdomkeys.gui.weapon_unlock.equipped", "Equipped");
         add("kingdomkeys.gui.weapon_unlock.unlock", "Unlock");
+        add("kingdomkeys.gui.weapon_unlock.unlock_next", "Unlock & Next");
 
         // Datapack, loading and data errors
         add("kingdomkeys.data.version_adjusted", "Adjusted your data value from %s to version %s, all your abilities have been corrected");
