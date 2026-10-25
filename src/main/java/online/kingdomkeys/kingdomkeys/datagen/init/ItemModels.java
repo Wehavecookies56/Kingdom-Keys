@@ -36,6 +36,10 @@ public class ItemModels extends ItemModelProvider {
 			Map.entry(ModItems.fissionFiragaSpell.get(), "fire"),
 			Map.entry(ModItems.firagaBurstSpell.get(), "fire"),
 			Map.entry(ModItems.igniteSpell.get(), "fire"),
+			Map.entry(ModItems.fireBarrierSpell.get(), "fire"),
+			Map.entry(ModItems.firaBarrierSpell.get(), "fire"),
+			Map.entry(ModItems.firagaBarrierSpell.get(), "fire"),
+			Map.entry(ModItems.ragingStormSpell.get(), "fire"),
 
 			// Blizzard
 			Map.entry(ModItems.blizzardSpell.get(), "blizzard"),

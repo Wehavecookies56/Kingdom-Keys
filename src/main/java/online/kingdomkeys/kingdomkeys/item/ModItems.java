@@ -871,6 +871,10 @@ public class ModItems {
 			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FissionFiraga))),
 			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FiragaBurst))),
 			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Ignite))),
+			fireBarrierSpell = createNewItem(Strings.SpellFireBarrier, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FireBarrier))),
+			firaBarrierSpell = createNewItem(Strings.SpellFiraBarrier, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FiraBarrier))),
+			firagaBarrierSpell = createNewItem(Strings.SpellFiragaBarrier, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FiragaBarrier))),
+			ragingStormSpell = createNewItem(Strings.SpellRagingStorm, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_RagingStorm))),
 
 			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzard))),
 			blizzaraSpell = createNewItem(Strings.SpellBlizzara, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzara))),

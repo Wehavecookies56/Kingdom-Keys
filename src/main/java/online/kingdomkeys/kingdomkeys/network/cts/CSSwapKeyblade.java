@@ -10,6 +10,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -25,7 +26,7 @@ public record CSSwapKeyblade() implements Packet {
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        if (HeartlessForm.isHeartless(player)) {
+        if (HeartlessForm.isHeartless(player) || FireBarrierEntity.isBusy(player)) {
             return;
         }
         PlayerData playerData = PlayerData.get(player);

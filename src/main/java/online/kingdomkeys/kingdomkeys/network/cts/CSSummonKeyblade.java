@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -60,7 +61,7 @@ public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceD
 	@Override
 	public void handle(IPayloadContext context) {
 		// A Heartless has no keyblade, magic, forms or items
-		if (HeartlessForm.isHeartless(context.player())) {
+		if (HeartlessForm.isHeartless(context.player()) || FireBarrierEntity.isBusy(context.player())) {
 			return;
 		}
 

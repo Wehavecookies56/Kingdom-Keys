@@ -160,7 +160,7 @@ public class ServerConfig {
                 .define("storyProgress", true);
 
         heartlessLightDistance = builder
-                .comment("Roughly how many blocks away the heart of a player turned Heartless drifts off to wait for them")
+                .comment("Roughly how many blocks away the light a player turned Heartless has to reach drifts off to wait for them")
                 .translation(KingdomKeys.MODID + ".config.heartless_light_distance")
                 .defineInRange("heartlessLightDistance", 128, 4, 1024);
 

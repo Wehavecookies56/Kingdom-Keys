@@ -31,6 +31,7 @@ import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
@@ -245,7 +246,7 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 
 	@Override
 	public void handle(IPayloadContext context) {
-		if (HeartlessForm.isHeartless(context.player())) {
+		if (HeartlessForm.isHeartless(context.player()) || FireBarrierEntity.isBusy(context.player())) {
 			return;
 		}
 

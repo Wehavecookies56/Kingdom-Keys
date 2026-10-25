@@ -1,0 +1,16 @@
+{
+  "cost": 800,
+  "ingredient1": "kingdomkeys:spellfire",
+  "ingredient2": "kingdomkeys:spellfira",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellfiraga",
+    "quantity": 1
+  },
+  "output2": {
+    "chance": 10,
+    "item": "kingdomkeys:spellragingstorm",
+    "quantity": 1
+  },
+  "tier": 3
+}

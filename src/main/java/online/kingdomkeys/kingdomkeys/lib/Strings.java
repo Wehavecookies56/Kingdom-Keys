@@ -84,6 +84,10 @@ public class Strings {
 		Magic_FissionFiraga = Mag_Prefix + "fissionfiraga",
 		Magic_FiragaBurst = Mag_Prefix + "firagaburst",
 		Magic_Ignite = Mag_Prefix + "ignite",
+		Magic_FireBarrier = Mag_Prefix + "firebarrier",
+		Magic_FiraBarrier = Mag_Prefix + "firabarrier",
+		Magic_FiragaBarrier = Mag_Prefix + "firagabarrier",
+		Magic_RagingStorm = Mag_Prefix + "ragingstorm",
 
 		Magic_TripleBlizzard = Mag_Prefix + "tripleblizzaga",
 		Magic_DeepFreeze = Mag_Prefix + "deepfreeze",
@@ -802,6 +806,10 @@ public class Strings {
 		SpellFissionFiraga = "spellfissionfiraga",
 		SpellFiragaBurst = "spellfiragaburst",
 		SpellIgnite = "spellignite",
+		SpellFireBarrier = "spellfirebarrier",
+		SpellFiraBarrier = "spellfirabarrier",
+		SpellFiragaBarrier = "spellfiragabarrier",
+		SpellRagingStorm = "spellragingstorm",
 
 		SpellTripleBlizzaga = "spelltripleblizzaga",
 		SpellDeepFreeze = "spelldeepfreeze",

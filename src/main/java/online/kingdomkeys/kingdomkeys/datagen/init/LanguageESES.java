@@ -888,6 +888,10 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
         add(ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
         add(ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+        add(ModMagic.FIRE_BARRIER.get(),"Barrera Piro");
+        add(ModMagic.FIRA_BARRIER.get(),"Barrera Piro+");
+        add(ModMagic.FIRAGA_BARRIER.get(),"Barrera Piro++");
+        add(ModMagic.RAGING_STORM.get(),"Pira");
         add(ModMagic.STRIKE_RAID.get(),"Tiro Mortífero");
         add(ModMagic.IGNITE.get(),"Ignición");
 
@@ -1333,6 +1337,10 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Hechizo de Tardo Piro++");
         addItem(ModItems.fissionFiragaSpell, "Hechizo de Lluvia Píro++");
         addItem(ModItems.firagaBurstSpell, "Hechizo de Descarga Ígnea");
+        addItem(ModItems.fireBarrierSpell, "Hechizo de Barrera Piro");
+        addItem(ModItems.firaBarrierSpell, "Hechizo de Barrera Piro+");
+        addItem(ModItems.firagaBarrierSpell, "Hechizo de Barrera Piro++");
+        addItem(ModItems.ragingStormSpell, "Hechizo de Tormenta Ígnea");
         addItem(ModItems.strikeRaidSpell, "Hechizo de Tiro Mortífero");
         addItem(ModItems.igniteSpell, "Hechizo de Ignición");
 
@@ -3038,12 +3046,12 @@ public class LanguageESES extends KKLanguageProvider {
         // Entities
         add("kingdomkeys.entity.nobody_of", "Incorpóreo de %s");
         add("kingdomkeys.command.heartless.turned", "%s ha caído en la oscuridad");
-        add("kingdomkeys.command.heartless.restored", "%s ha recuperado su corazón");
+        add("kingdomkeys.command.heartless.restored", "%s ha encontrado su luz");
         add("kingdomkeys.command.heartless.already", "%s ya es un Sincorazón");
         add("kingdomkeys.command.heartless.not", "%s no es un Sincorazón");
         add("kingdomkeys.heartless_form.fell.intro", "Tu corazón ha caído en la oscuridad");
         add("kingdomkeys.heartless_form.fell.sub", "Encuentra su luz...");
-        add("kingdomkeys.heartless_form.restored.intro", "Has recuperado tu corazón");
+        add("kingdomkeys.heartless_form.restored.intro", "Has encontrado tu luz");
         add("kingdomkeys.heartless_form.restored.sub", "Pero tu Incorpóreo sigue en algún lugar...");
         add("kingdomkeys.heartless_form.merged.intro", "Te has fundido con tu Incorpóreo");
         add("kingdomkeys.heartless_form.merged.sub", "Ahora formas parte de la Organización XIII");

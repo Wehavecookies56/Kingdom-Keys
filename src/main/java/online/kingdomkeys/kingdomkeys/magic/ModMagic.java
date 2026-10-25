@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.joml.Vector3f;
@@ -81,6 +82,10 @@ public class ModMagic {
 			FISSION_FIRAGA = register(Strings.Magic_FissionFiraga, () -> new MagicFissionFiraga(KingdomKeys.rl(Strings.Magic_FissionFiraga), 1, null)),
 			FIRAGA_BURST = register(Strings.Magic_FiragaBurst, () -> new MagicFiragaBurst(KingdomKeys.rl(Strings.Magic_FiragaBurst), 1, null)),
 			IGNITE = register(Strings.Magic_Ignite, () -> new MagicIgnite(KingdomKeys.rl(Strings.Magic_Ignite), 1, null)),
+			FIRE_BARRIER = register(Strings.Magic_FireBarrier, () -> new MagicFireBarrier(KingdomKeys.rl(Strings.Magic_FireBarrier), 0, null, FireBarrierEntity.Tier.FIRE_BARRIER)),
+			FIRA_BARRIER = register(Strings.Magic_FiraBarrier, () -> new MagicFireBarrier(KingdomKeys.rl(Strings.Magic_FiraBarrier), 1, null, FireBarrierEntity.Tier.FIRA_BARRIER)),
+			FIRAGA_BARRIER = register(Strings.Magic_FiragaBarrier, () -> new MagicFireBarrier(KingdomKeys.rl(Strings.Magic_FiragaBarrier), 2, null, FireBarrierEntity.Tier.FIRAGA_BARRIER)),
+			RAGING_STORM = register(Strings.Magic_RagingStorm, () -> new MagicFireBarrier(KingdomKeys.rl(Strings.Magic_RagingStorm), 2, null, FireBarrierEntity.Tier.RAGING_STORM)),
 
 			DEEP_FREEZE = register(Strings.Magic_DeepFreeze, () -> new MagicDeepFreeze(KingdomKeys.rl(Strings.Magic_DeepFreeze), 1, null, false)),
 			GLACIER = register(Strings.Magic_Glacier, () -> new MagicDeepFreeze(KingdomKeys.rl(Strings.Magic_Glacier), 1, null, true)),

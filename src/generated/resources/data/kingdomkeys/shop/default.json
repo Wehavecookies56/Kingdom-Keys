@@ -920,6 +920,38 @@
     "amount": 1,
     "condition": "all",
     "cost": 800,
+    "item": "kingdomkeys:spellfirebarrier",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellfirabarrier",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellfiragabarrier",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spellragingstorm",
+    "mat_req": 1,
+    "tier": 6
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellblizzard",
     "mat_req": 1,
     "tier": 2

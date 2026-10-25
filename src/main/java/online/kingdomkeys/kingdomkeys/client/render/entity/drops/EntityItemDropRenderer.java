@@ -45,7 +45,8 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 			matrixStackIn.translate(0.0D, 0.1F, 0.0D);
 			matrixStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
 			matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
-			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
+			float scale = getScale();
+			matrixStackIn.scale(scale, scale, scale);
 			VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entityIn)));
 			PoseStack.Pose matrixstack$entry = matrixStackIn.last();
 			Matrix4f matrix4f = matrixstack$entry.pose();
@@ -65,6 +66,10 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 	/**
 	 * Returns the location of an entity's texture.
 	 */
+	protected float getScale() {
+		return 0.3F;
+	}
+
 	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
 		return texture;
 	}

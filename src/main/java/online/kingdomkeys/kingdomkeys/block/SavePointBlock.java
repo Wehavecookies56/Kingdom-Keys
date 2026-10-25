@@ -308,6 +308,18 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 		world.setBlockAndUpdate(pos, newState);
 		player.displayClientMessage(Component.translatable("savepoint.upgrade_type", nextTier.getSerializedName()), true);
+
+		// The stored type is what everyone else's list goes by, so it has to follow the block
+		if (!world.isClientSide && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
+			SavePointStorage storage = SavePointStorage.getStorage(world.getServer());
+			SavePointStorage.SavePoint old = storage.getSavePoint(savepoint.getID());
+			if (old != null) {
+				storage.addSavePoint(new SavePointStorage.SavePoint(old.id(), nextTier, old.name(), old.pos(), old.owner(), old.dimension(), old.global(), old.timeCreated()));
+				for (ServerPlayer online : world.getServer().getPlayerList().getPlayers()) {
+					PacketHandler.sendTo(new SCUpdateSavePoints(storage.getDiscoveredSavePoints(online)), online);
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -360,6 +372,10 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 			if (tickCount % interval != 0)
 				continue;
+
+			if (stat == SavePointData.SavePointStat.MP && PlayerData.get(player).speedUpMagicCooldowns(interval)) {
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			}
 
 			if (restore(player, stat))
 				showParticles(player, world, pos);

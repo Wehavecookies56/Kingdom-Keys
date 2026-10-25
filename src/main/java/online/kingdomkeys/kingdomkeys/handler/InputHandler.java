@@ -41,6 +41,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
@@ -93,6 +94,8 @@ public class InputHandler {
         }
     }
 
+    private static final EnumSet<Keybinds> ALLOWED_WHILE_BUSY = EnumSet.of(Keybinds.SCROLL_UP, Keybinds.SCROLL_DOWN, Keybinds.LOCK_ON, Keybinds.LOCK_ON_SWAP, Keybinds.SHOW_GUI);
+
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
@@ -104,6 +107,10 @@ public class InputHandler {
 
             if (event.getAction() == 1 && event.getKey() != GLFW.GLFW_KEY_PRINT_SCREEN && event.getKey() != GLFW.GLFW_KEY_LEFT_ALT && event.getKey() != mc.options.keyUp.getKey().getValue() && event.getKey() != mc.options.keyDown.getKey().getValue() && event.getKey() != mc.options.keyLeft.getKey().getValue() && event.getKey() != mc.options.keyRight.getKey().getValue()) {
                 ItemGetGui.INSTANCE.click();
+            }
+
+            if (FireBarrierEntity.isBusy(player) && (key == null || !ALLOWED_WHILE_BUSY.contains(key))) {
+                return;
             }
 
             if (key != null) {
@@ -143,8 +150,19 @@ public class InputHandler {
     }
 
     @SubscribeEvent
+    public void handleInteraction(InputEvent.InteractionKeyMappingTriggered event) {
+        if (FireBarrierEntity.isBusy(Minecraft.getInstance().player)) {
+            event.setSwingHand(false);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
         init();
+        if (FireBarrierEntity.isBusy(player)) {
+            return;
+        }
         if(level != null){
             if (event.getAction() == 1) {
                 ItemGetGui.INSTANCE.click();

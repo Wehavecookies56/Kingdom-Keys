@@ -112,7 +112,7 @@ public class HeartlessFormRenderer {
 	private static final int GUIDE_EVERY = 20;
 	private static final double GUIDE_FROM = 1.5D, GUIDE_REACH = 32D, GUIDE_QUIET = 3D, GUIDE_DRAG = 0.04D;
 
-	// A faint run of motes drifting off from you towards your heart, so you always know which way it lies. Only you see yours
+	// A faint run of motes drifting off from you towards your light, so you always know which way it lies. Only you see yours
 	private static void guide(Minecraft mc) {
 		Player player = mc.player;
 		if (player == null || !HeartlessForm.isHeartless(player) || player.tickCount % GUIDE_EVERY != 0) {

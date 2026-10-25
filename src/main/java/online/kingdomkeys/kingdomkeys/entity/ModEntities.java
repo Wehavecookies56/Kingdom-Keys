@@ -75,6 +75,10 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRAGA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRAZA = createProjectileType(FireEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireBarrierEntity>> TYPE_FIRE_BARRIER = createProjectileType(FireBarrierEntity::new, MobCategory.MISC,"entity_fire_barrier", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireBarrierEntity>> TYPE_FIRA_BARRIER = createProjectileType(FireBarrierEntity::new, MobCategory.MISC,"entity_fira_barrier", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireBarrierEntity>> TYPE_FIRAGA_BARRIER = createProjectileType(FireBarrierEntity::new, MobCategory.MISC,"entity_firaga_barrier", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FireBarrierEntity>> TYPE_RAGING_STORM = createProjectileType(FireBarrierEntity::new, MobCategory.MISC,"entity_raging_storm", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createProjectileType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<TripleFiragaControllerEntity>> TYPE_TRIPLE_FIRAGA_CONTROLLER = createEntityType(TripleFiragaControllerEntity::new, MobCategory.MISC,"entity_triple_firaga_controller", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<CrawlingFiragaEntity>> TYPE_CRAWLINGFIRAGA = createProjectileType(CrawlingFiragaEntity::new, MobCategory.MISC,"entity_crawlingfiraga", 1.2F, 1.2F);
@@ -141,6 +145,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<LanceEntity>> TYPE_LANCE = createProjectileType(LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HeartlessLightEntity>> TYPE_HEARTLESS_LIGHT = createEntityType(HeartlessLightEntity::new, MobCategory.MISC, "heartless_light", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
     public static final DeferredHolder<EntityType<?>, EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
@@ -368,6 +373,10 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_FIRA.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRAGA.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRAZA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRE_BARRIER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRA_BARRIER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAGA_BARRIER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_RAGING_STORM.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_FIRAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_CRAWLINGFIRAGA.get(), MagicEntityRenderer::new);
@@ -455,6 +464,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LIGHT_PORTAL.get(), LightPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_HEARTLESS_LIGHT.get(), HeartlessLightRenderer::new);
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);
         event.registerEntityRenderer(TYPE_DAMAGE_NUMBER.get(), DamageNumberRenderer::new);

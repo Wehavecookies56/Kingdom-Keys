@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.api.event.DriveFormCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
@@ -28,7 +29,7 @@ public record CSUseDriveFormPacket(ResourceLocation form) implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		// A Heartless has no keyblade, magic, forms or items
-		if (HeartlessForm.isHeartless(context.player())) {
+		if (HeartlessForm.isHeartless(context.player()) || FireBarrierEntity.isBusy(context.player())) {
 			return;
 		}
 

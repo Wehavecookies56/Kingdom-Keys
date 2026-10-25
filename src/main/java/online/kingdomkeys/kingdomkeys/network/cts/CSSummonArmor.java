@@ -17,6 +17,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
@@ -78,7 +79,7 @@ public record CSSummonArmor(boolean forceDesummon) implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		// A Heartless has no keyblade, magic, forms or items
-		if (HeartlessForm.isHeartless(context.player())) {
+		if (HeartlessForm.isHeartless(context.player()) || FireBarrierEntity.isBusy(context.player())) {
 			return;
 		}
 

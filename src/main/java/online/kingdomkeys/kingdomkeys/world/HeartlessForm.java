@@ -14,14 +14,14 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -43,8 +43,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
+import online.kingdomkeys.kingdomkeys.entity.HeartlessLightEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.entity.drops.HeartEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -56,12 +56,7 @@ import online.kingdomkeys.kingdomkeys.util.OpenSpot;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-import java.util.WeakHashMap;
+import java.util.*;
 
 public class HeartlessForm {
 	public static final String FELL = "kingdomkeys.heartless_form.fell.intro", FELL_SUB = "kingdomkeys.heartless_form.fell.sub";
@@ -80,7 +75,7 @@ public class HeartlessForm {
 	private static final double[] LIGHT_SPREAD = {1D, 0.83D, 1.17D, 0.67D};
 	private static final double[] LIGHT_FALLBACK = {8D, 6D, 10D, 4D};
 	private static final double REACH = 1.8D;
-	private static final double HEART_WATCH = 96D;
+	private static final double LIGHT_WATCH = 96D;
 	private static final int UPKEEP = 40;
 	private static final double NOBODY_RANGE = 48D;
 	private static final int NOBODY_CHECK = 20, STALE_CHECK = 100;
@@ -111,7 +106,7 @@ public class HeartlessForm {
 		return true;
 	}
 
-	/** Turns them into a Heartless, with their heart sent off to wait as the light. Returns false if they already are one */
+	/** Turns them into a Heartless, with the light of their heart sent off to wait for them. Returns false if they already are one */
 	public static boolean turn(ServerPlayer player) {
 		PlayerData data = PlayerData.get(player);
 		if (data.isHeartless()) {
@@ -146,7 +141,7 @@ public class HeartlessForm {
 		data.setHeartless(true);
 		data.setLight(level.dimension(), BlockPos.containing(light));
 		loseStats(data);
-		level.addFreshEntity(HeartEntity.guide(level, fell.add(0D, 1D, 0D), light, player.getUUID()));
+		level.addFreshEntity(new HeartlessLightEntity(level, fell.add(0D, 1D, 0D), light, player.getUUID()));
 
 		// The Heartless that did it forget about them: one of their own now
 		for (Mob mob : level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(32D), mob -> mob.getTarget() == player && isHeartlessMob(mob))) {
@@ -171,7 +166,7 @@ public class HeartlessForm {
 		data.setNobodyMissingTicks(0);
 	}
 
-	/** Makes them human again, as reaching their heart would. Returns false if they were not a Heartless */
+	/** Makes them human again, as reaching their light would. Returns false if they were not a Heartless */
 	public static boolean restore(ServerPlayer player) {
 		PlayerData data = PlayerData.get(player);
 		if (!data.isHeartless()) {
@@ -185,7 +180,7 @@ public class HeartlessForm {
 		clear(data);
 
 		ServerLevel level = player.serverLevel();
-		level.getEntitiesOfClass(HeartEntity.class, player.getBoundingBox().inflate(8D), heart -> heart.isGuideFor(player.getUUID())).forEach(Entity::discard);
+		level.getEntitiesOfClass(HeartlessLightEntity.class, player.getBoundingBox().inflate(8D), guide -> guide.isFor(player.getUUID())).forEach(Entity::discard);
 		level.sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() + 1D, player.getZ(), 60, 0.3D, 0.8D, 0.3D, 0.08D);
 		level.playSound(null, player.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1F, 1.4F);
 		level.playSound(null, player.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.5F, 1F);
@@ -254,12 +249,12 @@ public class HeartlessForm {
 			return;
 		}
 
-		// The heart does not survive being unloaded or saved, so whoever it belongs to keeps one burning while they are near
-		if (player.tickCount % UPKEEP == 0 && player.position().distanceTo(light) <= HEART_WATCH) {
+		// The light does not survive being unloaded or saved, so whoever it belongs to keeps one burning while they are near
+		if (player.tickCount % UPKEEP == 0 && player.position().distanceTo(light) <= LIGHT_WATCH) {
 			ServerLevel level = serverPlayer.serverLevel();
-			boolean burning = !level.getEntitiesOfClass(HeartEntity.class, new AABB(lightPos).inflate(HEART_WATCH), heart -> heart.isGuideFor(player.getUUID())).isEmpty();
+			boolean burning = !level.getEntitiesOfClass(HeartlessLightEntity.class, new AABB(lightPos).inflate(LIGHT_WATCH), guide -> guide.isFor(player.getUUID())).isEmpty();
 			if (!burning) {
-				level.addFreshEntity(HeartEntity.guide(level, light, Vec3.atBottomCenterOf(lightPos), player.getUUID()));
+				level.addFreshEntity(new HeartlessLightEntity(level, light, Vec3.atBottomCenterOf(lightPos), player.getUUID()));
 			}
 		}
 	}

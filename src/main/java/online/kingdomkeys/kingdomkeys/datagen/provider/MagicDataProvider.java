@@ -111,6 +111,11 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(KingdomKeys.rl(Strings.Magic_FiragaBurst).getPath(), new MagicBuilder().cost(26).castTime(10).cooldown(150).damageMultiplier(0.1F, 0.15F).lockOn(false).maxExp(6800).maxExpLevel(5).interactsWithBlocks(FIRE_INTERACTIONS).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Ignite).getPath(), new MagicBuilder().cost(16).castTime(10).cooldown(30).damageMultiplier(30F, 120F).lockOn(true).maxExp(3400).maxExpLevel(4).build());
 
+		magics.put(KingdomKeys.rl(Strings.Magic_FireBarrier).getPath(), new MagicBuilder().cost(10).castTime(10).cooldown(60).damageMultiplier(0.25F, 0.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_FiraBarrier).getPath(), new MagicBuilder().cost(14).castTime(10).cooldown(60).damageMultiplier(0.35F, 0.4F).lockOn(false).maxExp(2400).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_FiragaBarrier).getPath(), new MagicBuilder().cost(18).castTime(10).cooldown(60).damageMultiplier(0.45F, 0.5F).lockOn(false).maxExp(4200).maxExpLevel(4).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_RagingStorm).getPath(), new MagicBuilder().cost(30).castTime(15).cooldown(300).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(6800).maxExpLevel(5).build());
+
 		magics.put(KingdomKeys.rl(Strings.Magic_TripleBlizzard).getPath(), new MagicBuilder().cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F, 0.4F).lockOn(true).maxExp(4600).maxExpLevel(4).interactsWithBlocks(BLIZZARD_INTERACTIONS).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_DeepFreeze).getPath(), new MagicBuilder().cost(22).castTime(12).cooldown(120).damageMultiplier(0.3F, 3.8F).lockOn(true).maxExp(6400).maxExpLevel(5).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Glacier).getPath(), new MagicBuilder().cost(22).castTime(15).cooldown(120).damageMultiplier(0.45F, 0.55F).lockOn(true).maxExp(7200).maxExpLevel(5).build());

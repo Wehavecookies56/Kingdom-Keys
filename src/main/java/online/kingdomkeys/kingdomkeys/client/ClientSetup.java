@@ -38,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.RODTransitionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.particles.KeybladeHitParticle;
 import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
+import online.kingdomkeys.kingdomkeys.client.particles.ShortFlameParticle;
 import online.kingdomkeys.kingdomkeys.client.render.*;
 import online.kingdomkeys.kingdomkeys.client.render.item.KeychainModelWrapper;
 import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
@@ -192,6 +193,7 @@ public class ClientSetup {
 	@SubscribeEvent
 	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
 		event.registerSpecial(ModParticles.KEYBLADE_HIT.get(), new KeybladeHitParticle.Provider());
+		event.registerSpriteSet(ModParticles.SHORT_FLAME.get(), ShortFlameParticle.Provider::new);
 	}
 
 	@SubscribeEvent

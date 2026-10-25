@@ -13,6 +13,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.LimitCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -43,7 +44,7 @@ public record CSUseLimitPacket(ResourceLocation limit, int targetID) implements 
 	@Override
 	public void handle(IPayloadContext context) {
 		// A Heartless has no keyblade, magic, forms or items
-		if (HeartlessForm.isHeartless(context.player())) {
+		if (HeartlessForm.isHeartless(context.player()) || FireBarrierEntity.isBusy(context.player())) {
 			return;
 		}
 

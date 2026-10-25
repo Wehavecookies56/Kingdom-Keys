@@ -36,6 +36,22 @@
     "price": 700
   },
   {
+    "item": "kingdomkeys:spellfirebarrier",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellfirabarrier",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellfiragabarrier",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellragingstorm",
+    "price": 700
+  },
+  {
     "item": "kingdomkeys:spellblizzard",
     "price": 200
   },

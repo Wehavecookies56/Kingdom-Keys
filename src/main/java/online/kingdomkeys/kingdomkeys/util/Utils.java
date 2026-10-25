@@ -94,6 +94,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
@@ -302,7 +303,7 @@ public class Utils {
 
 	// For every spell cast, from the command menu or a shortcut
 	public static boolean canCastMagic(Player player, PlayerData playerData, ResourceLocation magicName) {
-		if (playerData == null || magicName == null || HeartlessForm.isHeartless(player) || player.hasEffect(ModMobEffects.KO) || player.hasEffect(ModMobEffects.STOP)) {
+		if (playerData == null || magicName == null || HeartlessForm.isHeartless(player) || FireBarrierEntity.isBusy(player) || player.hasEffect(ModMobEffects.KO) || player.hasEffect(ModMobEffects.STOP)) {
 			return false;
 		}
 

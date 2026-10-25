@@ -2692,6 +2692,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return this.magicCooldowns;
 	}
 
+	public boolean speedUpMagicCooldowns(int ticks) {
+		boolean running = this.magicCooldown > 0 || !this.magicCooldowns.isEmpty();
+		remMagicCooldownTicks(ticks);
+		this.magicCooldowns.replaceAll((magic, remaining) -> remaining - ticks);
+		this.magicCooldowns.values().removeIf(remaining -> remaining <= 0);
+		return running;
+	}
+
 	public boolean tickMagicCooldowns() {
 		if (this.magicCooldowns.isEmpty()) {
 			return false;

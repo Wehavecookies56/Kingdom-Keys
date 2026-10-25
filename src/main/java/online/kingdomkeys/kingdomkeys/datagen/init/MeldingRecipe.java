@@ -29,7 +29,8 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("reflera").ingredient1(reflectSpell).ingredient2(reflectSpell).output(refleraSpell).addCost(400).addTier(2);
 
 // Tier 3
-		getBuilder("firaga").ingredient1(firaSpell).ingredient2(firaSpell).output(firagaSpell).addCost(800).addTier(3);
+		getBuilder("firaga").ingredient1(firaSpell).ingredient2(firaSpell).output(firagaSpell).bonusOutput(ragingStormSpell,1,10).addCost(800).addTier(3);
+		getBuilder("firaga2").ingredient1(fireSpell).ingredient2(firaSpell).output(firagaSpell).bonusOutput(ragingStormSpell,1,10).addCost(800).addTier(3);
 		getBuilder("blizzaga").ingredient1(blizzaraSpell).ingredient2(blizzaraSpell).output(blizzagaSpell).addCost(800).addTier(3);
 		getBuilder("thundaga").ingredient1(thundaraSpell).ingredient2(thundaraSpell).output(thundagaSpell).addCost(800).addTier(3);
 		getBuilder("curaga").ingredient1(curaSpell).ingredient2(curaSpell).output(curagaSpell).addCost(800).addTier(3);
@@ -48,8 +49,8 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 //BBS
 		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell).addCost(1200).addTier(4);
 
-		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell).addCost(1000).addTier(3);
-		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell).addCost(1200).addTier(4);
+		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell).bonusOutput(ragingStormSpell,1,10).addCost(1000).addTier(3);
+		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell).bonusOutput(ragingStormSpell,1,10).addCost(1200).addTier(4);
 
 		//Firaga bursts are here too
 		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
@@ -61,6 +62,8 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
 
 		getBuilder("ignite").ingredient1(fireSpell).ingredient2(bindSpell).output(igniteSpell).addCost(1200).addTier(4);
+
+		getBuilder("raging_storm").ingredient1(fissionFiragaSpell).ingredient2(firagaBurstSpell).output(ragingStormSpell).addCost(2000).addTier(5);
 
 
 		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell).addCost(1000).addTier(3);

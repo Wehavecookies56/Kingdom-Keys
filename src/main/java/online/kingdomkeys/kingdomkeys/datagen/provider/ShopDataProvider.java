@@ -177,6 +177,10 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.SpellCrawlingFiraga, 1, 5, TIER_4_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellFissionFiraga, 1, 5, TIER_4_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellFiragaBurst, 1, 6, TIER_5_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellFireBarrier, 1, 2, TIER_1_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellFiraBarrier, 1, 3, TIER_2_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellFiragaBarrier, 1, 4, TIER_3_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellRagingStorm, 1, 6, TIER_5_MAGIC, 1, "all"));
 
 		defaultShop.add(shop(Strings.SpellBlizzard, 1, 2, TIER_1_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellBlizzara, 1, 3, TIER_2_MAGIC, 1, "all"));

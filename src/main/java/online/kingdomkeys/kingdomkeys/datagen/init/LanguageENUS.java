@@ -1036,6 +1036,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
         add(ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
         add(ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(ModMagic.FIRE_BARRIER.get(),"Fire Barrier");
+        add(ModMagic.FIRA_BARRIER.get(),"Fira Barrier");
+        add(ModMagic.FIRAGA_BARRIER.get(),"Firaga Barrier");
+        add(ModMagic.RAGING_STORM.get(),"Raging Storm");
         add(ModMagic.STRIKE_RAID.get(),"Strike Raid");
         add(ModMagic.IGNITE.get(),"Ignite");
 
@@ -2333,6 +2337,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
         addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
         addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+        addItem(ModItems.fireBarrierSpell, "Fire Barrier Spell");
+        addItem(ModItems.firaBarrierSpell, "Fira Barrier Spell");
+        addItem(ModItems.firagaBarrierSpell, "Firaga Barrier Spell");
+        addItem(ModItems.ragingStormSpell, "Raging Storm Spell");
         addItem(ModItems.strikeRaidSpell, "Strike Raid Spell");
         addItem(ModItems.igniteSpell, "Ignite Spell");
 
@@ -2999,12 +3007,12 @@ public class LanguageENUS extends KKLanguageProvider {
         // Entities
         add("kingdomkeys.entity.nobody_of", "%s's Nobody");
         add("kingdomkeys.command.heartless.turned", "%s has fallen to darkness");
-        add("kingdomkeys.command.heartless.restored", "%s has found their heart again");
+        add("kingdomkeys.command.heartless.restored", "%s has found their light again");
         add("kingdomkeys.command.heartless.already", "%s is already a Heartless");
         add("kingdomkeys.command.heartless.not", "%s is not a Heartless");
         add("kingdomkeys.heartless_form.fell.intro", "Your heart has fallen to darkness");
         add("kingdomkeys.heartless_form.fell.sub", "Find its light...");
-        add("kingdomkeys.heartless_form.restored.intro", "You found your heart");
+        add("kingdomkeys.heartless_form.restored.intro", "You found your light");
         add("kingdomkeys.heartless_form.restored.sub", "But your Nobody still walks somewhere...");
         add("kingdomkeys.heartless_form.merged.intro", "You became one with your Nobody");
         add("kingdomkeys.heartless_form.merged.sub", "You are now part of the Organization XIII");

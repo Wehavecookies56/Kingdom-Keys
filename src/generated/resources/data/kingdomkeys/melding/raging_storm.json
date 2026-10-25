@@ -1,0 +1,11 @@
+{
+  "cost": 2000,
+  "ingredient1": "kingdomkeys:spellfissionfiraga",
+  "ingredient2": "kingdomkeys:spellfiragaburst",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellragingstorm",
+    "quantity": 1
+  },
+  "tier": 5
+}

@@ -86,6 +86,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
@@ -123,6 +124,15 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+
+	// A barrier holds the caster still by taking their speed away, which would otherwise zoom the view in like slowness
+	@SubscribeEvent
+	public void barrierFov(ComputeFovModifierEvent event) {
+		if (FireBarrierEntity.isRootedToGround(event.getPlayer())) {
+			event.setNewFovModifier(1F);
+		}
+	}
+
 	@SubscribeEvent
 	public void onKeychainHolderPre(RenderLivingEvent.Pre<?, ?> event) {
 		KeychainRenderer.drawing(event.getEntity());

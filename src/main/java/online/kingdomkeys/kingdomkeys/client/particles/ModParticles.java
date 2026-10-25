@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.particles;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -20,6 +21,8 @@ public class ModParticles {
     public static final ResourceLocation ULTIMA_HIT = KingdomKeys.rl("textures/particle/ultima_hit.png");
     public static final ResourceLocation KIBLADE_HIT = KingdomKeys.rl("textures/particle/kiblade_hit.png");
     public static final ResourceLocation YELLOW_HIT = KingdomKeys.rl("textures/particle/yellow_star_hit.png");
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SHORT_FLAME = PARTICLES.register("short_flame", () -> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<KeybladeHitParticleOptions>> KEYBLADE_HIT =
             PARTICLES.register("keyblade_hit", () -> new ParticleType<KeybladeHitParticleOptions>(false) {
