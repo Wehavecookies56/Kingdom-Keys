@@ -145,7 +145,7 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onNameTagRender(RenderNameTagEvent event) {
-		if (!(event.getEntity() instanceof LivingEntity mob) || mob instanceof Player) {
+		if (ModConfigs.hideMobNameplates || !(event.getEntity() instanceof LivingEntity mob) || mob instanceof Player) {
 			return;
 		}
 
@@ -377,6 +377,17 @@ public class ClientEvents {
 				}
 
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+		if (event.getCamera().isDetached() || !(event.getCamera().getEntity().getVehicle() instanceof GummiShipEntity ship)) {
+			return;
+		}
+		float roll = ship.getRoll((float) event.getPartialTick());
+		if (roll != 0F) {
+			event.setRoll(event.getRoll() + roll);
 		}
 	}
 

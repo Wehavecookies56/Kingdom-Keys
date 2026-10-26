@@ -51,14 +51,18 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		final GummiStructure builtFrom;
 		final boolean xEven;
 		final boolean zEven;
+		// Centre of the blocks actually placed, in the frame the roll is applied in
+		final float rollPivotX, rollPivotY;
 
-		CachedShipMesh(Map<RenderType, VertexBuffer> buffers, List<Exhaust> engineLocalPositions, GummiStructure builtFrom, boolean xEven, boolean zEven) {
+		CachedShipMesh(Map<RenderType, VertexBuffer> buffers, List<Exhaust> engineLocalPositions, GummiStructure builtFrom, boolean xEven, boolean zEven, float rollPivotX, float rollPivotY) {
 			this.buffers = buffers;
 			this.engineLocalPositions = engineLocalPositions;
 			this.lastExhaust = new Vec3[engineLocalPositions.size()];
 			this.builtFrom = builtFrom;
 			this.xEven = xEven;
 			this.zEven = zEven;
+			this.rollPivotX = rollPivotX;
+			this.rollPivotY = rollPivotY;
 		}
 
 		void close() {
@@ -120,6 +124,12 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			float xRot = Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot());
 			matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 			matrixStackIn.mulPose(Axis.XP.rotationDegrees(-xRot));
+			float roll = entityIn.getRoll(partialTicks);
+			if (roll != 0F) {
+				matrixStackIn.translate(cached.rollPivotX, cached.rollPivotY, 0);
+				matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-roll));
+				matrixStackIn.translate(-cached.rollPivotX, -cached.rollPivotY, 0);
+			}
 			matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 			if (spawnParticles) {
@@ -197,11 +207,16 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		List<Exhaust> engineLocalPositions = new ArrayList<>();
 
 		PoseStack bakePose = new PoseStack();
+		int minX = w, maxX = -1, minY = h, maxY = -1;
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
 				for (int z = 0; z < d; z++) {
 					BlockState state = entityIn.structure.getBlocks()[x][y][z];
 					if (state == null || state.isAir()) continue;
+					minX = Math.min(minX, x);
+					maxX = Math.max(maxX, x);
+					minY = Math.min(minY, y);
+					maxY = Math.max(maxY, y);
 
 					bakePose.pushPose();
 					{
@@ -226,7 +241,9 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		}
 
 		Map<RenderType, VertexBuffer> buffers = capture.upload();
-		return new CachedShipMesh(buffers, engineLocalPositions, entityIn.structure, xEven, zEven);
+		float pivotX = maxX < 0 ? 0 : (minX + maxX + 1) / 2F + (xEven ? 0.5F : 0F) - w / 2F;
+		float pivotY = maxY < 0 ? h / 2F : (minY + maxY + 1) / 2F;
+		return new CachedShipMesh(buffers, engineLocalPositions, entityIn.structure, xEven, zEven, pivotX, pivotY);
 	}
 
 	// Distance between bursts along the exhaust's path

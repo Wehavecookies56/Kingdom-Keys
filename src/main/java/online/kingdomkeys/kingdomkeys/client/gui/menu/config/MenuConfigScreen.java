@@ -70,8 +70,8 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Lock On
 	EditBox lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
-	CheckboxButton lockOnKH1BarButton, lockOnHideLabelsButton;
-	boolean lockOnKH1Bar, lockOnHideLabels;
+	CheckboxButton lockOnKH1BarButton, lockOnHideLabelsButton, hideMobNameplatesButton;
+	boolean lockOnKH1Bar, lockOnHideLabels, hideMobNameplates;
 
 	//Party
 	EditBox partyYDistanceBox;
@@ -136,6 +136,10 @@ public class MenuConfigScreen extends MenuBackground {
 		case "lockOnHideLabels":
 			lockOnHideLabels = lockOnHideLabelsButton.isChecked();
 			ModConfigs.setLockOnHideLabels(lockOnHideLabels);
+			break;
+		case "hideMobNameplates":
+			hideMobNameplates = hideMobNameplatesButton.isChecked();
+			ModConfigs.setHideMobNameplates(hideMobNameplates);
 			break;
 		case "hpShowHearts":
 			hpShowHearts = hpShowHeartsButton.isChecked();
@@ -651,6 +655,10 @@ public class MenuConfigScreen extends MenuBackground {
 		lockOnHideLabels = ModConfigs.lockOnHideLabels;
 		addRenderableWidget(lockOnHideLabelsButton = toggle(5, lockOnHideLabels, "lockOnHideLabels"));
 		lockOnList.add(lockOnHideLabelsButton);
+
+		hideMobNameplates = ModConfigs.hideMobNameplates;
+		addRenderableWidget(hideMobNameplatesButton = toggle(6, hideMobNameplates, "hideMobNameplates"));
+		lockOnList.add(hideMobNameplatesButton);
 	}
 	
 	private void initParty() {
@@ -968,6 +976,7 @@ public class MenuConfigScreen extends MenuBackground {
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.kh1_hp_bar"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hide_labels"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hide_mob_nameplates"), 40, 20 * ++pos, 0xFF9900);
 
 				}
 				case PARTY -> {

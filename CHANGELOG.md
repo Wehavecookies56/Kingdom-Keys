@@ -3,6 +3,8 @@
 * Raging Storm spell: three columns of fire slowly circle around you for a while, burning enemies they touch. You can only move until it ends.
   * Melded from Fission Firaga and Firaga Burst, and a 10% chance to get it instead when melding Firaga or Triple Firaga.
 * ServerConfig heartlessChaseLight to use the old heartless system (chasing the light).
+* Gummi Ship barrel roll: double tap left or right while in a ship to roll to that side, dodging a bit towards it.
+* Option in M menu, config, lock on, to hide the name and level shown above mobs.
 
 ## Changed:
 * Save points that restore MP also make magic cooldowns go twice as fast while standing on them, shared or individual.

@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGummiRollPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGummiThrottlePacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
@@ -383,12 +384,73 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return pilotThrusting || entityData.get(THRUSTING);
 	}
 
+	public static final int ROLL_TICKS = 16, DOUBLE_TAP = 7;
+	private static final float ROLL_DODGE = 0.2F;
+	private int rollDir, rollTicks;
+	private int tapLeft, tapRight;
+	private boolean prevLeft, prevRight;
+
+	private void detectRoll() {
+		if (tapLeft > 0)
+			tapLeft--;
+		if (tapRight > 0)
+			tapRight--;
+		if (inputLeft && !prevLeft) {
+			if (tapLeft > 0)
+				requestRoll(-1);
+			else
+				tapLeft = DOUBLE_TAP;
+			tapRight = 0;
+		}
+		if (inputRight && !prevRight) {
+			if (tapRight > 0)
+				requestRoll(1);
+			else
+				tapRight = DOUBLE_TAP;
+			tapLeft = 0;
+		}
+		prevLeft = inputLeft;
+		prevRight = inputRight;
+	}
+
+	private void requestRoll(int dir) {
+		tapLeft = tapRight = 0;
+		if (rollTicks > 0 || getFuel() <= 0) {
+			return;
+		}
+		startRoll(dir);
+		PacketHandler.sendToServer(new CSGummiRollPacket(getId(), dir > 0));
+	}
+
+	public void startRoll(int dir) {
+		if (rollTicks > 0) {
+			return;
+		}
+		rollDir = dir;
+		rollTicks = ROLL_TICKS;
+		if (!level().isClientSide) {
+			entityData.set(ROLL, (byte) dir);
+		}
+	}
+
+	// Degrees around the ship's length, positive to the right
+	public float getRoll(float partialTicks) {
+		if (rollTicks <= 0) {
+			return 0F;
+		}
+		float t = Math.min((ROLL_TICKS - rollTicks + partialTicks) / ROLL_TICKS, 1F);
+		return rollDir * 360F * t * t * (3F - 2F * t);
+	}
+
 	@Override
 	void controlBoat() {
 		boolean thrusting = inputLeft || inputRight || inputUp || inputDown || inputForward || inputBackward;
 		if (level().isClientSide && thrusting != pilotThrusting) {
 			pilotThrusting = thrusting;
 			PacketHandler.sendToServer(new CSGummiThrottlePacket(getId(), thrusting));
+		}
+		if (level().isClientSide) {
+			detectRoll();
 		}
 
 		if(getFuel() <= 0){
@@ -541,6 +603,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				currentStrafeSpeed = 0;
 				this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
 			}
+
+			if (rollTicks > 0) {
+				float t = (ROLL_TICKS - rollTicks) / (float) ROLL_TICKS;
+				Vec3 right = this.calculateViewVector(0F, this.getYRot()).cross(new Vec3(0, 1, 0)).normalize();
+				this.setDeltaMovement(this.getDeltaMovement().add(right.scale(rollDir * ROLL_DODGE * Mth.sin(t * Mth.PI))));
+			}
 		}
 	}
 
@@ -578,6 +646,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		// Nobody at the controls: both sides forget the throttle, so a new pilot starts from a clean state
 		if (getControllingPassenger() == null) {
 			setPilotThrusting(false);
+		}
+		if (rollTicks > 0 && --rollTicks == 0) {
+			rollDir = 0;
+			if (!level().isClientSide) {
+				entityData.set(ROLL, (byte) 0);
+			}
 		}
 		//setFuel(200);
 		if (structure == null || structure.getBlocks().length == 0) {
@@ -657,6 +731,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> FLIGHT_TYPE_3D = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> THRUSTING = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Byte> ROLL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BYTE);
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
@@ -665,6 +740,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		pBuilder.define(FUEL, 0);
 		pBuilder.define(FLIGHT_TYPE_3D, false);
 		pBuilder.define(THRUSTING, false);
+		pBuilder.define(ROLL, (byte) 0);
 	}
 
 	public CompoundTag getData() {
@@ -724,6 +800,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 		if (key.equals(FUEL)) {
 			this.fuel = this.entityData.get(FUEL);
+		}
+		// The pilot already started it
+		if (key.equals(ROLL) && level().isClientSide && !isControlledByLocalInstance() && this.entityData.get(ROLL) != 0) {
+			startRoll(this.entityData.get(ROLL));
 		}
 	}
 

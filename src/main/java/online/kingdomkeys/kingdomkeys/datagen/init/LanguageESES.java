@@ -81,6 +81,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Vida de objetivo hp por barra");
         addConfigKey(ModConfigs.getClientConfig().lockOnKH1Bar, "Barra de vida del objetivo estilo KH1");
         addConfigKey(ModConfigs.getClientConfig().lockOnHideLabels, "Ocultar nombre y etiqueta HP del objetivo");
+        addConfigKey(ModConfigs.getClientConfig().hideMobNameplates, "Ocultar nombre y nivel de los mobs");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
 
         //COMMON
@@ -581,6 +582,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hp_per_bar", "VT por barra");
         add(Gui_Menu_Config + ".kh1_hp_bar", "Barra de VT estilo KH1");
         add(Gui_Menu_Config + ".hide_labels", "Ocultar nombre y etiqueta HP");
+        add(Gui_Menu_Config + ".hide_mob_nameplates", "Ocultar nombre y nivel de los mobs");
         add(Gui_Menu_Config + ".show_hearts", "Mostrar corazones");
         add(Gui_Menu_Config + ".hp_alarm", "Volumen de Alarma de VT Baja");
         add(Gui_Menu_Config + ".import_export", "Importar/Exportar");

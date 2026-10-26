@@ -175,6 +175,7 @@ public class PacketHandler {
         server(CSCombatActionPacket.TYPE, CSCombatActionPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
         server(CSGummiThrottlePacket.TYPE, CSGummiThrottlePacket.STREAM_CODEC);
+        server(CSGummiRollPacket.TYPE, CSGummiRollPacket.STREAM_CODEC);
         server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
 		server(CSSetHangingWallTicksPacket.TYPE, CSSetHangingWallTicksPacket.STREAM_CODEC);
 		server(CSPlaySoundPacket.TYPE, CSPlaySoundPacket.STREAM_CODEC);
