@@ -335,6 +335,20 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
+		return seatOffset(entity, getRoll(partialTick));
+	}
+
+	// How far the roll has carried this passenger from their seat, where their rendered position has them
+	public Vec3 getRollShift(Entity passenger, float partialTick) {
+		if (rollTicks <= 0 || !hasPassenger(passenger)) {
+			return Vec3.ZERO;
+		}
+		// Their position from last tick was set with the roll as it is now at 0, and the current one at 1
+		Vec3 shown = seatOffset(passenger, getRoll(0F)).lerp(seatOffset(passenger, getRoll(1F)), partialTick);
+		return shown.subtract(seatOffset(passenger, 0F));
+	}
+
+	private Vec3 seatOffset(Entity entity, float roll) {
 		int i = getPassengers().indexOf(entity); //return index of the entity in the big array
 		double x = getShipStats().passengerSlots.get(i).x();
 		double y = getShipStats().passengerSlots.get(i).y();
@@ -347,7 +361,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		boolean zEven = isZEven == 1;
 
 		Vec3 seat = new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0));
-		float roll = getRoll(partialTick);
 		if (roll != 0F) {
 			// Seats are mirrored on X against the renderer's frame, so the pivot is too
 			Vec3 pivot = getRollPivot();
