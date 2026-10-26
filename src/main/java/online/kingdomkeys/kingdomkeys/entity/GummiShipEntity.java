@@ -60,7 +60,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility, int horsepower, int cost) {
+	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility, int horsepower, int cost, int offense) {
 		public static final float SPEED_SCALE = 0.03F;
 		public static final float MIN_TURN = 1F, MAX_TURN = 20F;
 
@@ -72,9 +72,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			return getEffectiveSpeed() * 2 * 20;
 		}
 
+		public float getHandling(){
+			return weight() <= 0 ? 1F : Math.min(1.5F * mobility() / weight(), 1F);
+		}
+
 		public float getTurnRate(){
-			float handling = weight() <= 0 ? 1F : Math.min(1.5F * mobility() / weight(), 1F);
-			return MIN_TURN + (MAX_TURN - MIN_TURN) * handling;
+			return MIN_TURN + (MAX_TURN - MIN_TURN) * getHandling();
 		}
 	}
 
@@ -343,7 +346,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		boolean xEven = isXEven == 1;
 		boolean zEven = isZEven == 1;
 
-		return (new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0)))
+		Vec3 seat = new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0));
+		float roll = getRoll(partialTick);
+		if (roll != 0F) {
+			// Seats are mirrored on X against the renderer's frame, so the pivot is too
+			Vec3 pivot = getRollPivot();
+			seat = seat.subtract(-pivot.x, pivot.y, 0).zRot(-roll * Mth.DEG_TO_RAD).add(-pivot.x, pivot.y, 0);
+		}
+		return seat
 				.xRot(-this.getXRot() * 0.017453292F)
 				.yRot(-this.getYRot() * 0.017453292F);
 	}
@@ -384,11 +394,53 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return pilotThrusting || entityData.get(THRUSTING);
 	}
 
-	public static final int ROLL_TICKS = 16, DOUBLE_TAP = 7;
-	private static final float ROLL_DODGE = 0.2F;
-	private int rollDir, rollTicks;
+	// More mobility, up to MAX_ROLL_MOBILITY, makes the roll faster and dodge further
+	public static final int ROLL_TICKS = 16, MIN_ROLL_TICKS = 10, MAX_ROLL_MOBILITY = 40, DOUBLE_TAP = 7;
+	private static final float ROLL_DODGE = 0.2F, MAX_DODGE_DISTANCE = 1.75F;
+	private int rollDir, rollTicks, rollDuration = ROLL_TICKS;
+	private float rollDodge = ROLL_DODGE;
 	private int tapLeft, tapRight;
 	private boolean prevLeft, prevRight;
+	private GummiStructure pivotFrom;
+	private Vec3 rollPivot = Vec3.ZERO;
+
+	// Centre of the blocks actually placed, in the renderer's frame once the ship is turned and tilted
+	public Vec3 getRollPivot() {
+		if (structure != pivotFrom) {
+			pivotFrom = structure;
+			rollPivot = structure == null ? Vec3.ZERO : findRollPivot(structure);
+		}
+		return rollPivot;
+	}
+
+	private static Vec3 findRollPivot(GummiStructure structure) {
+		BlockState[][][] blocks = structure.getBlocks();
+		int minX = Integer.MAX_VALUE, maxX = -1, minY = Integer.MAX_VALUE, maxY = -1;
+		for (int x = 0; x < blocks.length; x++) {
+			for (int y = 0; y < blocks[x].length; y++) {
+				for (int z = 0; z < blocks[x][y].length; z++) {
+					BlockState state = blocks[x][y][z];
+					if (state != null && !state.isAir()) {
+						minX = Math.min(minX, x);
+						maxX = Math.max(maxX, x);
+						minY = Math.min(minY, y);
+						maxY = Math.max(maxY, y);
+					}
+				}
+			}
+		}
+		if (maxX < 0) {
+			return new Vec3(0, structure.getHeight() / 2F, 0);
+		}
+		// Blocks of an even ship are drawn half a block over
+		float evenShift = Utils.isStructureEven(structure)[0] ? 0.5F : 0F;
+		return new Vec3((minX + maxX + 1) / 2F + evenShift - structure.getWidth() / 2F, (minY + maxY + 1) / 2F, 0);
+	}
+
+	// Only Aero gummis give mobility, so rolling needs at least one
+	public boolean canRoll() {
+		return structure != null && getShipStats().mobility() > 0;
+	}
 
 	private void detectRoll() {
 		if (tapLeft > 0)
@@ -415,7 +467,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	private void requestRoll(int dir) {
 		tapLeft = tapRight = 0;
-		if (rollTicks > 0 || getFuel() <= 0) {
+		if (rollTicks > 0 || getFuel() <= 0 || !canRoll()) {
 			return;
 		}
 		startRoll(dir);
@@ -423,11 +475,15 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	public void startRoll(int dir) {
-		if (rollTicks > 0) {
+		if (rollTicks > 0 || !canRoll()) {
 			return;
 		}
+		float f = Math.min(getShipStats().mobility(), MAX_ROLL_MOBILITY) / (float) MAX_ROLL_MOBILITY;
+		rollDuration = Math.round(Mth.lerp(f, ROLL_TICKS, MIN_ROLL_TICKS));
+		// The push is spread over fewer ticks, so it is scaled up to keep the distance growing
+		rollDodge = ROLL_DODGE * Mth.lerp(f, 1F, MAX_DODGE_DISTANCE) * ROLL_TICKS / rollDuration;
 		rollDir = dir;
-		rollTicks = ROLL_TICKS;
+		rollTicks = rollDuration;
 		if (!level().isClientSide) {
 			entityData.set(ROLL, (byte) dir);
 		}
@@ -438,7 +494,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		if (rollTicks <= 0) {
 			return 0F;
 		}
-		float t = Math.min((ROLL_TICKS - rollTicks + partialTicks) / ROLL_TICKS, 1F);
+		float t = Math.min((rollDuration - rollTicks + partialTicks) / rollDuration, 1F);
 		return rollDir * 360F * t * t * (3F - 2F * t);
 	}
 
@@ -605,9 +661,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			}
 
 			if (rollTicks > 0) {
-				float t = (ROLL_TICKS - rollTicks) / (float) ROLL_TICKS;
+				float t = (rollDuration - rollTicks) / (float) rollDuration;
 				Vec3 right = this.calculateViewVector(0F, this.getYRot()).cross(new Vec3(0, 1, 0)).normalize();
-				this.setDeltaMovement(this.getDeltaMovement().add(right.scale(rollDir * ROLL_DODGE * Mth.sin(t * Mth.PI))));
+				this.setDeltaMovement(this.getDeltaMovement().add(right.scale(rollDir * rollDodge * Mth.sin(t * Mth.PI))));
 			}
 		}
 	}

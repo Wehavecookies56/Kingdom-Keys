@@ -723,6 +723,7 @@ public class Utils {
 		int topSpeed = 0, lowSpeed = 0, horsepower = 0;
 		int cost = 0;
 		int mobility = 0;
+		int offense = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
@@ -765,6 +766,7 @@ public class Utils {
 						}
 						if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
 							if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
+								offense += wpn.getFirepower();
 								if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
 									//int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
 									impact.put(wpn.shotType, wpn.getFirepower());
@@ -773,6 +775,7 @@ public class Utils {
 								}
 							}
 						} else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
+							offense += wpn.getFirepower();
 							if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
 								impact.put(wpn.shotType, wpn.getFirepower());
 							} else {
@@ -799,7 +802,7 @@ public class Utils {
 			speed = lowSpeed + (topSpeed - lowSpeed) * drive;
 		}
 
-		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,impact,passengers,mobility,horsepower,cost);
+		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,impact,passengers,mobility,horsepower,cost,offense);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {

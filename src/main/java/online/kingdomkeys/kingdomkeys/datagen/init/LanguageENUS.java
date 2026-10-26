@@ -229,6 +229,12 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Container_GummiHangar + ".cost","Cost");
         add(Container_GummiHangar + ".com.over_cost","This ship's cost is %1$s, right now you can only build a ship whose cost does not exceed %2$s");
         add(Container_GummiHangar + ".mobility","Mobility");
+        add(Container_GummiHangar + ".chart.hp","HP");
+        add(Container_GummiHangar + ".chart.offense","Offense");
+        add(Container_GummiHangar + ".chart.speed","Speed");
+        add(Container_GummiHangar + ".chart.power","Power");
+        add(Container_GummiHangar + ".chart.mobility","Mobility");
+        add(Container_GummiHangar + ".chart.seats","Seats");
 
         // Gummi - ships, phone, hangar and blueprints
         add(Gummi_Block + ".shape_size_2x1x2", "Shape size: 2x1x2");

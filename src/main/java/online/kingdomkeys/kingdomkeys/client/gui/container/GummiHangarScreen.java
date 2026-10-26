@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiCostLevel;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.RadarChart;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -418,22 +419,22 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	private static final int OVER_LIMIT = 0xFF5555;
 	private static final int COST_BAR_HEIGHT = 5, COST_GAP = 4;
 
-	private int drawCostPanel(GuiGraphics gui, int x, int y, GummiShipEntity.ShipStats stats, int costLimitLevel) {
+	private int drawCostPanel(GuiGraphics gui, int x, int y, int width, GummiShipEntity.ShipStats stats, int costLimitLevel) {
 		int max = GummiCostLevel.maxCost(costLimitLevel);
 		boolean over = stats.cost() > max;
 		int height = PANEL_PADDING + (font.lineHeight + 2) + COST_BAR_HEIGHT + 3;
 
-		gui.fill(x, y, x + PANEL_WIDTH, y + height, 0xC0000000);
-		gui.renderOutline(x, y, PANEL_WIDTH, height, 0xFF555555);
+		gui.fill(x, y, x + width, y + height, 0xC0000000);
+		gui.renderOutline(x, y, width, height, 0xFF555555);
 
 		int line = y - PANEL_PADDING + font.lineHeight;
 		String value = stats.cost() + "/" + max;
 		gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.cost"), x + PANEL_PADDING, line, 0xA0A0A0, false);
-		gui.drawString(font, value, x + PANEL_WIDTH - PANEL_PADDING - font.width(value), line, over ? OVER_LIMIT : 0xFFFFFF, false);
+		gui.drawString(font, value, x + width - PANEL_PADDING - font.width(value), line, over ? OVER_LIMIT : 0xFFFFFF, false);
 
 		int barX = x + PANEL_PADDING;
 		int barY = line + font.lineHeight + 2;
-		int barWidth = PANEL_WIDTH - PANEL_PADDING * 2;
+		int barWidth = width - PANEL_PADDING * 2;
 		float used = max <= 0 ? 1F : Math.min((float) stats.cost() / max, 1F);
 		int colour = over ? 0xFFFF5555 : used > 0.8F ? 0xFFFFC040 : 0xFF55DD55;
 
@@ -443,32 +444,43 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		return height;
 	}
 
+	private final RadarChart statsChart = new RadarChart(24);
+
 	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel) {
+		// Clockwise from the top, laid out as in Kingdom Hearts III. The last number is where each one fills the chart
+		statsChart.setAxes(List.of(
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.hp"), stats.armour(), 500),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.offense"), stats.offense(), 100),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.power"), stats.horsepower(), 200),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.mobility"), stats.mobility(), GummiShipEntity.MAX_ROLL_MOBILITY),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.seats"), stats.passengerSlots().size(), 8),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.speed"), Math.round(stats.speed()), 120)
+		));
+
+		int width = Math.max(PANEL_WIDTH, statsChart.getWidth(font) + PANEL_PADDING * 2);
+		boolean fitsLeft = leftPos - PANEL_GAP_LEFT - width >= 0;
+		int x = fitsLeft ? -PANEL_GAP_LEFT - width : imageWidth + PANEL_GAP_RIGHT;
+		int y = STATS_TOP + drawCostPanel(gui, x, STATS_TOP, width, stats, comLevel) + COST_GAP;
+
+		int chartHeight = statsChart.getHeight(font) + PANEL_PADDING * 2;
+		gui.fill(x, y, x + width, y + chartHeight, 0xC0000000);
+		gui.renderOutline(x, y, width, chartHeight, 0xFF555555);
+		statsChart.render(gui, font, x, y + PANEL_PADDING, width);
+
 		float mps = stats.getMeterPerSecond();
-		String effectiveSpeed = (Float.isFinite(mps) ? df.format(mps) : "0") + " m/s";
-
 		String[][] rows = {
-				{Utils.translateToLocal("container.gummi_hangar.power"), String.valueOf(stats.horsepower())},
-				{Utils.translateToLocal("container.gummi_hangar.effectivespeed"), effectiveSpeed},
-				{Utils.translateToLocal("container.gummi_hangar.mobility"), String.valueOf(stats.mobility())},
-				{Utils.translateToLocal("container.gummi_hangar.weight"), String.valueOf(stats.weight())},
-				{Utils.translateToLocal("container.gummi_hangar.armor"), String.valueOf(stats.armour())},
-				{Utils.translateToLocal("container.gummi_hangar.firepower"), String.valueOf(stats.firepower().size())},
-				{Utils.translateToLocal("container.gummi_hangar.seats"), String.valueOf(stats.passengerSlots().size())}
+				{Utils.translateToLocal("container.gummi_hangar.effectivespeed"), (Float.isFinite(mps) ? df.format(mps) : "0") + " m/s"},
+				{Utils.translateToLocal("container.gummi_hangar.weight"), String.valueOf(stats.weight())}
 		};
-
-		boolean fitsLeft = leftPos - PANEL_GAP_LEFT - PANEL_WIDTH >= 0;
-		int x = fitsLeft ? -PANEL_GAP_LEFT - PANEL_WIDTH : imageWidth + PANEL_GAP_RIGHT;
-		int y = STATS_TOP + drawCostPanel(gui, x, STATS_TOP, stats, comLevel) + COST_GAP;
+		y += chartHeight + COST_GAP;
 		int height = PANEL_PADDING * 2 + rows.length * (font.lineHeight + 2) - 2;
-
-		gui.fill(x, y, x + PANEL_WIDTH, y + height, 0xC0000000);
-		gui.renderOutline(x, y, PANEL_WIDTH, height, 0xFF555555);
+		gui.fill(x, y, x + width, y + height, 0xC0000000);
+		gui.renderOutline(x, y, width, height, 0xFF555555);
 
 		int line = y + PANEL_PADDING;
 		for (String[] row : rows) {
 			gui.drawString(font, row[0], x + PANEL_PADDING, line, 0xA0A0A0, false);
-			gui.drawString(font, row[1], x + PANEL_WIDTH - PANEL_PADDING - font.width(row[1]), line, 0xFFFFFF, false);
+			gui.drawString(font, row[1], x + width - PANEL_PADDING - font.width(row[1]), line, 0xFFFFFF, false);
 			line += font.lineHeight + 2;
 		}
 	}

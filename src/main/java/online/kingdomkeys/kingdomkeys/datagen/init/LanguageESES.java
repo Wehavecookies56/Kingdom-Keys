@@ -280,6 +280,12 @@ public class LanguageESES extends KKLanguageProvider {
         add(Container_GummiHangar + ".cost","Coste");
         add(Container_GummiHangar + ".com.over_cost","El coste de esta nave es de %1$s, ahora mismo solo puedes construir una nave cuyo coste no supere %2$s");
         add(Container_GummiHangar + ".mobility","Movilidad");
+        add(Container_GummiHangar + ".chart.hp","VT");
+        add(Container_GummiHangar + ".chart.offense","Ataque");
+        add(Container_GummiHangar + ".chart.speed","Velocidad");
+        add(Container_GummiHangar + ".chart.power","Potencia");
+        add(Container_GummiHangar + ".chart.mobility","Movilidad");
+        add(Container_GummiHangar + ".chart.seats","Asientos");
 
         add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
         add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");
