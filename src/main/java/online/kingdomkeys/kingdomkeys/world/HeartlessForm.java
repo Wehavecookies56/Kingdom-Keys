@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world;
 
+import com.google.common.collect.MapMaker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -33,6 +35,7 @@ import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -45,8 +48,11 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.HeartlessLightEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -59,7 +65,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleObli
 import java.util.*;
 
 public class HeartlessForm {
-	public static final String FELL = "kingdomkeys.heartless_form.fell.intro", FELL_SUB = "kingdomkeys.heartless_form.fell.sub";
+	public static final String FELL = "kingdomkeys.heartless_form.fell.intro", FELL_SUB = "kingdomkeys.heartless_form.fell.sub", FELL_SUB_KEYBLADE = "kingdomkeys.heartless_form.fell.sub_keyblade";
+	public static final String FREED = "kingdomkeys.heartless_form.freed.intro";
 	public static final String RESTORED = "kingdomkeys.heartless_form.restored.intro", RESTORED_SUB = "kingdomkeys.heartless_form.restored.sub";
 	public static final String MERGED = "kingdomkeys.heartless_form.merged.intro", MERGED_SUB = "kingdomkeys.heartless_form.merged.sub";
 	public static final String NOBODY_OF = "kingdomkeys.entity.nobody_of";
@@ -79,6 +86,16 @@ public class HeartlessForm {
 	private static final int UPKEEP = 40;
 	private static final double NOBODY_RANGE = 48D;
 	private static final int NOBODY_CHECK = 20, STALE_CHECK = 100;
+
+	private static final int HUNT_CHECK = 400, HUNTERS = 2;
+	private static final double HUNT_RANGE = 48D;
+	private static final double[] HUNT_SPREAD = {24D, 20D, 28D, 16D};
+
+	private static final Set<UUID> FREED_ON_DEATH = new HashSet<>();
+
+	public static boolean chasesLight() {
+		return ModConfigs.SERVER.heartlessChaseLight.get();
+	}
 
 	private static final EntityDimensions SHADOW_SIZE = EntityDimensions.scalable(0.6F, 0.9F).withEyeHeight(0.7F);
 	private static final EntityDimensions SUNK_SIZE = EntityDimensions.scalable(0.6F, 0.3F).withEyeHeight(0.2F);
@@ -106,7 +123,7 @@ public class HeartlessForm {
 		return true;
 	}
 
-	/** Turns them into a Heartless, with the light of their heart sent off to wait for them. Returns false if they already are one */
+	/** Turns them into a Heartless, with the light sent off to wait for them if they have to chase it. Returns false if they already are one */
 	public static boolean turn(ServerPlayer player) {
 		PlayerData data = PlayerData.get(player);
 		if (data.isHeartless()) {
@@ -124,6 +141,27 @@ public class HeartlessForm {
 
 		ServerLevel level = player.serverLevel();
 		Vec3 fell = player.position();
+
+		data.setHeartless(true);
+		loseStats(data);
+
+		// The Heartless that did it forget about them: one of their own now
+		for (Mob mob : level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(32D), mob -> mob.getTarget() == player && isHeartlessMob(mob))) {
+			mob.setTarget(null);
+		}
+
+		level.sendParticles(ParticleTypes.LARGE_SMOKE, player.getX(), player.getY() + 1D, player.getZ(), 40, 0.4D, 0.8D, 0.4D, 0.02D);
+		level.playSound(null, player.blockPosition(), SoundEvents.WITHER_SPAWN, SoundSource.PLAYERS, 0.4F, 1.6F);
+
+		if (!chasesLight()) {
+			if (data.getNobodyId() == null) {
+				data.setNobodyOwed(true);
+			}
+			PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title(FELL, FELL_SUB_KEYBLADE, 10, 70, 20))), player);
+			showFall(player, data);
+			return true;
+		}
+
 		double distance = ModConfigs.SERVER.heartlessLightDistance.get();
 		double[] distances = new double[LIGHT_SPREAD.length];
 		for (int i = 0; i < distances.length; i++) {
@@ -138,32 +176,31 @@ public class HeartlessForm {
 			light = fell;
 		}
 
-		data.setHeartless(true);
 		data.setLight(level.dimension(), BlockPos.containing(light));
-		loseStats(data);
 		level.addFreshEntity(new HeartlessLightEntity(level, fell.add(0D, 1D, 0D), light, player.getUUID()));
-
-		// The Heartless that did it forget about them: one of their own now
-		for (Mob mob : level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(32D), mob -> mob.getTarget() == player && isHeartlessMob(mob))) {
-			mob.setTarget(null);
-		}
-
-		level.sendParticles(ParticleTypes.LARGE_SMOKE, player.getX(), player.getY() + 1D, player.getZ(), 40, 0.4D, 0.8D, 0.4D, 0.02D);
-		level.playSound(null, player.blockPosition(), SoundEvents.WITHER_SPAWN, SoundSource.PLAYERS, 0.4F, 1.6F);
-
-		PacketHandler.sendTo(new SCHeartlessTransition(), player);
 		PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title(FELL, FELL_SUB, 10, 70, 20))), player);
-		PacketHandler.syncToAllAround(player, data);
+		showFall(player, data);
 		return true;
 	}
 
-	// Back to human, with their Nobody now loose somewhere. The sneak bonus comes off on the next tick, with the hitbox
+	// Synced first, so watchers already know they are a Shadow
+	private static void showFall(ServerPlayer player, PlayerData data) {
+		PacketHandler.syncToAllAround(player, data);
+		for (ServerPlayer watcher : player.serverLevel().players()) {
+			PacketHandler.sendTo(new SCHeartlessTransition(player.getId()), watcher);
+		}
+	}
+
+	// Back to human. The sneak bonus comes off on the next tick, with the hitbox
 	private static void clear(PlayerData data) {
 		data.setHeartless(false);
 		data.setLight(null, null);
-		data.setNobodyOwed(true);
-		data.setNobodyId(null);
-		data.setNobodyMissingTicks(0);
+		// Otherwise their Nobody already came into being as they fell
+		if (chasesLight()) {
+			data.setNobodyOwed(true);
+			data.setNobodyId(null);
+			data.setNobodyMissingTicks(0);
+		}
 	}
 
 	/** Makes them human again, as reaching their light would. Returns false if they were not a Heartless */
@@ -195,7 +232,8 @@ public class HeartlessForm {
 
 	// Last form each player's hitbox was sized for. One map per side: in singleplayer the client and the integrated
 	// server tick on different threads, and sharing one unsynchronised map dropped the client's resize
-	private final Map<Player, Integer> sizedAsClient = new WeakHashMap<>(), sizedAsServer = new WeakHashMap<>();
+	// By identity: a respawned player keeps its id and would match the one that died
+	private final Map<Player, Integer> sizedAsClient = new MapMaker().weakKeys().makeMap(), sizedAsServer = new MapMaker().weakKeys().makeMap();
 	private static final int HUMAN = 0, SHADOW = 1, SUNK = 2;
 
 	@SubscribeEvent
@@ -222,11 +260,18 @@ public class HeartlessForm {
 			}
 		}
 
-		if (!heartless && player instanceof ServerPlayer owner && player.tickCount % NOBODY_CHECK == 0) {
+		if ((!heartless || !chasesLight()) && player instanceof ServerPlayer owner && player.tickCount % NOBODY_CHECK == 0) {
 			watchNobody(owner);
 		}
 
 		if (!heartless || !(player instanceof ServerPlayer serverPlayer)) {
+			return;
+		}
+
+		if (!chasesLight()) {
+			if (player.tickCount % HUNT_CHECK == 0) {
+				sendHunter(serverPlayer);
+			}
 			return;
 		}
 
@@ -256,6 +301,37 @@ public class HeartlessForm {
 			if (!burning) {
 				level.addFreshEntity(new HeartlessLightEntity(level, light, Vec3.atBottomCenterOf(lightPos), player.getUUID()));
 			}
+		}
+	}
+
+	private static void sendHunter(ServerPlayer player) {
+		ServerLevel level = player.serverLevel();
+		if (CastleOblivionHandler.isInterior(level.dimension())
+				|| level.getEntitiesOfClass(ApprenticeEntity.class, player.getBoundingBox().inflate(HUNT_RANGE), ApprenticeEntity::isHunter).size() >= HUNTERS) {
+			return;
+		}
+
+		Vec3 spot = OpenSpot.find(level, null, player.position(), level.random.nextFloat() * 360F, HUNT_SPREAD, ModEntities.TYPE_APPRENTICE.get(), 0.2D);
+		if (spot != null) {
+			level.addFreshEntity(ApprenticeEntity.makeHunter(level, spot, PlayerData.get(player).getLevel()));
+		}
+	}
+
+	private static boolean struckByKeyblade(DamageSource source) {
+		Entity killer = source.getEntity();
+		return killer instanceof ApprenticeEntity || killer instanceof ForetellerEntity
+				|| killer instanceof Player player && (player.getMainHandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof KeybladeItem);
+	}
+
+	@SubscribeEvent
+	public void respawned(PlayerEvent.PlayerRespawnEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player && FREED_ON_DEATH.remove(player.getUUID())) {
+			PlayerData data = PlayerData.get(player);
+			ServerLevel level = player.serverLevel();
+			level.sendParticles(ParticleTypes.END_ROD, player.getX(), player.getY() + 1D, player.getZ(), 60, 0.3D, 0.8D, 0.3D, 0.08D);
+			level.playSound(null, player.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1F, 1.4F);
+			boolean nobodyLeft = data.getNobodyId() != null || data.isNobodyOwed();
+			PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title(FREED, nobodyLeft ? RESTORED_SUB : "", 10, 70, 20))), player);
 		}
 	}
 
@@ -292,7 +368,7 @@ public class HeartlessForm {
 		}
 	}
 
-	// A shadow dying of something else comes back human with their Nobody out there
+	// A Shadow dying of something else: chasing the light it comes back human, otherwise only a keyblade sets it free
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void died(LivingDeathEvent event) {
 		LivingEntity entity = event.getEntity();
@@ -303,7 +379,12 @@ public class HeartlessForm {
 		if (entity instanceof ServerPlayer player) {
 			PlayerData data = PlayerData.get(player);
 			if (data != null && data.isHeartless()) {
-				clear(data);
+				if (chasesLight()) {
+					clear(data);
+				} else if (struckByKeyblade(event.getSource())) {
+					clear(data);
+					FREED_ON_DEATH.add(player.getUUID());
+				}
 			}
 		}
 

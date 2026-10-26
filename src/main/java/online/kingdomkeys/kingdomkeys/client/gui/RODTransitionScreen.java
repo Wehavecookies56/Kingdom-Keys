@@ -50,6 +50,10 @@ public class RODTransitionScreen extends ReceivingLevelScreen {
 			snapshot = null;
 		}
 
+		playSwallow();
+	}
+
+	public static void playSwallow() {
 		SoundManager sounds = Minecraft.getInstance().getSoundManager();
 		sounds.play(SimpleSoundInstance.forUI(ModSounds.portal.get(), 0.7F, 0.9F));
 		sounds.play(SimpleSoundInstance.forUI(SoundEvents.WARDEN_SONIC_CHARGE, 0.6F, 0.35F));

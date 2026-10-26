@@ -2625,6 +2625,10 @@ public class Utils {
 	}
 
 	public static boolean canHarm(@Nullable Entity attacker, @Nullable Entity target) {
+		// Shadow players included
+		if (target instanceof ApprenticeEntity && attacker instanceof LivingEntity living && ApprenticeEntity.isDarkness(living)) {
+			return true;
+		}
 		return canHarm(getParty(attacker), target);
 	}
 

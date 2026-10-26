@@ -3036,6 +3036,8 @@
   "kingdomkeys.gummi.phone.stored": "Stored gummi ship in your gummi phone",
   "kingdomkeys.heartless_form.fell.intro": "Your heart has fallen to darkness",
   "kingdomkeys.heartless_form.fell.sub": "Find its light...",
+  "kingdomkeys.heartless_form.fell.sub_keyblade": "A Keyblade can set it free...",
+  "kingdomkeys.heartless_form.freed.intro": "A Keyblade set your heart free",
   "kingdomkeys.heartless_form.merged.intro": "You became one with your Nobody",
   "kingdomkeys.heartless_form.merged.sub": "You are now part of the Organization XIII",
   "kingdomkeys.heartless_form.restored.intro": "You found your light",

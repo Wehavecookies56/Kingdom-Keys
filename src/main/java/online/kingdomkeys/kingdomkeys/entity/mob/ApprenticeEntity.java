@@ -26,15 +26,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.ApprenticeCombatGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.DuelGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
+import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public class ApprenticeEntity extends PathfinderMob implements Dueller {
 
@@ -51,6 +54,11 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 	private static final double WATCH_RANGE = 32.0D;
 
 	private BlockPos home;
+
+	private boolean hunter;
+	private static final int PREY_CHECK = 100;
+	private static final double PREY_RANGE = 64.0D;
+	private static final int HUNTER_LEVEL_SPREAD = 3;
 
 	private int outfit;
 
@@ -147,6 +155,24 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		if (getRestrictRadius() != radius) {
 			restrictTo(home, radius);
 		}
+	}
+
+	public boolean isHunter() {
+		return hunter;
+	}
+
+	public static ApprenticeEntity makeHunter(Level level, Vec3 at, int preyLevel) {
+		ApprenticeEntity apprentice = ModEntities.TYPE_APPRENTICE.get().create(level);
+		apprentice.moveTo(at.x, at.y, at.z, level.random.nextFloat() * 360F, 0F);
+		apprentice.hunter = true;
+		apprentice.setApprenticeLevel(preyLevel + level.random.nextInt(HUNTER_LEVEL_SPREAD * 2 + 1) - HUNTER_LEVEL_SPREAD);
+		apprentice.setUnion(rollUnion(level.random));
+		apprentice.dress();
+		return apprentice;
+	}
+
+	private boolean preyNearby() {
+		return !level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(PREY_RANGE), player -> player.isAlive() && HeartlessForm.isHeartless(player)).isEmpty();
 	}
 
 	public static int rollLevel(RandomSource random) {
@@ -320,9 +346,13 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
 		targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, target -> !isSparring() && isDarkness(target)));
+		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, false, false, target -> !isSparring() && isDarkness(target)));
 	}
 
 	public static boolean isDarkness(LivingEntity target) {
+		if (target instanceof Player player) {
+			return HeartlessForm.isHeartless(player);
+		}
 		if (!(target instanceof IKHMob mob)) {
 			return false;
 		}
@@ -362,6 +392,11 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 			if (isDuelling() && getTarget() != getDuelist()) {
 				setTarget(getDuelist());
 			}
+			return;
+		}
+
+		if (hunter && tickCount % PREY_CHECK == 0 && !preyNearby()) {
+			discard();
 			return;
 		}
 
@@ -479,6 +514,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		tag.putInt("apprentice_outfit", getOutfit());
 		tag.putInt("apprentice_trim", getTrim());
 		tag.putByte("union", getUnion().get());
+		tag.putBoolean("hunter", hunter);
 
 		if (home != null) {
 			tag.putLong("home", home.asLong());
@@ -499,6 +535,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : seeded.nextInt(4) + 1;
 		trim = tag.contains("apprentice_trim") ? tag.getInt("apprentice_trim") : rollTrim(seeded);
 		setUnion(tag.contains("union") ? Union.fromByte(tag.getByte("union")) : rollUnion(seeded));
+		hunter = tag.getBoolean("hunter");
 
 		setCustomName(null);
 

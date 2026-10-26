@@ -50,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SellScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessFormRenderer;
 import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -452,8 +453,20 @@ public class ClientPacketHandler {
     }
 
     // The same darkness effect as falling into the Realm of Darkness
-    public static void heartlessTransition() {
-        Minecraft.getInstance().setScreen(new RODTransitionScreen(() -> true, ReceivingLevelScreen.Reason.OTHER));
+    public static void heartlessTransition(int id) {
+        Minecraft mc = Minecraft.getInstance();
+        if (!(mc.level.getEntity(id) instanceof Player player)) {
+            return;
+        }
+        HeartlessFormRenderer.fall(player);
+        if (player != mc.player) {
+            return;
+        }
+        if (mc.options.getCameraType().isFirstPerson()) {
+            mc.setScreen(new RODTransitionScreen(() -> true, ReceivingLevelScreen.Reason.OTHER));
+        } else {
+            RODTransitionScreen.playSwallow();
+        }
     }
 
     public static void openStruggleMenu(SCOpenStruggleMenu message) {

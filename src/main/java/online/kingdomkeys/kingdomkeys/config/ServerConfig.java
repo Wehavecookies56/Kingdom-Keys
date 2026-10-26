@@ -13,7 +13,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, xpCurveFactor, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress, heartlessChaseLight;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -158,6 +158,11 @@ public class ServerConfig {
                 .comment("If true, the story moves on by itself, like the master showing up one morning")
                 .translation(KingdomKeys.MODID + ".config.story_progress")
                 .define("storyProgress", true);
+
+        heartlessChaseLight = builder
+                .comment("If true a player turned Heartless has to chase their light to become human again. If false they have to be struck down by a Keyblade while apprentices come hunting them, and dying any other way brings them back as a Shadow")
+                .translation(KingdomKeys.MODID + ".config.heartless_chase_light")
+                .define("heartlessChaseLight", false);
 
         heartlessLightDistance = builder
                 .comment("Roughly how many blocks away the light a player turned Heartless has to reach drifts off to wait for them")

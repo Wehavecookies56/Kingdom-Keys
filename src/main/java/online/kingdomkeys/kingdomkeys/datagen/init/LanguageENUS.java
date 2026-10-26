@@ -3012,6 +3012,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.command.heartless.not", "%s is not a Heartless");
         add("kingdomkeys.heartless_form.fell.intro", "Your heart has fallen to darkness");
         add("kingdomkeys.heartless_form.fell.sub", "Find its light...");
+        add("kingdomkeys.heartless_form.fell.sub_keyblade", "A Keyblade can set it free...");
+        add("kingdomkeys.heartless_form.freed.intro", "Your heart has been set free");
         add("kingdomkeys.heartless_form.restored.intro", "You found your light");
         add("kingdomkeys.heartless_form.restored.sub", "But your Nobody still walks somewhere...");
         add("kingdomkeys.heartless_form.merged.intro", "You became one with your Nobody");

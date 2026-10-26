@@ -3051,6 +3051,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.command.heartless.not", "%s no es un Sincorazón");
         add("kingdomkeys.heartless_form.fell.intro", "Tu corazón ha caído en la oscuridad");
         add("kingdomkeys.heartless_form.fell.sub", "Encuentra su luz...");
+        add("kingdomkeys.heartless_form.fell.sub_keyblade", "Una Llave Espada puede liberarlo...");
+        add("kingdomkeys.heartless_form.freed.intro", "Una Llave Espada ha liberado tu corazón");
         add("kingdomkeys.heartless_form.restored.intro", "Has encontrado tu luz");
         add("kingdomkeys.heartless_form.restored.sub", "Pero tu Incorpóreo sigue en algún lugar...");
         add("kingdomkeys.heartless_form.merged.intro", "Te has fundido con tu Incorpóreo");
