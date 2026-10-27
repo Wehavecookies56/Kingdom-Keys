@@ -379,8 +379,7 @@ public class ModConfigs {
 
     public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier, fuelConsumeFactor;
 
-    public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
-    public static List<String> playerSpawnHeartlessData;
+    public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel, nobodyHealthPercent, nobodyStrengthPercent;
 
     public static List<ResourceLocation> startingRecipes;
     public static List<ResourceLocation> starterKeyblades;
@@ -399,7 +398,8 @@ public class ModConfigs {
         focusPointsMultiplier = COMMON.focusPointsMultiplier.get();
 
         playerSpawnHeartless = COMMON.playerSpawnHeartless.get();
-        playerSpawnHeartlessData = (List<String>) COMMON.playerSpawnHeartlessData.get();
+        nobodyHealthPercent = COMMON.nobodyHealthPercent.get();
+        nobodyStrengthPercent = COMMON.nobodyStrengthPercent.get();
         shotlockMult = COMMON.shotlockMult.get();
         critMult = COMMON.critMult.get();
 

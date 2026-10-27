@@ -101,7 +101,8 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemigos suben de nivel");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "Escala de nivel de Sincorazón en RoD");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "Máximo nivel de Sincorazón en RoD");
-        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Estadísticas de Sincorazón e Incorpóreo de jugador");
+        addConfigKey(ModConfigs.getCommonConfig().nobodyHealthPercent, "Vida del Incorpóreo de jugador (%)");
+        addConfigKey(ModConfigs.getCommonConfig().nobodyStrengthPercent, "Fuerza del Incorpóreo de jugador (%)");
         addConfigKey(ModConfigs.getCommonConfig().respawnROD, "Forzar respawn en RoD");
         addConfigKey(ModConfigs.getCommonConfig().mobLevelStats, "Escala de estadísticas por nivel para mobs");
         addConfigKey(ModConfigs.getCommonConfig().bossDespawnIfNoTarget, "Jefe desaparece si pierde objetivo");

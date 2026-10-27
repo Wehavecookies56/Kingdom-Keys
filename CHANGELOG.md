@@ -14,6 +14,9 @@
   * Apprentices now spawn around Shadow players to defeat them.
   * Your Nobody gets created once you turn into a Heartless rather than when you are restored.
   * It has a new animation when turning heartless.
+  * Your Nobody vanishes when you log out, and a new one can come into being once you are back.
+* CommonConfig playerSpawnHeartlessData is now splitted between nobodyHealthPercent and nobodyStrengthPercent (150% by default)
 
 ## Fixed:
+* A player's Nobody getting its health and attack scaled twice (by the player's stats and by its level). It is now a regular Dusk at the player's level, multiplied by the new config percentages.
 * Upgrading a save point not updating its stored type, so a save point upgraded to Warp didn't show as a destination from other dimensions.

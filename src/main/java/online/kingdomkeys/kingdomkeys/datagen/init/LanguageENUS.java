@@ -99,7 +99,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemies level up");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "RoD heartless level scale");
         addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "RoD heartless max level");
-        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Player Heartless and Nobody stats");
+        addConfigKey(ModConfigs.getCommonConfig().nobodyHealthPercent, "Player Nobody health (%)");
+        addConfigKey(ModConfigs.getCommonConfig().nobodyStrengthPercent, "Player Nobody strength (%)");
         addConfigKey(ModConfigs.getCommonConfig().respawnROD, "Force respawn in RoD");
         addConfigKey(ModConfigs.getCommonConfig().mobLevelStats, "Mob level stats scale");
         addConfigKey(ModConfigs.getCommonConfig().bossDespawnIfNoTarget, "Boss despawn if no target");

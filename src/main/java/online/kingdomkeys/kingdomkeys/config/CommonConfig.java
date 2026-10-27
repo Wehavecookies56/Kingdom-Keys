@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class CommonConfig {
 	public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
-	public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate, playerSpawnHeartlessData, startingRecipes, starterKeyblades;
-	public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats, coEntranceChunkX, coEntranceChunkZ;
+	public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate, startingRecipes, starterKeyblades;
+	public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats, nobodyHealthPercent, nobodyStrengthPercent, coEntranceChunkX, coEntranceChunkZ;
 	public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames, generateCOEntrance;
 	public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
@@ -169,10 +169,15 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.rod_heartless_max_level")
                 .defineInRange("rodHeartlessMaxLevel",200,1,10000);
 
-        playerSpawnHeartlessData = builder
-                .comment("Heartless and nobody stats: name, hp (% of the player's), strength (% of the player's)")
-                .translation(KingdomKeys.MODID + ".config.player_spawn_heartless_Data")
-                .defineList("playerSpawnHeartlessData", Lists.newArrayList("Heartless,100,100", "Nobody,100,100"), () -> "Heartless,100,100", o -> o instanceof String);
+        nobodyHealthPercent = builder
+                .comment("Health of a player's Nobody, % of a regular Dusk at the player's level")
+                .translation(KingdomKeys.MODID + ".config.nobody_health_percent")
+                .defineInRange("nobodyHealthPercent", 150, 1, 1000);
+
+        nobodyStrengthPercent = builder
+                .comment("Strength of a player's Nobody, % of a regular Dusk at the player's level")
+                .translation(KingdomKeys.MODID + ".config.nobody_strength_percent")
+                .defineInRange("nobodyStrengthPercent", 150, 1, 1000);
         
         respawnROD = builder
                 .comment("Force players who die in the Realm of Darkness to respawn there")

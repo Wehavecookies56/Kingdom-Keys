@@ -505,15 +505,18 @@ public class HeartlessForm {
 		dusk.setCustomName(isValidNobodyName(playerName, chosen) ? Component.literal(chosen) : Component.translatable(NOBODY_OF, player.getDisplayName().getString()));
 		dusk.setPersistenceRequired();
 
-		String[] nobody = ModConfigs.playerSpawnHeartlessData.get(1).split(",");
-		dusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(player.getMaxHealth() * Double.parseDouble(nobody[1]) / 100, dusk.getMaxHealth()));
-		dusk.setHealth(dusk.getMaxHealth());
-		dusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(data.getStrength(true) * Double.parseDouble(nobody[2]) / 100, dusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+		AttributeInstance health = dusk.getAttribute(Attributes.MAX_HEALTH);
+		AttributeInstance attack = dusk.getAttribute(Attributes.ATTACK_DAMAGE);
+		health.setBaseValue(health.getBaseValue() * ModConfigs.nobodyHealthPercent / 100D);
+		attack.setBaseValue(attack.getBaseValue() * ModConfigs.nobodyStrengthPercent / 100D);
 
 		GlobalData global = GlobalData.get(dusk);
 		if (global != null) {
 			global.setLevel(data.getLevel());
+			Utils.applyMobLevel(dusk, data.getLevel());
+			PacketHandler.syncToAllAround(dusk, global);
 		}
+		dusk.setHealth(dusk.getMaxHealth());
 
 		CompoundTag tag = dusk.getPersistentData();
 		tag.putUUID(NOBODY_TAG, player.getUUID());
@@ -552,14 +555,17 @@ public class HeartlessForm {
 		return null;
 	}
 
-	// One given up on, or left over from an earlier fall. Only told apart while its owner is online
+	// One given up on, left over from an earlier fall, or whose owner is offline (they get a new one when back)
 	private static boolean isStaleNobody(Entity entity) {
 		UUID owner = nobodyOwner(entity);
 		if (owner == null || entity.getServer() == null) {
 			return false;
 		}
 		ServerPlayer player = entity.getServer().getPlayerList().getPlayer(owner);
-		PlayerData data = player == null ? null : PlayerData.get(player);
+		if (player == null) {
+			return true;
+		}
+		PlayerData data = PlayerData.get(player);
 		if (data == null) {
 			return false;
 		}
@@ -573,6 +579,28 @@ public class HeartlessForm {
 			return false;
 		}
 		return !entity.getUUID().equals(data.getNobodyId());
+	}
+
+	@SubscribeEvent
+	public void loggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+		if (!(event.getEntity() instanceof ServerPlayer player)) {
+			return;
+		}
+		PlayerData data = PlayerData.get(player);
+		if (data == null || data.getNobodyId() == null) {
+			return;
+		}
+		Entity nobody = findLoaded(player.server, data.getNobodyId());
+		if (nobody != null && nobody.level() instanceof ServerLevel level) {
+			level.sendParticles(ParticleTypes.LARGE_SMOKE, nobody.getX(), nobody.getY() + 1D, nobody.getZ(), 30, 0.3D, 0.6D, 0.3D, 0.02D);
+			nobody.discard();
+		}
+		data.setNobodyId(null);
+		data.setNobodyMissingTicks(0);
+		// Chasing the light it is owed again once they are restored
+		if (!(data.isHeartless() && chasesLight())) {
+			data.setNobodyOwed(true);
+		}
 	}
 
 	@SubscribeEvent
