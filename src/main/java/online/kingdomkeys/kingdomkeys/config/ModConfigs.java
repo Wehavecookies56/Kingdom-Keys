@@ -56,6 +56,7 @@ public class ModConfigs {
     public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D, hideSkinLayerUnderArmor, lockOnKH1Bar, lockOnHideLabels, hideMobNameplates;
 
     public static boolean bakeDisplayedModels, bakeHeldModels;
+    public static double soundVolume;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -271,6 +272,12 @@ public class ModConfigs {
         bakeClient();
     }
 
+    public static void setSoundVolume(double value) {
+        CLIENT.soundVolume.set(value);
+        CLIENT.soundVolume.save();
+        bakeClient();
+    }
+
     //Party
     public static void setPartyYDistance(int value) {
         CLIENT.partyYDistance.set(value);
@@ -347,6 +354,7 @@ public class ModConfigs {
         lockOnKH1Bar = CLIENT.lockOnKH1Bar.get();
         lockOnHideLabels = CLIENT.lockOnHideLabels.get();
         hideMobNameplates = CLIENT.hideMobNameplates.get();
+        soundVolume = CLIENT.soundVolume.get();
 
         partyYDistance = CLIENT.partyYDistance.get();
         summonTogether = CLIENT.summonTogether.get();

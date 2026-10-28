@@ -6,6 +6,7 @@
 * Gummi Ship barrel roll: double tap left or right while in a ship to roll to that side, dodging a bit towards it. Requires at least one Aero gummi in the ship and scales with mobility (up to 40).
 * Gummi Hangar stats shown as a hexagon style chart: HP, Offense, Power, Mobility, Seats and Speed.
 * Option in M menu, config, lock on, to hide the name and level shown above mobs.
+* Kingdom Keys volume slider in Music & Sounds, next to the vanilla ones. (Ignores music tracks).
 
 ## Changed:
 * Save points that restore MP also make magic cooldowns go twice as fast while standing on them, shared or individual.

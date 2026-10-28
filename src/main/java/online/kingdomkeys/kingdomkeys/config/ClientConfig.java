@@ -15,12 +15,14 @@ public class ClientConfig {
 	public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D, hpShowHearts, summonTogether, bakeDisplayedModels, bakeHeldModels, shoulderSurfingDecoupled, seasonalEvents, hideSkinLayerUnderArmor, lockOnKH1Bar, lockOnHideLabels, hideMobNameplates;
 	public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance;
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
+	public ModConfigSpec.DoubleValue soundVolume;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder.comment("Summon both Keyblade and Armor with Summon Keyblade key").translation(KingdomKeys.MODID + ".config.summon_together").define("summonTogether", false);
 		auto3rdPersonShip = builder.comment("Automatically change to 3rd person when riding a gummi ship").translation(KingdomKeys.MODID + ".config.auto_third_person_ship").define("auto3rdPersonShip", true);
 		seasonalEvents = builder.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)").translation(KingdomKeys.MODID + ".config.seasonal_events").define("seasonalEvents", true);
 		hideSkinLayerUnderArmor = builder.comment("Hide the outer layer of a player's skin (hat, jacket, sleeves, pants) where armor or clothes are worn, so it does not poke through them").translation(KingdomKeys.MODID + ".config.hide_skin_layer_under_armor").define("hideSkinLayerUnderArmor", true);
+		soundVolume = builder.comment("Volume of the mod sounds except music, also in Music & Sounds").translation(KingdomKeys.MODID + ".config.sound_volume").defineInRange("soundVolume", 1.0, 0.0, 1.0);
 
 		builder.push("hud_data");
 			//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)

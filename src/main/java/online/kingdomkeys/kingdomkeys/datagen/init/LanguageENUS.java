@@ -2732,6 +2732,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle + ".ffa", "Free For All");
 
         //Controls
+        add("soundCategory.kingdomkeys", "Kingdom Keys 2");
         add("key.categories.kingdomkeys", "§6§l§nKingdom§f §7§l§nKeys§f §7§l§n2");
         add(InputHandler.Keybinds.ACTION, "Action key");
         add(InputHandler.Keybinds.BACK, "Command menu back");

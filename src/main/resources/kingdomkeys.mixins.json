@@ -14,6 +14,7 @@
     "jer.NeoForgePlatformHelperMixin"
   ],
   "client": [
+    "client.AbstractSoundInstanceMixin",
     "client.BiomeMixin",
     "client.CameraMixin",
     "client.ChatComponentMixin",
@@ -32,6 +33,7 @@
     "client.PlayerRendererMixin",
     "client.RenderSystemAccessor",
     "client.SoundBufferLibraryMixin",
+    "client.SoundOptionsScreenMixin",
     "epicfight.ControlEngineMixin",
     "epicfight.EpicFightScaleMixin",
     "epicfight.FirstPersonRendererMixin",

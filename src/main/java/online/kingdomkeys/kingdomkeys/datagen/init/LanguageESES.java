@@ -185,6 +185,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Onboarding hints (texto persistente en pantalla, ver HintGui - no son toasts de logros)
 
         //Keybinds
+        add("soundCategory.kingdomkeys", "Kingdom Keys 2");
         add("key.categories.kingdomkeys", "§6§l§nKingdom§f §7§l§nKeys§f §7§l§n2");
         add(InputHandler.Keybinds.ACTION, "Tecla de Acción");
         add(InputHandler.Keybinds.BACK, "Menú de Comandos: Atrás");
