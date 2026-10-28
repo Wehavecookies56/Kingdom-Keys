@@ -87,6 +87,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.FireBarrierEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.DuskEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.RaysOnDefeat;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
@@ -145,7 +146,11 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onNameTagRender(RenderNameTagEvent event) {
-		if (ModConfigs.hideMobNameplates || !(event.getEntity() instanceof LivingEntity mob) || mob instanceof Player) {
+		if (!(event.getEntity() instanceof LivingEntity mob) || mob instanceof Player) {
+			return;
+		}
+		// A player's Nobody (a named Dusk) is still shown
+		if (ModConfigs.hideMobNameplates && !(mob instanceof DuskEntity && mob.hasCustomName())) {
 			return;
 		}
 
