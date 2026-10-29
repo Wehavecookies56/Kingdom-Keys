@@ -385,7 +385,9 @@ public class MenuBackground extends Screen {
 			for (int i = 0; i < lines.length; i++) {
 				Component line = lines[i];
 				gui.drawString(minecraft.font, line, 5, y, colors[i]);
-				maxWidth = Math.max(maxWidth, minecraft.font.width(line));
+				// Measured with every digit as a 0, so the bar doesn't twitch as the time ticks through narrow ones like 1
+				Component widest = Component.literal(line.getString().replaceAll("\\d", "0")).withStyle(line.getStyle());
+				maxWidth = Math.max(maxWidth, minecraft.font.width(widest));
 				y += minecraft.font.lineHeight;
 			}
 

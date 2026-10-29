@@ -58,6 +58,13 @@ public class GummiWeaponBlock extends GummiBlockBase {
         tooltip.add(stat("fuel_per_shot", getFuelPerShot()));
     }
 
+    // Firepower is KH3's offense, the damage of a whole volley shared between its shots
+    public static final float DAMAGE_SCALE = 0.1F;
+
+    private float damage(int shots) {
+        return getFirepower() * DAMAGE_SCALE / shots;
+    }
+
     public int getFirepower() {
         GummiStats stats = stats();
         return stats != null ? stats.firepower() : 0;
@@ -70,7 +77,7 @@ public class GummiWeaponBlock extends GummiBlockBase {
 
     public void castShot(Player player, Level level, float dmg, Vec3 pos, float xOff, float yOff, float speed, Vec3 direction) {
         if (player == null){
-            castShotFromRedstone(level, xOff, yOff, getFirepower(), pos, speed/2F);
+            castShotFromRedstone(level, xOff, yOff, dmg, pos, speed/2F);
         } else {
             GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getRootType().name().toLowerCase(), dmg);
             shot.setPos(pos);
@@ -140,30 +147,30 @@ public class GummiWeaponBlock extends GummiBlockBase {
 
         switch (shotType) {
             case FIRE, FIRA, FIRAGA -> {
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
+                castShot(player, level, damage(1), finalPos, 0, 0, speed, dir);
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARD -> {
-                castShot(player, level, getFirepower(), finalPos, 0, -3, speed, rotateDirection(dir, -3, 0));
-                castShot(player, level, getFirepower(), finalPos, 0, +3, speed, rotateDirection(dir, +3, 0));
+                castShot(player, level, damage(2), finalPos, 0, -3, speed, rotateDirection(dir, -3, 0));
+                castShot(player, level, damage(2), finalPos, 0, +3, speed, rotateDirection(dir, +3, 0));
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARA -> {
-                castShot(player, level, getFirepower(), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
-                castShot(player, level, getFirepower(), finalPos, 0, 12, speed, rotateDirection(dir, -12, 0));
-                castShot(player, level, getFirepower(), finalPos, 0, -12, speed, rotateDirection(dir, +12, 0));
+                castShot(player, level, damage(3), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
+                castShot(player, level, damage(3), finalPos, 0, 12, speed, rotateDirection(dir, -12, 0));
+                castShot(player, level, damage(3), finalPos, 0, -12, speed, rotateDirection(dir, +12, 0));
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZAGA -> {
-                castShot(player, level, getFirepower(), finalPos, 0, 8, speed, rotateDirection(dir, -8, 0));
-                castShot(player, level, getFirepower(), finalPos, 0, -8, speed, rotateDirection(dir, +8, 0));
-                castShot(player, level, getFirepower(), finalPos, 8, 0, speed, rotateDirection(dir, 0, -8));
-                castShot(player, level, getFirepower(), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
+                castShot(player, level, damage(4), finalPos, 0, 8, speed, rotateDirection(dir, -8, 0));
+                castShot(player, level, damage(4), finalPos, 0, -8, speed, rotateDirection(dir, +8, 0));
+                castShot(player, level, damage(4), finalPos, 8, 0, speed, rotateDirection(dir, 0, -8));
+                castShot(player, level, damage(4), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
 
             case GRAVITY, GRAVIRA, GRAVIGA -> {
-                castShot(player, level, getFirepower(), finalPos, 0, 0, 0.75F, dir);
+                castShot(player, level, damage(1), finalPos, 0, 0, 0.75F, dir);
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 0.9F);
             }
         }

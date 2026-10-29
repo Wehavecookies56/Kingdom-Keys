@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -77,6 +79,11 @@ public class GummiImpactEntity extends ThrowableProjectile{
             damageAlong(arc(this.position(), linked.position(), origin()));
         }
 
+        GummiImpactEntity other = otherPart();
+        if (level().isClientSide && other != null && this.getId() < other.getId()) {
+            spray(arc(this.position(), other.position(), origin()));
+        }
+
         if (ticks > maxTicks) {
             super.remove(RemovalReason.KILLED);
         }
@@ -99,6 +106,25 @@ public class GummiImpactEntity extends ThrowableProjectile{
         }
 
         return points;
+    }
+
+    private static final int SPRAYS = 9;
+
+    private void spray(Vec3[] arc) {
+        RandomSource random = level().random;
+
+        for (int i = 0; i < SPRAYS; i++) {
+            Vec3 point = arc[2 + random.nextInt(arc.length - 4)];
+            Vec3 back = origin().subtract(point).normalize().scale(0.1D);
+            double y = point.y + (random.nextDouble() - 0.5D) * (0.6D + 0.1D * tickCount);
+            // Mostly water, some mist
+            level().addParticle(i % 3 == 0 ? ParticleTypes.CLOUD : ParticleTypes.SPLASH, point.x, y, point.z, back.x, 0.05D, back.z);
+        }
+
+        // Spray thrown off the tips
+        for (Vec3 tip : new Vec3[]{arc[1], arc[arc.length - 2]}) {
+            level().addParticle(ParticleTypes.FISHING, tip.x, tip.y, tip.z, (random.nextDouble() - 0.5D) * 0.2D, 0.1D, (random.nextDouble() - 0.5D) * 0.2D);
+        }
     }
 
     // Middle point, where the arc bows

@@ -10,6 +10,8 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -153,21 +155,25 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		for(Map.Entry<GummiWeaponBlock.ShotType,Integer> e : shipStats.impact().entrySet()){
 			power += e.getValue();
 		}
+		float damage = power * GummiWeaponBlock.DAMAGE_SCALE;
 
 		size *= 2; //Scale it for wider area
 
-		GummiImpactEntity left = new GummiImpactEntity(level(), player, power);
+		GummiImpactEntity left = new GummiImpactEntity(level(), player, damage);
 		level().addFreshEntity(left);
 		left.setPos(position());
 		left.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
 
-		GummiImpactEntity right = new GummiImpactEntity(level(), player, power);
+		GummiImpactEntity right = new GummiImpactEntity(level(), player, damage);
 		level().addFreshEntity(right);
 		right.setPos(position());
 		right.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
 
 		left.link(right, position());
 		right.link(left, position());
+
+		level().playSound(null, getX(), getY(), getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 0.8F, 1.4F);
+		level().playSound(null, getX(), getY(), getZ(), SoundEvents.TRIDENT_RIPTIDE_3.value(), SoundSource.PLAYERS, 1.5F, 0.9F);
 	}
 
 	@Override
@@ -511,6 +517,13 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return rollDir * 360F * t * t * (3F - 2F * t);
 	}
 
+	// The ship's own friction wipes vertical motion every tick, so the boost upwards or downwards is handed out over a few
+	private float boostLift;
+
+	public void boostVertically(double lift) {
+		boostLift = (float) lift * 0.5F;
+	}
+
 	@Override
 	void controlBoat() {
 		boolean thrusting = inputLeft || inputRight || inputUp || inputDown || inputForward || inputBackward;
@@ -671,6 +684,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			} else {
 				currentStrafeSpeed = 0;
 				this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
+			}
+
+			if (boostLift != 0F) {
+				this.setDeltaMovement(this.getDeltaMovement().add(0, boostLift, 0));
+				boostLift = Math.abs(boostLift) < 0.001F ? 0F : boostLift * 0.5F;
 			}
 
 			if (rollTicks > 0) {

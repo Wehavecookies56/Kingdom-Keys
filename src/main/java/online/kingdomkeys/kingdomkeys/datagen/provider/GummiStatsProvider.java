@@ -34,14 +34,14 @@ public class GummiStatsProvider implements DataProvider {
 			}
 		}
 
-		stats.put("gummi_fire", weapon(40).firepower(2).fuelPerShot(35).build());
-		stats.put("gummi_fira", weapon(50).firepower(3).fuelPerShot(41).build());
-		stats.put("gummi_blizzard", weapon(70).firepower(2).fuelPerShot(71).build());
-		stats.put("gummi_blizzara", weapon(110).firepower(3).fuelPerShot(108).build());
-		stats.put("gummi_gravity", weapon(70).firepower(10).fuelPerShot(145).build());
-		stats.put("gummi_gravira", weapon(110).firepower(15).fuelPerShot(155).build());
-		stats.put("gummi_water", weapon(50).firepower(2).build());
-		stats.put("gummi_watera", weapon(70).firepower(3).build());
+		stats.put("gummi_fire", weapon(40).firepower(36).fuelPerShot(35).build());
+		stats.put("gummi_fira", weapon(50).firepower(47).fuelPerShot(41).build());
+		stats.put("gummi_blizzard", weapon(70).firepower(54).fuelPerShot(71).build());
+		stats.put("gummi_blizzara", weapon(110).firepower(90).fuelPerShot(108).build());
+		stats.put("gummi_gravity", weapon(70).firepower(80).fuelPerShot(145).build());
+		stats.put("gummi_gravira", weapon(110).firepower(130).fuelPerShot(155).build());
+		stats.put("gummi_water", weapon(50).firepower(36).build());
+		stats.put("gummi_watera", weapon(70).firepower(45).build());
 
 		stats.put("gummi_vernier", engine(24).topSpeed(80).lowSpeed(60).horsepower(10).build());
 		stats.put("gummi_thruster", engine(32).topSpeed(90).lowSpeed(70).horsepower(20).build());

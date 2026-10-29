@@ -449,12 +449,12 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel) {
 		// Clockwise from the top, laid out as in Kingdom Hearts III. The last number is where each one fills the chart
 		statsChart.setAxes(List.of(
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.hp"), stats.armour(), 500),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.offense"), stats.offense(), 100),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.hp"), stats.armour(), 2000),
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.offense"), stats.offense(), 1000),
 				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.power"), stats.horsepower(), 200),
 				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.mobility"), stats.mobility(), GummiShipEntity.MAX_ROLL_MOBILITY),
 				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.seats"), stats.passengerSlots().size(), 8),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.speed"), Math.round(stats.speed()), 120)
+				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.speed"), Math.round(stats.speed()), 200)
 		));
 
 		int width = Math.max(PANEL_WIDTH, statsChart.getWidth(font) + PANEL_PADDING * 2);

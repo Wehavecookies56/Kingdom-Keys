@@ -893,11 +893,9 @@ public class ClientEvents {
 
 			if(gummiBoostCD <= 0) {
 				if (InputHandler.Keybinds.ACTION.getKeybind().isDown()) { //TODO check for booster block
-					float yaw = ship.getYRot();
-					float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
-					float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
-					double power = ship.shipStats.getEffectiveSpeed()*10;
-					ship.push(motionX * power, 0, motionZ * power);
+					Vec3 boost = ship.getViewVector(1F).scale(ship.shipStats.getEffectiveSpeed()*10);
+					ship.push(boost.x, 0, boost.z);
+					ship.boostVertically(boost.y);
 					PacketHandler.sendToServer(new CSGummiBoostPacket(ship.getId()));
 					gummiBoostCD = 5 * 20;
 				}
