@@ -701,7 +701,7 @@ public class Utils {
 	}
 
 	/** How much horsepower per point of weight it takes for a ship to reach its best engine's top speed */
-	private static final float HORSEPOWER_FOR_TOP_SPEED = 1F / 1.5F;
+	public static final float HORSEPOWER_FOR_TOP_SPEED = 1F / 1.5F;
 
 	// The part of a big gummi that stands for all of it, so it is only counted once
 	public static boolean isGummiOrigin(BlockState state) {

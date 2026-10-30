@@ -10,9 +10,11 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ import java.util.List;
  * axis as its value reaches towards its cap. Each corner gets its label and value written beside it.
  */
 public class RadarChart {
-	public record Axis(String label, int value, int max) {
+	public record Axis(String label, int value, int max, List<Component> tooltip) {
 		float reach() {
 			return max <= 0 ? 0F : Mth.clamp((float) value / max, 0F, 1F);
 		}
@@ -98,6 +100,27 @@ public class RadarChart {
 				gui.drawString(font, lines[l], Math.round(cx + labelLeft(i, font.width(lines[l]))), Math.round(labelTop) + l * lineHeight, l == 0 ? labelColour : valueColour, false);
 			}
 		}
+	}
+
+	/** The tooltip of the axis whose label is under the mouse, for the chart as render draws it */
+	@Nullable
+	public List<Component> getTooltip(Font font, int x, int y, int width, int mouseX, int mouseY) {
+		if (axes.size() < 3) {
+			return null;
+		}
+		measure(font);
+		float cx = x + width / 2F;
+		float cy = y - top;
+		int lineHeight = font.lineHeight + 1;
+		for (int i = 0; i < axes.size(); i++) {
+			Axis axis = axes.get(i);
+			int textWidth = Math.max(font.width(axis.label()), font.width(String.valueOf(axis.value())));
+			float labelX = cx + labelLeft(i, textWidth), labelY = cy + labelTop(i, lineHeight);
+			if (mouseX >= labelX && mouseX < labelX + textWidth && mouseY >= labelY && mouseY < labelY + lineHeight * 2) {
+				return axis.tooltip();
+			}
+		}
+		return null;
 	}
 
 	private boolean onSide(int i) {

@@ -259,6 +259,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		this.renderBackground(gui, mouseX, mouseY, partialTick);
 		super.render(gui, mouseX, mouseY, partialTick);
 		this.renderTooltip(gui, mouseX, mouseY);
+		if (chartTooltip != null) {
+			gui.renderTooltip(font, chartTooltip.stream().flatMap(line -> font.split(line, CHART_TOOLTIP_WIDTH).stream()).toList(), mouseX, mouseY);
+		}
 
 		List<Component> list = new ArrayList<>();
 		BlockPos origin = menu.TE.getBlockPos();
@@ -445,16 +448,23 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	}
 
 	private final RadarChart statsChart = new RadarChart(24);
+	private static final int CHART_TOOLTIP_WIDTH = 180;
+	private List<Component> chartTooltip;
 
-	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel) {
+	private static RadarChart.Axis chartAxis(String stat, int value, int max, Object... args) {
+		String key = "container.gummi_hangar.chart." + stat;
+		return new RadarChart.Axis(Utils.translateToLocal(key), value, max, List.of(Component.translatable(key).withStyle(ChatFormatting.WHITE), Component.translatable(key + ".tooltip", args).withStyle(ChatFormatting.GRAY)));
+	}
+
+	private void drawStatsPanel(GuiGraphics gui, GummiShipEntity.ShipStats stats, int comLevel, int mouseX, int mouseY) {
 		// Clockwise from the top, laid out as in Kingdom Hearts III. The last number is where each one fills the chart
 		statsChart.setAxes(List.of(
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.hp"), stats.armour(), 2000),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.offense"), stats.offense(), 1000),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.power"), stats.horsepower(), 200),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.mobility"), stats.mobility(), GummiShipEntity.MAX_ROLL_MOBILITY),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.seats"), stats.passengerSlots().size(), 8),
-				new RadarChart.Axis(Utils.translateToLocal("container.gummi_hangar.chart.speed"), Math.round(stats.speed()), 200)
+				chartAxis("hp", stats.armour(), 2000),
+				chartAxis("offense", stats.offense(), 1000),
+				chartAxis("power", stats.horsepower(), 200, Mth.ceil(stats.weight() * Utils.HORSEPOWER_FOR_TOP_SPEED)),
+				chartAxis("mobility", stats.mobility(), GummiShipEntity.MAX_ROLL_MOBILITY, Math.round(stats.getHandling() * 100), GummiShipEntity.MAX_ROLL_MOBILITY),
+				chartAxis("seats", stats.passengerSlots().size(), 8),
+				chartAxis("speed", Math.round(stats.speed()), 200)
 		));
 
 		int width = Math.max(PANEL_WIDTH, statsChart.getWidth(font) + PANEL_PADDING * 2);
@@ -466,6 +476,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		gui.fill(x, y, x + width, y + chartHeight, 0xC0000000);
 		gui.renderOutline(x, y, width, chartHeight, 0xFF555555);
 		statsChart.render(gui, font, x, y + PANEL_PADDING, width);
+		chartTooltip = statsChart.getTooltip(font, x, y + PANEL_PADDING, width, mouseX, mouseY);
 
 		float mps = stats.getMeterPerSecond();
 		String[][] rows = {
@@ -504,8 +515,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		if (stopped != null) {
 			gui.drawString(font, stopped, (imageWidth - font.width(stopped)) / 2, -11, 0xFF5555, true);
 		}
+		chartTooltip = null;
 		if(structure != null){
-			drawStatsPanel(gui, Utils.getShipStats(structure), menu.TE.getCostLimitLevel());
+			drawStatsPanel(gui, Utils.getShipStats(structure), menu.TE.getCostLimitLevel(), mouseX - leftPos, mouseY - topPos);
 
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);

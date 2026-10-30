@@ -288,6 +288,12 @@ public class LanguageESES extends KKLanguageProvider {
         add(Container_GummiHangar + ".chart.power","Potencia");
         add(Container_GummiHangar + ".chart.mobility","Movilidad");
         add(Container_GummiHangar + ".chart.seats","Asientos");
+        add(Container_GummiHangar + ".chart.hp.tooltip","Daño que aguanta la nave antes de romperse. Cada bloque suma 1 más su propia armadura, los cascos los que más.");
+        add(Container_GummiHangar + ".chart.offense.tooltip","Ataque de todas sus armas sumado. Cada ráfaga hace una décima parte del ataque de su arma.");
+        add(Container_GummiHangar + ".chart.power.tooltip","Potencia de todos sus motores. Para llevar este peso a velocidad máxima necesita %s.");
+        add(Container_GummiHangar + ".chart.mobility.tooltip","Viene de los gummis Aero. Cuanta más tenga para su peso, más rápido gira (%s%% de manejo). Los barrel rolls necesitan al menos uno y son más rápidos hasta %s.");
+        add(Container_GummiHangar + ".chart.seats.tooltip","Asientos de sus cabinas. Cada pasajero ocupa uno.");
+        add(Container_GummiHangar + ".chart.speed.tooltip","El mejor motor marca su rango. Cuanta más potencia para su peso, más se acerca a su velocidad máxima.");
 
         add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
         add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");

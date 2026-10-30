@@ -236,6 +236,12 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Container_GummiHangar + ".chart.power","Power");
         add(Container_GummiHangar + ".chart.mobility","Mobility");
         add(Container_GummiHangar + ".chart.seats","Seats");
+        add(Container_GummiHangar + ".chart.hp.tooltip","Damage the ship can take before it breaks. Every block adds 1 plus its own armour, helms the most.");
+        add(Container_GummiHangar + ".chart.offense.tooltip","Offense of all its weapons added up. Each volley deals a tenth of its weapon's offense.");
+        add(Container_GummiHangar + ".chart.power.tooltip","Horsepower of all its engines. To carry this weight at top speed it takes %s.");
+        add(Container_GummiHangar + ".chart.mobility.tooltip","From Aero gummis. The more for its weight, the faster it turns (%s%% handling). Barrel rolls need at least one and get faster up to %s.");
+        add(Container_GummiHangar + ".chart.seats.tooltip","Seats in its cockpits. Each passenger takes one.");
+        add(Container_GummiHangar + ".chart.speed.tooltip","The best engine sets its range. The more power for its weight, the closer it gets to its top speed.");
 
         // Gummi - ships, phone, hangar and blueprints
         add(Gummi_Block + ".shape_size_2x1x2", "Shape size: 2x1x2");
