@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.gui.GummiTravelConfirmScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -480,20 +481,34 @@ public class InputHandler {
     public void reactionCommand() {
     	loadLists();
     	if(!reactionList.isEmpty()) {
-			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
             ResourceLocation reactionName = Utils.getRCNameFromIndex(player, CommandMenuGui.reactionSelected);
 
-            ReactionCommand reaction = ModReactionCommands.registry.get(reactionName);
-            CommandMenuGui.reactionSelected = 0;
-		    SoundEvent sound = reaction.getUseSound(player, InputHandler.lockOn);
-            if (reaction != null) {
-                if(sound != null) {
-                    playSound(sound);
-                }
-            } else {
-                playInSound();
+            // Leaving a world or landing in one asks first, as the Gummi Ship does in KH
+            if (ModReactionCommands.LAND.location().equals(reactionName) || ModReactionCommands.LAUNCH.location().equals(reactionName)) {
+                Minecraft.getInstance().setScreen(new GummiTravelConfirmScreen(reactionName, () -> useReaction(reactionName)));
+                return;
             }
+            useReaction(reactionName);
 		}
+	}
+
+    /** Uses the reaction command by name, looking up where it sits now: the list may have changed since it was picked */
+    public void useReaction(ResourceLocation reactionName) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        CommandMenuGui.reactionSelected = 0;
+        int index = player == null ? -1 : new ArrayList<>(PlayerData.get(player).getReactionCommands().keySet()).indexOf(reactionName);
+        if (index < 0) {
+            return;
+        }
+        PacketHandler.sendToServer(new CSUseReactionCommandPacket(index, InputHandler.lockOn));
+
+        ReactionCommand reaction = ModReactionCommands.registry.get(reactionName);
+        SoundEvent sound = reaction == null ? null : reaction.getUseSound(player, InputHandler.lockOn);
+        if (sound != null) {
+            playSound(sound);
+        } else if (reaction == null) {
+            playInSound();
+        }
 	}
 
     public void otherKeyPressed(InputEvent.Key event) {

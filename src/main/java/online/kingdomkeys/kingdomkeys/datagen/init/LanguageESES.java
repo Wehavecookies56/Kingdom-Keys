@@ -2740,6 +2740,9 @@ public class LanguageESES extends KKLanguageProvider {
 
         add("kingdomkeys.worldmap.no_building", "En este mundo no se puede construir");
         add("kingdomkeys.worldmap.locked", "El camino a este mundo aún no se te ha abierto");
+        add("kingdomkeys.worldmap.confirm.land", "Desembarcar en %s");
+        add("kingdomkeys.worldmap.confirm.launch", "Despegar de %s");
+        add("kingdomkeys.worldmap.confirm.later", "Tal vez luego...");
 
         add("kingdomkeys.struggle.starting", "¡Empieza el Struggle...!");
         add("kingdomkeys.struggle.tournament.next_match", "Siguiente combate del torneo...");

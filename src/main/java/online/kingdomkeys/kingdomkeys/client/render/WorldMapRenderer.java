@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -120,6 +121,44 @@ public class WorldMapRenderer {
 			buffer.endBatch(type);
 		}
 		pose.popPose();
+
+		ring(world, pose, buffer, camera, at.add(0D, -half / 2, 0D), mc.level.getGameTime() + mc.getTimer().getGameTimeDeltaPartialTick(false));
+	}
+
+	private static final int RING_SEGMENTS = 96;
+	private static final float RING_RADIUS = 0.5F, RING_GLOW = 0.08F;
+
+	private static void ring(GummiWorld world, PoseStack pose, MultiBufferSource.BufferSource buffer, Vec3 camera, Vec3 base, float time) {
+		float radius = world.scale() * RING_RADIUS;
+		float glow = Math.max(0.15F, world.scale() * RING_GLOW);
+		int r = world.markerColour() >> 16 & 0xFF, g = world.markerColour() >> 8 & 0xFF, b = world.markerColour() & 0xFF;
+		int alpha = (int) (170 + 60 * Mth.sin(time * 0.05F));
+
+		pose.pushPose();
+		{
+			pose.translate(base.x - camera.x, base.y - camera.y, base.z - camera.z);
+			Matrix4f matrix = pose.last().pose();
+			RenderType type = RenderType.debugQuads();
+			VertexConsumer consumer = buffer.getBuffer(type);
+
+			for (int i = 0; i < RING_SEGMENTS; i++) {
+				float a0 = Mth.TWO_PI * i / RING_SEGMENTS, a1 = Mth.TWO_PI * (i + 1) / RING_SEGMENTS;
+				float c0 = Mth.cos(a0), s0 = Mth.sin(a0), c1 = Mth.cos(a1), s1 = Mth.sin(a1);
+
+				band(consumer, matrix, c0, s0, c1, s1, radius - glow, radius, r, g, b, 0, alpha);
+				band(consumer, matrix, c0, s0, c1, s1, radius, radius + glow, r, g, b, alpha, 0);
+			}
+
+			buffer.endBatch(type);
+		}
+		pose.popPose();
+	}
+
+	private static void band(VertexConsumer consumer, Matrix4f matrix, float c0, float s0, float c1, float s1, float from, float to, int r, int g, int b, int alphaFrom, int alphaTo) {
+		consumer.addVertex(matrix, c0 * from, 0F, s0 * from).setColor(r, g, b, alphaFrom);
+		consumer.addVertex(matrix, c0 * to, 0F, s0 * to).setColor(r, g, b, alphaTo);
+		consumer.addVertex(matrix, c1 * to, 0F, s1 * to).setColor(r, g, b, alphaTo);
+		consumer.addVertex(matrix, c1 * from, 0F, s1 * from).setColor(r, g, b, alphaFrom);
 	}
 
 	private static void vertex(VertexConsumer buffer, Matrix4f matrix, float x, float y, float u, float v) {

@@ -2692,6 +2692,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
         add("kingdomkeys.worldmap.locked", "The way to this world has not opened to you yet");
+        add("kingdomkeys.worldmap.confirm.land", "Land in %s");
+        add("kingdomkeys.worldmap.confirm.launch", "Take off from %s");
+        add("kingdomkeys.worldmap.confirm.later", "Maybe later...");
 
         add(Struggle + ".starting", "Struggle starting...");
         add(StruggleTournament + ".next_match", "Next tournament match starting...");
