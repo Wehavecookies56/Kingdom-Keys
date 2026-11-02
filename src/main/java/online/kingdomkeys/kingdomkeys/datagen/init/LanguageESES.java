@@ -117,6 +117,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Sistema de combustible Gummi");
+        addConfigKey(ModConfigs.getServerConfig().gummiFuelByWeight, "Combustible Gummi según el peso");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "El hangar construye los planos");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energía por bloque colocado");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks entre colocaciones");
@@ -288,7 +289,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Container_GummiHangar + ".chart.power","Potencia");
         add(Container_GummiHangar + ".chart.mobility","Movilidad");
         add(Container_GummiHangar + ".chart.seats","Asientos");
-        add(Container_GummiHangar + ".chart.hp.tooltip","Daño que aguanta la nave antes de romperse. Cada bloque suma 1 más su propia armadura, los cascos los que más.");
+        add(Container_GummiHangar + ".chart.hp.tooltip","Daño que aguanta la nave antes de romperse. Cada bloque suma mínimo 1 de armadura.");
         add(Container_GummiHangar + ".chart.offense.tooltip","Ataque de todas sus armas sumado. Cada ráfaga hace una décima parte del ataque de su arma.");
         add(Container_GummiHangar + ".chart.power.tooltip","Potencia de todos sus motores. Para llevar este peso a velocidad máxima necesita %s.");
         add(Container_GummiHangar + ".chart.mobility.tooltip","Viene de los gummis Aero. Cuanta más tenga para su peso, más rápido gira (%s%% de manejo). Los barrel rolls necesitan al menos uno y son más rápidos hasta %s.");

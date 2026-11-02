@@ -13,7 +13,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, xpCurveFactor, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress, heartlessChaseLight;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiFuelByWeight, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress, heartlessChaseLight;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -186,6 +186,11 @@ public class ServerConfig {
                 .comment("Set whether to enable Gummi Ships fuel system")
                 .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
                 .define("gummiShipFuelSystem", true);
+
+        gummiFuelByWeight = builder
+                .comment("Set whether heavier Gummi Ships burn more fuel")
+                .translation(KingdomKeys.MODID + ".config.gummi_fuel_by_weight")
+                .define("gummiFuelByWeight", true);
 
         gummiHangarAutoBuild = builder
                 .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")

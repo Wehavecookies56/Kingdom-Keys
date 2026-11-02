@@ -768,7 +768,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 
 		if(!level().isClientSide && this.shipStats != null) {
-			int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor);
+			// A ship weighing WEIGHT_FOR_DOUBLE_FUEL burns twice what an empty one would
+			float weightFactor = ModConfigs.SERVER.gummiFuelByWeight.get() ? 1F + shipStats.weight() / WEIGHT_FOR_DOUBLE_FUEL : 1F;
+			int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor * weightFactor);
 
 			// Only the pilot's own flying burns fuel: being pushed, knocked about or carried along does not
 			boolean piloted = getControllingPassenger() != null && pilotThrusting;
@@ -795,6 +797,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 	}
 	private double prevX, prevY, prevZ, prevRot;
+	private static final float WEIGHT_FOR_DOUBLE_FUEL = 100F;
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {

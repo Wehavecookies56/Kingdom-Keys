@@ -739,11 +739,17 @@ public class Utils {
 				for (int z = 0; z < sizeZ; z++) {
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
-						weight++;
-						armour++;
 						boolean origin = isGummiOrigin(state);
-						if (origin) {
-							cost += state.getBlock() instanceof GummiBlockBase costed ? costed.getCost() : 1;
+						if (state.getBlock() instanceof GummiBlockBase gummi) {
+							if (origin) {
+								cost += gummi.getCost();
+								armour += Math.max(1, gummi.getArmour());
+								weight += gummi.getWeight();
+							}
+						} else {
+							cost++;
+							weight++;
+							armour++;
 						}
 						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
 							if (!cockpit.isMultiBlock() || state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
@@ -756,14 +762,6 @@ public class Utils {
 							}
 						}
 
-						if (state.getBlock() instanceof GummiBlockBase gummi) {
-							armour += gummi.getArmour();
-							weight += gummi.getWeight()-1;// we already add one by default
-						}
-
-						if (state.getBlock() == Blocks.OBSIDIAN) {
-							weight++;
-						}
 						if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
 							if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
 								offense += wpn.getFirepower();

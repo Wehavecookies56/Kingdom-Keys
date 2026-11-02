@@ -28,7 +28,7 @@ public class RadarChart {
 		}
 	}
 
-	private static final int LABEL_GAP = 3;
+	private static final int LABEL_GAP = 3, BACKGROUND_ALPHA = 0x20000000;
 
 	private final int radius;
 	private List<Axis> axes = List.of();
@@ -164,6 +164,9 @@ public class RadarChart {
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
+
+	//	fan(pose, cx, cy, false, fillColour & 0xFFFFFF | BACKGROUND_ALPHA);
+
 		BufferBuilder grid = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		for (int i = 0; i < corners; i++) {
 			int next = (i + 1) % corners;
@@ -175,14 +178,7 @@ public class RadarChart {
 		}
 		BufferUploader.drawWithShader(grid.buildOrThrow());
 
-		BufferBuilder fill = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-		fill.addVertex(pose, cx, cy, 0F).setColor(fillColour);
-		for (int i = 0; i <= corners; i++) {
-			int c = i % corners;
-			float r = radius * axes.get(c).reach();
-			fill.addVertex(pose, cx + dirX[c] * r, cy + dirY[c] * r, 0F).setColor(fillColour);
-		}
-		BufferUploader.drawWithShader(fill.buildOrThrow());
+		fan(pose, cx, cy, true, fillColour);
 
 		BufferBuilder edge = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		for (int i = 0; i < corners; i++) {
@@ -197,6 +193,22 @@ public class RadarChart {
 		}
 
 		RenderSystem.disableBlend();
+	}
+
+	// The polygon out to each axis' value, or out to the edge of the chart. Unculled, so which way it winds doesn't matter
+	private void fan(Matrix4f pose, float cx, float cy, boolean byValue, int colour) {
+		int corners = axes.size();
+		BufferBuilder fan = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+		for (int i = 0; i < corners; i++) {
+			int next = (i + 1) % corners;
+			float r = byValue ? radius * axes.get(i).reach() : radius, rNext = byValue ? radius * axes.get(next).reach() : radius;
+			fan.addVertex(pose, cx, cy, 0F).setColor(colour);
+			fan.addVertex(pose, cx + dirX[i] * r, cy + dirY[i] * r, 0F).setColor(colour);
+			fan.addVertex(pose, cx + dirX[next] * rNext, cy + dirY[next] * rNext, 0F).setColor(colour);
+		}
+		RenderSystem.disableCull();
+		BufferUploader.drawWithShader(fan.buildOrThrow());
+		RenderSystem.enableCull();
 	}
 
 	// A one pixel wide line as a thin quad
