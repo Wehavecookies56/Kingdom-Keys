@@ -115,7 +115,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
-        addConfigKey(ModConfigs.getServerConfig().gummiFuelByWeight, "Gummi fuel by weight");
+        addConfigKey(ModConfigs.getServerConfig().gummiFuelDoublingWeight, "Gummi weight for double fuel");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "Hangar builds blueprints");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energy per placed block");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks between placements");
@@ -225,6 +225,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Container_GummiHangar + ".power","Engine power");
         add(Container_GummiHangar + ".firepower","Firepower");
         add(Container_GummiHangar + ".weight","Weight");
+        add(Container_GummiHangar + ".fuel_use","Fuel use");
         add(Container_GummiHangar + ".armor","Armor");
         add(Container_GummiHangar + ".effectivespeed","Speed");
         add(Container_GummiHangar + ".seats","Seats");

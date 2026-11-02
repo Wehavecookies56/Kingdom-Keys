@@ -479,12 +479,14 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		chartTooltip = statsChart.getTooltip(font, x, y + PANEL_PADDING, width, mouseX, mouseY);
 
 		float mps = stats.getMeterPerSecond();
-		String[][] rows = {
-				{Utils.translateToLocal("container.gummi_hangar.effectivespeed"), (Float.isFinite(mps) ? df.format(mps) : "0") + " m/s"},
-				{Utils.translateToLocal("container.gummi_hangar.weight"), String.valueOf(stats.weight())}
-		};
+		List<String[]> rows = new ArrayList<>();
+		rows.add(new String[]{Utils.translateToLocal("container.gummi_hangar.effectivespeed"), (Float.isFinite(mps) ? df.format(mps) : "0") + " m/s"});
+		rows.add(new String[]{Utils.translateToLocal("container.gummi_hangar.weight"), String.valueOf(stats.weight())});
+		if (ModConfigs.SERVER.gummiShipFuelSystem.get()) {
+			rows.add(new String[]{Utils.translateToLocal("container.gummi_hangar.fuel_use"), stats.getFuelPerTick() * 20 + "/s"});
+		}
 		y += chartHeight + COST_GAP;
-		int height = PANEL_PADDING * 2 + rows.length * (font.lineHeight + 2) - 2;
+		int height = PANEL_PADDING * 2 + rows.size() * (font.lineHeight + 2) - 2;
 		gui.fill(x, y, x + width, y + height, 0xC0000000);
 		gui.renderOutline(x, y, width, height, 0xFF555555);
 

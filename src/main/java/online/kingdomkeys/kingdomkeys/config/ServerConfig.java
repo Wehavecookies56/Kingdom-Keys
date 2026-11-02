@@ -8,12 +8,12 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance, lockOnReach, heartlessStatLoss, nobodyLostMinutes;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, gummiHangarBaseCost, gummiHangarLevelCost, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange, heartlessLightDistance, lockOnReach, heartlessStatLoss, nobodyLostMinutes, gummiFuelDoublingWeight;
 
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, xpCurveFactor, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiFuelByWeight, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress, heartlessChaseLight;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgJoinByRobes, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate, storyProgress, heartlessChaseLight;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -187,10 +187,10 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
                 .define("gummiShipFuelSystem", true);
 
-        gummiFuelByWeight = builder
-                .comment("Set whether heavier Gummi Ships burn more fuel")
-                .translation(KingdomKeys.MODID + ".config.gummi_fuel_by_weight")
-                .define("gummiFuelByWeight", true);
+        gummiFuelDoublingWeight = builder
+                .comment("Weight at which a Gummi Ship burns twice the fuel an empty one would, the lower it is the more heavy ships burn. 0 makes weight not matter")
+                .translation(KingdomKeys.MODID + ".config.gummi_fuel_doubling_weight")
+                .defineInRange("gummiFuelDoublingWeight", 100, 0, 100000);
 
         gummiHangarAutoBuild = builder
                 .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")

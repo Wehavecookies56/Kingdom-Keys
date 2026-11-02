@@ -81,6 +81,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		public float getTurnRate(){
 			return MIN_TURN + (MAX_TURN - MIN_TURN) * getHandling();
 		}
+
+		public int getFuelPerTick(){
+			int doublingWeight = ModConfigs.SERVER.gummiFuelDoublingWeight.get();
+			float weightFactor = doublingWeight > 0 ? 1F + (float) weight() / doublingWeight : 1F;
+			return (int)(speed() * ModConfigs.fuelConsumeFactor * weightFactor);
+		}
 	}
 
 	public GummiShipEntity(Level world, GummiStructure gummiStruct) {
@@ -768,9 +774,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 
 		if(!level().isClientSide && this.shipStats != null) {
-			// A ship weighing WEIGHT_FOR_DOUBLE_FUEL burns twice what an empty one would
-			float weightFactor = ModConfigs.SERVER.gummiFuelByWeight.get() ? 1F + shipStats.weight() / WEIGHT_FOR_DOUBLE_FUEL : 1F;
-			int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor * weightFactor);
+			int fuelConsumption = shipStats.getFuelPerTick();
 
 			// Only the pilot's own flying burns fuel: being pushed, knocked about or carried along does not
 			boolean piloted = getControllingPassenger() != null && pilotThrusting;
@@ -797,7 +801,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 	}
 	private double prevX, prevY, prevZ, prevRot;
-	private static final float WEIGHT_FOR_DOUBLE_FUEL = 100F;
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {

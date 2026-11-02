@@ -117,7 +117,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Sistema de combustible Gummi");
-        addConfigKey(ModConfigs.getServerConfig().gummiFuelByWeight, "Combustible Gummi según el peso");
+        addConfigKey(ModConfigs.getServerConfig().gummiFuelDoublingWeight, "Peso Gummi para doble combustible");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "El hangar construye los planos");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energía por bloque colocado");
         addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks entre colocaciones");
@@ -277,6 +277,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Container_GummiHangar + ".power","Pot. motora");
         add(Container_GummiHangar + ".firepower","Pot. ofensiva");
         add(Container_GummiHangar + ".weight","Peso");
+        add(Container_GummiHangar + ".fuel_use","Consumo");
         add(Container_GummiHangar + ".armor","Coraza");
         add(Container_GummiHangar + ".effectivespeed","Velocidad");
         add(Container_GummiHangar + ".seats","Asientos");

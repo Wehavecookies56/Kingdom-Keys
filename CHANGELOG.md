@@ -1,7 +1,8 @@
 ## Added:
 * World icon ring, based on the marker color.
 * Confirmation screen when taking off / landing with the ship in a world.
-* ServerConfig gummiFuelByWeight to make heavier ships use more fuel.
+* ServerConfig gummiFuelDoublingWeight: weight at which a ship burns twice the fuel (0 to ignore weight).
+* Gummi Hangar shows the estimated fuel use per second of the ship being built.
 
 ## Changed:
 * Gummi Ship radar chart has a filled color. 

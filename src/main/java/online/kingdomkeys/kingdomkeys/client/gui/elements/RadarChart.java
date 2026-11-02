@@ -28,11 +28,11 @@ public class RadarChart {
 		}
 	}
 
-	private static final int LABEL_GAP = 3, BACKGROUND_ALPHA = 0x20000000;
+	private static final int LABEL_GAP = 3;
 
 	private final int radius;
 	private List<Axis> axes = List.of();
-	private int gridColour = 0xFF2C5F8A, fillColour = 0x8040B8FF, edgeColour = 0xFF9CE6FF;
+	private int backgroundColour = 0x330066FF, gridColour = 0xFF2C5F8A, fillColour = 0x8840B8FF, edgeColour = 0xFF9CE6FF;
 	private int labelColour = 0xA0A0A0, valueColour = 0xFFFFFF;
 
 	private float[] dirX = new float[0], dirY = new float[0];
@@ -55,7 +55,8 @@ public class RadarChart {
 		return this;
 	}
 
-	public RadarChart setColours(int grid, int fill, int edge) {
+	public RadarChart setColours(int background, int grid, int fill, int edge) {
+		this.backgroundColour = background;
 		this.gridColour = grid;
 		this.fillColour = fill;
 		this.edgeColour = edge;
@@ -164,8 +165,7 @@ public class RadarChart {
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-
-	//	fan(pose, cx, cy, false, fillColour & 0xFFFFFF | BACKGROUND_ALPHA);
+		polygon(pose, cx, cy, false, backgroundColour);
 
 		BufferBuilder grid = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		for (int i = 0; i < corners; i++) {
@@ -178,7 +178,7 @@ public class RadarChart {
 		}
 		BufferUploader.drawWithShader(grid.buildOrThrow());
 
-		fan(pose, cx, cy, true, fillColour);
+		polygon(pose, cx, cy, true, fillColour);
 
 		BufferBuilder edge = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 		for (int i = 0; i < corners; i++) {
@@ -195,19 +195,24 @@ public class RadarChart {
 		RenderSystem.disableBlend();
 	}
 
-	// The polygon out to each axis' value, or out to the edge of the chart. Unculled, so which way it winds doesn't matter
-	private void fan(Matrix4f pose, float cx, float cy, boolean byValue, int colour) {
+	/**
+	 * @param toValues to set if it's the full polygon or wrapped around the values
+	 */
+	private void polygon(Matrix4f pose, float cx, float cy, boolean toValues, int colour) {
+		if (colour >>> 24 == 0) {
+			return;
+		}
 		int corners = axes.size();
-		BufferBuilder fan = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+		BufferBuilder fill = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 		for (int i = 0; i < corners; i++) {
 			int next = (i + 1) % corners;
-			float r = byValue ? radius * axes.get(i).reach() : radius, rNext = byValue ? radius * axes.get(next).reach() : radius;
-			fan.addVertex(pose, cx, cy, 0F).setColor(colour);
-			fan.addVertex(pose, cx + dirX[i] * r, cy + dirY[i] * r, 0F).setColor(colour);
-			fan.addVertex(pose, cx + dirX[next] * rNext, cy + dirY[next] * rNext, 0F).setColor(colour);
+			float r = toValues ? radius * axes.get(i).reach() : radius, rNext = toValues ? radius * axes.get(next).reach() : radius;
+			fill.addVertex(pose, cx, cy, 0F).setColor(colour);
+			fill.addVertex(pose, cx + dirX[i] * r, cy + dirY[i] * r, 0F).setColor(colour);
+			fill.addVertex(pose, cx + dirX[next] * rNext, cy + dirY[next] * rNext, 0F).setColor(colour);
 		}
 		RenderSystem.disableCull();
-		BufferUploader.drawWithShader(fan.buildOrThrow());
+		BufferUploader.drawWithShader(fill.buildOrThrow());
 		RenderSystem.enableCull();
 	}
 
