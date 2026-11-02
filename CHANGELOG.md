@@ -1,10 +1,10 @@
 ## Added:
 * World icon ring, based on the marker color.
 * Confirmation screen when taking off / landing with the ship in a world.
+* ServerConfig gummiFuelByWeight to make heavier ships use more fuel.
 
 ## Changed:
-* gummi Ship radar chart has a filled color. 
-* Gummi ships burn more fuel the heavier they are. Can be turned off with ServerConfig gummiFuelByWeight.
+* Gummi Ship radar chart has a filled color. 
 * Gummi HP: every block that has no armor value adds 1, if it has value it's just that instead of 1 plus its armor.
 
 ## Fixed:
