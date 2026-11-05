@@ -1,4 +1,5 @@
 ## Added:
+* Lootr support for treasure chests.
 * World icon ring, based on the marker color.
 * Confirmation screen when taking off / landing with the ship in a world.
 * ServerConfig gummiFuelDoublingWeight: weight at which a ship burns twice the fuel (0 to ignore weight).

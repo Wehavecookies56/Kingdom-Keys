@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +29,7 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import org.jetbrains.annotations.Nullable;
 
 public class TreasureChestBlock extends BaseEntityBlock implements INoDataGen {
@@ -49,29 +48,33 @@ public class TreasureChestBlock extends BaseEntityBlock implements INoDataGen {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (canStash(player, level, pos)) {
+        if (!(level.getBlockEntity(pos) instanceof TreasureChestTileEntity te)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        // Creative + sneaking: opens the editor to put the chest contents inside
+        if (te.canEdit(player)) {
             if (!level.isClientSide()) {
-                ((TreasureChestTileEntity) level.getBlockEntity(pos)).stash(stack.copy());
-                level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1F, 1F);
-                player.displayClientMessage(Component.translatable("message.chest.reward_set", stack.getHoverName()), true);
+                te.openEditor((ServerPlayer) player);
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
 
+        // Trapped chests keep working with any click, loot chests need a keyblade
+        if (!te.isTrapped() && !(stack.getItem() instanceof KeybladeItem)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
         if (!level.isClientSide()) {
-            TreasureChestTileEntity te = (TreasureChestTileEntity) level.getBlockEntity(pos);
-            if (te != null) {
-                if (te.open(player)) {
-                    return ItemInteractionResult.CONSUME;
-                }
+            if (te.open(player)) {
+                return ItemInteractionResult.CONSUME;
             }
         }
         return ItemInteractionResult.sidedSuccess(true);
     }
 
-    // A creative player sneaking at an empty chest leaves what they hold inside as its reward
-    private static boolean canStash(Player player, Level level, BlockPos pos) {
-        return player.isCreative() && player.isSecondaryUseActive() && level.getBlockEntity(pos) instanceof TreasureChestTileEntity te && te.isEmpty();
+    private static boolean canEdit(Player player, Level level, BlockPos pos) {
+        return level.getBlockEntity(pos) instanceof TreasureChestTileEntity te && te.canEdit(player);
     }
 
     @Override
@@ -120,7 +123,7 @@ public class TreasureChestBlock extends BaseEntityBlock implements INoDataGen {
     public static class Events {
         @SubscribeEvent
         public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-            if (event.getLevel().getBlockState(event.getPos()).getBlock() instanceof TreasureChestBlock && canStash(event.getEntity(), event.getLevel(), event.getPos())) {
+            if (event.getLevel().getBlockState(event.getPos()).getBlock() instanceof TreasureChestBlock && canEdit(event.getEntity(), event.getLevel(), event.getPos())) {
                 event.setUseBlock(TriState.TRUE);
             }
         }

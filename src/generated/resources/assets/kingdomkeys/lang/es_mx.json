@@ -3233,6 +3233,7 @@
   "magic.kingdomkeys.magic_zerograviga.name": "Ingravidez++",
   "magic.kingdomkeys.magic_zerogravira.name": "Ingravidez+",
   "magic.kingdomkeys.magic_zerogravity.name": "Ingravidez",
+  "message.chest.already_looted": "Ya has cogido lo que había dentro",
   "message.chest.can_be_locked": "Puede ser bloqueado con una llave espada",
   "message.chest.keyblade_set": "Has establecido tu llave espada para desbloquear este cofre",
   "message.chest.lock": "Usa una llave espada para bloquear el cofre",

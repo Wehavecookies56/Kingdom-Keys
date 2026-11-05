@@ -3233,6 +3233,7 @@
   "magic.kingdomkeys.magic_zerograviga.name": "Zero Graviga",
   "magic.kingdomkeys.magic_zerogravira.name": "Zero Gravira",
   "magic.kingdomkeys.magic_zerogravity.name": "Zero Gravity",
+  "message.chest.already_looted": "You have already taken what was inside",
   "message.chest.can_be_locked": "Can be locked with a keyblade",
   "message.chest.keyblade_set": "Your keyblade has been set to unlock this chest",
   "message.chest.lock": "Use a keyblade to lock this chest",

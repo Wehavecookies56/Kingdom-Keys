@@ -2616,6 +2616,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.chest.lock", "Usa una llave espada para bloquear el cofre");
         add("message.chest.can_be_locked", "Puede ser bloqueado con una llave espada");
         add("message.chest.locked", "Este cofre está bloqueado");
+        add(Message_Chest + ".already_looted", "Ya has cogido lo que había dentro");
         add("message.chest.keyblade_set", "Has establecido tu llave espada para desbloquear este cofre");
         add("message.chest.unlocked", "El Cofre ha sido desbloqueado");
         add("message.chest.reward_set", "%s establecido como recompensa del cofre");
