@@ -2,7 +2,7 @@
 * Lootr support for treasure chests.
 * World icon ring, based on the marker color.
 * Confirmation screen when taking off / landing with the ship in a world.
-* ServerConfig gummiFuelDoublingWeight: weight at which a ship burns twice the fuel (0 to ignore weight).
+* ServerConfig gummiFuelDoublingWeight: weight at which a ship burns twice the fuel (0 to ignore weight, default 100).
 * Gummi Hangar shows the estimated fuel use per second of the ship being built.
 
 ## Changed:
