@@ -4,3 +4,4 @@
 * 
 ## Fixed:
 * Antiform attacks empty handed not hurting heartless and nobodies.
+* Moogles being attacked with the offhand keyblade when opening their gui.

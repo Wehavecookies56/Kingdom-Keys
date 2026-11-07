@@ -66,7 +66,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 
     public static final int DEFAULT_POMPOM_COLOR = DyeColor.RED.getTextureDiffuseColor();
 
-	String inv;
+    String inv;
     String name;
     Player interacting;
     boolean stationary = false;
@@ -271,15 +271,16 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         }
 
         //GUI opening
-        if (!player.level().isClientSide) {
-        	if(!player.isCrouching()) {
+        if (!player.isCrouching()) {
+            if (!player.level().isClientSide) {
                 PlayerData.get(player).setMetMoogle(true);
                 PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
                 interacting = player;
                 goalSelector.removeAllGoals(Objects::nonNull);
                 goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
-                return InteractionResult.SUCCESS;
-	        }
+            }
+            // Also consumed on the client, otherwise the client carries on to use the (off)hand item, e.g. a keyblade attacking the moogle
+            return InteractionResult.sidedSuccess(player.level().isClientSide);
         }
         return super.interactAt(player, vec, hand);
     }
@@ -312,7 +313,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 
     @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-    	return true;
+        return true;
     }
 
     public boolean isFakeMoogle() {
