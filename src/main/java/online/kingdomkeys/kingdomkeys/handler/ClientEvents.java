@@ -230,6 +230,12 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Player player = mc.player;
 
+		// The reversal steers the camera itself every frame; the lock-on below would pull it back each time
+		if (mc.level != null && player != null && Reversal.running()) {
+			Reversal.frame(event.getPartialTick().getGameTimeDeltaPartialTick(false));
+			return;
+		}
+
 		if (mc.level == null || player == null || InputHandler.lockOn == null) {
 			if (KingdomKeys.shoulderSurfingLoaded) {
 				KKShoulderSurfing.enableDecoupling();
@@ -1106,7 +1112,7 @@ public class ClientEvents {
 	public void guardLooks(CalculatePlayerTurnEvent event) {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 
-		if (playerData != null && playerData.getGuardTicks() > 0) {
+		if (Reversal.running() || (playerData != null && playerData.getGuardTicks() > 0)) {
 			event.setMouseSensitivity(0);
 		}
 	}

@@ -70,46 +70,71 @@ public final class Reversal {
 
 		at++;
 
-		float progress = (float) at / TICKS;
-		// Easing in and out, so it pushes off and settles rather than sliding at one speed
-		float eased = progress * progress * (3 - 2 * progress);
+		Vec3 pos = arc((float) at / TICKS, 1F);
 
-		Vec3 centre = dusk.position();
-		float angle = start + sweep * eased;
-
-		// The radius closes as it goes, so the arc tightens onto its back instead of stopping wide of it
-		double r = Mth.lerp(eased, radius, BEHIND);
-		double x = centre.x + Math.cos(angle) * r;
-		double z = centre.z + Math.sin(angle) * r;
-
-		if (!player.level().noCollision(player, player.getBoundingBox().move(x - player.getX(), height - player.getY(), z - player.getZ()))) {
+		if (!player.level().noCollision(player, player.getBoundingBox().move(pos.x - player.getX(), height - player.getY(), pos.z - player.getZ()))) {
 			dusk = null; // ran into something, better to stop short than to end up inside a wall
 			return;
 		}
 
-		Vec3 eye = dusk.getEyePosition();
-		double dx = eye.x - x;
-		double dz = eye.z - z;
+		place(player, pos, 1F);
+		player.level().addParticle(ParticleTypes.CLOUD, pos.x, height + 0.1, pos.z, 0, 0, 0);
+	}
 
-		double wasX = player.getX();
-		double wasY = player.getY();
-		double wasZ = player.getZ();
+	public static void frame(float partial) {
+		LocalPlayer player = Minecraft.getInstance().player;
 
-		player.setPos(x, height, z);
-		player.xo = wasX;
-		player.yo = wasY;
-		player.zo = wasZ;
-		player.xOld = wasX;
-		player.yOld = wasY;
-		player.zOld = wasZ;
+		if (dusk == null || player == null) {
+			return;
+		}
+
+		float progress = Math.min((at + partial) / TICKS, 1F);
+
+		place(player, arc(progress, partial), partial);
+	}
+
+	// Where on the arc the player is at this progress (0 to 1)
+	private static Vec3 arc(float progress, float partial) {
+		// Easing in and out, so it pushes off and settles rather than sliding at one speed
+		float eased = progress * progress * (3 - 2 * progress);
+
+		Vec3 centre = dusk.getPosition(partial);
+		float angle = start + sweep * eased;
+
+		// The radius closes as it goes, so the arc tightens onto its back instead of stopping wide of it
+		double r = Mth.lerp(eased, radius, BEHIND);
+
+		return new Vec3(centre.x + Math.cos(angle) * r, height, centre.z + Math.sin(angle) * r);
+	}
+
+	private static void place(LocalPlayer player, Vec3 pos, float partial) {
+		Vec3 eye = dusk.getEyePosition(partial);
+		double dx = eye.x - pos.x;
+		double dz = eye.z - pos.z;
+
+		player.setPos(pos.x, pos.y, pos.z);
+		player.xo = pos.x;
+		player.yo = pos.y;
+		player.zo = pos.z;
+		player.xOld = pos.x;
+		player.yOld = pos.y;
+		player.zOld = pos.z;
 
 		player.setDeltaMovement(Vec3.ZERO);
 		player.fallDistance = 0;
 
 		// Facing it the whole way round, which is what makes this read as circling rather than as being dragged
-		player.setYRot((float) (Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90F);
-		player.setXRot((float) -(Mth.atan2(eye.y - (height + player.getEyeHeight()), Math.sqrt(dx * dx + dz * dz)) * Mth.RAD_TO_DEG));
+		float yaw = (float) (Mth.atan2(dz, dx) * Mth.RAD_TO_DEG) - 90F;
+		float pitch = (float) -(Mth.atan2(eye.y - (pos.y + player.getEyeHeight()), Math.sqrt(dx * dx + dz * dz)) * Mth.RAD_TO_DEG);
 
-		player.level().addParticle(ParticleTypes.CLOUD, x, height + 0.1, z, 0, 0, 0);
+		// The previous values are set to the same ones so nothing gets interpolated on top of the exact angle
+		player.setYRot(yaw);
+		player.setXRot(pitch);
+		player.yRotO = yaw;
+		player.xRotO = pitch;
+		player.yHeadRot = yaw;
+		player.yHeadRotO = yaw;
+		player.yBodyRot = yaw;
+		player.yBodyRotO = yaw;
 	}
 }
