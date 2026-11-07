@@ -289,6 +289,10 @@ public abstract class DriveForm implements KKRegistryObject {
 		return data.canUseMagic;
 	}
 
+	public boolean attackEmptyHand() {
+		return data.attackEmptyHand;
+	}
+
 	/**
 	 * Make this slot show up in equipment inventory
 	 * @param player

@@ -106,7 +106,7 @@ public class BaseKHEntity extends Monster implements IKHMob, RaysOnDefeat {
 		if (getKHMobType() != MobType.NPC) {
 			if(pEntity instanceof Player player) {
 				// A Shadow strikes with its claws
-				return !HeartlessForm.isHeartless(player) && !Utils.canStrike(player.getMainHandItem());
+				return !HeartlessForm.isHeartless(player) && !Utils.canStrike(player, player.getMainHandItem());
 			}
 		}
 		return super.skipAttackInteraction(pEntity);

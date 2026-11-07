@@ -1,5 +1,6 @@
 {
   "ap": -4,
+  "attack_empty_hand": true,
   "can_go_anti": true,
   "can_use_magic": false,
   "cost": 100,

@@ -48,6 +48,11 @@ public class DriveFormBuilder {
 		return this;
 	}
 
+	public DriveFormBuilder attackEmptyHand(boolean value) {
+		root.addProperty("attack_empty_hand", value);
+		return this;
+	}
+
 	public DriveFormBuilder levelUp(int... costs) {
 		JsonArray array = new JsonArray();
 		for (int cost : costs) array.add(cost);

@@ -18,6 +18,7 @@ public class DriveFormData {
     List<ResourceLocation> baseLevelUpAbilities = new ArrayList<>();
     List<ResourceLocation> dfLevelUpAbilities = new ArrayList<>();
     boolean canGoAnti, canUseMagic;
+    boolean attackEmptyHand = false;
     
     public DriveFormData() {
 
@@ -136,6 +137,14 @@ public class DriveFormData {
 	
 	public void setCanUseMagic(boolean canUseMagic) {
 		this.canUseMagic = canUseMagic;
+	}
+
+	public boolean attackEmptyHand() {
+		return this.attackEmptyHand;
+	}
+
+	public void setAttackEmptyHand(boolean attackEmptyHand) {
+		this.attackEmptyHand = attackEmptyHand;
 	}
 
 }

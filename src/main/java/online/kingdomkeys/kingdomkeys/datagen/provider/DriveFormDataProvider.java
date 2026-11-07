@@ -129,6 +129,7 @@ public class DriveFormDataProvider implements DataProvider {
 			.ap(-4)
 			.canGoAnti(true)
 			.canUseMagic(false)
+			.attackEmptyHand(true)
 			.strMult(1.0F)
 			.magMult(1.0F)
 			.speedMult(1.3F)

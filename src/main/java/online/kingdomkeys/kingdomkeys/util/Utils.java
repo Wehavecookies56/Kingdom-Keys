@@ -2670,7 +2670,12 @@ public class Utils {
 	}
 
 	// Keyblades, Organization and dream weapons always reach Heartless and Nobodies, bare hands and struggle weapons never, anything else only with Vanquish if the config asks for it
-	public static boolean canStrike(ItemStack weapon) {
+	public static boolean canStrike(Player player, ItemStack weapon) {
+		ResourceLocation form = PlayerData.get(player).getActiveDriveForm();
+		DriveForm driveForm = ModDriveForms.registry.get(form);
+		if(player != null && driveForm != null && driveForm.attackEmptyHand()){
+			return true;
+		}
 		if (weapon.isEmpty()) {
 			return false;
 		}
@@ -2692,14 +2697,16 @@ public class Utils {
 
 		if (source.getDirectEntity() == player) {
 			return switch (source.getMsgId()) {
-				case "player" -> !canStrike(player.getMainHandItem());
-				case "offhand" -> !canStrike(player.getOffhandItem());
+				case "player" -> !canStrike(player, player.getMainHandItem());
+				case "offhand" -> !canStrike(player, player.getOffhandItem());
 				default -> false;
 			};
 		}
 		if (source.getDirectEntity() instanceof AbstractArrow && ModConfigs.needKeybladeForHeartless) {
 			ItemStack weapon = source.getWeaponItem();
-			return weapon == null || !canStrike(weapon);
+			if(source.getEntity() instanceof Player p) {
+				return weapon == null || !canStrike(p, weapon);
+			}
 		}
 		return false;
 	}
