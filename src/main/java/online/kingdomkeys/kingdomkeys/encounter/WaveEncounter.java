@@ -12,10 +12,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ArrayListDeque;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.event.EventHooks;
@@ -203,16 +200,22 @@ public class WaveEncounter implements Encounter {
 
             context.onSpawn(spawned);
             wave.onSpawn(context, spawned);
-
             if (adopted == null) {
                 spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+
+                // Finalize before adding to the world
+                if (spawned instanceof Mob spawnedMob) {
+                    SpawnGroupData data = EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
+                    if (data == null && spawnedMob.isSpawnCancelled()) {
+                        spawned.discard();
+                        return;
+                    }
+                }
+
                 level.addFreshEntityWithPassengers(spawned);
 
                 SoundEvent arrival = spawned instanceof BaseKHEntity kh && kh.arrivalSound() != null ? kh.arrivalSound() : ModSounds.portal.get();
                 level.playSound(null, spawnPoint, arrival, SoundSource.HOSTILE, 2, 1);
-                if (spawned instanceof Mob spawnedMob) {
-                    EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
-                }
             }
             KingdomKeys.LOGGER.debug("Spawned {}", spawned);
             CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);

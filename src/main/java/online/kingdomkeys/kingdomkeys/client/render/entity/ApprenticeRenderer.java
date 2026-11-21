@@ -8,13 +8,20 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ForetellerModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 
 public class ApprenticeRenderer extends HumanoidMobRenderer<ApprenticeEntity, ForetellerModel<ApprenticeEntity>> {
 
-	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/mob/foreteller.png");
+	private static final ResourceLocation[] TEXTURES = new ResourceLocation[ApprenticeEntity.SKIN_COUNT];
+
+	static {
+		for (int i = 0; i < TEXTURES.length; i++) {
+			TEXTURES[i] = KingdomKeys.rl("textures/entity/mob/apprentices/apprentice_" + i + ".png");
+		}
+	}
 
 	public ApprenticeRenderer(EntityRendererProvider.Context context) {
 		super(context, new ForetellerModel<>(context.bakeLayer(ForetellerModel.LAYER_LOCATION)), 0.5F);
@@ -31,6 +38,6 @@ public class ApprenticeRenderer extends HumanoidMobRenderer<ApprenticeEntity, Fo
 
 	@Override
 	public ResourceLocation getTextureLocation(ApprenticeEntity entity) {
-		return TEXTURE;
+		return TEXTURES[Mth.clamp(entity.getSkin(), 0, TEXTURES.length - 1)];
 	}
 }

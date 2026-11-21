@@ -1,7 +1,6 @@
 ## Added:
-* Data driven parameter (attack_empty_hand) for drive forms to allow hitting heartless and nobodies while empty-handed.
+* 6 different textures for the apprentices skins (same texture for now).
 ## Changed:
-* Reversal RC is smooth now.
+
 ## Fixed:
-* Antiform attacks empty-handed not hurting heartless and nobodies.
-* Moogles being attacked with the offhand keyblade when opening their gui.
+* Encounter waves crash with some mods like The Bumblezone.

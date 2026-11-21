@@ -40,6 +40,8 @@ import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 import online.kingdomkeys.kingdomkeys.world.HeartlessForm;
 
 public class ApprenticeEntity extends PathfinderMob implements Dueller {
+	public static final int SKIN_COUNT = 6;
+	private static final EntityDataAccessor<Integer> SKIN = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.INT);
 
 	private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.BYTE);
@@ -86,6 +88,19 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		builder.define(LEVEL, MIN_LEVEL);
 		builder.define(UNION, Union.NONE.get());
 		builder.define(SPARRING, false);
+		builder.define(SKIN, 0);
+	}
+
+	public int getSkin() {
+		return entityData.get(SKIN);
+	}
+
+	public void setSkin(int skin) {
+		entityData.set(SKIN, Mth.clamp(skin, 0, SKIN_COUNT - 1));
+	}
+
+	public static int rollSkin(RandomSource random) {
+		return random.nextInt(SKIN_COUNT);
 	}
 
 	public int getApprenticeLevel() {
@@ -167,6 +182,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		apprentice.hunter = true;
 		apprentice.setApprenticeLevel(preyLevel + level.random.nextInt(HUNTER_LEVEL_SPREAD * 2 + 1) - HUNTER_LEVEL_SPREAD);
 		apprentice.setUnion(rollUnion(level.random));
+		apprentice.setSkin(rollSkin(level.random));
 		apprentice.dress();
 		return apprentice;
 	}
@@ -515,6 +531,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		tag.putInt("apprentice_trim", getTrim());
 		tag.putByte("union", getUnion().get());
 		tag.putBoolean("hunter", hunter);
+		tag.putInt("apprentice_skin", getSkin());
 
 		if (home != null) {
 			tag.putLong("home", home.asLong());
@@ -535,6 +552,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : seeded.nextInt(4) + 1;
 		trim = tag.contains("apprentice_trim") ? tag.getInt("apprentice_trim") : rollTrim(seeded);
 		setUnion(tag.contains("union") ? Union.fromByte(tag.getByte("union")) : rollUnion(seeded));
+		setSkin(tag.contains("apprentice_skin") ? tag.getInt("apprentice_skin") : rollSkin(seeded));
 		hunter = tag.getBoolean("hunter");
 
 		setCustomName(null);
