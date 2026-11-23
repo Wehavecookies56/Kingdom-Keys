@@ -313,7 +313,7 @@ public class HeartlessForm {
 
 		Vec3 spot = OpenSpot.find(level, null, player.position(), level.random.nextFloat() * 360F, HUNT_SPREAD, ModEntities.TYPE_APPRENTICE.get(), 0.2D);
 		if (spot != null) {
-			level.addFreshEntity(ApprenticeEntity.makeHunter(level, spot, PlayerData.get(player).getLevel()));
+			level.addFreshEntity(ApprenticeEntity.makeApprentice(level, spot, PlayerData.get(player).getLevel()));
 		}
 	}
 

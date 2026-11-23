@@ -88,11 +88,15 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		builder.define(LEVEL, MIN_LEVEL);
 		builder.define(UNION, Union.NONE.get());
 		builder.define(SPARRING, false);
-		builder.define(SKIN, 0);
+		builder.define(SKIN, -1);
 	}
 
 	public int getSkin() {
-		return entityData.get(SKIN);
+		return Math.max(0, entityData.get(SKIN));
+	}
+
+	public boolean hasSkin() {
+		return entityData.get(SKIN) >= 0;
 	}
 
 	public void setSkin(int skin) {
@@ -176,7 +180,7 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		return hunter;
 	}
 
-	public static ApprenticeEntity makeHunter(Level level, Vec3 at, int preyLevel) {
+	public static ApprenticeEntity makeApprentice(Level level, Vec3 at, int preyLevel) {
 		ApprenticeEntity apprentice = ModEntities.TYPE_APPRENTICE.get().create(level);
 		apprentice.moveTo(at.x, at.y, at.z, level.random.nextFloat() * 360F, 0F);
 		apprentice.hunter = true;
@@ -401,6 +405,10 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 			return;
 		}
 
+		if (!hasSkin()) {
+			setSkin(rollSkin(random));
+		}
+
 		summon.tick();
 		duel.tick();
 
@@ -552,7 +560,9 @@ public class ApprenticeEntity extends PathfinderMob implements Dueller {
 		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : seeded.nextInt(4) + 1;
 		trim = tag.contains("apprentice_trim") ? tag.getInt("apprentice_trim") : rollTrim(seeded);
 		setUnion(tag.contains("union") ? Union.fromByte(tag.getByte("union")) : rollUnion(seeded));
-		setSkin(tag.contains("apprentice_skin") ? tag.getInt("apprentice_skin") : rollSkin(seeded));
+		if (tag.contains("apprentice_skin")) {
+			setSkin(tag.getInt("apprentice_skin"));
+		}
 		hunter = tag.getBoolean("hunter");
 
 		setCustomName(null);
